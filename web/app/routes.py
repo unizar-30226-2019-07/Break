@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, flash, redirect, session
 from app import app
 from app.forms import LoginForm
 
@@ -7,11 +7,15 @@ from app.forms import LoginForm
 def index():
     return render_template('index.html', title='Home')
 
-@app.route('/login')
+@app.route('/login', methods = ['GET', 'POST'])
 def login():
     form = LoginForm()
-    if form.validate_on_submit():
-        flash('Login requested for user {}, remember_me={}'.format(
-            form.username.data, form.remember_me.data))
+    if 'username' in session:
+        username = session['username']
+        print("Ya estabas logeado como " + username)
+    if form.is_submitted():
+        print("Usuario: " + form.username.data)
+        print("Contraseña: " + form.password.data)
+        session['username'] = form.username.data
         return redirect('/index')
     return render_template('login.html', title='Log In', form=form)
