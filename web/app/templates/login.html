@@ -1,16 +1,28 @@
-<div class="wrapper">
-  <form class="login">
-    <p class="title">Log in</p>
-    <input type="text" placeholder="Username" autofocus/>
-    <i class="fa fa-user"></i>
-    <input type="password" placeholder="Password" />
-    <i class="fa fa-key"></i>
-    <a href="#">Forgot your password?</a>
-    <button>
-      <i class="spinner"></i>
-      <span class="state">Log in</span>
-    </button>
-  </form>
-  <footer><a target="blank" href="http://boudra.me/">boudra.me</a></footer>
-  </p>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/login.css') }}">
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="wrapper fadeInDown">
+	<div id="formContent">
+		<!-- Login Form -->
+		<form action="" method="post" novalidate>
+			<p>
+			{{ form.username.label }}<br>
+			{{ form.username(size=32) }}
+			</p>
+			<p>
+			{{ form.password.label }}<br>
+			{{ form.password(size=32) }}
+			</p>
+			<p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+			<p>{{ form.submit() }}</p>
+		</form>
+
+		<!-- Remind Passowrd -->
+		<div id="formFooter">
+			<a class="underlineHover" href="#">Forgot Password?</a>
+		</div>
+
+	</div>
 </div>
