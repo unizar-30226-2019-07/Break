@@ -19,3 +19,9 @@ def login():
         session['username'] = form.username.data
         return redirect('/index')
     return render_template('login.html', title='Log In', form=form)
+
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect('/login')
