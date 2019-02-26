@@ -19,18 +19,19 @@ def login():
     if 'username' in session:
         username = session['username']
         print("Ya estabas logeado como " + username)
+        return redirect('/')
     if form.is_submitted():
         print("Usuario: " + form.username.data)
         print("Contraseña: " + form.password.data)
         session['username'] = form.username.data
-        return redirect('/index')
+        return redirect('/')
     return render_template('login.html', title='Log In', form=form)
 
 
 @app.route('/logout')
 def logout():
     session.pop('username', None)
-    return redirect('/login')
+    return redirect('/')
 
 if __name__ == '__main__':
     app.run(debug=True)
