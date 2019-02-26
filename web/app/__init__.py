@@ -27,11 +27,30 @@ def login():
         return redirect('/')
     return render_template('login.html', title='Log In', form=form)
 
-
 @app.route('/logout')
 def logout():
     session.pop('username', None)
     return redirect('/')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/blog')
+def blog():
+    return render_template('blog.html')
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+@app.route('/listings')
+def listing():
+    return render_template('listings.html')
+
+@app.route('/single')
+def single():
+    return render_template('single.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
