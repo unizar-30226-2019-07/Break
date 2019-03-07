@@ -79,5 +79,9 @@ def listing():
 def single():
     return render_template('single.html')
 
+@app.route('/venderObjeto')
+def venderObjeto():
+    return render_template('venderObjeto.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
