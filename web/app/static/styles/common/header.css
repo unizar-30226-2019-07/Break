@@ -1,0 +1,263 @@
+@charset "utf-8";
+/* CSS Document */
+
+/******************************
+
+[Table of Contents]
+
+1. Fonts
+2. Body and some general stuff
+3. Header
+4. Menu
+5. Home
+6. Search
+7. Featured
+8. Map Section
+9. Hot Deal
+10. Testimonials
+11. Footer
+
+
+******************************/
+
+/*********************************
+3. Header
+*********************************/
+
+.header
+{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background: #ffffff;
+	z-index: 100;
+	-webkit-transition: all 600ms ease;
+	-moz-transition: all 600ms ease;
+	-ms-transition: all 600ms ease;
+	-o-transition: all 600ms ease;
+	transition: all 600ms ease;
+}
+.header.scrolled
+{
+	top: -55px;
+	box-shadow: 0px 15px 25px rgba(0,0,0,0.085);
+}
+.header_bar
+{
+	width: 100%;
+	height: 55px;
+	background: #55407d;
+	padding-left: 64px;
+	padding-right: 62px;
+}
+.header_list ul li:not(:last-of-type)
+{
+	margin-right: 49px;
+}
+.header_list ul li > div
+{
+	width: 23px;
+	height: 23px;
+}
+.header_list ul li > div > img
+{
+	max-height: 100%;
+	max-width: 100%;
+	vertical-align: unset;
+}
+.header_list ul li span
+{
+	font-size: 14px;
+	font-weight: 500;
+	color: #ffffff;
+	margin-left: 13px;
+}
+.social ul li
+{
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	background: #adc867;
+	text-align: center;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+.social ul li:not(:last-of-type)
+{
+	margin-right: 13px;
+}
+.social ul li a
+{
+	display: block;
+	height: 100%;
+	line-height: 32px;
+}
+.social ul li a i
+{
+	font-size: 14px;
+	color: #ffffff;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+.social ul li:hover
+{
+	box-shadow: 0px 5px 10px rgba(173,200,103,0.2);
+	-webkit-transform: scale(1.1);
+	-moz-transform: scale(1.1);
+	-ms-transform: scale(1.1);
+	-o-transform: scale(1.1);
+	transform: scale(1.1);
+}
+.log_reg
+{
+	margin-left: 48px;
+}
+.log_reg ul li
+{
+	position: relative;
+}
+.log_reg ul li:not(:last-of-type)::after
+{
+	display: inline-block;
+	content: '/';
+	font-size: 14px;
+	font-weight: 500;
+	color: #ffffff;
+	margin-left: 6px;
+	margin-right: 6px;
+}
+.log_reg ul li a
+{
+	font-size: 14px;
+	font-weight: 500;
+	color: #ffffff;
+	text-transform: uppercase;
+}
+.log_reg ul li a:hover
+{
+	color: #adc867;
+}
+.header_content
+{
+	width: 100%;
+	height: 61px;
+	background: #ffffff;
+	padding-left: 64px;
+}
+.logo
+{
+
+}
+.logo a
+{
+	font-size: 24px;
+	color: #6c7079;
+	font-weight: 600;
+}
+.logo a span
+{
+	text-transform: uppercase;
+	color: #2b2e35;
+}
+.main_nav
+{
+	height: 100%;
+	margin-left: 133px;
+}
+.main_nav ul
+{
+	height: 100%;
+}
+.main_nav ul li
+{
+	position: relative;
+	height: 100%;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+.main_nav ul li:not(:last-of-type)
+{
+	margin-right: 26px;
+}
+.main_nav ul li.active,
+.main_nav ul li:hover
+{
+	background: #adc867;
+}
+.main_nav ul li a
+{
+	display: block;
+	height: 100%;
+	line-height: 61px;
+	padding-left: 13px;
+	padding-right: 13px;
+	font-size: 16px;
+	font-weight: 500;
+	color: #2b2e35;
+}
+.main_nav ul li.active a
+{
+	color: #ffffff;
+}
+.main_nav ul li a:hover
+{
+	color: #ffffff;
+}
+.submit
+{
+	width: 247px;
+	background: #adc867;
+	height: 100%;
+	text-align: center;
+}
+.submit a
+{
+	display: block;
+	height: 100%;
+	line-height: 61px;
+	font-size: 14px;
+	font-weight: 500;
+	color: #ffffff;
+	text-transform: uppercase;
+}
+.hamburger
+{
+	display: none;
+	cursor: pointer;
+}
+.hamburger i
+{
+	font-size: 24px;
+	color: #2b2e35;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+.hamburger:hover i
+{
+	color: #adc867;
+}
+
+.headerspace
+{
+	height: 116px;
+	max-height: 25vh;
+}
+
+.logo_header_img
+{
+    max-width: 40px;
+    max-height: 40px;
+}
