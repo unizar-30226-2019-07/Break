@@ -1,0 +1,264 @@
+@charset "utf-8";
+/* CSS Document */
+
+/******************************
+
+[Table of Contents]
+
+
+4. Menu
+5. Home
+6. Contact
+7. Google Map
+
+/******************************
+
+/*********************************
+4. Menu
+*********************************/
+
+.menu
+{
+	position: fixed;
+	top: 0;
+	right: -370px;
+	width: 370px;
+	height: 100vh;
+	z-index: 102;
+	background: #ffffff;
+	padding-right: 30px;
+	padding-top: 100px;
+	-webkit-transition: all 400ms ease;
+	-moz-transition: all 400ms ease;
+	-ms-transition: all 400ms ease;
+	-o-transition: all 400ms ease;
+	transition: all 400ms ease;
+}
+.menu.active
+{
+	right: 0;
+}
+.menu_close
+{
+	position: absolute;
+	top: 30px;
+	right: 25px;
+	padding: 5px;
+	cursor: pointer;
+}
+.menu_close i
+{
+	font-size: 20px;
+	color: #2b2e35;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+.menu_close:hover i
+{
+	color: #adc867;
+}
+.menu_log_reg
+{
+	display: inline-block;
+}
+.menu .log_reg
+{
+	border-bottom: solid 1px rgba(0,0,0,0.15);
+}
+.menu .log_reg ul li a
+{
+	color: #2b2e35;
+	font-weight: 600;
+}
+.menu .log_reg ul li a:hover
+{
+	color: #adc867;
+}
+.menu .log_reg ul li:not(:last-of-type)::after
+{
+	color: #2b2e35;
+	font-weight: 600;
+}
+.menu_nav
+{
+	margin-top: 42px;
+}
+.menu_nav ul li:not(:last-of-type)
+{
+	margin-bottom: 2px;
+}
+.menu_nav ul li a
+{
+	font-size: 28px;
+	color: #2b2e35;
+	font-weight: 600;
+}
+.menu_nav ul li a:hover
+{
+	color: #adc867;
+}
+
+/*********************************
+5. Home
+*********************************/
+
+.home
+{
+	height: 261px;
+}
+.home_content
+{
+	padding-top: 173px;
+}
+.home_title
+{
+	font-size: 30px;
+	font-weight: 500;
+	color: #ffffff;
+}
+
+/*********************************
+6. Contact
+*********************************/
+
+.contact
+{
+	background: #ffffff;
+	padding-top: 92px;
+	padding-bottom: 85px;
+}
+.contact_row
+{
+	margin-top: 71px;
+}
+.contact_text
+{
+	margin-top: 17px;
+}
+.contact_info ul li:not(:last-of-type)
+{
+	margin-bottom: 18px;
+}
+.contact_info ul li > div:first-of-type
+{
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: #adc867;
+}
+.contact_info ul li > div:first-of-type > div
+{
+	width: 23px;
+	height: 23px;
+}
+.contact_info ul li > div:first-of-type > div img,
+.contact_info ul li > div:first-of-type > div svg
+{
+	max-height: 100%;
+	max-width: 100%;
+}
+.contact_info ul li span
+{
+	margin-left: 26px;
+	font-size: 16px;
+	font-weight: 600;
+	color: #2b2e35;
+}
+.contact_form_row
+{
+	margin-top: 94px;
+}
+.contact_form
+{
+	display: block;
+}
+.contact_input
+{
+	width: 100%;
+	height: 50px;
+	border: none;
+	outline: none;
+	padding-left: 21px;
+	background: #f3f7fb;
+	margin-bottom: 30px;
+	font-size: 16px;
+	color: #2b2e35;
+	font-weight: 500;
+}
+.contact_input::-webkit-input-placeholder
+{
+	font-size: 14px !important;
+	font-weight: 500 !important;
+	color: #6c7079 !important;
+}
+.contact_input:-moz-placeholder
+{
+	font-size: 14px !important;
+	font-weight: 500 !important;
+	color: #6c7079 !important;
+}
+.contact_input::-moz-placeholder
+{
+	font-size: 14px !important;
+	font-weight: 500 !important;
+	color: #6c7079 !important;
+} 
+.contact_input:-ms-input-placeholder
+{ 
+	font-size: 14px !important;
+	font-weight: 500 !important;
+	color: #6c7079 !important;
+}
+.contact_input::input-placeholder
+{
+	font-size: 14px !important;
+	font-weight: 500 !important;
+	color: #6c7079 !important;
+}
+.contact_textarea
+{
+	height: 236px;
+	padding-top: 16px;
+}
+.contact_button
+{
+	width: 247px;
+	height: 51px;
+	background: #adc867;
+	border: none;
+	outline: none;
+	font-size: 14px;
+	font-weight: 500;
+	color: #ffffff;
+	text-transform: uppercase;
+	cursor: pointer;
+	margin-top: 23px;
+}
+
+/*********************************
+7. Google Map
+*********************************/
+
+.map
+{
+	width: 100%;
+}
+.google_map
+{
+	width: 100%;
+	height: 685px;
+}
+.map_container
+{
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+#map
+{
+	width: 100%;
+	height: calc(100% + 30px);
+}
