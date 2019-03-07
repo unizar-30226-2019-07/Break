@@ -1,13 +1,29 @@
-# crea el objeto app como una instancia de la class Flask
 from flask import Flask, render_template, session, redirect
 from flask_bootstrap import Bootstrap
+from flask_login import LoginManager, current_user, login_user, logout_user
 from config import Config
 from app.forms import LoginForm
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.config.from_object(Config)
+# Database used for session management
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+login = LoginManager(app)
+
+from app import models
+from app.models import User
 
 Bootstrap(app)
+
+@login.user_loader
+def load_user(id):
+    # Required function for users to log in
+    # Flask_login uses the "id" of the user in the database
+    # to manage sessions
+    return User.query.get(int(id))
 
 @app.route('/')
 def index():
@@ -15,21 +31,32 @@ def index():
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
-    form = LoginForm()
-    if 'username' in session:
-        username = session['username']
-        print("Ya estabas logeado como " + username)
+    # Check if the current user was already loged in
+    if current_user.is_authenticated:
+        print("Ya estabas logeado como")
         return redirect('/')
+    form = LoginForm()
     if form.is_submitted():
         print("Usuario: " + form.username.data)
         print("Contraseña: " + form.password.data)
-        session['username'] = form.username.data
+        # Get User class of the user that is trying to log in
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None:
+            # If the user does not exist in the database that is used for sessions
+            # add him to the database
+            user = User(username=form.username.data)
+            db.session.add(user)
+            db.session.commit()
+        # Use the User class to login
+        # The data from remmember_me is also taken as a parameter as it will define the
+        # type of the session
+        login_user(user, remember=form.remember_me.data)
         return redirect('/')
     return render_template('login.html', title='Log In', form=form)
 
 @app.route('/logout')
 def logout():
-    session.pop('username', None)
+    logout_user()
     return redirect('/')
 
 @app.route('/about')
