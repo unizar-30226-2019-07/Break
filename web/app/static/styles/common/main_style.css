@@ -7,7 +7,7 @@
 
 1. Fonts
 2. Body and some general stuff
-
+4. Menu (for mobiles)
 
 ******************************/
 
@@ -335,4 +335,92 @@ section
 	font-weight: 600;
 	color: #ffffff;
 	text-transform: uppercase;
+}
+
+/*********************************
+4. Menu
+*********************************/
+
+.menu
+{
+	position: fixed;
+	top: 0;
+	right: -370px;
+	width: 370px;
+	height: 100vh;
+	z-index: 102;
+	background: #ffffff;
+	padding-right: 30px;
+	padding-top: 100px;
+	-webkit-transition: all 400ms ease;
+	-moz-transition: all 400ms ease;
+	-ms-transition: all 400ms ease;
+	-o-transition: all 400ms ease;
+	transition: all 400ms ease;
+}
+.menu.active
+{
+	right: 0;
+}
+.menu_close
+{
+	position: absolute;
+	top: 30px;
+	right: 25px;
+	padding: 5px;
+	cursor: pointer;
+}
+.menu_close i
+{
+	font-size: 20px;
+	color: #2b2e35;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+.menu_close:hover i
+{
+	color: #adc867;
+}
+.menu_log_reg
+{
+	display: inline-block;
+}
+.menu .log_reg
+{
+	border-bottom: solid 1px rgba(0,0,0,0.15);
+}
+.menu .log_reg ul li a
+{
+	color: #2b2e35;
+	font-weight: 600;
+}
+.menu .log_reg ul li a:hover
+{
+	color: #adc867;
+}
+.menu .log_reg ul li:not(:last-of-type)::after
+{
+	color: #2b2e35;
+	font-weight: 600;
+}
+.menu_nav
+{
+	margin-top: 42px;
+}
+.menu_nav ul li:not(:last-of-type)
+{
+	margin-bottom: 2px;
+}
+.menu_nav ul li a
+{
+	font-size: 28px;
+	color: #2b2e35;
+	font-weight: 600;
+}
+.menu_nav ul li a:hover
+{
+	color: #adc867;
 }
