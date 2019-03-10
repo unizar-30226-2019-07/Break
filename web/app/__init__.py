@@ -3,7 +3,6 @@ import os
 
 from flask import Flask, render_template, session, redirect, request, send_from_directory
 # from flask_bootstrap import Bootstrap
->>>>>>> 72ef611c94bb512d0143f1cdbf77aba0f3b2fcea
 from flask_login import LoginManager, current_user, login_user, logout_user
 from config import Config
 from app.forms import LoginForm
