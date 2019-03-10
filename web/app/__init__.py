@@ -1,4 +1,6 @@
 from flask import Flask, render_template, session, redirect
+import requests
+import json
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager, current_user, login_user, logout_user
 from config import Config
@@ -82,6 +84,12 @@ def single():
 @app.route('/venderObjeto')
 def venderObjeto():
     return render_template('venderObjeto.html')
+
+@app.route('/pruebas')
+def pruebas():
+    posts = requests.get('https://gist.githubusercontent.com/torvic98/50769ae4fa82c8db60e16cedbaf6a5e3/raw/4054f4650f49e8a20f65eea93f4829f2ae41af0a/item.json')
+    print(json.loads(posts.text)['title'])
+    return render_template('pruebas.html', posts=json.loads(posts.text))
 
 if __name__ == '__main__':
     app.run(debug=True)
