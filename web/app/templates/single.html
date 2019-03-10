@@ -83,10 +83,10 @@
         <div class="row">
             <div class="col">
 
-                <!-- Home Slider -->
+                <!-- image_slider -->
 
-                    <div class="row home_slider_container">
-                        <div class="owl-carousel owl-theme home_slider">
+                    <div class="row image_slider_container">
+                        <div class="owl-carousel owl-theme image_slider">
                             {% for image_name in image_names %}
                             <!-- Slide -->
                             <div class="slide">
@@ -97,8 +97,8 @@
                             {% endfor %}
                         </div>
                         <!-- Home Slider Navigation -->
-                        <div class="home_slider_nav_l"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
-                        <div class="home_slider_nav_r"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+                        <div class="image_slider_nav_l"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
+                        <div class="image_slider_nav_r"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
                     </div>
 
 
@@ -338,11 +338,16 @@
 <script src="{{ url_for('static', filename = 'plugins/scrollmagic/ScrollMagic.min.js') }}"></script>
 <script src="{{ url_for('static', filename = 'plugins/greensock/animation.gsap.min.js') }}"></script>
 <script src="{{ url_for('static', filename = 'plugins/greensock/ScrollToPlugin.min.js') }}"></script>
+
 <script src="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.carousel.js') }}"></script>
+
 <script src="{{ url_for('static', filename = 'plugins/easing/easing.js') }}"></script>
 <script src="{{ url_for('static', filename = 'plugins/progressbar/progressbar.min.js') }}"></script>
 <script src="{{ url_for('static', filename = 'plugins/parallax-js-master/parallax.min.js') }}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
-<script src="{{ url_for('static', filename = 'js/custom.js') }}"></script>
+
+<script src="{{ url_for('static', filename = 'js/common/main.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/single.js') }}"></script>
+
 </body>
 </html>

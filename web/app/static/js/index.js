@@ -4,9 +4,6 @@
 
 [Table of Contents]
 
-1. Vars and Inits
-2. Set Header
-3. Init Menu
 4. Init Home Slider
 5. Init Google Map
 6. Init Testimonials Slider
@@ -18,89 +15,9 @@ $(document).ready(function()
 {
 	"use strict";
 
-	/* 
-
-	1. Vars and Inits
-
-	*/
-
-	var header = $('.header');
-	var map;
-
-	initMenu();
 	initHomeSlider();
 	initGoogleMap();
 	initTestSlider();
-
-	setHeader();
-
-	$(window).on('resize', function()
-	{
-		setHeader();
-
-		setTimeout(function()
-		{
-			$(window).trigger('resize.px.parallax');
-		}, 375);
-	});
-
-	$(document).on('scroll', function()
-	{
-		setHeader();
-	});
-
-	/* 
-
-	2. Set Header
-
-	*/
-
-	function setHeader()
-	{
-		if($(window).scrollTop() > 91)
-		{
-			header.addClass('scrolled');
-		}
-		else
-		{
-			header.removeClass('scrolled');
-		}
-	}
-
-	/* 
-
-	3. Init Menu
-
-	*/
-
-	function initMenu()
-	{
-		if($('.menu').length && $('.hamburger').length)
-		{
-			var menu = $('.menu');
-			var hamburger = $('.hamburger');
-			var close = $('.menu_close');
-			var superOverlay = $('.super_overlay');
-
-			hamburger.on('click', function()
-			{
-				menu.toggleClass('active');
-				superOverlay.toggleClass('active');
-			});
-
-			close.on('click', function()
-			{
-				menu.toggleClass('active');
-				superOverlay.toggleClass('active');
-			});
-
-			superOverlay.on('click', function()
-			{
-				menu.toggleClass('active');
-				superOverlay.toggleClass('active');
-			});
-		}
-	}
 
 	/* 
 
@@ -144,7 +61,7 @@ $(document).ready(function()
 
 	function initGoogleMap()
 	{
-		var myLatlng = new google.maps.LatLng(40.760836, -73.910357);
+		var myLatlng = new google.maps.LatLng(41.6517501, -0.9300004);
     	var mapOptions = 
     	{
     		center: myLatlng,

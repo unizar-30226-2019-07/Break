@@ -4,9 +4,6 @@
 
 [Table of Contents]
 
-1. Vars and Inits
-2. Set Header
-3. Init Menu
 4. Init SVG
 5. Init Video
 6. Init Google Map
@@ -18,91 +15,54 @@ $(document).ready(function()
 {
 	"use strict";
 
-	/* 
-
-	1. Vars and Inits
-
-	*/
-
-	var header = $('.header');
-	var map;
-
-	initMenu();
+    initImageSlider();
 	initSvg();
 	initVideo();
 	initGoogleMap();
 
-	setHeader();
 
-	$(window).on('resize', function()
-	{
-		setHeader();
+    /*
 
-		setTimeout(function()
-		{
-			$(window).trigger('resize.px.parallax');
-		}, 375);
-	});
-
-	$(document).on('scroll', function()
-	{
-		setHeader();
-	});
-
-	/* 
-
-	2. Set Header
+	4. initImageSlider
 
 	*/
-
-	function setHeader()
+    function initImageSlider()
 	{
-		if($(window).scrollTop() > 91)
+		if($('.image_slider').length)
 		{
-			header.addClass('scrolled');
-		}
-		else
-		{
-			header.removeClass('scrolled');
+			var homeSlider = $('.image_slider');
+			homeSlider.owlCarousel(
+			{
+				items:1,
+				autoplay:false,
+				autoplayTimeout:8000,
+				loop:true,
+				dots:true,
+				nav:false,
+				mouseDrag:true,
+				smartSpeed:1200
+			});
+
+			if($('.image_slider_nav_r').length)
+			{
+				var next = $('.image_slider_nav_r');
+				next.on('click', function()
+				{
+					homeSlider.trigger('next.owl.carousel');
+				});
+			}
+			if($('.image_slider_nav_l').length)
+			{
+				var previous = $('.image_slider_nav_l');
+				previous.on('click', function()
+				{
+					homeSlider.trigger('prev.owl.carousel');
+				});
+			}
 		}
 	}
 
-	/* 
-
-	3. Init Menu
-
-	*/
-
-	function initMenu()
-	{
-		if($('.menu').length && $('.hamburger').length)
-		{
-			var menu = $('.menu');
-			var hamburger = $('.hamburger');
-			var close = $('.menu_close');
-			var superOverlay = $('.super_overlay');
-
-			hamburger.on('click', function()
-			{
-				menu.toggleClass('active');
-				superOverlay.toggleClass('active');
-			});
-
-			close.on('click', function()
-			{
-				menu.toggleClass('active');
-				superOverlay.toggleClass('active');
-			});
-
-			superOverlay.on('click', function()
-			{
-				menu.toggleClass('active');
-				superOverlay.toggleClass('active');
-			});
-		}
-	}
-
-	/* 
+	/*
 
 	4. Init SVG
 
@@ -168,7 +128,7 @@ $(document).ready(function()
 
 	function initGoogleMap()
 	{
-		var myLatlng = new google.maps.LatLng(40.760836, -73.910357);
+		var myLatlng = new google.maps.LatLng(41.6517501, -0.9300004);
     	var mapOptions = 
     	{
     		center: myLatlng,

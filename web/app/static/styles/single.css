@@ -32,13 +32,13 @@
 	font-weight: 500;
 	color: #ffffff;
 }
-.home_slider_container
+.image_slider_container
 {
     margin-right: 0px;
     margin-left: 0px;
 	width: 100%;
 }
-.home_slider_nav_r
+.image_slider_nav_r
 {
 	position: absolute;
 	top: 48%;
@@ -56,18 +56,18 @@
 	-o-transition: all 200ms ease;
 	transition: all 200ms ease;
 }
-.home_slider_nav_r:hover
+.image_slider_nav_r:hover
 {
 	background: #1e1332;
 }
-.home_slider_nav_r i
+.image_slider_nav_r i
 {
 	line-height: 57px;
 	font-size: 24px;
 	color: #ffffff;
 }
 
-.home_slider_nav_l
+.image_slider_nav_l
 {
 	position: absolute;
 	top: 48%;
@@ -85,11 +85,11 @@
 	-o-transition: all 200ms ease;
 	transition: all 200ms ease;
 }
-.home_slider_nav_l:hover
+.image_slider_nav_l:hover
 {
 	background: #1e1332;
 }
-.home_slider_nav_l i
+.image_slider_nav_l i
 {
 	line-height: 57px;
 	font-size: 24px;
