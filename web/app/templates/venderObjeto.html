@@ -37,86 +37,48 @@
                 </div>
             </div>
         </div>
-        <div class="row contact_row">
 
-            <form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
 
-                <strong>Files:</strong><br>
-                <input id="file-picker" type="file" name="file" accept="image/*" multiple>
-                <div id="msg"></div>
-                <input type="submit" value="Upload!" id="upload-button">
-            </form>
+        <form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
 
-            <!-- Contact - About -->
-            <div class="col-lg-4 contact_col">
-                <div class="logo"><a href="#">my<span>home</span></a></div>
-                <div class="contact_text">
-                    <p>Nulla aliquet bibendum sem, non placerat risus venenatis at. Prae sent vulputate bibendum dictum.
-                        Cras at vehicula urna. Suspendisse fringilla lobortis justo, ut tempor leo cursus in.</p>
-                </div>
+            <div class="row contact_row">
+                <strong>Images:</strong><br>
+            </div>
+            <div class="d-flex justify-content-center">
+                <input id="file-input" type="file" name="file" accept="image/*" multiple >
             </div>
 
-            <!-- Contact - Info -->
-            <div class="col-lg-4 contact_col">
-                <div class="contact_info">
-                    <ul>
-                        <li class="d-flex flex-row align-items-center justify-content-start">
-                            <div class="d-flex flex-column align-items-center justify-content-center">
-                                <div><img src="{{ url_for('static', filename = 'images/placeholder_2.svg') }}" alt="">
-                                </div>
-                            </div>
-                            <span>Main Str, no 23, New York</span>
-                        </li>
-                        <li class="d-flex flex-row align-items-center justify-content-start">
-                            <div class="d-flex flex-column align-items-center justify-content-center">
-                                <div><img src="{{ url_for('static', filename = 'images/phone-call-2.svg') }}" alt="">
-                                </div>
-                            </div>
-                            <span>+546 990221 123</span>
-                        </li>
-                        <li class="d-flex flex-row align-items-center justify-content-start">
-                            <div class="d-flex flex-column align-items-center justify-content-center">
-                                <div><img src="{{ url_for('static', filename = 'images/envelope-2.svg') }}" alt="">
-                                </div>
-                            </div>
-                            <span>hosting@contact.com</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <div id="preview" class=" images">
 
-            <!-- Contact - Image -->
-            <div class="col-lg-4 contact_col">
-                <div class="contact_image d-flex flex-column align-items-center justify-content-center">
-                    <img src="{{ url_for('static', filename = 'images/contact_image.jpg') }}" alt="">
-                </div>
             </div>
+            <input type="submit" id="send" class="contact_button" value="Upload!" id="upload-button">
+        </form>
 
-        </div>
         <div class="row contact_form_row">
             <div class="col">
                 <div class="contact_form_container">
                     <form action="#" class="contact_form text-center" id="contact_form">
                         <div class="row">
                             <div class="col-lg-4">
-                                <input type="text" class="contact_input" placeholder="Your name" required="required">
+                                <input type="text" class="contact_input" placeholder="Your name"
+                                >
                             </div>
                             <div class="col-lg-4">
-                                <input type="email" class="contact_input" placeholder="Your e-mail" required="required">
+                                <input type="email" class="contact_input" placeholder="Your e-mail"
+                                >
                             </div>
                             <div class="col-lg-4">
                                 <input type="text" class="contact_input" placeholder="Subject" required="required">
                             </div>
                         </div>
-                        <textarea class="contact_textarea contact_input" placeholder="Message"
-                                  required="required"></textarea>
+                        <textarea class="contact_textarea contact_input" placeholder="Message"></textarea>
                     </form>
                 </div>
             </div>
         </div>
 
 
-        <!-- Google Map -->
+        <!-- Google Map required="required" -->
         <div class="contact_map_container">
             <div class="map">
                 <div id="google_map" class="google_map">
@@ -126,16 +88,12 @@
                 </div>
             </div>
         </div>
+    </center>
 
-        <div class="d-flex justify-content-center">
-            <button class="contact_button">send message</button>
-        </div>
+    <!-- Footer  -->
+    {% include 'footer.html' %}
 </div>
-
-
-<!-- Footer  -->
-{% include 'footer.html' %}
-</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 <script src="{{ url_for('static', filename = 'js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ url_for('static', filename = 'styles/bootstrap-4.1.2/popper.js') }}"></script>
@@ -151,26 +109,45 @@
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
 <script src="{{ url_for('static', filename = 'js/contact.js') }}"></script>
 </body>
-
 <script>
-    $("#file-picker").change(function(){
-        var input = document.getElementById('file-picker');
-        for (var i=0; i<input.files.length; i++)
-        {
-        //koala.jpg, koala.JPG substring(index) lastIndexOf('a') koala.1.jpg
-            var ext= input.files[i].name.substring(input.files[i].name.lastIndexOf('.')+1).toLowerCase()
-            if ((ext == 'jpg') || (ext == 'png'))
-            {
-                $("#msg").text("Files are supported")
-            }
-            else
-            {
-                $("#msg").text("Files are NOT supported")
-                document.getElementById("file-picker").value ="";
-            }
-        }
-    } );
+    function previewImages() {
 
+    var preview = document.querySelector('#preview');
+
+    preview.innerHTML = "";
+
+    if (this.files) {
+        [].forEach.call(this.files, readAndPreview);
+    }
+
+    function readAndPreview(file) {
+
+        // Make sure `file.name` matches our extensions criteria
+        if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
+        return alert(file.name + " is not an image");
+    } // else...
+
+    var reader = new FileReader();
+
+    reader.addEventListener("load", function() {
+        var new_picture = document.createElement("div");
+        new_picture.className = "pic";
+
+        var image = new Image();
+        //image.height = 100;
+        image.title  = file.name;
+        image.src    = this.result;
+
+        new_picture.appendChild(image)
+        preview.appendChild(new_picture);
+    });
+
+    reader.readAsDataURL(file);
+
+    }
+
+}
+
+document.querySelector('#file-input').addEventListener("change", previewImages);
 </script>
-
 </html>
