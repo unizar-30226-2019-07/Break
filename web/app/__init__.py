@@ -10,7 +10,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import requests
 import json
-from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
 app.config.from_object(Config)
