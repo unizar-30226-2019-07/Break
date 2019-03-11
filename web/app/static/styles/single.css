@@ -96,6 +96,52 @@
 	color: #ffffff;
 }
 
+/* Prueba 1 */
+.owl-carousel .owl-video-tn
+{
+    position: relative;
+    height: 0;
+    background-size: cover;
+    padding-bottom: 56.25%;
+    overflow: hidden;
+}s
+
+.maxh
+{
+max-height: 100vh;
+}
+
+/* Prueba 2 */
+.item{
+    display:block;
+    float:left;
+    width:100%;
+    position:relative;
+    height:600px;
+    overflow:hidden;
+}
+
+video
+{
+    min-width:100%;
+    min-height:100%;
+}
+
+.owl-carousel{
+  display:block;
+  float:left;
+  width:100%;
+  .owl-item{
+    display:block;
+    float:left;
+    width:100%;
+
+  }
+  .owl-nav{
+    display:none;
+  }
+}
+
 /*********************************
 6. Search
 *********************************/

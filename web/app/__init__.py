@@ -129,5 +129,6 @@ def get_gallery():
     print(image_names)  #Debug
     return render_template("single.html", image_names=image_names)
 
+
 if __name__ == '__main__':
     app.run(debug=True)
