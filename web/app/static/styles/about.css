@@ -144,7 +144,7 @@
 {
 	padding-top: 41px;
 	padding-bottom: 26px;
-	background: #55407d;
+	background: var(--primaryColor);
 }
 .milestone_col
 {

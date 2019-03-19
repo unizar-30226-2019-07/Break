@@ -55,7 +55,7 @@
 {
 	display: inline-block;
 	height: 30px;
-	background: #adc867;
+	background: var(--primaryColor);
 	text-align: center;
 	line-height: 30px;
 	font-size: 18px;
@@ -75,7 +75,7 @@
 	width: 57px;
 	height: 57px;
 	border-radius: 50%;
-	background: #adc867;
+	background: var(--primaryColor);
 	text-align: center;
 	cursor: pointer;
 	-webkit-transition: all 200ms ease;
@@ -112,7 +112,7 @@
 {
 	display: inline-block;
 	height: 70px;
-	background: #adc867;
+	background: var(--primaryColor);
 	font-size: 48px;
 	font-weight: 500;
 	color: #ffffff;
@@ -137,7 +137,7 @@
 {
 	width: 247px;
 	height: 51px;
-	background: #adc867;
+	background: var(--secondaryColor);
 	color: #ffffff;
 	border: none;
 	outline: none;
@@ -276,11 +276,11 @@
 }
 .tag_house
 {
-	background: #adc867;
+	background: var(--primaryColor);
 }
 .tag_sale
 {
-	background: #55407d;
+	background: var(--secondaryColor);
 }
 .tag_rent
 {
@@ -328,7 +328,7 @@
 }
 .listing_location a:hover
 {
-	color: #adc867;
+	color: var(--primaryColor);
 }
 .listing_info
 {
@@ -404,7 +404,7 @@
 .map_section_content
 {
 	height: 100%;
-	background: #55407d;
+	background: var(--primaryColor);
 	padding-left: 82px;
 	padding-top: 91px;
 	padding-right: 92px;
@@ -466,7 +466,7 @@
 	left: 0;
 	width: 14px;
 	height: 14px;
-	border: solid 2px #adc867;
+	border: solid 2px var(--primaryColor);
 	border-radius: 50%;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
@@ -476,11 +476,11 @@
 }
 .location_contaner > input:checked ~ span
 {
-	background: #adc867;
+	background: var(--primaryColor);
 }
 .location_contaner > input:not(:checked):hover ~ span
 {
-	background: #adc867;
+	background: var(--primaryColor);
 	opacity: 0.5;
 }
 
@@ -534,7 +534,7 @@
 }
 .hot_title a:hover
 {
-	color: #adc867;
+	color: var(--primaryColor);
 }
 .prop_location
 {
@@ -577,7 +577,7 @@
 {
 	font-size: 14px;
 	font-weight: 600;
-	color: #adc867;
+	color: var(--primaryColor);
 }
 .prop_info
 {
@@ -688,7 +688,7 @@
 }
 .test_author a:hover
 {
-	color: #adc867;
+	color: var(--primaryColor);
 }
 .owl-theme .owl-dots
 {
@@ -718,7 +718,7 @@
 }
 .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span
 {
-	background: #adc867;
+	background: var(--primaryColor);
 }
 
 

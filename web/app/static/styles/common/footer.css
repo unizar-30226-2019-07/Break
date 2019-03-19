@@ -62,7 +62,7 @@
 {
 	max-width: 247px;
 	height: 61px;
-	background: #55407d;
+	background: var(--primaryColor);
 	text-align: center;
 	margin-top: 53px;
 	-webkit-transition: all 200ms ease;
@@ -206,7 +206,7 @@
 }
 .tag_sale
 {
-	background: #55407d;
+	background: var(--primaryColor);
 }
 .tag_rent
 {

@@ -20,6 +20,7 @@
 
 ******************************/
 
+
 /*********************************
 3. Header
 *********************************/
@@ -47,7 +48,7 @@
 {
 	width: 100%;
 	height: 55px;
-	background: #55407d;
+	background: var(--primaryColor);
 	padding-left: 64px;
 	padding-right: 62px;
 }
@@ -78,7 +79,7 @@
 	width: 32px;
 	height: 32px;
 	border-radius: 50%;
-	background: #adc867;
+	background: var(--secondaryColor);
 	text-align: center;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
@@ -142,7 +143,7 @@
 }
 .log_reg ul li a:hover
 {
-	color: #adc867;
+	color: var(--secondaryColor);
 }
 .header_content
 {
@@ -192,7 +193,7 @@
 .main_nav ul li.active,
 .main_nav ul li:hover
 {
-	background: #adc867;
+	background: var(--secondaryColor);
 }
 .main_nav ul li a
 {
@@ -216,7 +217,7 @@
 .submit
 {
 	width: 247px;
-	background: #adc867;
+	background: var(--secondaryColor);
 	height: 100%;
 	text-align: center;
 }
@@ -247,7 +248,7 @@
 }
 .hamburger:hover i
 {
-	color: #adc867;
+	color: var(--secondaryColor);
 }
 
 .headerspace

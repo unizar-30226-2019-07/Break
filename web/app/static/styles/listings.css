@@ -47,7 +47,7 @@
 	padding-bottom: 15px;
 	padding-left: 23px;
 	padding-right: 24px;
-	background: #55407d;
+	background: var(--primaryColor);
 }
 .search_inputs
 {
@@ -145,7 +145,7 @@
 }
 .search_button_1
 {
-	background: #55407d;
+	background: var(--primaryColor);
 }
 .search_button_2
 {
@@ -369,7 +369,7 @@
 }
 .tag_sale
 {
-	background: #55407d;
+	background: var(--primaryColor);
 }
 .tag_rent
 {
