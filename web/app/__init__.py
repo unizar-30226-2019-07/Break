@@ -2,7 +2,6 @@
 import os
 
 from flask import Flask, render_template, session, redirect, request, send_from_directory
-# from flask_bootstrap import Bootstrap
 from flask_login import LoginManager, current_user, login_user, logout_user
 from config import Config
 from app.forms import LoginForm
@@ -24,8 +23,6 @@ from app.models import User
 # Constante con la dirección del servidor.
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-# Bootstrap(app)
-
 @login.user_loader
 def load_user(id):
     # Required function for users to log in
@@ -42,9 +39,14 @@ def login():
     # Check if the current user was already loged in
     if current_user.is_authenticated:
         print("Ya estabas logeado como")
+        print(current_user.get_username())
         return redirect('/')
     form = LoginForm()
     if form.is_submitted():
+        # TODO: hay que modificar esta función para hacer uso del token de sesión para
+        # identificar la session del usuario en la tabla que hay en Flask
+        # Para ello además se deberá cambiar el nombre de usuario para que deje de ser
+        # único y se pasará a buscar en la tabla utilizando el token de sesión.
         print("Usuario: " + form.username.data)
         print("Contraseña: " + form.password.data)
         # Get User class of the user that is trying to log in
@@ -64,6 +66,9 @@ def login():
 
 @app.route('/logout')
 def logout():
+    # TODO: Cuando esté disponible la API se borrará la fila de la tabla de la base de Flask
+    # en la que se encuentre la sesión que coincida con la que se va a cerrar, la cual se identificará
+    # haciendo uso del token de sesión
     logout_user()
     return redirect('/')
 
@@ -103,7 +108,7 @@ def upload():
     if not os.path.isdir(target):
         os.mkdir(target)
 
-    #T enemos que hacer un bucle para guardar/enviar todas las imagenes que se quieren subir
+    #Tenemos que hacer un bucle para guardar/enviar todas las imagenes que se quieren subir
     # (El cliente puere queder subir varias)
     for file in request.files.getlist("file"):
         print(file) #Debug
@@ -127,7 +132,6 @@ def get_gallery():
     image_names = os.listdir('./static/client_images')
     print(image_names)  #Debug
     return render_template("single.html", image_names=image_names)
-
 
 if __name__ == '__main__':
     app.run(debug=True)
