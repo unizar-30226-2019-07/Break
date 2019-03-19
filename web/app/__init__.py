@@ -133,5 +133,9 @@ def get_gallery():
     print(image_names)  #Debug
     return render_template("single.html", image_names=image_names)
 
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
