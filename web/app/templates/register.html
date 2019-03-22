@@ -38,26 +38,24 @@
             </div>
         </div>
 
-
-        <form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
-
-
+        {% from "include/_formhelpers.html" import render_field %}
+        <form id="" action="" method="POST" enctype="">
             <div class="row contact_form_row">
                 <div class="col">
                     <div class="contact_form_container">
 
                         <div class="row">
                             <div class="col-lg-4">
-                                <input type="text" class="contact_input" placeholder="Your name"
-                                >
+                                <label>Nombre</label>
+                                <input type="text" name="name" class="contact_input" value={{request.form.name}}>
                             </div>
                             <div class="col-lg-4">
-                                <input type="email" class="contact_input" placeholder="Your e-mail"
-                                >
+                                <label>Email</label>
+                                <input type="text" name="email" class="contact_input" value={{request.form.email}}>
                             </div>
                             <div class="col-lg-4">
 
-                                <strong>Perfil Image:</strong><br>
+                                <label>Foto de perfil:</label>
 
                                 <div class="d-flex justify-content-center">
                                     <input id="file-input" type="file" name="file" accept="image/*">
@@ -68,8 +66,20 @@
                                 </div>
                             </div>
                         </div>
-                        <input class="contact_textarea contact_input" placeholder="Message">
-
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <label>Nombre de usuario</label>
+                                <input type="text" name="username" class="contact_input" value={{request.form.username}}>
+                            </div>
+                            <div class="col-lg-4">
+                                <label>Contraseña</label>
+                                <input type="password" name="password" class="contact_input" value={{request.form.password}}>
+                            </div>
+                            <div class="col-lg-4">
+                                <label>Confirmar contraseña</label>
+                                <input type="password" name="confirm" class="contact_input" value={{request.form.confirm}}>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

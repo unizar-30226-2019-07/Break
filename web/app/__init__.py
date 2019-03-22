@@ -70,9 +70,12 @@ def login():
     return render_template('login.html', title='Log In', form=form)
 
 
-@app.route('/register', methods = ['GET', 'POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm(request.form)
+    print("Registro open")
+    print(request.method)
+    print(form.validate())
     if request.method == 'POST' and form.validate():
         name = form.name.data
         email = form.email.data
@@ -87,6 +90,7 @@ def register():
 
         flash('You are now registered and can log in', 'success')
         return redirect(url_for('login'))
+
     return render_template('register.html', form=form)
 
 @app.route('/logout')
@@ -163,4 +167,5 @@ def profile():
     return render_template('profile.html')
 
 if __name__ == '__main__':
+    app.secret_key = 'secret_key_Selit!_123'
     app.run(debug=True)
