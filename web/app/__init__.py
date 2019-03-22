@@ -1,12 +1,17 @@
+
+from flask import Flask, render_template, session, redirect, request, send_from_directory, flash, url_for
+from flask_login import LoginManager, current_user, login_user, logout_user
+from config import Config
+from app.forms import LoginForm, RegisterForm
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+
 # Para poder acceder a herramientas del sistema operativo
 import os
 
-from flask import Flask, render_template, session, redirect, request, send_from_directory
-from flask_login import LoginManager, current_user, login_user, logout_user
-from config import Config
-from app.forms import LoginForm
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+# Para hacer hash de las contraseñas
+from passlib.hash import sha256_crypt
+
 import requests
 import json
 
@@ -63,6 +68,26 @@ def login():
         login_user(user, remember=form.remember_me.data)
         return redirect('/')
     return render_template('login.html', title='Log In', form=form)
+
+
+@app.route('/register', methods = ['GET', 'POST'])
+def register():
+    form = RegisterForm(request.form)
+    if request.method == 'POST' and form.validate():
+        name = form.name.data
+        email = form.email.data
+        username = form.username.data
+        password = sha256_crypt.encrypt(str(form.password.data))
+
+        print("Usuario: " + username)
+        print("Email: " + email)
+        print("Nombre: " + name)
+        print("Contraseña (sin Hash): " + form.password.data)
+        print("Contraseña (con Hash): " + password)
+
+        flash('You are now registered and can log in', 'success')
+        return redirect(url_for('login'))
+    return render_template('register.html', form=form)
 
 @app.route('/logout')
 def logout():

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Subir Anuncio</title>
+    <title>Registro</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="myHOME - real estate template project">
@@ -15,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/common/header.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/common/footer.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/common/main_style.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/venderObjeto.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/register.css') }}">
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static', filename = 'styles/common/main_responsive.css') }}">
 </head>
@@ -33,8 +33,7 @@
         <div class="row">
             <div class="col">
                 <div class="section_title_container text-center">
-                    <div class="section_title"><h1>Subir Anuncio</h1></div>
-                    <div class="section_subtitle">Parte 1</div>
+                    <div class="section_title"><h1>REGISTRARSE</h1></div>
                 </div>
             </div>
         </div>
@@ -42,23 +41,11 @@
 
         <form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
 
-            <div class="row contact_row">
-                <strong>Images:</strong><br>
-            </div>
-            <div class="d-flex justify-content-center">
-                <input id="file-input" type="file" name="file" accept="image/*" multiple >
-            </div>
 
-            <div id="preview" class=" images">
+            <div class="row contact_form_row">
+                <div class="col">
+                    <div class="contact_form_container">
 
-            </div>
-            <input type="submit" id="send" class="contact_button" value="Upload!" id="upload-button">
-        </form>
-
-        <div class="row contact_form_row">
-            <div class="col">
-                <div class="contact_form_container">
-                    <form action="#" class="contact_form text-center" id="contact_form">
                         <div class="row">
                             <div class="col-lg-4">
                                 <input type="text" class="contact_input" placeholder="Your name"
@@ -69,26 +56,26 @@
                                 >
                             </div>
                             <div class="col-lg-4">
-                                <input type="text" class="contact_input" placeholder="Subject" required="required">
+
+                                <strong>Perfil Image:</strong><br>
+
+                                <div class="d-flex justify-content-center">
+                                    <input id="file-input" type="file" name="file" accept="image/*">
+                                </div>
+
+                                <div id="preview" class=" images">
+
+                                </div>
                             </div>
                         </div>
-                        <textarea class="contact_textarea contact_input" placeholder="Message"></textarea>
-                    </form>
-                </div>
-            </div>
-        </div>
+                        <input class="contact_textarea contact_input" placeholder="Message">
 
-
-        <!-- Google Map required="required" -->
-        <div class="contact_map_container">
-            <div class="map">
-                <div id="google_map" class="google_map">
-                    <div class="map_container">
-                        <div id="map"></div>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <input type="submit" id="send" class="mb-5 contact_button" value="Registrarse" id="upload-button">
+        </form>
     </center>
 
     <!-- Footer  -->
@@ -107,9 +94,8 @@
 <script src="{{ url_for('static', filename = 'plugins/easing/easing.js') }}"></script>
 <script src="{{ url_for('static', filename = 'plugins/progressbar/progressbar.min.js') }}"></script>
 <script src="{{ url_for('static', filename = 'plugins/parallax-js-master/parallax.min.js') }}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
 
 <script src="{{ url_for('static', filename = 'js/common/main.js') }}"></script>
-<script src="{{ url_for('static', filename = 'js/venderObjeto.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/register.js') }}"></script>
 </body>
 </html>
