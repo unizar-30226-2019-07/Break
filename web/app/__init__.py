@@ -92,7 +92,10 @@ def register():
         flash('You are now registered and can log in', 'success')
         return redirect(url_for('login'))
 
-    return render_template('register.html', form=form)
+    if (request.method == 'POST'):
+        return render_template('register.html', form=form)
+
+    return render_template('register.html', form=RegisterForm())
 
 @app.route('/logout')
 def logout():
