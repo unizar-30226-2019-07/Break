@@ -73,6 +73,7 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm(request.form)
+    print(form.name.errors)
     print("Registro open")
     print(request.method)
     print(form.validate())

@@ -13,11 +13,16 @@ class LoginForm(FlaskForm):
 
 # Structure of the Register form
 class RegisterForm(Form):
-    name = StringField('Name', [validators.Length(min=1, max=50)])
-    username = StringField('Username', [validators.Length(min=4, max=25)])
-    email = StringField('Email', [validators.Length(min=6, max=50)])
+    name = StringField('Name', [
+        validators.DataRequired(message='Es necesario introducir un nombre'),
+        validators.Length(min=4, max=50, message='El tamaño máximo del nombre son 50 carácteres')])
+    username = StringField('Username', [
+        validators.Length(min=4, max=25, message='El nombre de usuario debe tener entre 4 y 25 carácteres')])
+    email = StringField('Email', [
+        validators.Length(min=1, max=50, message='El email no puede contener más de 50 carácteres')])
     password = PasswordField('Password', [
-        validators.DataRequired(),
-        validators.EqualTo('confirm', message='Passwords do not match')
+        validators.DataRequired(message='Es necesario una contraseña')
     ])
-    confirm = PasswordField('Confirm Password')
+    confirm = PasswordField('Confirm Password',[
+        validators.EqualTo('password', message='Las contraseñas no coinciden')
+    ])
