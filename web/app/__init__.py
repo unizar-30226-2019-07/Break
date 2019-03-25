@@ -1,10 +1,10 @@
-
-from flask import Flask, render_template, session, redirect, request, send_from_directory, flash, url_for
+from flask import Flask, render_template, session, redirect, request, send_from_directory, flash, url_for, jsonify
 from flask_login import LoginManager, current_user, login_user, logout_user
 from config import Config
 from app.forms import LoginForm, RegisterForm
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+import requests
 
 # Para poder acceder a herramientas del sistema operativo
 import os
@@ -90,6 +90,25 @@ def register():
         print("Contraseña (con Hash): " + password)
 
         flash('You are now registered and can log in', 'success')
+
+
+        # TODO: descomentar el código a continuación cuando se tenga
+        # la funcionalidad de creación de usuarios implementada en la
+        # API
+        # Create the user's JSON
+        #usuario = {}
+        #usuario["email"] = email,
+        #usuario["first_name"] = name,
+        ##usuario["password"] = password
+
+        #usuario_json = json.dumps(usuario, ensure_ascii=False)
+
+        # Send the JSON to the API REST using the POST method
+        #response = requests.post('http://localhost:8080/users', json=usuario_json)
+
+        # Print in the console the response from the API
+        #print ('response from server:'),res.text
+
         return redirect(url_for('login'))
 
     if (request.method == 'POST'):
