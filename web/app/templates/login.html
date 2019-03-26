@@ -1,59 +1,60 @@
-<!-- Login Form
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/login.css') }}">
--->
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="description" content="myHOME - real estate template project">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="myHOME - real estate template project">
 
-<!-- General links -->
+    <!-- General links -->
     {% include 'include/headLinks.html' %}
 
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/login.css') }}">
-
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/login.css') }}">
+</head>
+<body>
 <!------ Include the above in your HEAD tag ---------->
 <!-- Header -->
-	{% include 'include/header.html' %}
+{% include 'include/header.html' %}
 
-
+<!-- Formulario -->
+    <center class="container">
 <div class="search">
-	<div class="container">
-		<div class="row">
-			<div class="col">
-				<div class="search_title">Login</div>
-					<div id="formContent">
-						<!-- Login Form -->
-						<form class="search_form" action="" method="post" novalidate>
-							<p>
-							{{ form.username.label }}<br>
-							{{ form.username(size=32) }}
-							</p>
-							<p>
-							{{ form.password.label }}<br>
-							{{ form.password(size=32) }}
-							</p>
-							<p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-							<p>{{ form.submit(class="search_button") }}</p>
-						</form>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="section_title"><h1>LOGIN</h1></div>
+                <div id="formContent" class="mb-5 pt-3">
+                    <!-- Login Form -->
+                    <form class="search_form" action="" method="post" novalidate>
+                        <p>
+                            {{ form.username.label }}<br>
+                            {{ form.username(size=32) }}
+                        </p>
+                        <p>
+                            {{ form.password.label }}<br>
+                            {{ form.password(size=32) }}
+                        </p>
+                        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+                        <p>{{ form.submit(class="search_button") }}</p>
+                    </form>
 
-						<!-- Remind Passowrd -->
-						<p>
-							<div id="formFooter">
-								<a class="underlineHover" href="#">Forgot Password?</a>
-							</div>
-						</p>
+                    <!-- Remind Passowrd -->
+                    <p>
+                    <div id="formFooter">
+                        <a class="underlineHover" href="#">Forgot Password?</a>
+                    </div>
+                    </p>
 
-					</div>
-				</div>
+                </div>
+            </div>
 
-			</div>
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
-	<!-- Footer  -->
-	{% include 'include/footer.html' %}
+    </center>
+<!-- Footer  -->
+{% include 'include/footer.html' %}
 
 <!-- General Scripts  -->
 {% include 'include/scripts.html' %}
-
+</body>
+</html>
