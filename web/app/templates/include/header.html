@@ -19,8 +19,12 @@
 
             <div class="log_reg d-flex flex-row align-items-center justify-content-start">
                 <ul class="d-flex flex-row align-items-start justify-content-start">
+		{% if auth %}
+                    <li><a href="/profile">Perfil</a></li>
+		{% else %}
                     <li><a href="/login">Iniciar Sesión</a></li>
                     <li><a href="/register">Registrarse</a></li>
+		{% endif %}
                 </ul>
             </div>
         </div>
