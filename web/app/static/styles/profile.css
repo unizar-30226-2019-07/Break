@@ -42,6 +42,14 @@ h2 {
 	margin-bottom:-12px;
 }
 
+p.info {
+	font-size:20px;
+}
+
+strong {
+	color:#000000
+}
+
 p img {
 	float:right;
 	margin-left:20px;
