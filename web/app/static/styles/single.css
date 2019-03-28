@@ -32,11 +32,21 @@
 	font-weight: 500;
 	color: #ffffff;
 }
+img
+{
+    flex-shrink:0;
+    -webkit-flex-shrink: 0;
+    max-width:100%;
+    height:100%;
+}
+
 .image_slider_container
 {
-    margin-right: 0px;
-    margin-left: 0px;
-	width: 100%;
+    width:100%;
+    height:600px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 .image_slider_nav_r
 {
@@ -112,14 +122,6 @@ max-height: 100vh;
 }
 
 /* Prueba 2 */
-.item{
-    display:block;
-    float:left;
-    width:100%;
-    position:relative;
-    height:600px;
-    overflow:hidden;
-}
 
 video
 {
@@ -130,11 +132,9 @@ video
 .owl-carousel{
   display:block;
   float:left;
-  width:100%;
   .owl-item{
     display:block;
     float:left;
-    width:100%;
 
   }
   .owl-nav{
