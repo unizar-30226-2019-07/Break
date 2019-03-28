@@ -96,18 +96,16 @@ def register():
         # la funcionalidad de creación de usuarios implementada en la
         # API
         # Create the user's JSON
-        #usuario = {}
-        #usuario["email"] = email,
-        #usuario["first_name"] = name,
-        ##usuario["password"] = password
-
-        #usuario_json = json.dumps(usuario, ensure_ascii=False)
+        usuario = {'email':email, 'first_name':name, 'password':password}
+        print(usuario)
+        usuario_json = json.dumps(usuario, ensure_ascii=False)
 
         # Send the JSON to the API REST using the POST method
-        #response = requests.post('http://localhost:8080/users', json=usuario_json)
+        response = requests.post(url='http://35.234.77.87:8080/users', json=usuario, content_type='application/json')
 
         # Print in the console the response from the API
-        #print ('response from server:'),res.text
+        print ('response from server:')
+        print (response.text)
 
         return redirect(url_for('login'))
 
