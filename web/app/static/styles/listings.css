@@ -57,7 +57,7 @@
 {
 	width: 247px;
 	height: 51px;
-	background: #adc867;
+	background: var(--secondaryColor);
 	color: #ffffff;
 	border: none;
 	outline: none;
@@ -149,7 +149,7 @@
 }
 .search_button_2
 {
-	background: #adc867;
+	background: var(--secondaryColor);
 }
 
 /*********************************
@@ -191,7 +191,7 @@
 }
 .listing_tags ul li:hover
 {
-	background: #adc867;
+	background: var(--secondaryColor);
 }
 .listing_tags ul li:hover a
 {
@@ -289,7 +289,7 @@
 }
 .sort ul li:hover
 {
-	color: #adc867;
+	color: var(--secondaryColor);
 }
 .listings_container
 {
@@ -315,11 +315,20 @@
 }
 .listing_image_container
 {
-	height: 100%;
+	width:100%;
+    height:250px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 	overflow: hidden;
 }
+
 .listing_image_container > img
 {
+    flex-shrink:0;
+    -webkit-flex-shrink: 0;
+    max-width:100%;
+    height:100%;
 	-webkit-transition: all 1600ms ease;
 	-moz-transition: all 1600ms ease;
 	-ms-transition: all 1600ms ease;
@@ -365,7 +374,7 @@
 }
 .tag_house
 {
-	background: #adc867;
+	background: var(--secondaryColor);
 }
 .tag_sale
 {
@@ -381,7 +390,7 @@
 	height: 37px;
 	padding-left: 27px;
 	padding-right: 26px;
-	background: #ff006c;
+	background: var(--secondaryColor);
 	line-height: 37px;
 	font-size: 16px;
 	font-weight: 500;
@@ -391,15 +400,15 @@
 {
 	position: absolute;
 	left: 34px;
-	bottom: -19px;
+	top: 15px;
 }
 .listing_location
 {
 	padding-left: 34px !important;
-	padding-top: 45px;
+	padding-top: 60px;
 	padding-bottom: 17px;
 	padding-right: 30px;
-	background: #f3f7fb;
+	background: var(--clouds);
 	margin-top: 0 !important;
 }
 .listing_location > img
@@ -417,11 +426,11 @@
 }
 .listing_location a:hover
 {
-	color: #adc867;
+	color: var(--secondaryColor);
 }
 .listing_info
 {
-	background: #f3f7fb;
+	background: var(--clouds);
 	padding-left: 29px;
 	padding-right: 15px;
 	padding-top: 18px;

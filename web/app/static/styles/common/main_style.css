@@ -12,8 +12,12 @@
 ******************************/
 
 :root {
-    --primaryColor: #c0392b;
-    --secondaryColor: #f39c12;
+    --primaryColor: #c0392b; /*pomegrade*/
+    --secondaryColor: #f39c12; /*orange*/
+    --clouds: #ecf0f1;
+    --asbestos: #7f8c8d;
+    --sunFlower: #f1c40f;
+    --emerald: #2ecc71;
 }
 
 /*********************************
@@ -107,7 +111,7 @@ p a:hover::after
 }
 ::selection
 {
-	background: #adc867;
+	background: var(--secondaryColor);
 	color: #ffffff;
 }
 p::selection
@@ -313,7 +317,7 @@ section
 {
 	width: 247px;
 	height: 61px;
-	background: #adc867;
+	background: var(--secondaryColor);
 	text-align: center;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
@@ -381,7 +385,7 @@ section
 }
 .menu_close:hover i
 {
-	color: #adc867;
+	color: var(--secondaryColor);
 }
 .menu_log_reg
 {
@@ -398,7 +402,7 @@ section
 }
 .menu .log_reg ul li a:hover
 {
-	color: #adc867;
+	color: var(--secondaryColor);
 }
 .menu .log_reg ul li:not(:last-of-type)::after
 {
@@ -421,5 +425,5 @@ section
 }
 .menu_nav ul li a:hover
 {
-	color: #adc867;
+	color: var(--secondaryColor);
 }
