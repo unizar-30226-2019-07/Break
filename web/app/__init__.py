@@ -101,7 +101,7 @@ def register():
         usuario_json = json.dumps(usuario, ensure_ascii=False)
 
         # Send the JSON to the API REST using the POST method
-        response = requests.post(url='http://35.234.77.87:8080/users', json=usuario, content_type='application/json')
+        response = requests.post(url='http://35.234.77.87:8080/users', json=usuario)
 
         # Print in the console the response from the API
         print ('response from server:')
