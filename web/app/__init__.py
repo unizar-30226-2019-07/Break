@@ -134,7 +134,8 @@ def contact():
 
 @app.route('/listings')
 def listing():
-    return render_template('listings.html', auth=current_user.is_authenticated)
+    products = requests.get('https://api.punkapi.com/v2/beers')
+    return render_template('listings.html', auth=current_user.is_authenticated, prods=json.loads(products.text))
 
 @app.route('/venderObjeto')
 def venderObjeto():
