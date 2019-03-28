@@ -16,8 +16,8 @@ class RegisterForm(Form):
     name = StringField('Name', [
         validators.DataRequired(message='Es necesario introducir un nombre'),
         validators.Length(min=4, max=50, message='El tamaño máximo del nombre son 50 carácteres')])
-    username = StringField('Username', [
-        validators.Length(min=4, max=25, message='El nombre de usuario debe tener entre 4 y 25 carácteres')])
+    # username = StringField('Username', [
+    #    validators.Length(min=4, max=25, message='El nombre de usuario debe tener entre 4 y 25 carácteres')])
     email = StringField('Email', [
         validators.DataRequired(message='Es necesario introducir un email'),
         validators.Length(min=1, max=50, message='El email no puede contener más de 50 carácteres')])
