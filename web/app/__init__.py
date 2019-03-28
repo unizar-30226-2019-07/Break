@@ -80,10 +80,8 @@ def register():
     if request.method == 'POST' and form.validate():
         name = form.name.data
         email = form.email.data
-        username = form.username.data
         password = sha256_crypt.encrypt(str(form.password.data))
 
-        print("Usuario: " + username)
         print("Email: " + email)
         print("Nombre: " + name)
         print("Contraseña (sin Hash): " + form.password.data)
