@@ -57,16 +57,7 @@
 
                         </div>
                         <div class="row">
-                            <div class="col-lg-4">
-                                <strong>Nombre de usuario</strong>
-                                <input type="text" name="username" class="contact_input" value={{request.form.username}}>
-                                {% for error in form.username.errors %}
-                                    <div class = "alert alert-danger">
-                                      <li>{{ error }}</li>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-6">
                                 <strong>Contraseña</strong>
                                 <input type="password" name="password" class="contact_input" value={{request.form.password}}>
                                 {% for error in form.password.errors %}
@@ -75,7 +66,7 @@
                                     </div>
                                 {% endfor %}
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-6">
                                 <strong>Confirmar contraseña</strong>
                                 <input type="password" name="confirm" class="contact_input" value={{request.form.confirm}}>
                                 {% for error in form.confirm.errors %}
