@@ -54,18 +54,33 @@ def login():
         # único y se pasará a buscar en la tabla utilizando el token de sesión.
         print("Usuario: " + form.username.data)
         print("Contraseña: " + form.password.data)
+        email = form.username.data
+        password = sha256_crypt.encrypt(str(form.password.data))
+
+
         # Get User class of the user that is trying to log in
-        user = User.query.filter_by(username=form.username.data).first()
-        if user is None:
+        usuario = {'email': email, 'password': password}
+        print(usuario)
+        usuario_json = json.dumps(usuario, ensure_ascii=False)
+
+        # Send the JSON to the API REST using the POST method
+        response = requests.post(url='http://35.234.77.87:8080/login', json=usuario)
+
+        # Print in the console the response from the API
+        print('response from server:')
+        print(response.text)
+
+        #user = User.query.filter_by(username=form.username.data).first()
+        #if user is None:
             # If the user does not exist in the database that is used for sessions
             # add him to the database
-            user = User(username=form.username.data)
-            db.session.add(user)
-            db.session.commit()
+            #user = User(username=form.username.data)
+            #db.session.add(user)
+            #db.session.commit()
         # Use the User class to login
         # The data from remmember_me is also taken as a parameter as it will define the
         # type of the session
-        login_user(user, remember=form.remember_me.data)
+        #login_user(user, remember=form.remember_me.data)
         return redirect('/')
     return render_template('login.html', title='Log In', form=form, auth=current_user.is_authenticated)
 
