@@ -52,36 +52,34 @@ def login():
         # identificar la session del usuario en la tabla que hay en Flask
         # Para ello además se deberá cambiar el nombre de usuario para que deje de ser
         # único y se pasará a buscar en la tabla utilizando el token de sesión.
-        print("Usuario: " + form.username.data)
-        print("Contraseña: " + form.password.data)
-        email = form.username.data
-        password = sha256_crypt.encrypt(str(form.password.data))
+        email = form.email.data
+        password = form.password.data
 
 
         # Get User class of the user that is trying to log in
         usuario = {'email': email, 'password': password}
-        print(usuario)
-        usuario_json = json.dumps(usuario, ensure_ascii=False)
 
         # Send the JSON to the API REST using the POST method
-        response = requests.post(url='http://35.234.77.87:8080/login', json=usuario)
+        response = requests.post(url='http://35.234.77.87:8080/login', json=usuario, headers={'Authorization': ''})
+        
+        if response.status_code == 200:
+            # Use the token to search in the database so that it is posible to have several sessions of the same user (differentiated by the token)
+            user = User.query.filter_by(token=response.headers['Authorization']).first()
+            if user is None:
+                # If the user does not exist in the database that is used for sessions
+                # add him to the database
+                user = User(username=form.email.data, token=response.headers['Authorization'])
+                db.session.add(user)
+                db.session.commit()
+            # Use the User class to login
+            # The data from remmember_me is also taken as a parameter as it will define the
+            # type of the session
+            login_user(user, remember=form.remember_me.data)
+            return redirect('/')
+        else:
+            # Authentication failure, go back to the login page
+            return redirect('/login')
 
-        # Print in the console the response from the API
-        print('response from server:')
-        print(response.text)
-
-        #user = User.query.filter_by(username=form.username.data).first()
-        #if user is None:
-            # If the user does not exist in the database that is used for sessions
-            # add him to the database
-            #user = User(username=form.username.data)
-            #db.session.add(user)
-            #db.session.commit()
-        # Use the User class to login
-        # The data from remmember_me is also taken as a parameter as it will define the
-        # type of the session
-        #login_user(user, remember=form.remember_me.data)
-        return redirect('/')
     return render_template('login.html', title='Log In', form=form, auth=current_user.is_authenticated)
 
 
@@ -95,31 +93,16 @@ def register():
     if request.method == 'POST' and form.validate():
         name = form.name.data
         email = form.email.data
-        password = sha256_crypt.encrypt(str(form.password.data))
+        password = form.password.data
 
-        print("Email: " + email)
-        print("Nombre: " + name)
-        print("Contraseña (sin Hash): " + form.password.data)
-        print("Contraseña (con Hash): " + password)
-
-        flash('You are now registered and can log in', 'success')
-
-
-        # TODO: descomentar el código a continuación cuando se tenga
-        # la funcionalidad de creación de usuarios implementada en la
-        # API
         # Create the user's JSON
         usuario = {'email':email, 'first_name':name, 'password':password}
         print(usuario)
-        usuario_json = json.dumps(usuario, ensure_ascii=False)
 
         # Send the JSON to the API REST using the POST method
         response = requests.post(url='http://35.234.77.87:8080/users', json=usuario)
 
         # Print in the console the response from the API
-        print ('response from server:')
-        print (response.text)
-
         return redirect(url_for('login'))
 
     if (request.method == 'POST'):
@@ -129,9 +112,10 @@ def register():
 
 @app.route('/logout')
 def logout():
-    # TODO: Cuando esté disponible la API se borrará la fila de la tabla de la base de Flask
-    # en la que se encuentre la sesión que coincida con la que se va a cerrar, la cual se identificará
-    # haciendo uso del token de sesión
+    # Delete the session of the user from the database using the token to identify it
+    user = User.query.filter_by(token=current_user.token).first()
+    if user != None:
+        db.session.delete(user)
     logout_user()
     return redirect('/')
 
