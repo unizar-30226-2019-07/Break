@@ -43,12 +43,12 @@
 								<!-- Begin Personal Information -->
 								<div class="self">
 									<h1 class="name">Pablo Orduna<br />
-										<span>Vendedor de confianza</span></h1>
+										<span>Puntuación {{ user.rating }}</span></h1>
 									<ul>
-										<p class="info"><strong>Email:</strong> pabloorduna98@gmail.com</p>
-										<p class="info"><strong>Nombre:</strong> Pablo</p>
-										<p class="info"><strong>Apellidos:</strong> Orduna Lagarma</p>
-										<p class="info"><strong>Género:</strong> Male</p>
+										<p class="info"><strong>Email:</strong> {{ user.email }}</p>
+										<p class="info"><strong>Nombre:</strong> {{ user.first_name }}</p>
+										<p class="info"><strong>Apellidos:</strong> {{ user.last_name }}</p>
+										<p class="info"><strong>Género:</strong> {{ user.gender }}</p>
 									</ul>
 								</div>
 								<!-- End Personal Information -->

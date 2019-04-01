@@ -48,13 +48,8 @@ def login():
         return redirect('/')
     form = LoginForm()
     if form.is_submitted():
-        # TODO: hay que modificar esta función para hacer uso del token de sesión para
-        # identificar la session del usuario en la tabla que hay en Flask
-        # Para ello además se deberá cambiar el nombre de usuario para que deje de ser
-        # único y se pasará a buscar en la tabla utilizando el token de sesión.
         email = form.email.data
         password = form.password.data
-
 
         # Get User class of the user that is trying to log in
         usuario = {'email': email, 'password': password}
@@ -68,7 +63,7 @@ def login():
             if user is None:
                 # If the user does not exist in the database that is used for sessions
                 # add him to the database
-                user = User(username=form.email.data, token=response.headers['Authorization'])
+                user = User(username=form.email.data, user_id=response.headers['idUsuario'], token=response.headers['Authorization'])
                 db.session.add(user)
                 db.session.commit()
             # Use the User class to login
@@ -178,7 +173,9 @@ def get_gallery():
 @app.route('/profile')
 def profile():
     products = requests.get('https://api.punkapi.com/v2/beers')
-    return render_template('profile.html', auth=current_user.is_authenticated, prods=json.loads(products.text))
+    response = requests.get(url='http://35.234.77.87:8080/users/' + str(current_user.user_id), headers={'Authorization': current_user.token})
+    print(response.text)
+    return render_template('profile.html', auth=current_user.is_authenticated, prods=json.loads(products.text), user=json.loads(response.text))
 
 if __name__ == '__main__':
     app.secret_key = 'secret_key_Selit!_123'
