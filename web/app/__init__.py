@@ -1,7 +1,7 @@
 from flask import Flask, render_template, session, redirect, request, send_from_directory, flash, url_for, jsonify
 from flask_login import LoginManager, current_user, login_user, logout_user
 from config import Config
-from app.forms import LoginForm, RegisterForm
+from app.forms import LoginForm, RegisterForm, EditProfile
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import requests
@@ -175,8 +175,21 @@ def get_gallery():
 def profile():
     products = requests.get('https://api.punkapi.com/v2/beers')
     response = requests.get(url='http://35.234.77.87:8080/users/' + str(current_user.user_id), headers={'Authorization': current_user.token})
+    # If there is an error retrieving the user (no permissions) the user will be redirected to the login page
+    if response.status_code != 200:
+        return redirect("/login")
+    else:
+        return render_template('profile.html', userauth=current_user, prods=json.loads(products.text), user=json.loads(response.text))
+
+@app.route('/editprofile')
+def editprofile():
+    response = requests.get(url='http://35.234.77.87:8080/users/' + str(current_user.user_id), headers={'Authorization': current_user.token})
     print(response.text)
-    return render_template('profile.html', userauth=current_user, prods=json.loads(products.text), user=json.loads(response.text))
+    # If there is an error retrieving the user (no permissions) the user will be redirected to the login page
+    if response.status_code != 200:
+        return redirect("/login")
+    else:
+        return render_template('editprofile.html', form=EditProfile(), userauth=current_user, user=json.loads(response.text))
 
 if __name__ == '__main__':
     app.secret_key = 'secret_key_Selit!_123'
