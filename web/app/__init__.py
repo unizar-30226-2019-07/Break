@@ -89,9 +89,10 @@ def register():
         name = form.name.data
         email = form.email.data
         password = form.password.data
+        last_name = form.lastname.data
 
         # Create the user's JSON
-        usuario = {'email':email, 'first_name':name, 'password':password}
+        usuario = {'email':email, 'first_name':name, 'last_name':last_name, 'password':password}
         print(usuario)
 
         # Send the JSON to the API REST using the POST method

@@ -36,7 +36,7 @@
                     <div class="contact_form_container">
 
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <strong>Nombre</strong>
                                 <input type="text" name="name" class="contact_input" value={{request.form.name}}>
                                 {% for error in form.name.errors %}
@@ -45,7 +45,16 @@
                                     </div>
                                 {% endfor %}
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
+                                <strong>Apellidos</strong>
+                                <input type="text" name="lastname" class="contact_input" value={{request.form.lastname}}>
+                                {% for error in form.lastname.errors %}
+                                    <div class = "alert alert-danger">
+                                      <li>{{ error }}</li>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-lg-4">
                                 <strong>Email</strong>
                                 <input type="text" name="email" class="contact_input" value={{request.form.email}}>
                                 {% for error in form.email.errors %}
@@ -54,6 +63,7 @@
                                     </div>
                                 {% endfor %}
                             </div>
+
 
                         </div>
                         <div class="row">
