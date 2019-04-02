@@ -37,7 +37,7 @@ def load_user(id):
 
 @app.route('/')
 def index():
-    return render_template('index.html', auth=current_user.is_authenticated)
+    return render_template('index.html', userauth=current_user)
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -75,7 +75,7 @@ def login():
             # Authentication failure, go back to the login page
             return redirect('/login')
 
-    return render_template('login.html', title='Log In', form=form, auth=current_user.is_authenticated)
+    return render_template('login.html', title='Log In', form=form, userauth=current_user)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -101,9 +101,9 @@ def register():
         return redirect(url_for('login'))
 
     if (request.method == 'POST'):
-        return render_template('register.html', form=form, auth=current_user.is_authenticated)
+        return render_template('register.html', form=form, userauth=current_user)
 
-    return render_template('register.html', form=RegisterForm(), auth=current_user.is_authenticated)
+    return render_template('register.html', form=RegisterForm(), userauth=current_user)
 
 @app.route('/logout')
 def logout():
@@ -116,24 +116,24 @@ def logout():
 
 @app.route('/about')
 def about():
-    return render_template('about.html', auth=current_user.is_authenticated)
+    return render_template('about.html', userauth=current_user)
 
 @app.route('/blog')
 def blog():
-    return render_template('blog.html', auth=current_user.is_authenticated)
+    return render_template('blog.html', userauth=current_user)
 
 @app.route('/contact')
 def contact():
-    return render_template('contact.html', auth=current_user.is_authenticated)
+    return render_template('contact.html', userauth=current_user)
 
 @app.route('/listings')
 def listing():
     products = requests.get('https://api.punkapi.com/v2/beers')
-    return render_template('listings.html', auth=current_user.is_authenticated, prods=json.loads(products.text))
+    return render_template('listings.html', userauth=current_user, prods=json.loads(products.text))
 
 @app.route('/venderObjeto')
 def venderObjeto():
-    return render_template('venderObjeto.html', auth=current_user.is_authenticated)
+    return render_template('venderObjeto.html', userauth=current_user)
 
 @app.route("/upload", methods=['POST'])
 def upload():
@@ -168,14 +168,14 @@ def get_gallery():
     #Devuelve un vector de nombres de imgenes de la ruta especificada
     image_names = os.listdir('./static/client_images')
     print(image_names)  #Debug
-    return render_template("single.html", image_names=image_names, auth=current_user.is_authenticated)
+    return render_template("single.html", image_names=image_names, userauth=current_user)
 
 @app.route('/profile')
 def profile():
     products = requests.get('https://api.punkapi.com/v2/beers')
     response = requests.get(url='http://35.234.77.87:8080/users/' + str(current_user.user_id), headers={'Authorization': current_user.token})
     print(response.text)
-    return render_template('profile.html', auth=current_user.is_authenticated, prods=json.loads(products.text), user=json.loads(response.text))
+    return render_template('profile.html', userauth=current_user, prods=json.loads(products.text), user=json.loads(response.text))
 
 if __name__ == '__main__':
     app.secret_key = 'secret_key_Selit!_123'

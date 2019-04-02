@@ -41,15 +41,17 @@
 								<img class="portrait" src={{url_for('static',filename='profiles/pfp.png')}} alt="John Smith" />
 								<!-- End Image -->
 								<!-- Begin Personal Information -->
-								<div class="self">
-									<h1 class="name">Pablo Orduna<br />
-										<span>Puntuación {{ user.rating }}</span></h1>
-									<ul>
-										<p class="info"><strong>Email:</strong> {{ user.email }}</p>
-										<p class="info"><strong>Nombre:</strong> {{ user.first_name }}</p>
-										<p class="info"><strong>Apellidos:</strong> {{ user.last_name }}</p>
-										<p class="info"><strong>Género:</strong> {{ user.gender }}</p>
-									</ul>
+								<div class="verticalLine">
+									<div class="self">
+										<h1 class="name">Pablo Orduna<br />
+											<span>Puntuación {{ user.rating }}</span></h1>
+										<ul>
+											<p class="info"><strong>Email:</strong> {{ user.email }}</p>
+											<p class="info"><strong>Nombre:</strong> {{ user.first_name }}</p>
+											<p class="info"><strong>Apellidos:</strong> {{ user.last_name }}</p>
+											<p class="info"><strong>Género:</strong> {{ user.gender }}</p>
+										</ul>
+									</div>
 								</div>
 								<!-- End Personal Information -->
 							</div>

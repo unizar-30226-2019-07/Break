@@ -14,6 +14,10 @@
 	margin-left:4px;
 }
 
+p {
+	margin-bottom: 0px;
+}
+
 h1  {
 	width:250px;
 	font-size:42px;
@@ -187,7 +191,6 @@ ul.info li {
 	background-repeat: no-repeat;
 	padding-left:10px;
 	background-position: 0 .5em;
-	margin-top:12px;
 }
 
 ul.skills {
@@ -246,12 +249,12 @@ ul.works li img:hover {
 img.portrait {
 	background-image:url(../images/frame.jpg);
 	background-repeat: no-repeat;
-	width:130px;
-	height:130px;
-	padding-top:20px;
+	width:300px;
+	height:300px;
 	padding-left:11px;
 	padding-right:11px;
 	padding-bottom:36px;
+	padding-top:15px;
 	margin-left:50px;
 	float:left;
 
@@ -266,6 +269,16 @@ img.product {
 
 /* SELF INFORMATION */
 /* ----------------------------------------- */
+.verticalLine {
+	width:250px;
+	float:left;
+	padding-top:11px;
+	margin-left:38px;
+	margin-bottom:15px;
+	border-left: solid #C0392B;
+	border-left-width: 2px;
+}
+
 .self {
 	width:250px;
 	float:left;
@@ -276,22 +289,6 @@ img.product {
 
 .self ul {
 	padding-top: 10px;
-}
-
-.self ul li.ad {
-	background-image:url(../images/icn-ad.gif);
-}
-
-.self ul li.mail {
-	background-image:url(../images/icn-mail.gif);
-}
-
-.self ul li.tel {
-	background-image:url(../images/icn-tel.gif);
-}
-
-.self ul li.web {
-	background-image:url(../images/icn-web.gif);
 }
 
 .self ul li {
@@ -317,14 +314,6 @@ h1.warn {
 	margin-top:30px;
 	padding:50px;
 	text-align: center;
-}
-
-#contactform {
-	width:320px;
-	height:370px;
-	margin:0 auto;
-	padding:50px;
-	overflow: hidden;
 }
 
 label {
@@ -414,12 +403,12 @@ a, a:hover, a:visited, a:active {
 }
 
 #paper {
-	width:820px;
+	width:1000px;
 	margin:0 auto;
 }
 
 #paper-mid {
-	width:820px;
+	width:1000px;
 	margin:0 auto;
 	background-color:#FFF;
 	display:block;
@@ -430,7 +419,7 @@ a, a:hover, a:visited, a:active {
 }
 
 .entry {
-	width:820px;
+	width:1000px;
 	display: block;
 	padding-top:55px;
 	clear: both;
@@ -446,7 +435,6 @@ h1 {
 h1 span {
 	font-size:21pt;
 	display:block;
-	margin-left:15px;
 	margin-top:20px;
 	color:#803a3a;
 }
@@ -538,10 +526,6 @@ ul.skills li {
 	padding-left:0;
 	background-position: 0 .5em;
 	margin-top:6px;
-}
-
-img.portrait {
-	padding:10px;	
 }
 
 .self {
