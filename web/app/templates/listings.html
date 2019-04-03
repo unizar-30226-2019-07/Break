@@ -6,10 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="myHOME - real estate template project">
 
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/listings.css') }}">
+
     <!-- General links -->
     {% include 'include/headLinks.html' %}
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/listings.css') }}">
+
+
 </head>
 
 <body>
@@ -132,6 +135,7 @@
                         </div>
                         {% endfor %}
                     </div>
+
                     <div class="load_more">
                         <div class="button ml-auto mr-auto"><a href="#">load more</a></div>
                     </div>
