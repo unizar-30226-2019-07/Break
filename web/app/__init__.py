@@ -28,6 +28,9 @@ from app.models import User
 # Constante con la dirección del servidor.
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
+# URL of the API
+url = 'http://35.234.77.87:8080'
+
 @login.user_loader
 def load_user(id):
     # Required function for users to log in
@@ -55,7 +58,7 @@ def login():
         usuario = {'email': email, 'password': password}
 
         # Send the JSON to the API REST using the POST method
-        response = requests.post(url='http://35.234.77.87:8080/login', json=usuario, headers={'Authorization': ''})
+        response = requests.post(url=url + '/login', json=usuario, headers={'Authorization': ''})
         
         if response.status_code == 200:
             # Use the token to search in the database so that it is posible to have several sessions of the same user (differentiated by the token)
@@ -63,7 +66,8 @@ def login():
             if user is None:
                 # If the user does not exist in the database that is used for sessions
                 # add him to the database
-                user = User(username=form.email.data, user_id=response.headers['idUsuario'], token=response.headers['Authorization'])
+                response2 = requests.get(url = url + '/users?email=' + email, headers={'Authorization': response.headers['Authorization']})
+                user = User(username=form.email.data, user_id=json.loads(response2.text)[0]['idUsuario'], token=response.headers['Authorization'])
                 db.session.add(user)
                 db.session.commit()
             # Use the User class to login
@@ -174,7 +178,7 @@ def get_gallery():
 @app.route('/profile')
 def profile():
     products = requests.get('https://api.punkapi.com/v2/beers')
-    response = requests.get(url='http://35.234.77.87:8080/users/' + str(current_user.user_id), headers={'Authorization': current_user.token})
+    response = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.token})
     # If there is an error retrieving the user (no permissions) the user will be redirected to the login page
     if response.status_code != 200:
         return redirect("/login")
@@ -183,13 +187,20 @@ def profile():
 
 @app.route('/editprofile')
 def editprofile():
-    response = requests.get(url='http://35.234.77.87:8080/users/' + str(current_user.user_id), headers={'Authorization': current_user.token})
+    response = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.token})
     print(response.text)
     # If there is an error retrieving the user (no permissions) the user will be redirected to the login page
     if response.status_code != 200:
         return redirect("/login")
     else:
         return render_template('editprofile.html', form=EditProfile(), userauth=current_user, user=json.loads(response.text))
+
+@app.route('/verify')
+def verify():
+    randomtoken = request.args.get('page', default = 1, type = str)
+    print(ramdomtoken)
+    response = requests.post(url = url + '/verify?random=' + ramdomtoken)
+    return redirect("/login")
 
 if __name__ == '__main__':
     app.secret_key = 'secret_key_Selit!_123'
