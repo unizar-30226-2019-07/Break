@@ -49,8 +49,9 @@ def login():
         print("Ya estabas logeado como")
         print(current_user.get_username())
         return redirect('/')
-    form = LoginForm()
-    if form.is_submitted():
+    form = LoginForm(request.form)
+    print(form.validate())
+    if request.method == 'POST' and form.validate():
         email = form.email.data
         password = form.password.data
 
@@ -79,7 +80,10 @@ def login():
             # Authentication failure, go back to the login page
             return redirect('/login')
 
-    return render_template('login.html', title='Log In', form=form, userauth=current_user)
+    if (request.method == 'POST'):
+        return render_template('login.html', form=form, userauth=current_user)
+
+    return render_template('login.html', title='Log In', form=LoginForm(), userauth=current_user)
 
 
 @app.route('/register', methods=['GET', 'POST'])

@@ -193,9 +193,22 @@
 /************
 6. 991px
 ************/
+@media only screen and (min-width: 1024px)
+{
+	.m_display
+	{
+		display: none;
+	}
+}
 
 @media only screen and (max-width: 991px)
 {
+    .m_no_display
+	{
+        display: none;
+	}
+
+
 	.header.scrolled
 	{
 		top: 0;

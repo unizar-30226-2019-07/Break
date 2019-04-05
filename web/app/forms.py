@@ -4,11 +4,13 @@ from wtforms.validators import DataRequired
 
 
 # Structure of the Login form
-class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    remember_me = BooleanField('Remember Me')
-    submit = SubmitField('Sign In')
+class LoginForm(Form):
+    email = StringField('Email', [
+        validators.DataRequired(message='Es necesario introducir un email')])
+    password = PasswordField('Contraseña', [
+        validators.DataRequired(message='Es necesario una contraseña')])
+    remember_me = BooleanField('Recuerdame')
+    submit = SubmitField('Iniciar Sesión')
 
 
 # Structure of the Register form

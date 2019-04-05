@@ -16,41 +16,93 @@
 {% include 'include/header.html' %}
 
 <!-- Formulario -->
-    <center class="container">
-<div class="search">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="section_title"><h1>LOGIN</h1></div>
-                <div id="formContent" class="mb-5 pt-3">
-                    <!-- Login Form -->
-                    <form class="search_form" action="" method="post" novalidate>
-                        <p>
-                            {{ form.email.label }}<br>
-                            {{ form.email(size=32) }}
-                        </p>
-                        <p>
-                            {{ form.password.label }}<br>
-                            {{ form.password(size=32) }}
-                        </p>
-                        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-                        <p>{{ form.submit(class="search_button") }}</p>
-                    </form>
+<center class="container">
+    <div class="search">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="section_title"><h1>LOGIN</h1></div>
 
-                    <!-- Remind Passowrd -->
-                    <p>
-                    <div id="formFooter">
-                        <a class="underlineHover" href="#">Forgot Password?</a>
+                    <!-- ********************** Desktop ************************** -->
+                    <div class="formContent_d mb-5 pt-3 m_no_display">
+                        <!-- Login Form -->
+                        <form class="search_form" action="" method="post" novalidate>
+                            <p>
+                                <strong>{{ form.email.label }}</strong><br>
+                                <input type="text" class="input-d" name="email" value={{request.form.email}}>
+                                {% for error in form.email.errors %}
+                                <center>
+                                    <div class="alert alert-danger input-d">
+                                        {{ error }}
+                                    </div>
+                                </center>
+                                {% endfor %}
+                            </p>
+                            <p>
+                                <strong>{{ form.password.label }}</strong><br>
+                                <input type="password" class="input-d" name="password" value={{request.form.password}}>
+                                {% for error in form.password.errors %}
+                                <center>
+                                    <div class="alert alert-danger input-d">
+                                        {{ error }}
+                                    </div>
+                                </center>
+                                {% endfor %}
+                            </p>
+                            <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+                            <p>{{ form.submit(class="search_button") }}</p>
+                        </form>
+
+                        <!-- Remind Passowrd -->
+                        <p>
+                        <div class="formFooter">
+                            <a class="underlineHover" href="#">Forgot Password?</a>
+                        </div>
+                        </p>
                     </div>
-                    </p>
 
                 </div>
             </div>
 
         </div>
+        <!-- ******************** Mobile ************************** -->
+        <div class="mb-5 mt-5 m_display">
+
+                <form class="formContent_m" action="" method="post" novalidate>
+                    <div class="col">
+
+                            <strong>{{ form.email.label }}</strong><br>
+                            <input type="text" name="email" value={{request.form.email}}>
+                            {% for error in form.email.errors %}
+                            <div class="alert alert-danger">
+                                <li>{{ error }}</li>
+                            </div>
+                            {% endfor %}
+
+
+                            <strong>{{ form.password.label }}</strong><br>
+                            <input type="password" name="password" value={{request.form.password}}>
+                            {% for error in form.password.errors %}
+                            <div class="alert alert-danger">
+                                <li>{{ error }}</li>
+                            </div>
+                            {% endfor %}
+
+                        <p><input type="checkbox" name="remember_me" value={{request.form.remember_me}}> {{ form.remember_me.label }}</p>
+                        <p><input type="submit" name="submit" value="Iniciar Sesión"></p>
+                    </div>
+                </form>
+                <!-- Remind Passowrd -->
+                <p>
+                <div>
+                    <a class="underlineHover" href="#">¿Olvidaste la contraseña?</a>
+                </div>
+                </p>
+
+        </div>
+        <!-- ************************************************************ -->
     </div>
-</div>
-    </center>
+</center>
 <!-- Footer  -->
 {% include 'include/footer.html' %}
 
