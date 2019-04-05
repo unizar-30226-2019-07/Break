@@ -15,10 +15,10 @@ class LoginForm(Form):
 
 # Structure of the Register form
 class RegisterForm(Form):
-    name = StringField('Name', [
+    name = StringField('Nombre', [
         validators.DataRequired(message='Es necesario introducir un nombre'),
         validators.Length(min=4, max=50, message='El tamaño máximo del nombre son 50 carácteres')])
-    lastname = StringField('Last Name', [
+    lastname = StringField('Apellidos', [
         validators.DataRequired(message='Es necesario introducir apellidos'),
         validators.Length(min=4, max=50, message='El tamaño máximo del nombre son 50 carácteres')])
 
@@ -27,19 +27,19 @@ class RegisterForm(Form):
     email = StringField('Email', [
         validators.DataRequired(message='Es necesario introducir un email'),
         validators.Length(min=1, max=50, message='El email no puede contener más de 50 carácteres')])
-    password = PasswordField('Password', [
+    password = PasswordField('Contraseña', [
         validators.DataRequired(message='Es necesario una contraseña'),
         validators.Length(min=8, message='La contraseña debe tener al menos 8 caracteres')
     ])
-    confirm = PasswordField('Confirm Password',[
+    confirm = PasswordField('Confirmar Contraseña', [
         validators.EqualTo('password', message='Las contraseñas no coinciden')
     ])
 
 class EditProfile(Form):
-    name = StringField('Name', [
+    name = StringField('Nombre', [
         validators.DataRequired(message='Es necesario introducir un nombre'),
         validators.Length(min=4, max=50, message='El tamaño máximo del nombre son 50 carácteres')])
-    lastname = StringField('Last Name', [
+    lastname = StringField('Apellidos', [
         validators.DataRequired(message='Es necesario introducir apellidos'),
         validators.Length(min=4, max=50, message='El tamaño máximo del nombre son 50 carácteres')])
 
@@ -48,10 +48,10 @@ class EditProfile(Form):
     email = StringField('Email', [
         validators.DataRequired(message='Es necesario introducir un email'),
         validators.Length(min=1, max=50, message='El email no puede contener más de 50 carácteres')])
-    password = PasswordField('Password', [
+    password = PasswordField('Contraseña', [
         validators.DataRequired(message='Es necesario una contraseña'),
         validators.Length(min=8, message='La contraseña debe tener al menos 8 caracteres')
     ])
-    confirm = PasswordField('Confirm Password',[
+    confirm = PasswordField('Confirmar Contraseña', [
         validators.EqualTo('password', message='Las contraseñas no coinciden')
     ])
