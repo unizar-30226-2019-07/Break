@@ -24,15 +24,18 @@
 }
 
 .inputfile + label {
-    font-size: 1.25em;
+    font-size: 1.50em;
     font-weight: 700;
     color: white;
     background-color: var(--secondaryColor);
     display: inline-block;
+    -webkit-box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3);
+    box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3);
 }
 
 .inputfile:focus + label,
 .inputfile + label:hover {
+    color: white;
     background-color: var(--primaryColor);
 }
 
@@ -181,7 +184,7 @@ footer {
 }
 .contact_row
 {
-	margin-top: 71px;
+	margin-top: 30px;
 }
 .contact_text
 {
@@ -218,7 +221,7 @@ footer {
 }
 .contact_form_row
 {
-	margin-top: 94px;
+	margin-top: 30px;
 }
 .contact_form
 {
@@ -279,12 +282,34 @@ footer {
 	background: var(--secondaryColor);
 	border: none;
 	outline: none;
-	font-size: 14px;
-	font-weight: 500;
-	color: #ffffff;
+	font-size: 1.50em;
+    font-weight: 800;
+	color: white;
 	text-transform: uppercase;
 	cursor: pointer;
 	margin-top: 23px;
+	-webkit-box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3);
+    box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3);
+}
+
+.contact_button:focus,
+.contact_button:hover {
+    color: white;
+    background-color: var(--primaryColor);
+}
+
+.contact_button{
+	cursor: pointer; /* "hand" cursor */
+}
+
+/* Acceso con teclado */
+.contact_button:focus{
+	outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
+}
+/* Possible Touch Issues */
+.contact_button * {
+	pointer-events: none;
 }
 
 /*********************************
