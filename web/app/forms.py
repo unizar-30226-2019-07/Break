@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, IntegerField, validators, FileField, \
-    MultipleFileField
+    MultipleFileField, SelectField
 from wtforms.validators import DataRequired
 
 
@@ -68,3 +68,6 @@ class SubirAnuncioForm(Form):
     productPrice = StringField('Precio (€)', [
         validators.DataRequired(message='Es necesario introducir un precio'),
         validators.Length(min=1, max=10, message='El tamaño máximo del nombre del producto son 10 números')])
+    productCategory = StringField('Categoría', [
+        validators.DataRequired(message='Es necesario seleccionar una categoría')])
+

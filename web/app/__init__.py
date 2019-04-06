@@ -181,6 +181,14 @@ def upload():
                     flash('No selected file')
                     return redirect('subirAnuncio.html')
                 if file and allowed_file(file.filename):
+                    productName = form.productName.data
+                    productPrice = form.productPrice.data
+                    productCategory = form.productCategory.data
+
+                    print(productName)
+                    print(productPrice)
+                    print(productCategory)
+
                     print(file) # Debug
                     # Cogemos el nombre del archivo como nombre que se va a guardar, por ahora.
                     filename = secure_filename(file.filename)

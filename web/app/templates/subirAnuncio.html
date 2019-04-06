@@ -54,33 +54,44 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <strong>{{ form.productName.label }}</strong><br>
-                                    <input type="text" class="contact_input" name="productName" value={{request.form.productName}}>
-                                    {% for error in form.productName.errors %}
+                                <input type="text" class="contact_input" name="productName"
+                                       value={{request.form.productName}}>
+                                {% for error in form.productName.errors %}
                                 <center>
                                     <div class="alert alert-danger">
                                         {{ error }}
                                     </div>
                                 </center>
-                                    {% endfor %}
+                                {% endfor %}
                             </div>
                             <div class="col-lg-4">
                                 <strong>{{ form.productPrice.label }}</strong><br>
-                                    <input type="text" class="contact_input" name="productPrice" value={{request.form.productPrice}}>
-                                    {% for error in form.productPrice.errors %}
+                                <input type="text" class="contact_input" name="productPrice"
+                                       value={{request.form.productPrice}}>
+                                {% for error in form.productPrice.errors %}
                                 <center>
                                     <div class="alert alert-danger">
                                         {{ error }}
                                     </div>
                                 </center>
-                                    {% endfor %}
+                                {% endfor %}
                             </div>
                             <div class="col-lg-4">
-                                <select name="ad" onchange="">
-                                    <option selected> Categoría ...</option>
-                                    <option value="1">Vehículos</option>
-                                    <option value="2">Casas</option>
-                                    <option value="3">Informática</option>
+                                <strong>{{ form.productCategory.label }}</strong><br>
+                                <select onchange="" name="productCategory">
+                                    <option selected value=""> Selecciona una categoría ...</option>
+                                    <option value="vehiculo">Vehículos</option>
+                                    <option value="casa">Casas</option>
+                                    <option value="informatica">Informática</option>
                                 </select>
+                                {% for error in form.productCategory.errors %}
+                                <center>
+                                    <div class="alert alert-danger">
+                                        {{ error }}
+                                    </div>
+                                </center>
+                                {% endfor %}
+
                             </div>
                         </div>
                         <div class="row">
@@ -115,13 +126,11 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
 
-            <input type="submit" id="send" class="contact_button mb-5" value="Subir Anuncio" id="upload-button">
+            <input type="submit" class="contact_button mb-5" value="Subir Anuncio" id="upload-button">
         </form>
 
 
