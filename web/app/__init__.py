@@ -10,7 +10,6 @@ import requests
 import os
 
 # Para hacer hash de las contraseñas
-from passlib.hash import sha256_crypt
 
 import requests
 import json
