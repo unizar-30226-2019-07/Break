@@ -33,9 +33,9 @@
         </div>
 
 
-        <form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data" novalidate>
+        <form id="upload-form" action="" method="POST" enctype="multipart/form-data" novalidate>
             <div class="d-flex justify-content-center">
-                <input type="file" name="file" id="file-input" class="inputfile"
+                <input type="file" name="images" id="file-input" class="inputfile" value={{request.form.images}}
                        data-multiple-caption="{count} imagenes seleccionadas" multiple/>
                 <label for="file-input" class="p-3"><i
                         class="fas fa-arrow-alt-circle-up pr-1"></i><span>Elige una(s) imagen(es)</span></label>
@@ -53,14 +53,30 @@
 
                         <div class="row">
                             <div class="col-lg-4">
-                                <input type="text" class="contact_input" placeholder="Nombre del producto">
+                                <strong>{{ form.productName.label }}</strong><br>
+                                    <input type="text" class="contact_input" name="productName" value={{request.form.productName}}>
+                                    {% for error in form.productName.errors %}
+                                <center>
+                                    <div class="alert alert-danger">
+                                        {{ error }}
+                                    </div>
+                                </center>
+                                    {% endfor %}
                             </div>
                             <div class="col-lg-4">
-                                <input type="text" class="contact_input" placeholder="Precio (€)">
+                                <strong>{{ form.productPrice.label }}</strong><br>
+                                    <input type="text" class="contact_input" name="productPrice" value={{request.form.productPrice}}>
+                                    {% for error in form.productPrice.errors %}
+                                <center>
+                                    <div class="alert alert-danger">
+                                        {{ error }}
+                                    </div>
+                                </center>
+                                    {% endfor %}
                             </div>
                             <div class="col-lg-4">
                                 <select name="ad" onchange="">
-                                    <option selected> Categoría</option>
+                                    <option selected> Categoría ...</option>
                                     <option value="1">Vehículos</option>
                                     <option value="2">Casas</option>
                                     <option value="3">Informática</option>
@@ -78,7 +94,7 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <select name="ad" onchange="">
-                                    <option selected> Localizaciones Guardadas</option>
+                                    <option selected> Localizaciones Guardadas ...</option>
                                     <option value="1">Zaragoza</option>
                                     <option value="2">Mi casa</option>
                                     <option value="3">Alli pal fondo</option>

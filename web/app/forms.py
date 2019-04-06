@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, validators
+from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, IntegerField, validators, FileField, \
+    MultipleFileField
 from wtforms.validators import DataRequired
 
 
@@ -35,6 +36,7 @@ class RegisterForm(Form):
         validators.EqualTo('password', message='Las contraseñas no coinciden')
     ])
 
+
 class EditProfile(Form):
     name = StringField('Nombre', [
         validators.DataRequired(message='Es necesario introducir un nombre'),
@@ -55,3 +57,14 @@ class EditProfile(Form):
     confirm = PasswordField('Confirmar Contraseña', [
         validators.EqualTo('password', message='Las contraseñas no coinciden')
     ])
+
+
+# Structure of the Subir Anuncio form
+class SubirAnuncioForm(Form):
+    images = MultipleFileField('Imagenes')
+    productName = StringField('Nombre del producto', [
+        validators.DataRequired(message='Es necesario introducir un nombre de producto'),
+        validators.Length(min=1, max=50, message='El tamaño máximo del nombre del producto son 50 carácteres')])
+    productPrice = StringField('Precio (€)', [
+        validators.DataRequired(message='Es necesario introducir un precio'),
+        validators.Length(min=1, max=10, message='El tamaño máximo del nombre del producto son 10 números')])

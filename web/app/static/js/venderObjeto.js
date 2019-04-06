@@ -15,6 +15,7 @@ $(document).ready(function()
 	"use strict";
 
 	initGoogleMap();
+	previewImages();
 
 	/* 
 
@@ -93,7 +94,7 @@ function previewImages() {
     function readAndPreview(file) {
 
         // Make sure `file.name` matches our extensions criteria
-        if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
+        if (!/\.(jpe?g|png|gif|svg)$/i.test(file.name)) {
         return alert(file.name + " is not an image");
     } // else...
 
@@ -119,7 +120,6 @@ function previewImages() {
 }
 
 document.querySelector('#file-input').addEventListener("change", previewImages);
-
 
 /*
 

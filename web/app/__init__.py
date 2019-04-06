@@ -1,7 +1,9 @@
 from flask import Flask, render_template, session, redirect, request, send_from_directory, flash, url_for, jsonify
 from flask_login import LoginManager, current_user, login_user, logout_user
+from werkzeug.utils import secure_filename
+
 from config import Config
-from app.forms import LoginForm, RegisterForm, EditProfile
+from app.forms import LoginForm, RegisterForm, EditProfile, SubirAnuncioForm
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import requests
@@ -50,36 +52,36 @@ def login():
         return redirect('/')
     form = LoginForm(request.form)
     print(form.validate())
-    if request.method == 'POST' and form.validate():
-        email = form.email.data
-        password = form.password.data
+    if request.method == 'POST':
+        if form.validate():
+            email = form.email.data
+            password = form.password.data
 
-        # Get User class of the user that is trying to log in
-        usuario = {'email': email, 'password': password}
+            # Get User class of the user that is trying to log in
+            usuario = {'email': email, 'password': password}
 
-        # Send the JSON to the API REST using the POST method
-        response = requests.post(url=url + '/login', json=usuario, headers={'Authorization': ''})
-        
-        if response.status_code == 200:
-            # Use the token to search in the database so that it is posible to have several sessions of the same user (differentiated by the token)
-            user = User.query.filter_by(token=response.headers['Authorization']).first()
-            if user is None:
-                # If the user does not exist in the database that is used for sessions
-                # add him to the database
-                response2 = requests.get(url = url + '/users?email=' + email, headers={'Authorization': response.headers['Authorization']})
-                user = User(username=form.email.data, user_id=json.loads(response2.text)[0]['idUsuario'], token=response.headers['Authorization'])
-                db.session.add(user)
-                db.session.commit()
-            # Use the User class to login
-            # The data from remmember_me is also taken as a parameter as it will define the
-            # type of the session
-            login_user(user, remember=form.remember_me.data)
-            return redirect('/')
-        else:
-            # Authentication failure, go back to the login page
-            return redirect('/login')
+            # Send the JSON to the API REST using the POST method
+            response = requests.post(url=url + '/login', json=usuario, headers={'Authorization': ''})
 
-    if (request.method == 'POST'):
+            if response.status_code == 200:
+                # Use the token to search in the database so that it is posible to have several sessions of the same user (differentiated by the token)
+                user = User.query.filter_by(token=response.headers['Authorization']).first()
+                if user is None:
+                    # If the user does not exist in the database that is used for sessions
+                    # add him to the database
+                    response2 = requests.get(url = url + '/users?email=' + email, headers={'Authorization': response.headers['Authorization']})
+                    user = User(username=form.email.data, user_id=json.loads(response2.text)[0]['idUsuario'], token=response.headers['Authorization'])
+                    db.session.add(user)
+                    db.session.commit()
+                # Use the User class to login
+                # The data from remmember_me is also taken as a parameter as it will define the
+                # type of the session
+                login_user(user, remember=form.remember_me.data)
+                return redirect('/')
+            else:
+                # Authentication failure, go back to the login page
+                return redirect('/login')
+
         return render_template('login.html', form=form, userauth=current_user)
 
     return render_template('login.html', title='Log In', form=LoginForm(), userauth=current_user)
@@ -92,84 +94,115 @@ def register():
     print("Registro open")
     print(request.method)
     print(form.validate())
-    if request.method == 'POST' and form.validate():
-        name = form.name.data
-        email = form.email.data
-        password = form.password.data
-        last_name = form.lastname.data
+    if request.method == 'POST':
+        if form.validate():
+            name = form.name.data
+            email = form.email.data
+            password = form.password.data
+            last_name = form.lastname.data
 
-        # Create the user's JSON
-        usuario = {'email':email, 'first_name':name, 'last_name':last_name, 'password':password}
-        print(usuario)
+            # Create the user's JSON
+            usuario = {'email': email, 'first_name': name, 'last_name': last_name, 'password': password}
+            print(usuario)
 
-        # Send the JSON to the API REST using the POST method
-        response = requests.post(url='http://35.234.77.87:8080/users', json=usuario)
+            # Send the JSON to the API REST using the POST method
+            response = requests.post(url='http://35.234.77.87:8080/users', json=usuario)
 
-        # Print in the console the response from the API
-        return redirect(url_for('login'))
+            # Print in the console the response from the API
+            return redirect(url_for('login'))
 
-    if (request.method == 'POST'):
         return render_template('register.html', form=form, userauth=current_user)
 
     return render_template('register.html', form=RegisterForm(), userauth=current_user)
+
 
 @app.route('/logout')
 def logout():
     # Delete the session of the user from the database using the token to identify it
     user = User.query.filter_by(token=current_user.token).first()
-    if user != None:
+    if user is not None:
         db.session.delete(user)
     logout_user()
     return redirect('/')
+
 
 @app.route('/about')
 def about():
     return render_template('about.html', userauth=current_user)
 
+
 @app.route('/blog')
 def blog():
     return render_template('blog.html', userauth=current_user)
 
+
 @app.route('/contact')
 def contact():
     return render_template('contact.html', userauth=current_user)
+
 
 @app.route('/listings')
 def listing():
     products = requests.get('https://api.punkapi.com/v2/beers')
     return render_template('listings.html', userauth=current_user, prods=json.loads(products.text))
 
-@app.route('/venderObjeto')
-def venderObjeto():
-    return render_template('venderObjeto.html', userauth=current_user)
 
-@app.route("/upload", methods=['POST'])
+# Extensiones permitidas
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'svg'}
+
+
+# Para comprobar que las extensiones son correctas
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route("/upload", methods=['GET', 'POST'])
 def upload():
-    # Creamos la ruta donde vamos a guardar las imagenes
-    target = os.path.join(APP_ROOT, 'static/client_images/')
-    print(target)
+    form = SubirAnuncioForm(request.form)
+    print("subir anuncio open")
+    print(request.method)
+    print(form.validate())
+    if request.method == 'POST':
+        if form.validate():
+            # Creamos la ruta donde vamos a guardar las imagenes
+            target = os.path.join(APP_ROOT, 'static/client_images/')
+            print(target)
 
-    # Si no existe la carpeta, la creamos.
-    if not os.path.isdir(target):
-        os.mkdir(target)
+            # Si no existe la carpeta, la creamos.
+            if not os.path.isdir(target):
+                os.mkdir(target)
 
-    #Tenemos que hacer un bucle para guardar/enviar todas las imagenes que se quieren subir
-    # (El cliente puere queder subir varias)
-    for file in request.files.getlist("file"):
-        print(file) #Debug
-        # Cogemos el nombre del archivo como nombre que se va a guardar, por ahora.
-        filename = file.filename
-        destination = "/".join([target, filename])
-        print(destination)  #Debug
-        file.save(destination)
+            # Tenemos que hacer un bucle para guardar/enviar todas las imagenes que se quieren subir
+            # (El cliente puere queder subir varias)
+            for file in request.files.getlist("images"):
 
-    # Redirige a la ruta deseada, se pueden pasar parametros
-    return redirect("/single")
+                if file.filename == '':
+                    flash('No selected file')
+                    return redirect('subirAnuncio.html')
+                if file and allowed_file(file.filename):
+                    print(file) # Debug
+                    # Cogemos el nombre del archivo como nombre que se va a guardar, por ahora.
+                    filename = secure_filename(file.filename)
+                    print(filename)
+
+                    destination = "/".join([target, filename])
+                    print(destination)  # Debug
+                    file.save(destination)
+
+            # Redirige a la ruta deseada, se pueden pasar parametros
+            return redirect("/single")
+
+        return render_template('subirAnuncio.html', form=form, userauth=current_user)
+
+    return render_template('subirAnuncio.html', form=SubirAnuncioForm(), userauth=current_user)
+
 
 # Devuelve las imagenes de un directorio
 @app.route('/imagenes/<filename>')
 def send_image(filename):
     return send_from_directory("static/client_images", filename)
+
 
 @app.route('/single')
 def get_gallery():
@@ -177,6 +210,7 @@ def get_gallery():
     image_names = os.listdir('./static/client_images')
     print(image_names)  #Debug
     return render_template("single.html", image_names=image_names, userauth=current_user)
+
 
 @app.route('/profile')
 def profile():
@@ -188,6 +222,7 @@ def profile():
     else:
         return render_template('profile.html', userauth=current_user, prods=json.loads(products.text), user=json.loads(response.text))
 
+
 @app.route('/editprofile')
 def editprofile():
     response = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.token})
@@ -198,12 +233,14 @@ def editprofile():
     else:
         return render_template('editprofile.html', form=EditProfile(), userauth=current_user, user=json.loads(response.text))
 
+
 @app.route('/verify')
 def verify():
-    randomtoken = request.args.get('page', default = 1, type = str)
-    print(ramdomtoken)
-    response = requests.post(url = url + '/verify?random=' + ramdomtoken)
+    randontoken = request.args.get('page', default=1, type=str)
+    print(randontoken)
+    response = requests.post(url=url + '/verify?random=' + randontoken)
     return redirect("/login")
+
 
 if __name__ == '__main__':
     app.secret_key = 'secret_key_Selit!_123'
