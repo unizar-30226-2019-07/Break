@@ -106,7 +106,7 @@ def register():
             print(usuario)
 
             # Send the JSON to the API REST using the POST method
-            response = requests.post(url='http://35.234.77.87:8080/users', json=usuario)
+            response = requests.post(url=url + '/users', json=usuario)
 
             # Print in the console the response from the API
             return redirect(url_for('login'))
@@ -205,12 +205,10 @@ def upload():
 
     return render_template('subirAnuncio.html', form=SubirAnuncioForm(), userauth=current_user)
 
-
 # Devuelve las imagenes de un directorio
 @app.route('/imagenes/<filename>')
 def send_image(filename):
     return send_from_directory("static/client_images", filename)
-
 
 @app.route('/single')
 def get_gallery():
@@ -218,7 +216,6 @@ def get_gallery():
     image_names = os.listdir('./static/client_images')
     print(image_names)  #Debug
     return render_template("single.html", image_names=image_names, userauth=current_user)
-
 
 @app.route('/profile')
 def profile():
@@ -230,25 +227,45 @@ def profile():
     else:
         return render_template('profile.html', userauth=current_user, prods=json.loads(products.text), user=json.loads(response.text))
 
-
-@app.route('/editprofile')
+@app.route('/editprofile', methods=['GET', 'POST'])
 def editprofile():
     response = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.token})
+    form = EditProfile(request.form)
     print(response.text)
     # If there is an error retrieving the user (no permissions) the user will be redirected to the login page
     if response.status_code != 200:
         return redirect("/login")
     else:
-        return render_template('editprofile.html', form=EditProfile(), userauth=current_user, user=json.loads(response.text))
+        if request.method == 'POST':
+            if form.validate():
+                name = form.name.data
+                email = form.email.data
+                password = form.password.data
+                last_name = form.lastname.data
+                genero = form.genero.data
 
+                # Create the user's JSON
+                usuario = {'email': email, 'first_name': name, 'last_name': last_name, 'password': password, 'gender': genero}
+                print(usuario)
+
+                # Send the JSON to the API REST using the POST method
+                response2 = requests.put(url=url + '/users/' + str(current_user.user_id), json=usuario, headers={'Authorization': current_user.token})
+
+                print(response2.text)
+
+                # Print in the console the response from the API
+                return redirect(url_for('profile'))
+
+            return render_template('editprofile.html', form=form, userauth=current_user, user=json.loads(response.text))
+
+        return render_template('editprofile.html', form=EditProfile(), userauth=current_user, user=json.loads(response.text))
 
 @app.route('/verify')
 def verify():
-    randontoken = request.args.get('page', default=1, type=str)
-    print(randontoken)
-    response = requests.post(url=url + '/verify?random=' + randontoken)
+    randomtoken = request.args.get('page', default=1, type=str)
+    print(randomtoken)
+    response = requests.post(url=url + '/verify?random=' + randomtoken)
     return redirect("/login")
-
 
 if __name__ == '__main__':
     app.secret_key = 'secret_key_Selit!_123'

@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, IntegerField, validators, FileField, \
-    MultipleFileField, SelectField
+    MultipleFileField, SelectField, RadioField
 from wtforms.validators import DataRequired
 
 
@@ -57,6 +57,7 @@ class EditProfile(Form):
     confirm = PasswordField('Confirmar Contraseña', [
         validators.EqualTo('password', message='Las contraseñas no coinciden')
     ])
+    genero = RadioField('Genero', choices = [('hombre','Hombre'),('mujer','Mujer')])
 
 
 # Structure of the Subir Anuncio form

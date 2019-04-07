@@ -57,13 +57,36 @@
 											</p>
 											<p class="info">
 											<strong>Género:</strong>
+											<ul id=genero class=radio>
+											{% for subfield in form.genero %}
+												<li class=radio>
+													{{ subfield }}
+													{{ subfield.label }}
+												</li>
+											{% endfor %}
+											</ul>
 											</p>
-											<p class="info"><strong>Género:</strong>
-											<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-												<option selected>Choose...</option>
-												<option value="1">Hombre</option>
-												<option value="2">Mujer</option>
-											</select>
+											<p class=info>
+											<strong>{{ form.password.label }}</strong><br>
+											<input type="password" class="input-d contact_input" name="password" value={{request.form.password}}>
+											{% for error in form.password.errors %}
+											<center>
+												<div class="alert alert-danger input-d contact_input">
+													{{ error }}
+												</div>
+											</center>
+											{% endfor %}
+											</p>
+											<p class=info>
+											<strong>{{ form.confirm.label }}</strong><br>
+											<input type="password" class="input-d contact_input" name="confirm" value={{request.form.confirm}}>
+											{% for error in form.confirm.errors %}
+											<center>
+												<div class="alert alert-danger input-d contact_input">
+													{{ error }}
+												</div>
+											</center>
+											{% endfor %}
 											</p>
 											<input type="submit" id="send" class="mb-5 contact_button" value="Guardar cambios" id="upload-button">
 										</form>
