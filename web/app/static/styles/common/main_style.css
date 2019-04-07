@@ -143,6 +143,12 @@ h6::selection
 {
 
 }
+
+hr
+{
+    border-top: 2px solid rgba(243, 156, 18,1.0);
+}
+
 img
 {
 	max-width: 100%;

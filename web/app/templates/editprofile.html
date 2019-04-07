@@ -6,101 +6,120 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="description" content="myHOME - real estate template project">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/bootstrap-4.1.2/bootstrap.min.css') }}">
-	<link href="{{ url_for('static', filename = 'plugins/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/editprofile.css') }}">
 
 	<!-- General links -->
 	{% include 'include/headLinks.html' %}
 
-	<link rel="icon" href="{{ url_for('static', filename = 'images/Logo_SELIT!_x256.png') }}">
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/common/header.css') }}">
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/common/footer.css') }}">
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/common/main_style.css') }}">
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/common/main_responsive.css') }}">
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/editprofile.css') }}">
+
 
 </head>
 
 <body>
-	<div class="super_container">
+	<div class="container">
 		<!-- Header -->
 		{% include 'include/header.html' %}
-		<div id="wrapper">
-			<div class="wrapper-top"></div>
-			<div class="wrapper-mid">
-				<!-- Begin Paper -->
-				<div id="paper">
-					<div class="paper-top"></div>
-					<div id="paper-mid">
-						<div class="entry">
-							<!-- Begin Image -->
-							<img class="portrait" src={{url_for('static',filename='profiles/pfp.png')}} alt="John Smith" />
-							<!-- End Image -->
-							<!-- Begin Personal Information -->
-							<div class="verticalLine">
-								<div class="self">
-									<h1 class="name">{{user.first_name}}  {{user.last_name}}<br />
-										<span>Puntuación {{ user.rating }}</span></h1>
-									<ul>
-										<form action="" method="POST">
-											<p class="info">
-											<strong>Email:</strong>
-											{{form.email(class="contact_input", value=user.email)}}
-											</p>
-											<p class="info">
-											<strong>Nombre:</strong>
-											{{form.name(class="contact_input", value=user.first_name)}}
-											</p>
-											<p class="info">
-											<strong>Apellidos:</strong>
-											{{form.lastname(class="contact_input", value=user.last_name)}}
-											</p>
-											<p class="info">
-											<strong>Género:</strong>
-											<ul id=genero class=radio>
-											{% for subfield in form.genero %}
-												<li class=radio>
-													{{ subfield }}
-													{{ subfield.label }}
-												</li>
-											{% endfor %}
-											</ul>
-											</p>
-											<p class=info>
-											<strong>{{ form.password.label }}</strong><br>
-											<input type="password" class="input-d contact_input" name="password" value={{request.form.password}}>
-											{% for error in form.password.errors %}
-											<center>
-												<div class="alert alert-danger input-d contact_input">
-													{{ error }}
-												</div>
-											</center>
-											{% endfor %}
-											</p>
-											<p class=info>
-											<strong>{{ form.confirm.label }}</strong><br>
-											<input type="password" class="input-d contact_input" name="confirm" value={{request.form.confirm}}>
-											{% for error in form.confirm.errors %}
-											<center>
-												<div class="alert alert-danger input-d contact_input">
-													{{ error }}
-												</div>
-											</center>
-											{% endfor %}
-											</p>
-											<input type="submit" id="send" class="mb-5 contact_button" value="Guardar cambios" id="upload-button">
-										</form>
-									</ul>
-								</div>
-							</div>
-							<!-- End Personal Information -->
-						</div>
-					</div>
+
+		<!-- Título -->
+    <div class="row">
+        <div class="col">
+            <div class="section_title_container text-center m-5">
+                <div class="section_title"><h1>Editar Perfil</h1></div>
+            </div>
+            <hr class="mb-5">
+        </div>
+    </div>
+
+		<div class="row">
+			<div class="col-lg-4">
+				<div class="mt-5">
+					<!-- Begin Image -->
+					<img class="portrait" src={{url_for('static',filename='profiles/pfp.png')}} alt="{{ user.first_name }} {{ user.last_name }}"/>
+					<!-- End Image -->
 				</div>
 			</div>
+
+			<div class="col-lg-8">
+				<!-- Begin Personal Information -->
+				<div class="verticalLine">
+					<div class="self">
+						<h2 class="name">{{user.first_name}} {{user.last_name}}<br></h2>
+						<hr>
+						<h3>Puntuación:
+
+							<div class="ml-5 mr-1 mb-3">
+								<i class="fas fa-star"></i>
+								<i class="far fa-star"></i>
+								<i class="far fa-star"></i>
+								<i class="far fa-star"></i>
+								<i class="far fa-star"></i>
+								{{ user.rating }}
+							</div>
+							<!--<i class="fas fa-star-half-alt"></i>-->
+						</h3>
+						<ul>
+							<form action="" method="POST">
+								<p class="info">
+								<strong>Email:</strong>
+								{{form.email(class="contact_input", value=user.email)}}
+								</p>
+								<p class="info">
+								<strong>Nombre:</strong>
+								{{form.name(class="contact_input", value=user.first_name)}}
+								</p>
+								<p class="info">
+								<strong>Apellidos:</strong>
+								{{form.lastname(class="contact_input", value=user.last_name)}}
+								</p>
+								<p class="info">
+								<strong>Género:</strong>
+								<ul id=genero class=radio>
+								{% for subfield in form.genero %}
+									<li class=radio>
+										{{ subfield }}
+										{{ subfield.label }}
+									</li>
+								{% endfor %}
+								</ul>
+								</p>
+								<p class=info>
+								<strong>{{ form.password.label }}</strong><br>
+								<input type="password" class="input-d contact_input" name="password" value={{request.form.password}}>
+								{% for error in form.password.errors %}
+								<center>
+									<div class="alert alert-danger input-d contact_input">
+										{{ error }}
+									</div>
+								</center>
+								{% endfor %}
+								</p>
+								<p class=info>
+								<strong>{{ form.confirm.label }}</strong><br>
+								<input type="password" class="input-d contact_input" name="confirm" value={{request.form.confirm}}>
+								{% for error in form.confirm.errors %}
+								<center>
+									<div class="alert alert-danger input-d contact_input">
+										{{ error }}
+									</div>
+								</center>
+								{% endfor %}
+								</p>
+								<input type="submit" id="send" class="mb-5 contact_button" value="Guardar cambios" id="upload-button">
+							</form>
+						</ul>
+					</div>
+				</div>
+				<!-- End Personal Information -->
+			</div>
 		</div>
-		<!-- Footer  -->
-		{% include 'include/footer.html' %}
+
 
 	</div>
+<!-- Footer  -->
+		{% include 'include/footer.html' %}
+
+
+<!-- General Scripts  -->
+{% include 'include/scripts.html' %}
 </body>
