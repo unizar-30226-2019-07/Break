@@ -1,0 +1,84 @@
+<header class="header">
+
+	<!-- Header Bar -->
+	<div class="header_bar d-flex flex-row align-items-center justify-content-start">
+		<div class="header_list">
+			<ul class="d-flex flex-row align-items-center justify-content-start">
+				<div class="social">
+					<ul class="d-flex flex-row align-items-center justify-content-start">
+						<li><a href="#"><i class="fab fa-pinterest" aria-hidden="true"></i></a></li>
+						<li><a href="#"><i class="fab fa-facebook-f"></i></i></a></li>
+						<li><a href="#"><i class="fab fa-twitter"></i></i></a></li>
+						<li><a href="#"><i class="fab fa-dribbble" aria-hidden="true"></i></a></li>
+						<li><a href="#"><i class="fab fa-behance" aria-hidden="true"></i></a></li>
+					</ul>
+				</div>
+			</ul>
+		</div>
+		<div class="ml-auto d-flex flex-row align-items-center justify-content-start">
+
+			<div class="log_reg d-flex flex-row align-items-center justify-content-start">
+				<ul class="d-flex flex-row align-items-start justify-content-start">
+					{% if userauth.is_authenticated %}
+					<li><a href="/profile">{{userauth.username}}</a></li>
+					{% else %}
+					<li><a href="/login">Iniciar Sesión</a></li>
+					<li><a href="/register">Registrarse</a></li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- Header Content -->
+	<div class="header_content d-flex flex-row align-items-center justify-content-start">
+		<div class="logo">
+			<a href="/"><img class="logo_header_img"
+					 src="{{ url_for('static', filename = 'images/Logo_SELIT!_x128.png') }}" alt=""
+														 href="/"></a>
+		</div>
+		<div class="logo">
+			<a href="/"><strong class="pl-2">SELIT!</strong></a>
+		</div>
+		<nav class="main_nav">
+			<ul class="d-flex flex-row align-items-start justify-content-start">
+				<li class="active"><a href="/">Inicio</a></li>
+				<li><a href="about">Sobre Nosotros</a></li>
+				<li><a href="listings">Buscar</a></li>
+				<li><a href="blog">News</a></li>
+				<li><a href="contact">Contact</a></li>
+			</ul>
+		</nav>
+		<div class="submit ml-auto"><a href="/upload">Subir Aununcio</a></div>
+		<div class="hamburger ml-auto"><i class="fa fa-bars" aria-hidden="true"></i></div>
+	</div>
+
+</header>
+
+
+<div class="headerspace">
+
+</div>
+
+<!-- Menu PARA MOVILES -->
+
+<div class="menu text-right">
+	<div class="menu_close"><i class="fa fa-times" aria-hidden="true"></i></div>
+	<div class="menu_log_reg">
+		<div class="log_reg d-flex flex-row align-items-center justify-content-end">
+			<ul class="d-flex flex-row align-items-start justify-content-start">
+				<li><a href="/login">Login</a></li>
+				<li><a href="/register">Register</a></li>
+			</ul>
+		</div>
+		<nav class="menu_nav">
+			<ul>
+				<li><a href="/">Inicio</a></li>
+				<li><a href="about.html">About us</a></li>
+				<li><a href="/listings">Buscar</a></li>
+				<li><a href="blog.html">News</a></li>
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+		</nav>
+	</div>
+</div>

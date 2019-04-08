@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Subir Anuncio</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="myHOME - real estate template project">
+
+    <!-- General links -->
+    {% include 'include/headLinks.html' %}
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/venderObjeto.css') }}">
+</head>
+<body>
+
+<div class="super_container">
+    <div class="super_overlay"></div>
+
+    <!-- Header -->
+    {% include 'include/header.html' %}
+
+
+    <!-- Formulario -->
+    <center class="container">
+        <div class="row">
+            <div class="col">
+                <div class="section_title_container text-center m-5">
+                    <div class="section_title"><h1>Subir Anuncio</h1></div>
+                    <div class="section_subtitle">Parte 1</div>
+                </div>
+                <hr>
+            </div>
+        </div>
+
+
+        <form id="upload-form" action="" method="POST" enctype="multipart/form-data" novalidate>
+            <div class="d-flex justify-content-center">
+                <input type="file" name="images" id="file-input" class="inputfile" value={{request.form.images}}
+                       data-multiple-caption="{count} imagenes seleccionadas" multiple/>
+                <label for="file-input" class="p-3"><i
+                        class="fas fa-arrow-alt-circle-up pr-1"></i><span>Elige una(s) imagen(es)</span></label>
+            </div>
+
+            <div id="preview" class=" images">
+
+            </div>
+
+            <hr>
+
+            <div class="row contact_form_row">
+                <div class="col">
+                    <div class="contact_form_container">
+
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <strong>{{ form.productName.label }}</strong><br>
+                                <input type="text" class="contact_input" name="productName"
+                                       value={{request.form.productName}}>
+                                {% for error in form.productName.errors %}
+                                <center>
+                                    <div class="alert alert-danger">
+                                        {{ error }}
+                                    </div>
+                                </center>
+                                {% endfor %}
+                            </div>
+                            <div class="col-lg-4">
+                                <strong>{{ form.productPrice.label }}</strong><br>
+                                <input type="text" class="contact_input" name="productPrice"
+                                       value={{request.form.productPrice}}>
+                                {% for error in form.productPrice.errors %}
+                                <center>
+                                    <div class="alert alert-danger">
+                                        {{ error }}
+                                    </div>
+                                </center>
+                                {% endfor %}
+                            </div>
+                            <div class="col-lg-4">
+                                <strong>{{ form.productCategory.label }}</strong><br>
+                                <select onchange="" name="productCategory">
+                                    <option selected value=""> Selecciona una categoría ...</option>
+                                    <option value="vehiculo">Vehículos</option>
+                                    <option value="casa">Casas</option>
+                                    <option value="informatica">Informática</option>
+                                    <option value="Automoción">Automoción</option>
+                                </select>
+                                {% for error in form.productCategory.errors %}
+                                <center>
+                                    <div class="alert alert-danger">
+                                        {{ error }}
+                                    </div>
+                                </center>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                        <div class="row">
+				<div class="col-lg-12">
+					<strong>{{ form.productDescription.label }}</strong><br>
+					<textarea type="text" class="contact_textarea contact_input" name="productDescription"
+										 value={{request.form.productDescription}}></textarea>
+
+					{% for error in form.productDescription.errors %}
+					<center>
+						<div class="alert alert-danger">
+							{{ error }}
+						</div>
+					</center>
+					{% endfor %}
+
+				</div>
+
+			</div>
+
+			<div class="row">
+				<div class="col-lg-4">
+					<select name="ad" onchange="">
+						<option selected> Localizaciones Guardadas ...</option>
+						<option value="1">Zaragoza</option>
+						<option value="2">Mi casa</option>
+						<option value="3">Alli pal fondo</option>
+					</select>
+					<input type="text" class="contact_input" name="productLat"
+										 value={{request.form.productLat}}>
+					{% for error in form.productLat.errors %}
+					<center>
+						<div class="alert alert-danger">
+							{{ error }}
+						</div>
+					</center>
+					{% endfor %}
+
+					<input type="text" class="contact_input" name="productLong"
+										 value={{request.form.productLong}}>
+					{% for error in form.productLong.errors %}
+					<center>
+						<div class="alert alert-danger">
+							{{ error }}
+						</div>
+					</center>
+					{% endfor %}
+				</div>
+
+				<div class="col-lg-8">
+                                <div class="contact_map_container mb-5">
+                                    <div class="map">
+                                        <div id="google_map" class="google_map">
+                                            <div class="map_container">
+                                                <div id="map"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <input type="submit" class="contact_button mb-5" value="Subir Anuncio" id="upload-button">
+        </form>
+
+
+    </center>
+
+    <!-- Footer  -->
+    {% include 'include/footer.html' %}
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<!-- General Scripts  -->
+{% include 'include/scripts.html' %}
+
+<!-- Google Maps  -->
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+
+<script src="{{ url_for('static', filename = 'js/venderObjeto.js') }}"></script>
+</body>
+</html>
