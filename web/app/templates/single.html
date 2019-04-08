@@ -32,7 +32,7 @@
         <div class="row">
             <div class="col">
                 <div class="home_content text-center">
-                    <div class="home_title">Listings</div>
+                    <div class="home_title">Producto</div>
                 </div>
             </div>
         </div>
@@ -47,69 +47,10 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <!-- Tabs -->
-                <div class="listing_tabs d-flex flex-row align-items-start justify-content-between flex-wrap">
-                    <!-- Tab -->
-                    <div class="tab">
-                        <input type="radio" id="tab_2" name="listing_tabs">
-                        <label for="tab_2"></label>
-                        <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-                            <div class="tab_icon"><img src="{{ url_for('static', filename = 'images/houses.svg') }}"
-                                                       class="svg" alt=""></div>
-                            <span>features</span>
-                        </div>
-                    </div>
 
-                    <!-- Tab -->
-                    <div class="tab">
-                        <input type="radio" id="tab_3" name="listing_tabs">
-                        <label for="tab_3"></label>
-                        <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-                            <div class="tab_icon"><img src="{{ url_for('static', filename = 'images/house2.svg') }}"
-                                                       class="svg" alt=""></div>
-                            <span>photos</span>
-                        </div>
-                    </div>
-
-                    <!-- Tab -->
-                    <div class="tab">
-                        <input type="radio" id="tab_4" name="listing_tabs">
-                        <label for="tab_4"></label>
-                        <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-                            <div class="tab_icon"><img src="{{ url_for('static', filename = 'images/camera.svg') }}"
-                                                       class="svg" alt=""></div>
-                            <span>video</span>
-                        </div>
-                    </div>
-
-                    <!-- Tab -->
-                    <div class="tab">
-                        <input type="radio" id="tab_6" name="listing_tabs">
-                        <label for="tab_6"></label>
-                        <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-                            <div class="tab_icon"><img
-                                    src="{{ url_for('static', filename = 'images/location.svg') }}" class="svg"
-                                    alt=""></div>
-                            <span>location</span>
-                        </div>
-                    </div>
-
-                    <!-- Tab -->
-                    <div class="tab">
-                        <input type="radio" id="tab_7" name="listing_tabs">
-                        <label for="tab_7"></label>
-                        <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-                            <div class="tab_icon"><img
-                                    src="{{ url_for('static', filename = 'images/contract.svg') }}" class="svg"
-                                    alt=""></div>
-                            <span>contact</span>
-                        </div>
-                    </div>
-
-                </div>
 
                 <!-- image_slider -->
-                    <div class="row image_slider_container">
+                    <div class="row image_slider_container mt-5">
                         <div class="owl-carousel owl-theme image_slider">
                             {% for image_name in image_names %}
                             <!-- Slide -->
@@ -214,19 +155,7 @@
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="listing_video">
-                                <div class="listing_title"><h3>Video</h3></div>
-                                <div class="video_container d-flex flex-column align-items-center justify-content-center">
-                                    <img src="{{ url_for('static', filename = 'images/video.jpg') }}" alt="">
-                                    <div class="video_button"><a class="youtube"
-                                                                 href="https://www.youtube.com/embed/IV3ueyrp5M4?autoplay=1"><i
-                                            class="fa fa-play" aria-hidden="true"></i></a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="google_map_container">
+                            <div class="google_map_container">
                     <div class="map">
                         <div id="google_map" class="google_map">
                             <div class="map_container">
@@ -235,6 +164,10 @@
                         </div>
                     </div>
                 </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

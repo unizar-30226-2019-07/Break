@@ -104,7 +104,7 @@
                             <div class="listing">
                                 <div class="listing_image m-3">
                                     <div class="listing_image_container">
-                                        <img src="{{ prod.image_url }}" alt="">
+                                        <img src="{{ url_for('static', filename = 'images/1953-1954-Buick-Skylark.jpg') }}" alt="">
                                     </div>
                                     <!--
                                     <div class="tags d-flex flex-row align-items-start justify-content-start flex-wrap">
@@ -115,15 +115,15 @@
                                 </div>
 
                                 <div class="listing_content">
-                                    <div class="tag_price listing_price listing_image"><strong>{{ prod.attenuation_level }} €</strong></div>
+                                    <div class="tag_price listing_price listing_image"><strong>{{ prod.price }} €</strong></div>
                                     <div class="prop_location listing_location d-flex flex-row align-items-start justify-content-start">
                                         <ul>
                                             <li>
-                                                <h3 href="single" class="mb-2">{{ prod.name }}</h3>
+                                                <h3 href="single" class="mb-2">{{ prod.title }}</h3>
                                             </li>
                                             <li>
                                                 <img src="{{ url_for('static', filename = 'images/icon_1.png') }}" alt="">
-                                                <a href="single">Zaragoza</a>
+                                                <a href="single"> A {{ prod.distance|round(1) }} km de tí</a>
                                             </li>
                                         </ul>
                                     </div>

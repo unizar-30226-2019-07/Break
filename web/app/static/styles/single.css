@@ -57,7 +57,7 @@ img
 	width: 57px;
 	height: 57px;
 	border-radius: 50%;
-	background: #adc867;
+	background: var(--secondaryColor);
 	text-align: center;
 	cursor: pointer;
 	-webkit-transition: all 200ms ease;
@@ -86,7 +86,7 @@ img
 	width: 57px;
 	height: 57px;
 	border-radius: 50%;
-	background: #adc867;
+	background: var(--secondaryColor);
 	text-align: center;
 	cursor: pointer;
 	-webkit-transition: all 200ms ease;
@@ -168,7 +168,7 @@ video
 {
 	width: 247px;
 	height: 51px;
-	background: #adc867;
+	background: var(--primaryColor);
 	color: #ffffff;
 	border: none;
 	outline: none;
@@ -267,7 +267,7 @@ video
 }
 .tab [type=radio]:checked ~ .tab_content
 {
-	border-bottom: solid 3px #adc867;
+	border-bottom: solid 3px var(--primaryColor);
 }
 .tab label
 {
@@ -325,7 +325,7 @@ video
 .tab:hover .tab_content .tab_icon .svg polygon,
 .tab [type=radio]:checked ~ .tab_content .tab_icon .svg polygon
 {
-	fill: #adc867;
+	fill: var(--primaryColor);
 }
 .about
 {
@@ -398,7 +398,7 @@ video
 {
 	font-size: 14px;
 	font-weight: 600;
-	color: #adc867;
+	color: var(--primaryColor);
 }
 .prop_info
 {
@@ -483,7 +483,7 @@ video
 	width: 64px;
 	height: 64px;
 	border-radius: 50%;
-	background: #adc867;
+	background: var(--primaryColor);
 	text-align: center;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;

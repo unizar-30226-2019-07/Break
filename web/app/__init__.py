@@ -143,7 +143,8 @@ def contact():
 
 @app.route('/listings')
 def listing():
-    products = requests.get('https://api.punkapi.com/v2/beers')
+    products = requests.get(url + '/products?lat=1&lng=1&distance=500')
+    print(products.text)
     return render_template('listings.html', userauth=current_user, prods=json.loads(products.text))
 
 
