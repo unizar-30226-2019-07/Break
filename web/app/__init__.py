@@ -70,6 +70,7 @@ def login():
                     # If the user does not exist in the database that is used for sessions
                     # add him to the database
                     response2 = requests.get(url = url + '/users?email=' + email, headers={'Authorization': response.headers['Authorization']})
+                    print(response2.text)
                     user = User(username=form.email.data, user_id=json.loads(response2.text)[0]['idUsuario'], token=response.headers['Authorization'])
                     db.session.add(user)
                     db.session.commit()
@@ -102,7 +103,7 @@ def register():
             last_name = form.lastname.data
 
             # Create the user's JSON
-            usuario = {'email': email, 'first_name': name, 'last_name': last_name, 'password': password}
+            usuario = {'email': email, 'first_name': name, 'last_name': last_name, 'password': password, 'location': {'lat': 0, 'lng': 0}}
             print(usuario)
 
             # Send the JSON to the API REST using the POST method
@@ -143,7 +144,7 @@ def contact():
 
 @app.route('/listings')
 def listing():
-    products = requests.get(url + '/products?lat=1&lng=1&distance=5000000')
+    products = requests.get(url + '/products?lat=0&lng=0&distance=5000000000')
     print(products.text)
     return render_template('listings.html', userauth=current_user, prods=json.loads(products.text))
 
@@ -185,22 +186,35 @@ def upload():
                     productName = form.productName.data
                     productPrice = form.productPrice.data
                     productCategory = form.productCategory.data
+                    productDescripcion = form.productDescription.data
+                    productCurrency = "EUR"
+                    productOwner = current_user.user_id
+                    productType = "sale"
 
-                    print(productName)
-                    print(productPrice)
-                    print(productCategory)
+                    producto = {'type': productType,
+                            'title': productName,
+                            'description': productDescripcion,
+                            'owner_id': current_user.user_id,
+                            'location': {'lat': 0, 'lng': 0},
+                            'category': productCategory,
+                            'price': productPrice,
+                            'currency': productCurrency}
 
+                    print(producto)
                     print(file) # Debug
                     # Cogemos el nombre del archivo como nombre que se va a guardar, por ahora.
                     filename = secure_filename(file.filename)
                     print(filename)
 
-                    destination = "/".join([target, filename])
-                    print(destination)  # Debug
-                    file.save(destination)
+                    #destination = "/".join([target, filename])
+                    #print(destination)  # Debug
+                    #file.save(destination)
+
+                    response = requests.post(url=url + '/products', json=producto, headers={'Authorization': current_user.token})
+                    print(response.text)
 
             # Redirige a la ruta deseada, se pueden pasar parametros
-            return redirect("/single")
+            return redirect("/")
 
         return render_template('subirAnuncio.html', form=form, userauth=current_user)
 
@@ -211,12 +225,14 @@ def upload():
 def send_image(filename):
     return send_from_directory("static/client_images", filename)
 
-@app.route('/single')
-def get_gallery():
-    #Devuelve un vector de nombres de imgenes de la ruta especificada
-    image_names = os.listdir('./static/client_images')
-    print(image_names)  #Debug
-    return render_template("single.html", image_names=image_names, userauth=current_user)
+@app.route('/single/<prod_id>')
+def get_gallery(prod_id):
+    # Devuelve un vector de nombres de imgenes de la ruta especificada
+    image_names = os.listdir(APP_ROOT + '/static/client_images')
+    print(image_names)
+    response = requests.get(url + "/products/" + str(prod_id) + "?lng=0&lat=0")
+    print(response.text)
+    return render_template("single.html", image_names=image_names, userauth=current_user, prod=json.loads(response.text))
 
 @app.route('/profile')
 def profile():
@@ -246,7 +262,7 @@ def editprofile():
                 genero = form.genero.data
 
                 # Create the user's JSON
-                usuario = {'email': email, 'first_name': name, 'last_name': last_name, 'password': password, 'gender': genero}
+                usuario = {'email': email, 'first_name': name, 'last_name': last_name, 'password': password, 'gender': genero, 'location': {'lat': 0, 'lng': 0}}
                 print(usuario)
 
                 # Send the JSON to the API REST using the POST method
@@ -263,9 +279,10 @@ def editprofile():
 
 @app.route('/verify')
 def verify():
-    randomtoken = request.args.get('page', default=1, type=str)
-    print(randomtoken)
-    response = requests.post(url=url + '/verify?random=' + randomtoken)
+    random= request.args.get('random', default=1, type=str)
+    print(random)
+    response = requests.post(url=url + '/verify?random=' + str(random))
+    print(response.text)
     return redirect("/login")
 
 if __name__ == '__main__':

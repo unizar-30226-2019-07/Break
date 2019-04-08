@@ -83,6 +83,7 @@
                                     <option value="vehiculo">Vehículos</option>
                                     <option value="casa">Casas</option>
                                     <option value="informatica">Informática</option>
+                                    <option value="Automoción">Automoción</option>
                                 </select>
                                 {% for error in form.productCategory.errors %}
                                 <center>
@@ -95,26 +96,53 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-12">
-                                <textarea class="contact_textarea contact_input"
-                                          placeholder="Descripción detallada"></textarea>
-                            </div>
+				<div class="col-lg-12">
+					<strong>{{ form.productDescription.label }}</strong><br>
+					<textarea type="text" class="contact_textarea contact_input" name="productDescription"
+										 value={{request.form.productDescription}}></textarea>
 
-                        </div>
+					{% for error in form.productDescription.errors %}
+					<center>
+						<div class="alert alert-danger">
+							{{ error }}
+						</div>
+					</center>
+					{% endfor %}
 
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <select name="ad" onchange="">
-                                    <option selected> Localizaciones Guardadas ...</option>
-                                    <option value="1">Zaragoza</option>
-                                    <option value="2">Mi casa</option>
-                                    <option value="3">Alli pal fondo</option>
-                                </select>
-                                <input type="text" class="contact_input" placeholder="Latitud">
-                                <input type="text" class="contact_input" placeholder="Longitud">
-                            </div>
+				</div>
 
-                            <div class="col-lg-8">
+			</div>
+
+			<div class="row">
+				<div class="col-lg-4">
+					<select name="ad" onchange="">
+						<option selected> Localizaciones Guardadas ...</option>
+						<option value="1">Zaragoza</option>
+						<option value="2">Mi casa</option>
+						<option value="3">Alli pal fondo</option>
+					</select>
+					<input type="text" class="contact_input" name="productLat"
+										 value={{request.form.productLat}}>
+					{% for error in form.productLat.errors %}
+					<center>
+						<div class="alert alert-danger">
+							{{ error }}
+						</div>
+					</center>
+					{% endfor %}
+
+					<input type="text" class="contact_input" name="productLong"
+										 value={{request.form.productLong}}>
+					{% for error in form.productLong.errors %}
+					<center>
+						<div class="alert alert-danger">
+							{{ error }}
+						</div>
+					</center>
+					{% endfor %}
+				</div>
+
+				<div class="col-lg-8">
                                 <div class="contact_map_container mb-5">
                                     <div class="map">
                                         <div id="google_map" class="google_map">

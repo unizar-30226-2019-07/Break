@@ -1,194 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>Single Listing</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="myHOME - real estate template project">
+	<head>
+		<title>Single Listing</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="myHOME - real estate template project">
 
-    <!-- General links -->
-    {% include 'include/headLinks.html' %}
+		<!-- General links -->
+		{% include 'include/headLinks.html' %}
 
-    <link rel="stylesheet" type="text/css"
-          href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.carousel.css') }}">
-    <link rel="stylesheet" type="text/css"
-          href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.theme.default.css') }}">
-    <link rel="stylesheet" type="text/css"
-          href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/animate.css') }}">
-    <link href="{{ url_for('static', filename = 'plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css') }}">
+		<link rel="stylesheet" type="text/css"
+				       href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.carousel.css') }}">
+		<link rel="stylesheet" type="text/css"
+				       href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.theme.default.css') }}">
+		<link rel="stylesheet" type="text/css"
+				       href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/animate.css') }}">
+		<link href="{{ url_for('static', filename = 'plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css') }}">
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/single.css') }}">
-</head>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/single.css') }}">
+	</head>
 
-<!-- Header -->
-{% include 'include/header.html' %}
+	<!-- Header -->
+	{% include 'include/header.html' %}
 
-<!-- Home -->
-<body>
-<div class="home">
-    <div class="parallax_background parallax-window" data-parallax="scroll"
-         data-image-src="{{ url_for('static', filename = 'images/listings.jpg') }}" data-speed="0.8"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="home_content text-center">
-                    <div class="home_title">Producto</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- Listing -->
-
-<div class="listing_container">
-
-    <div class="container">
-        <div class="row">
-            <div class="col">
+	<!-- Home -->
+	<body>
+		<div class="home">
+			<div class="parallax_background parallax-window" data-parallax="scroll"
+									 data-image-src="{{ url_for('static', filename = 'images/listings.jpg') }}" data-speed="0.8"></div>
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div class="home_content text-center">
+							<div class="home_title">Producto</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
 
-                <!-- image_slider -->
-                    <div class="row image_slider_container mt-5">
-                        <div class="owl-carousel owl-theme image_slider">
-                            {% for image_name in image_names %}
-                            <!-- Slide -->
-                            <div class="slide ">
-                                <div class="image_slider_container ">
-                                    <img class="text-center" src="{{ url_for('send_image', filename = image_name) }}">
-                                </div>
-                            </div>
-                            {% endfor %}
+		<!-- Listing -->
 
-                            <!-- Videos de prueba -->
-                            <!--
-                            <div class="slide">
+		<div class="listing_container">
 
-                                <div class="item-video"><div class="maxh"> <a class="owl-video" href="https://www.youtube.com/watch?v=gkTb9GP9lVI"></a></div></div>
-
-                            </div>
-                            <div class="item" data-videosrc="https://scontent-mad1-1.cdninstagram.com/vp/1aa116f7338c9fba02b783055667c957/5C87D0D2/t50.2886-16/50126655_288401928545789_3525096521315909632_n.mp4?_nc_ht=scontent-mad1-1.cdninstagram.com">
-
-	                        </div>-->
-
-                        </div>
-                        <!-- Home Slider Navigation -->
-                        <div class="image_slider_nav_l"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
-                        <div class="image_slider_nav_r"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
-                    </div>
+			<div class="container">
+				<div class="row">
+					<div class="col">
 
 
+						<!-- image_slider -->
+						<div class="row image_slider_container mt-5">
+							<div class="owl-carousel owl-theme image_slider">
+								{% for image_name in image_names %}
+								<!-- Slide -->
+								<div class="slide ">
+									<div class="image_slider_container ">
+										<img class="text-center" src="{{ url_for('send_image', filename = image_name) }}">
+									</div>
+								</div>
+								{% endfor %}
 
-                <!-- Image -->
+								<!-- Videos de prueba -->
+								<!--
+		<div class="slide">
 
+		<div class="item-video"><div class="maxh"> <a class="owl-video" href="https://www.youtube.com/watch?v=gkTb9GP9lVI"></a></div></div>
 
-                <div class="listing_image"></div>
+		</div>
+		<div class="item" data-videosrc="https://scontent-mad1-1.cdninstagram.com/vp/1aa116f7338c9fba02b783055667c957/5C87D0D2/t50.2886-16/50126655_288401928545789_3525096521315909632_n.mp4?_nc_ht=scontent-mad1-1.cdninstagram.com">
+
+		</div>-->
+
+							</div>
+							<!-- Home Slider Navigation -->
+							<div class="image_slider_nav_l"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
+							<div class="image_slider_nav_r"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+						</div>
 
 
 
-                <!-- About -->
-                <div class="about">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="property_info">
-                                <div class="tag_price listing_price">$ 562 346</div>
-                                <div class="listing_name"><h1>Villa for sale</h1></div>
-                                <div class="listing_location d-flex flex-row align-items-start justify-content-start">
-                                    <img src="{{ url_for('static', filename = 'images/icon_1.png') }}" alt="">
-                                    <span>280 Doe Meadow Drive Landover, MD 20785</span>
-                                </div>
-                                <div class="listing_list">
-                                    <ul>
-                                        <li>Posted on: September 22, 2018</li>
-                                    </ul>
-                                </div>
-                                <div class="prop_agent d-flex flex-row align-items-center justify-content-start">
-                                    <div class="prop_agent_image"><img
-                                            src="{{ url_for('static', filename = 'images/agent_1.jpg') }}" alt="">
-                                    </div>
-                                    <div class="prop_agent_name"><a href="#">Maria Smith,</a> Agent</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="about_text">
-                                <p>Nulla aliquet bibendum sem, non placerat risus venenatis at. Prae sent vulputate
-                                    bibendum dictum. Cras at vehicula urna. Suspendisse fringilla lobortis justo, ut
-                                    tempor leo cursus in. Nullam fermentum egestas quam nec malesuada. Donec non
-                                    ligula non risus luctus mattis non non diam. Integer placerat velit at
-                                    vestibulum vulputate. Donec lacinia vitae libero sed ultricies. Donec egestas
-                                    dictum dolor ac sagittis. Nunc facilisis iaculis est, ut aliquet lorem. Nam
-                                    imperdiet convallis imperdiet. Nam libero arcu, porttitor sed sapien nec,
-                                    commodo accumsan nulla. Praesent pretium neque nec dictum venenatis. Mauris nec
-                                    metus vitae massa maximus malesuada. Quisque cursus leo nec nulla dignissim, ut
-                                    pulvinar diam porttitor.</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="listing_features">
-                                <div class="listing_title"><h3>Features</h3></div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <ul>
-                                            <li>2 car garages</li>
-                                            <li>3 bedrooms</li>
-                                            <li>heated floors</li>
-                                            <li>contemporary architecture</li>
-                                            <li>swimming pool</li>
-                                            <li>exercise room</li>
-                                            <li>formal entry</li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <ul>
-                                            <li>patio</li>
-                                            <li>close to stores</li>
-                                            <li>ocean view</li>
-                                            <li>spa</li>
-                                            <li>sprinklers</li>
-                                            <li>garden</li>
-                                            <li>alley</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="google_map_container">
-                    <div class="map">
-                        <div id="google_map" class="google_map">
-                            <div class="map_container">
-                                <div id="map"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                        </div>
-                    </div>
-                </div>
+						<!-- Image -->
 
-            </div>
-        </div>
-    </div>
 
-</div>
+						<div class="listing_image"></div>
 
-<!-- Footer  -->
-{% include 'include/footer.html' %}
 
-<!-- General Scripts  -->
-{% include 'include/scripts.html' %}
 
-<!-- Owl Carousel  -->
-<script src="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.carousel.js') }}"></script>
+						<!-- About -->
+						<div class="about">
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="property_info">
+										<div class="tag_price listing_price">{{prod.price}} €</div>
+										<div class="listing_name"><h1>{{prod.title}}</h1></div>
+										<div class="listing_location d-flex flex-row align-items-start justify-content-start">
+											<img src="{{ url_for('static', filename = 'images/icon_1.png') }}" alt="">
+											<span>
+												A {{ prod.distance|round(1) }} km de tí
+											</span>
 
-<!-- Google Maps  -->
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+										</div>
+										<div class="listing_list">
+											<ul>
+												<li>Posted on: September 22, 2018</li>
+											</ul>
+										</div>
+										<div class="prop_agent d-flex flex-row align-items-center justify-content-start">
+											<div class="prop_agent_image"><img
+											     src="{{ url_for('static', filename = 'images/agent_1.jpg') }}" alt="">
+											</div>
+											<div class="prop_agent_name"><a href="#">Maria Smith,</a> Agent</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="about_text">
+										<p>
+										{{ prod.description }}
+										</p>
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="listing_features">
+										<div class="listing_title"><h3>Features</h3></div>
+										<div class="row">
+											<div class="col-lg-6">
+												<ul>
+													<li>2 car garages</li>
+													<li>3 bedrooms</li>
+													<li>heated floors</li>
+													<li>contemporary architecture</li>
+													<li>swimming pool</li>
+													<li>exercise room</li>
+													<li>formal entry</li>
+												</ul>
+											</div>
+											<div class="col-lg-6">
+												<ul>
+													<li>patio</li>
+													<li>close to stores</li>
+													<li>ocean view</li>
+													<li>spa</li>
+													<li>sprinklers</li>
+													<li>garden</li>
+													<li>alley</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="google_map_container">
+										<div class="map">
+											<div id="google_map" class="google_map">
+												<div class="map_container">
+													<div id="map"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 
-<script src="{{ url_for('static', filename = 'plugins/colorbox/jquery.colorbox-min.js') }}"></script>
+					</div>
+				</div>
+			</div>
 
-<script src="{{ url_for('static', filename = 'js/single.js') }}"></script>
+		</div>
 
-</body>
+		<!-- Footer  -->
+		{% include 'include/footer.html' %}
+
+		<!-- General Scripts  -->
+		{% include 'include/scripts.html' %}
+
+		<!-- Owl Carousel  -->
+		<script src="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.carousel.js') }}"></script>
+
+		<!-- Google Maps  -->
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+
+		<script src="{{ url_for('static', filename = 'plugins/colorbox/jquery.colorbox-min.js') }}"></script>
+
+		<script src="{{ url_for('static', filename = 'js/single.js') }}"></script>
+
+	</body>
 </html>

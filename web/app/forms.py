@@ -68,7 +68,14 @@ class SubirAnuncioForm(Form):
         validators.Length(min=1, max=50, message='El tamaño máximo del nombre del producto son 50 carácteres')])
     productPrice = StringField('Precio (€)', [
         validators.DataRequired(message='Es necesario introducir un precio'),
-        validators.Length(min=1, max=10, message='El tamaño máximo del nombre del producto son 10 números')])
+        validators.Length(min=1, max=10, message='El tamaño máximo del precio del producto son 10 números')])
     productCategory = StringField('Categoría', [
         validators.DataRequired(message='Es necesario seleccionar una categoría')])
-
+    productDescription = StringField('Descripción detallada', [
+        validators.DataRequired(message='Es necesario escribir una descripción')])
+    productLong = StringField('Longitud', [
+        validators.DataRequired(message='Es necesario introducir una longitud'),
+        validators.Length(min=1, max=10, message='El tamaño máximo de la longitud son 10 números')])
+    productLat = StringField('Latitud', [
+        validators.DataRequired(message='Es necesario introducir una latitud'),
+        validators.Length(min=1, max=10, message='El tamaño máximo de la latitud son 10 números')])

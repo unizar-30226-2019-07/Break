@@ -100,7 +100,7 @@
 
                         <!-- Listing -->
                         {% for prod in prods %}
-                        <a href="single" class="texto_normal">
+			<a href={{ "single/" + prod.id_producto|string }} class="texto_normal">
                         <div class="listing_box house sale">
                             <div class="listing">
                                 <div class="listing_image m-3">
