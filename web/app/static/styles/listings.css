@@ -34,6 +34,7 @@
 6. Search
 *********************************/
 
+
 .search
 {
 	background: #ffffff;
@@ -155,6 +156,12 @@
 /*********************************
 7. Listings
 *********************************/
+
+.texto_normal
+{
+    color: grey;
+    font-size: 16px
+}
 
 .listings
 {
@@ -399,8 +406,8 @@
 .listing_price
 {
 	position: absolute;
-	left: 34px;
-	top: 15px;
+	left: 20px;
+	top: 20px;
 }
 .listing_location
 {

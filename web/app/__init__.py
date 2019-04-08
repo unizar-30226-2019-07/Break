@@ -143,7 +143,7 @@ def contact():
 
 @app.route('/listings')
 def listing():
-    products = requests.get(url + '/products?lat=1&lng=1&distance=500')
+    products = requests.get(url + '/products?lat=1&lng=1&distance=5000000')
     print(products.text)
     return render_template('listings.html', userauth=current_user, prods=json.loads(products.text))
 

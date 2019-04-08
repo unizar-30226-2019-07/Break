@@ -100,6 +100,7 @@
 
                         <!-- Listing -->
                         {% for prod in prods %}
+                        <a href="single" class="texto_normal">
                         <div class="listing_box house sale">
                             <div class="listing">
                                 <div class="listing_image m-3">
@@ -123,16 +124,14 @@
                                             </li>
                                             <li>
                                                 <img src="{{ url_for('static', filename = 'images/icon_1.png') }}" alt="">
-                                                <a href="single"> A {{ prod.distance|round(1) }} km de tí</a>
+                                                A {{ prod.distance|round(1) }} km de tí
                                             </li>
                                         </ul>
                                     </div>
-
-
-
                                 </div>
                             </div>
                         </div>
+                            </a>
                         {% endfor %}
                     </div>
 

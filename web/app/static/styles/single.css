@@ -337,7 +337,7 @@ video
 	height: 37px;
 	padding-left: 27px;
 	padding-right: 26px;
-	background: #ff006c;
+	background: var(--secondaryColor);
 	line-height: 37px;
 	font-size: 16px;
 	font-weight: 500;
