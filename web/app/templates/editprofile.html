@@ -36,16 +36,17 @@
             <div class="col-lg-4">
                 <div class="mt-5">
                     <!-- Begin Image -->
-                    <img class="portrait" src={{url_for('static',filename='profiles/pfp.png')}}
+                    <img class="portrait mb-5" src={{url_for('static',filename='profiles/pfp.png')}}
                          alt="{{ user.first_name }} {{ user.last_name }}"/>
                     <!-- End Image -->
                 </div>
+                <input type="submit" id="image-change" class="mb-5 contact_button" value="Cambiar imagen de perfil">
             </div>
 
             <div class="col-lg-4">
                 <!-- Begin Personal Information -->
                 <div class="verticalLine">
-                    <div class="self">
+                    <div class="ml-5 mt-3">
                         <h2 class="name">{{user.first_name}} {{user.last_name}}<br></h2>
                         <hr>
                         <h3>Puntuación:
@@ -94,31 +95,34 @@
                 </div>
                 <!-- End Personal Information -->
             </div>
-            <div class="col-lg-4">
-                <p class=info>
-                    <strong>{{ form.password.label }}</strong><br>
-                    <input type="password" class="input-d contact_input" name="password"
-                           value={{request.form.password}}>
-                    {% for error in form.password.errors %}
-                <center>
-                    <div class="alert alert-danger input-d contact_input">
-                        {{ error }}
-                    </div>
-                </center>
-                {% endfor %}
-                </p>
-                <p class=info>
-                    <strong>{{ form.confirm.label }}</strong><br>
-                    <input type="password" class="input-d contact_input" name="confirm" value={{request.form.confirm}}>
-                    {% for error in form.confirm.errors %}
-                <center>
-                    <div class="alert alert-danger input-d contact_input">
-                        {{ error }}
-                    </div>
-                </center>
-                {% endfor %}
-                </p>
+            <div class="col-lg-4 mt-5">
+                <div class="ml-5 mt-5">
+                    <p class=info>
+                        <strong>{{ form.password.label }}</strong><br>
+                        <input type="password" class="contact_input" name="password"
+                               value={{request.form.password}}>
+                        {% for error in form.password.errors %}
+                    <center>
+                        <div class="alert alert-danger input-d contact_input">
+                            {{ error }}
+                        </div>
+                    </center>
+                    {% endfor %}
+                    </p>
+                    <p class=info>
+                        <strong>{{ form.confirm.label }}</strong><br>
+                        <input type="password" class="contact_input" name="confirm" value={{request.form.confirm}}>
+                        {% for error in form.confirm.errors %}
+                    <center>
+                        <div class="alert alert-danger input-d contact_input">
+                            {{ error }}
+                        </div>
+                    </center>
+                    {% endfor %}
+                    </p>
 
+                    <input type="submit" id="password-change" class="mb-5 contact_button" value="Cambiar contraseña">
+                </div>
             </div>
 
         </div>
