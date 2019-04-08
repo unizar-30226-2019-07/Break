@@ -121,8 +121,8 @@ def logout():
     # Delete the session of the user from the database using the token to identify it
     user = User.query.filter_by(token=current_user.token).first()
     if user is not None:
+        logout_user()
         db.session.delete(user)
-    logout_user()
     return redirect('/')
 
 

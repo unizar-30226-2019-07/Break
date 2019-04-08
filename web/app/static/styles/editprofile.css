@@ -47,12 +47,12 @@ img.portrait {
 .verticalLine {
 	float:left;
 	padding-top:11px;
-	padding-left:50px;
+	padding-left:20px;
 	margin-left:38px;
 	margin-bottom:15px;
 	border-left: solid var(--secondaryColor);
 	border-left-width: 4px;
-	border-radius: 15%;
+	border-radius: 0%;
 }
 
 .contact_button
