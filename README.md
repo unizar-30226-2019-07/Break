@@ -46,4 +46,4 @@ $ source venv/bin/activate
 $ venv\Scripts\activate
 	(windows)
 
-(vent)$ flask run
+(venv)$ flask run
