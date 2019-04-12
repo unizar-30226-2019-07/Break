@@ -30,8 +30,6 @@ img.portrait {
 	****************************/
 	width:300px;
 	height:300px;
-	margin-left:22px;
-	float:left;
 
 	border-radius: 50%;
 	border-style: solid;
@@ -45,7 +43,6 @@ img.portrait {
 /* SELF INFORMATION */
 /* ----------------------------------------- */
 .verticalLine {
-	float:left;
 	padding-top:11px;
 	margin-left:0px;
 	margin-bottom:0px;

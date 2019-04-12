@@ -72,6 +72,19 @@ img.portrait {
 	margin-top: 23px;
 }
 
+
+/* Stars score */
+.stars {
+    position: relative;
+}
+
+.stars div {
+    position: absolute;
+    top: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
 /*********************************
 6. Contact
 *********************************/
@@ -245,15 +258,15 @@ img.portrait {
 	opacity: 0;
 }
 
-.tab [type=radio]:hover ~ .tab_content
+.tab .tab_content:hover
 {
     background: rgba(243, 156, 18,.33);
-	border-bottom: solid 5px var(--secondaryColor);
+	border-bottom: solid 15px var(--secondaryColor);
 }
 
-.tab [type=radio]:checked ~ .tab_content
+.tab[aria-expanded="true"] .tab_content
 {
-	border-bottom: solid 5px var(--secondaryColor);
+	border-bottom: solid 15px var(--secondaryColor);
 }
 .tab label
 {
@@ -293,3 +306,8 @@ img.portrait {
 	font-size: 22px;
 }
 
+.collapsing {
+    -webkit-transition: none;
+    transition: none;
+    display: none;
+}
