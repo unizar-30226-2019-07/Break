@@ -123,7 +123,7 @@ def logout():
     user = User.query.filter_by(token=current_user.token).first()
     if user is not None:
         logout_user()
-        db.session.delete(user)
+        # db.session.delete(user)
     return redirect('/')
 
 

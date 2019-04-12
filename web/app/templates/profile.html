@@ -17,161 +17,158 @@
 </head>
 
 <body>
+<!-- Header -->
+{% include 'include/header.html' %}
+
+<!-- Title -->
+<center>
+    <div class="title_container">
+        <div class="title">Perfil</div>
+    </div>
+</center>
+
 <div class="container">
-    <!-- Header -->
-    {% include 'include/header.html' %}
+    <!-- Begin Paper -->
 
-    <!-- Título -->
-    <div class="row">
-        <div class="col">
-            <div class="section_title_container text-center m-5">
-                <div class="section_title"><h1>Perfil</h1></div>
+    <div class="row mt-5">
+        <div class="col-lg-4">
+            <!-- Begin Image -->
+            <div class="mt-5">
+                <img class="portrait" src={{url_for('static',filename='profiles/pfp.png')}}
+                     alt="{{ user.first_name }} {{ user.last_name }}"/>
             </div>
-            <hr>
+            <!-- End Image -->
         </div>
-    </div>
+        <!-- Begin Personal Information -->
+        <div class="col-lg-8">
+            <div class="verticalLine">
+                <div class="ml-5 mt-3">
 
+                    <h2 class="name">{{user.first_name}} {{user.last_name}}<br></h2>
+                    <hr>
+                    <h3>Puntuación:
 
-        <!-- Begin Paper -->
-
-            <div class="row mt-5">
-                <div class="col-lg-4">
-                    <!-- Begin Image -->
-                    <div class="mt-5">
-                        <img class="portrait" src={{url_for('static',filename='profiles/pfp.png')}} alt="{{ user.first_name }} {{ user.last_name }}"/>
-                    </div>
-                    <!-- End Image -->
-                </div>
-                    <!-- Begin Personal Information -->
-                <div class="col-lg-8">
-                    <div class="verticalLine">
-                        <div class="ml-5 mt-3">
-
-                            <h2 class="name">{{user.first_name}} {{user.last_name}}<br></h2>
-                            <hr>
-                            <h3>Puntuación:
-
-                                <div class="ml-5 mr-1 mb-3">
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    {{ user.rating }}
-                                </div>
-                                <!--<i class="fas fa-star-half-alt"></i>-->
-                            </h3>
-
-                            <ul>
-                                <p><strong>Email:</strong> {{ user.email }}</p>
-                                <p><strong>Nombre:</strong> {{ user.first_name }}</p>
-                                <p><strong>Apellidos:</strong> {{ user.last_name }}</p>
-                                <p><strong>Género:</strong> {{ user.gender }}</p>
-
-                                <form action="/editprofile">
-                                    <input type="submit" id="send" class="mb-5 contact_button"
-                                           value="Editar Perfil">
-                                </form>
-                            </ul>
+                        <div class="ml-5 mr-1 mb-3">
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            {{ user.rating }}
                         </div>
-                    </div>
-                </div>
-                    <!-- End Personal Information -->
-            </div>
-                <!-- Begin 1st Row -->
+                        <!--<i class="fas fa-star-half-alt"></i>-->
+                    </h3>
 
-        <!-- Tabs -->
-        <div class="listing_tabs d-flex flex-row align-items-start justify-content-between flex-wrap mt-5">
-            <!-- Tab -->
-            <div class="tab">
-                <input type="radio" id="tab_2" name="listing_tabs">
-                <label for="tab_2"></label>
-                <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-                    <i class="fas fa-euro-sign tab_icon"></i>
-                    <span>Productos Vendidos</span>
-                </div>
-            </div>
+                    <ul>
+                        <p><strong>Email:</strong> {{ user.email }}</p>
+                        <p><strong>Nombre:</strong> {{ user.first_name }}</p>
+                        <p><strong>Apellidos:</strong> {{ user.last_name }}</p>
+                        <p><strong>Género:</strong> {{ user.gender }}</p>
 
-            <!-- Tab -->
-            <div class="tab">
-                <input type="radio" id="tab_3" name="listing_tabs">
-                <label for="tab_3"></label>
-                <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-                    <i class="fas fa-comment-dollar tab_icon"></i>
-                    <span>Productos en venta</span>
-                </div>
-            </div>
-
-            <!-- Tab -->
-            <div class="tab">
-                <input type="radio" id="tab_6" name="listing_tabs">
-                <label for="tab_6"></label>
-                <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-                    <i class="fas fa-map-marker-alt tab_icon"></i>
-                    <span>Localización</span>
-                </div>
-            </div>
-
-            <!-- Tab -->
-            <div class="tab">
-                <input type="radio" id="tab_7" name="listing_tabs">
-                <label for="tab_7"></label>
-                <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-                    <i class="fas fa-file-signature tab_icon"></i>
-                    <span>Contactar</span>
+                        <form action="/editprofile">
+                            <input type="submit" id="send" class="mb-5 contact_button"
+                                   value="Editar Perfil">
+                        </form>
+                    </ul>
                 </div>
             </div>
         </div>
-
+        <!-- End Personal Information -->
     </div>
-    <div class="listings">
-        <div class="container">
-            <div class="row">
-                <div class="col">
+    <!-- Begin 1st Row -->
 
-                    <!-- Listings Container -->
-                    <div class="listings_container">
-                        {% for prod in prods %}
-                        <div class="listing_box house sale">
-                            <div class="listing">
-                                <div class="listing_image m-3">
-                                    <div class="listing_image_container">
-                                        <img src="{{ prod.image_url }}" alt="">
-                                    </div>
-                                    <!--
-                                    <div class="tags d-flex flex-row align-items-start justify-content-start flex-wrap">
-                                        <div class="tag tag_house"><a href="/listings">bbbbb</a></div>
-                                        <div class="tag tag_sale"><a href="/listings">bbbbb</a></div>
-                                    </div>
-                                    -->
+    <!-- Tabs -->
+    <div class="listing_tabs d-flex flex-row align-items-start justify-content-between flex-wrap mt-5">
+        <!-- Tab -->
+        <div class="tab">
+            <input type="radio" id="tab_2" name="listing_tabs">
+            <label for="tab_2"></label>
+            <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
+                <i class="fas fa-euro-sign tab_icon"></i>
+                <span>Productos Vendidos</span>
+            </div>
+        </div>
+
+        <!-- Tab -->
+        <div class="tab">
+            <input type="radio" id="tab_3" name="listing_tabs">
+            <label for="tab_3"></label>
+            <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
+                <i class="fas fa-comment-dollar tab_icon"></i>
+                <span>Productos en venta</span>
+            </div>
+        </div>
+
+        <!-- Tab -->
+        <div class="tab">
+            <input type="radio" id="tab_6" name="listing_tabs">
+            <label for="tab_6"></label>
+            <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
+                <i class="fas fa-map-marker-alt tab_icon"></i>
+                <span>Localización</span>
+            </div>
+        </div>
+
+        <!-- Tab -->
+        <div class="tab">
+            <input type="radio" id="tab_7" name="listing_tabs">
+            <label for="tab_7"></label>
+            <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
+                <i class="fas fa-file-signature tab_icon"></i>
+                <span>Contactar</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="listings">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+
+                <!-- Listings Container -->
+                <div class="listings_container">
+                    {% for prod in prods %}
+                    <div class="listing_box house sale">
+                        <div class="listing">
+                            <div class="listing_image m-3">
+                                <div class="listing_image_container">
+                                    <img src="{{ prod.image_url }}" alt="">
+                                </div>
+                                <!--
+                                <div class="tags d-flex flex-row align-items-start justify-content-start flex-wrap">
+                                    <div class="tag tag_house"><a href="/listings">bbbbb</a></div>
+                                    <div class="tag tag_sale"><a href="/listings">bbbbb</a></div>
+                                </div>
+                                -->
+                            </div>
+
+                            <div class="listing_content">
+                                <div class="tag_price listing_price listing_image"><strong>{{ prod.attenuation_level
+                                    }} €</strong></div>
+                                <div class="prop_location listing_location d-flex flex-row align-items-start justify-content-start">
+                                    <ul>
+                                        <li>
+                                            <h3 href="single" class="mb-2">{{ prod.name }}</h3>
+                                        </li>
+                                        <li>
+                                            <img src="{{ url_for('static', filename = 'images/icon_1.png') }}"
+                                                 alt="">
+                                            <a href="single">Zaragoza</a>
+                                        </li>
+                                    </ul>
                                 </div>
 
-                                <div class="listing_content">
-                                    <div class="tag_price listing_price listing_image"><strong>{{ prod.attenuation_level
-                                        }} €</strong></div>
-                                    <div class="prop_location listing_location d-flex flex-row align-items-start justify-content-start">
-                                        <ul>
-                                            <li>
-                                                <h3 href="single" class="mb-2">{{ prod.name }}</h3>
-                                            </li>
-                                            <li>
-                                                <img src="{{ url_for('static', filename = 'images/icon_1.png') }}"
-                                                     alt="">
-                                                <a href="single">Zaragoza</a>
-                                            </li>
-                                        </ul>
-                                    </div>
 
-
-                                </div>
                             </div>
                         </div>
-                        {% endfor %}
                     </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <!-- Footer  -->

@@ -251,14 +251,56 @@
 	color: var(--secondaryColor);
 }
 
-.headerspace
-{
-	height: 116px;
-	max-height: 25vh;
-}
-
+/* Size of the logo */
 .logo_header_img
 {
     max-width: 40px;
     max-height: 40px;
+}
+
+/* Background for titles */
+.headerspace
+{
+	height: calc(60px + 24vw);
+	max-height: 300px;
+	min-height: 60px;
+	background-color: var(--primaryColor);
+	overflow: auto;
+}
+
+.headerspace-diagonal {
+    height: 11vw;
+    max-height: 135px;
+    background: transparent;
+    background: linear-gradient(to left bottom, var(--primaryColor)49.9%, transparent 50%);
+}
+
+/* Titles */
+.title_container
+{
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+	top: calc(60px + 9vw);
+}
+
+.title
+{
+	display: inline-block;
+	font-size: 9vw;
+	font-weight: 700;
+	color: white;
+}
+
+@media screen and (min-width: 991px) {
+    .title_container
+    {
+        top: 180px;
+    }
+    .title
+    {
+        font-size: 68px;
+    }
 }
