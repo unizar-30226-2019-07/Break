@@ -3,6 +3,12 @@ python:
 - 3.6
 install:
 - pip install -r requirements/deploy.txt
+- pip install codecov
+script:
+- coverage erase
+- coverage run web/test_app.py && coverage html
+after_success:
+- codecov
 deploy:
   matrix:
   - provider: heroku
