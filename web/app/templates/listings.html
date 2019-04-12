@@ -102,45 +102,9 @@
 
                     </div>
 
-                    <!-- Listings Container -->
-                    <div class="listings_container">
 
-                        <!-- Listing -->
-                        {% for prod in prods %}
-			<a href={{ "single/" + prod.id_producto|string }} class="texto_normal">
-                        <div class="listing_box house sale">
-                            <div class="listing">
-                                <div class="listing_image m-3">
-                                    <div class="listing_image_container">
-                                        <img src="{{ url_for('static', filename = 'images/1953-1954-Buick-Skylark.jpg') }}" alt="">
-                                    </div>
-                                    <!--
-                                    <div class="tags d-flex flex-row align-items-start justify-content-start flex-wrap">
-                                        <div class="tag tag_house"><a href="/listings">bbbbb</a></div>
-                                        <div class="tag tag_sale"><a href="/listings">bbbbb</a></div>
-                                    </div>
-                                    -->
-                                </div>
-
-                                <div class="listing_content">
-                                    <div class="tag_price listing_price listing_image"><strong>{{ prod.price }} €</strong></div>
-                                    <div class="prop_location listing_location d-flex flex-row align-items-start justify-content-start">
-                                        <ul>
-                                            <li>
-                                                <h3 href="single" class="mb-2">{{ prod.title }}</h3>
-                                            </li>
-                                            <li>
-                                                <img src="{{ url_for('static', filename = 'images/icon_1.png') }}" alt="">
-                                                A {{ prod.distance|round(1) }} km de tí
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                            </a>
-                        {% endfor %}
-                    </div>
+                    {% import 'include/_products.html' as products %}
+                    {{ products.list(prods) }}
 
                     <div class="load_more">
                         <div class="button ml-auto mr-auto"><a href="#">load more</a></div>

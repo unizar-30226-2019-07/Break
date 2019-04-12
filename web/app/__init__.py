@@ -234,15 +234,22 @@ def get_gallery(prod_id):
     print(response.text)
     return render_template("single.html", image_names=image_names, userauth=current_user, prod=json.loads(response.text))
 
-@app.route('/profile')
-def profile():
-    products = requests.get('https://api.punkapi.com/v2/beers')
-    response = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.token})
+@app.route('/user/<user_id>')
+def user(user_id):
+    on_sale = requests.get(url + '/products?lat=0&lng=0&distance=5000000000&owner=' + str(user_id) + '&status=en%20venta')
+    sold = requests.get(url + '/products?lat=0&lng=0&distance=5000000000&owner=' + str(user_id) + '&status=vendido')
+    response = requests.get(url=url + '/users/' + str(user_id), headers={'Authorization': current_user.token})
     # If there is an error retrieving the user (no permissions) the user will be redirected to the login page
     if response.status_code != 200:
         return redirect("/login")
     else:
-        return render_template('profile.html', userauth=current_user, prods=json.loads(products.text), user=json.loads(response.text))
+        return render_template('profile.html', userauth=current_user, on_sale=json.loads(on_sale.text), \
+            sold=json.loads(sold.text), wishlist=[], user=json.loads(response.text))
+
+
+@app.route('/profile')
+def profile():
+    return redirect(url_for('user', user_id=current_user.user_id))
 
 @app.route('/editprofile', methods=['GET', 'POST'])
 def editprofile():

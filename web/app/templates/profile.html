@@ -31,7 +31,7 @@
     <!-- Begin Paper -->
 
     <div class="row mt-5">
-        <div class="col-lg-4">
+        <div class="col-12 col-xl-4">
             <!-- Begin Image -->
             <div class="mt-5">
                 <img class="portrait" src={{url_for('static',filename='profiles/pfp.png')}}
@@ -40,23 +40,23 @@
             <!-- End Image -->
         </div>
         <!-- Begin Personal Information -->
-        <div class="col-lg-8">
-            <div class="verticalLine">
-                <div class="ml-5 mt-3">
+        <div class="col-12 col-xl-8 row">
+            <div class="verticalLine text-center flex-grow-1">
+                <div class="ml-lg-5 mt-lg-3">
 
                     <h2 class="name">{{user.first_name}} {{user.last_name}}<br></h2>
                     <hr>
                     {% if user.rating >= 1 %}
                     <div><strong>Puntuación:</strong>
 
-                        <div class="mt-2 mb-3 text-center h5">
+                        <div class="mt-2 mb-3 h5">
                             <div class="stars d-inline-block">
                                 <i class="far fa-star"></i>
                                 <i class="far fa-star"></i>
                                 <i class="far fa-star"></i>
                                 <i class="far fa-star"></i>
                                 <i class="far fa-star"></i>
-                                <div class="m-0 p-0" style="width: {{ user.rating / 5.0 }}%">
+                                <div class="m-0 p-0" style="width: {{ user.rating * 20 }}%">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
@@ -71,15 +71,17 @@
                     {% endif %}
 
                     <ul>
+                        {% if current_user.user_id == user.idUsuario %}
                         <div><strong>Email:</strong></div>
                         <div class="mt-2 mb-3">
                             <span class="h5 text-muted">{{ user.email }}</span>
                         </div>
+                        {% endif %}
                         <div><strong>Nombre:</strong></div>
                         <div class="mt-2 mb-3">
                             <span class="h5 text-muted">{{ user.first_name }}</span>
                         </div>
-                        <div><strong>Aspanellidos:</strong></div>
+                        <div><strong>Apellidos:</strong></div>
                         <div class="mt-2 mb-3">
                             <span class="h5 text-muted">{{ user.last_name }}</span>
                         </div>
@@ -90,10 +92,12 @@
                         </div>
                         {% endif %}
 
+                        {% if current_user.user_id == user.idUsuario %}
                         <form action="/editprofile">
                             <input type="submit" id="send" class="mb-5 contact_button"
                                    value="Editar Perfil">
                         </form>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -104,140 +108,54 @@
 
     <!-- Tabs -->
     <div id="collapse-tabs">
-        <div class="listing_tabs d-flex flex-row align-items-start justify-content-between flex-wrap mt-5">
+        <div class="listing_tabs d-flex flex-row align-items-start justify-content-between flex-wrap mt-5 mb-3">
 
             <!-- Tab -->
             <div class="tab" data-toggle="collapse" data-target="#on_sale" aria-expanded="true" aria-controls="on_sale">
                 <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-                    <i class="fas fa-comment-dollar tab_icon"></i>
-                    <span>En venta</span>
+                    <span class="d-none d-md-flex">
+                        En venta ({{ on_sale|length }})
+                    </span>
+                    <span class="d-flex d-md-none"><i class="fas fa-store"></i></span>
                 </div>
             </div>
 
             <!-- Tab -->
             <div class="tab" data-toggle="collapse" data-target="#sold" aria-expanded="false" aria-controls="sold">
                 <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-                    <i class="fas fa-euro-sign tab_icon"></i>
-                    <span>Vendidos</span>
+                    <span class="d-md-flex">
+                        Vendidos ({{ sold|length }})
+                    </span>                    
+                    <span class="d-flex d-md-none"><i class="fas fa-history"></i></span>
                 </div>
             </div>
 
             <!-- Tab -->
             <div class="tab" data-toggle="collapse" data-target="#wishlist" aria-expanded="false" aria-controls="wishlist">
                 <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-                    <i class="fas fa-heart tab_icon"></i>
-                    <span>Lista de deseos</span>
+                    <span class="d-md-flex">
+                        Lista de deseos ({{ wishlist|length }})
+                    </span>
+                    <span class="d-flex d-md-none"><i class="fas fa-heart"></i></span>
                 </div>
             </div>
+        </div>
+
+
+        {% import 'include/_products.html' as products %}
+        <!-- EN VENTA -->
+        <div id="on_sale" class="listings collapse show" data-parent="#collapse-tabs">
+            {{ products.list(on_sale) }}
         </div>
 
         <!-- VENDIDOS -->
-        <div id="on_sale" class="listings collapse show" data-parent="#collapse-tabs">
-            <div class="container">
-                <div class="row">
-                    <!-- Listings Container -->
-                    {% for prod in prods %}
-                    <div class="col-md-6 col-lg-4 d-flex flex-column">
-                        <div class="listing_image m-3">
-                            <div class="listing_image_container">
-                                <img src="{{ prod.image_url }}" alt="">
-                            </div>
-                        </div>
-
-                        <div class="listing_content listing_location flex-grow-1">
-                            <div class="tag_price listing_price listing_image"><strong>{{ prod.attenuation_level
-                                }} €</strong></div>
-                            <div>
-                                <ul>
-                                    <li>
-                                        <h3 href="single" class="mb-2">{{ prod.name }}</h3>
-                                    </li>
-                                    <li>
-                                        <img src="{{ url_for('static', filename = 'images/icon_1.png') }}"
-                                             alt="">
-                                        <a href="single">Zaragoza</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-
-        <!-- EN VENTA -->
-        <div id="sold" class="listings collapse" data-parent="#collapse-tabs">
-            <div class="container">
-                <div class="row">
-                    <!-- Listings Container -->
-                    {% for prod in prods %}
-                    <div class="col-md-6 col-lg-4">
-                        <div class="listing">
-                            <div class="listing_image m-3">
-                                <div class="listing_image_container">
-                                    <img src="{{ prod.image_url }}" alt="">
-                                </div>
-                            </div>
-
-                            <div class="listing_content">
-                                <div class="tag_price listing_price listing_image"><strong>{{ prod.attenuation_level
-                                    }} €</strong></div>
-                                <div class="prop_location listing_location d-flex flex-row align-items-start justify-content-start">
-                                    <ul>
-                                        <li>
-                                            <h3 href="single" class="mb-2">{{ prod.name }}</h3>
-                                        </li>
-                                        <li>
-                                            <img src="{{ url_for('static', filename = 'images/icon_1.png') }}"
-                                                 alt="">
-                                            <a href="single">Zaragoza</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
+        <div id="sold" class="collapse" data-parent="#collapse-tabs">
+            {{ products.list(sold) }}
         </div>
 
         <!-- LISTA DE DESEOS -->
-        <div id="wishlist" class="listings collapse" data-parent="#collapse-tabs">
-            <div class="container">
-                <div class="row">
-                    <!-- Listings Container -->
-                    {% for prod in prods %}
-                    <div class="col-md-6 col-lg-4">
-                        <div class="listing">
-                            <div class="listing_image m-3">
-                                <div class="listing_image_container">
-                                    <img src="{{ prod.image_url }}" alt="">
-                                </div>
-                            </div>
-
-                            <div class="listing_content">
-                                <div class="tag_price listing_price listing_image"><strong>{{ prod.attenuation_level
-                                    }} €</strong></div>
-                                <div class="prop_location listing_location d-flex flex-row align-items-start justify-content-start">
-                                    <ul>
-                                        <li>
-                                            <h3 href="single" class="mb-2">{{ prod.name }}</h3>
-                                        </li>
-                                        <li>
-                                            <img src="{{ url_for('static', filename = 'images/icon_1.png') }}"
-                                                 alt="">
-                                            <a href="single">Zaragoza</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
+        <div id="wishlist" class="collapse" data-parent="#collapse-tabs">
+            {{ products.list(wishlist) }}
         </div>
         </div>
     </div>
@@ -248,6 +166,14 @@
 
 <!-- General Scripts  -->
 {% include 'include/scripts.html' %}
+
+<script type="text/javascript">
+    $('.tab').on('click',function(e){
+        if($(this).attr('aria-expanded') == "true"){
+            e.stopPropagation();
+        }
+    });
+</script>
 
 <script src="{{ url_for('static', filename = 'plugins/Isotope/isotope.pkgd.min.js') }}"></script>
 <script src="{{ url_for('static', filename = 'js/listings.js') }}"></script>

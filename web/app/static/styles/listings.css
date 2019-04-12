@@ -315,6 +315,8 @@
 .listing
 {
 	background: #ffffff;
+	border-radius: 20px;
+	overflow: hidden;
 }
 .listing_image
 {
@@ -328,6 +330,8 @@
     justify-content:center;
     align-items:center;
 	overflow: hidden;
+	background-size: cover;
+	background-position: center;
 }
 
 .listing_image_container > img
@@ -397,23 +401,34 @@
 	height: 37px;
 	padding-left: 27px;
 	padding-right: 26px;
-	background: var(--secondaryColor);
+	/* background: var(--secondaryColor) */;
 	line-height: 37px;
-	font-size: 16px;
+	font-size: 23px !important;
 	font-weight: 500;
-	color: #ffffff;
+}
+.tag_price strong {
+	color: var(--primaryColor) !important;
+}
+.listing_content {
+	overflow-wrap: break-word;
+}
+.listing_content p {
+	line-height: 1.75;
+	text-align: justify;
+	font-size: 15px;
+	color: #5c5c5c;
 }
 .listing_price
 {
 	position: absolute;
-	left: 20px;
-	top: 20px;
+	right: 10px;
+	bottom: 10px;
 }
 .listing_location
 {
 	padding-left: 34px !important;
-	padding-top: 60px;
-	padding-bottom: 17px;
+	padding-top: 17px;
+	padding-bottom: 60px;
 	padding-right: 30px;
 	background: var(--clouds);
 	margin-top: 0 !important;
@@ -425,11 +440,11 @@
 .listing_location a
 {
 	max-width: 230px;
-	margin-left: 24px;
-	font-size: 16px;
 	font-weight: 600;
 	color: #2b2e35;
 	line-height: 1.875;
+	font-size: 24px !important;
+	margin-left: 0!important;
 }
 .listing_location a:hover
 {

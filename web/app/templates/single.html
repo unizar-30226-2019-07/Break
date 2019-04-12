@@ -101,7 +101,13 @@
 											<div class="prop_agent_image"><img
 											     src="{{ url_for('static', filename = 'images/agent_1.jpg') }}" alt="">
 											</div>
-											<div class="prop_agent_name"><a href="/profile">{{prod.owner.first_name}}{{prod.owner.last_name}}</a> {{prod.owner.email}}</div>
+											<div class="prop_agent_name">
+												<a href="{{ url_for('user', user_id=prod.owner.idUsuario) }}">
+													{{prod.owner.first_name}} {{prod.owner.last_name}}
+												</a>
+												<br/>
+												{{prod.owner.email}}
+											</div>
 										</div>
 									</div>
 								</div>
