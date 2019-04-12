@@ -1,0 +1,5 @@
+# requirements/deploy.txt
+-r production.txt
+
+# Heroku deployment
+gunicorn==19.7.1

@@ -1,0 +1,17 @@
+# requirements/production.txt
+
+# Flask and Flask libraries
+## Basic modules
+Flask==1.0.2
+Flask-Bootstrap==3.3.7.1
+
+## Form modules
+Flask-WTF==0.14.2
+
+## Session modules
+Flask-SQLAlchemy==2.3.2
+Flask-Migrate==2.4.0
+Flask-Login==0.4.1
+
+# HTTP requests
+requests==2.21.0
