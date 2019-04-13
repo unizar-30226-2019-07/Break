@@ -42,7 +42,7 @@
                             {% for prod in prods %}    
                             map_markers[{{ loop.index0 }}].addListener('click', function(){
                                 var elem = $("#{{ prod.id_producto }}");
-                                $(document).scrollTop(elem.offset().top);
+                                $(document).scrollTop(elem.offset().top - 80);
                                 elem.addClass('focus');
                                 setTimeout(function() {
                                     elem.removeClass('focus');
