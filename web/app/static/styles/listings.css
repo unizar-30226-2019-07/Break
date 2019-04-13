@@ -11,6 +11,11 @@
 
 ******************************/
 
+html
+{
+  scroll-behavior: smooth;
+}
+
 /*********************************
 5. Home
 *********************************/
@@ -327,6 +332,11 @@
 	transform: translateY(-2px);
 	-webkit-box-shadow: 1px 3px 10px 0 rgba(0,0,0,0.3);
     box-shadow: 1px 3px 10px 0 rgba(0,0,0,0.3);
+}
+.listing.focus {
+	outline: none;
+	-webkit-box-shadow: 1px 3px 20px 2px var(--secondaryColor);
+	box-shadow: 1px 3px 20px 2px var(--secondaryColor);
 }
 .listing_image
 {

@@ -4,7 +4,7 @@
             <!-- Listings Container -->
             {% for prod in products %}
             <div class="col-sm-6 col-lg-4 d-flex flex-column my-3">
-                <div class="listing d-flex flex-column flex-grow-1">
+                <div id="{{ prod.id_producto }}" class="listing d-flex flex-column flex-grow-1">
                     <div class="listing_image">
                         <div class="listing_image_container" style="background-image: url(data:image/jpeg;base64,{% include 'include/image.html' %})">
                         </div>

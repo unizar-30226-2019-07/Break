@@ -15,6 +15,8 @@
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/profile.css') }}">
 
+    {{ map.js }}
+
 </head>
 
 <body>
@@ -34,19 +36,24 @@
     <div class="row mt-5">
         <div class="col-12 col-xl-4">
             <!-- Begin Image -->
-            <div class="mt-5">
-                <img class="portrait" src={{url_for('static',filename='profiles/pfp.png')}}
+            <div class="my-5 text-center flex-grow-1">
+                <img class="portrait m-0" src={{url_for('static',filename='profiles/pfp.png')}}
                      alt="{{ user.first_name }} {{ user.last_name }}"/>
             </div>
             <!-- End Image -->
         </div>
         <!-- Begin Personal Information -->
-        <div class="col-12 col-xl-8 row">
-            <div class="verticalLine text-center flex-grow-1">
-                <div class="ml-lg-5 mt-lg-3">
+        <div class="col-12 col-xl-8">
+            <div class="text-center flex-grow-1">
+                <div class="ml-xl-5 mt-xl-3">
 
                     <h2 class="name">{{user.first_name}} {{user.last_name}}<br></h2>
-                    <hr>
+                    <hr class="mb-0">
+                    <div class="col-12 px-0 mt-0 mb-4">
+                        <div class="google_map_container">
+                            {{ map.html }}
+                        </div>
+                    </div>
                     {% if user.rating >= 1 %}
                     <div><strong>Puntuación:</strong>
 

@@ -18,6 +18,8 @@
 		<link href="{{ url_for('static', filename = 'plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css') }}">
 
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/single.css') }}">
+
+		{{ map.js }}
 	</head>
 
 	<!-- Header -->
@@ -118,44 +120,9 @@
 										</p>
 									</div>
 								</div>
-								<div class="col-lg-6">
-									<div class="listing_features">
-										<div class="listing_title"><h3>Features</h3></div>
-										<div class="row">
-											<div class="col-lg-6">
-												<ul>
-													<li>2 car garages</li>
-													<li>3 bedrooms</li>
-													<li>heated floors</li>
-													<li>contemporary architecture</li>
-													<li>swimming pool</li>
-													<li>exercise room</li>
-													<li>formal entry</li>
-												</ul>
-											</div>
-											<div class="col-lg-6">
-												<ul>
-													<li>patio</li>
-													<li>close to stores</li>
-													<li>ocean view</li>
-													<li>spa</li>
-													<li>sprinklers</li>
-													<li>garden</li>
-													<li>alley</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6">
+								<div class="col-12">
 									<div class="google_map_container">
-										<div class="map">
-											<div id="google_map" class="google_map">
-												<div class="map_container">
-													<div id="map"></div>
-												</div>
-											</div>
-										</div>
+										{{ map.html }}
 									</div>
 								</div>
 							</div>
@@ -175,9 +142,6 @@
 
 		<!-- Owl Carousel  -->
 		<script src="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.carousel.js') }}"></script>
-
-		<!-- Google Maps  -->
-		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
 
 		<script src="{{ url_for('static', filename = 'plugins/colorbox/jquery.colorbox-min.js') }}"></script>
 

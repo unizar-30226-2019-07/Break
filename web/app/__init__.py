@@ -12,9 +12,12 @@ import requests
 import os
 
 # Para hacer hash de las contraseñas
-
 import requests
 import json
+
+# Para mostrar mapas con Google Maps Platform
+from flask_googlemaps import GoogleMaps
+from flask_googlemaps import Map
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -22,6 +25,8 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 login = LoginManager(app)
+
+GoogleMaps(app)
 
 from app import models
 from app.models import User
@@ -145,8 +150,28 @@ def contact():
 @app.route('/listings')
 def listing():
     products = requests.get(url + '/products?lat=0&lng=0&distance=5000000000')
-    print(products.text)
-    return render_template('listings.html', userauth=current_user, prods=json.loads(products.text))
+    prods = json.loads(products.text)
+    mymap = Map(
+        identifier="view-side",
+        lat=0,
+        lng=0,
+        fit_markers_to_bounds = True,
+        center_on_user_location=True,
+        zoom=15,
+        markers=[{
+             'icon': None,
+             'lat': prod['location']['lat'],
+             'lng': prod['location']['lng']
+          } for prod in prods],
+        cluster=True,
+        #cluster_imagepath='https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+        cluster_imagepath=url_for('static', filename='images/m'),
+        cluster_gridsize=30,
+        style="height:300px;margin:0;",
+        language="es",
+        region="ES"
+    )
+    return render_template('listings.html', userauth=current_user, prods=prods, map=mymap)
 
 
 # Extensiones permitidas
@@ -229,10 +254,23 @@ def send_image(filename):
 def get_gallery(prod_id):
     # Devuelve un vector de nombres de imgenes de la ruta especificada
     image_names = os.listdir(APP_ROOT + '/static/client_images')
-    print(image_names)
+    #print(image_names)
     response = requests.get(url + "/products/" + str(prod_id) + "?lng=0&lat=0")
-    print(response.text)
-    return render_template("single.html", image_names=image_names, userauth=current_user, prod=json.loads(response.text))
+    prod = json.loads(response.text)
+    # print(response.text)
+
+    mymap = Map(
+        identifier="view-side",
+        lat=prod['location']['lat'],
+        lng=prod['location']['lng'],
+        zoom=15,
+        circles=[(prod['location']['lat'], prod['location']['lng'], 200)],
+        style="height:400px;margin:0;",
+        language="es",
+        region="ES"
+    )
+
+    return render_template("single.html", image_names=image_names, userauth=current_user, prod=prod, map=mymap)
 
 @app.route('/user/<user_id>')
 def user(user_id):
@@ -243,8 +281,22 @@ def user(user_id):
     if response.status_code != 200:
         return redirect("/login")
     else:
+
+        user = json.loads(response.text)
+
+        mymap = Map(
+            identifier="view-side",
+            lat=user['location']['lat'],
+            lng=user['location']['lng'],
+            zoom=15,
+            circles=[(user['location']['lat'], user['location']['lng'], 200)],
+            style="height:200px;margin:0;",
+            language="es",
+            region="ES"
+        )
+
         return render_template('profile.html', userauth=current_user, on_sale=json.loads(on_sale.text), \
-            sold=json.loads(sold.text), wishlist=[], user=json.loads(response.text))
+            sold=json.loads(sold.text), wishlist=[], user=user, map=mymap)
 
 
 @app.route('/profile')

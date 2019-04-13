@@ -11,7 +11,7 @@
     <!-- General links -->
     {% include 'include/headLinks.html' %}
 
-
+    {{ map.js }}
 
 </head>
 
@@ -32,9 +32,27 @@
 
 
     <!-- Search -->
-
     <div class="search">
         <div class="container">
+            <div class="col-12 p-0">
+                <div class="google_map_container">
+                    {{ map.html }}
+                    <script type="text/javascript">
+                        google.maps.event.addDomListener(window, 'load', function(){
+                            {% for prod in prods %}    
+                            map_markers[{{ loop.index0 }}].addListener('click', function(){
+                                var elem = $("#{{ prod.id_producto }}");
+                                $(document).scrollTop(elem.offset().top);
+                                elem.addClass('focus');
+                                setTimeout(function() {
+                                    elem.removeClass('focus');
+                                }, 2000);
+                            });
+                            {% endfor %}
+                        });
+                    </script>
+                </div>
+            </div>
             <div class="row">
                 <div class="col">
                     <div class="search_container">
