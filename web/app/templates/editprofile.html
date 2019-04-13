@@ -3,10 +3,12 @@
 
 <head>
     <meta charset="utf-8">
+    <title>Editar perfil</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="myHOME - real estate template project">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/profile.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/editprofile.css') }}">
 
     <!-- General links -->
@@ -34,7 +36,7 @@
             <div class="col-lg-4 text-center">
                 <div class="mt-5">
                     <!-- Begin Image -->
-                    <img class="portrait mb-2" src={{url_for('static',filename='profiles/pfp.png')}}
+                    <img class="portrait mb-5" src={{url_for('static',filename='profiles/pfp.png')}}
                          alt="{{ user.first_name }} {{ user.last_name }}"/>
                     <!-- End Image -->
                 </div>

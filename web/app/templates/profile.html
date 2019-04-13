@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8">
+    <title>Perfil de {{user.first_name}} {{user.last_name}}</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="myHOME - real estate template project">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -77,14 +78,6 @@
                             <span class="h5 text-muted">{{ user.email }}</span>
                         </div>
                         {% endif %}
-                        <div><strong>Nombre:</strong></div>
-                        <div class="mt-2 mb-3">
-                            <span class="h5 text-muted">{{ user.first_name }}</span>
-                        </div>
-                        <div><strong>Apellidos:</strong></div>
-                        <div class="mt-2 mb-3">
-                            <span class="h5 text-muted">{{ user.last_name }}</span>
-                        </div>
                         {% if user.gender != None %}
                         <div><strong>Género:</strong></div>
                         <div class="mt-2 mb-3">

@@ -35,10 +35,11 @@ img.portrait {
 
 	border-radius: 50%;
 	border-style: solid;
-    border-width: 3px;
-    border-left-width: 10px;
-    border-right-width: 10px;
+    border-width: 10px;
     border-color: var(--primaryColor);
+
+    -webkit-box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3);
+    box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3)
 }
 
 
@@ -230,18 +231,23 @@ img.portrait {
 ****************************/
 .listing_tabs
 {
-	background: var(--primaryColor);
-	border-radius: 28px;
+	background: var(--secondaryColor);
+	border-radius: 33px;
 	padding-left: 0px !important;
 	padding-right: 0px !important;
 	min-width: 307px;
+	border-color: var(--primaryColor);
+	border-width: 7px;
+	border-style: solid;
+	-webkit-box-shadow: 0px 4px 10px 1px rgba(0,0,0,0.3);
+    box-shadow: 0px 4px 10px 1px rgba(0,0,0,0.3);
 }
 .tab_content
 {
 	height: 40px;
 	border-radius: 20px;
 	cursor: pointer;
-	margin: 8px;
+	margin: 6px;
 	padding: 0 2em;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;

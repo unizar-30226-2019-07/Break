@@ -166,7 +166,6 @@
 .listings
 {
 	padding-bottom: 92px;
-	background: #ffffff;
 }
 .sorting
 {
@@ -317,6 +316,17 @@
 	background: #ffffff;
 	border-radius: 20px;
 	overflow: hidden;
+	-webkit-transition: all.15s ease;
+	transition: all .15s ease;
+	-webkit-box-shadow: 1px 1px 8px 0 rgba(0,0,0,0.3);
+	box-shadow: 1px 1px 8px 0 rgba(0,0,0,0.3);
+	cursor: pointer;
+}
+.listing:hover
+{
+	transform: translateY(-2px);
+	-webkit-box-shadow: 1px 3px 10px 0 rgba(0,0,0,0.3);
+    box-shadow: 1px 3px 10px 0 rgba(0,0,0,0.3);
 }
 .listing_image
 {

@@ -24,7 +24,7 @@
 				<li class="{{ 'active' if request.endpoint == 'listing' else '' }}"><a href="{{ url_for('listing') }}">Buscar</a></li>
 			</ul>
 		</nav>
-		<div class="submit ml-auto"><a href="{{ url_for('upload') }}">Subir Anuncio</a></div>
+		<div class="submit ml-auto"><a href="{{ url_for('upload') }}"><i class="fas fa-plus mr-2"></i> Subir Anuncio</a></div>
 		<div class="d-flex flex-row mx-3">
 				<ul class="d-none d-lg-flex">
 					{% if userauth.is_authenticated %}

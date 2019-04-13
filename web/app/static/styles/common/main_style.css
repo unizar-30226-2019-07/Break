@@ -13,7 +13,7 @@
 
 :root {
     --primaryColor: #c0392b; /*pomegrade*/
-    --secondaryColor: #f39c12; /*orange*/
+    --secondaryColor: #8e342b; /*orange*/
     --clouds: #ecf0f1;
     --asbestos: #7f8c8d;
     --sunFlower: #f1c40f;
@@ -146,7 +146,7 @@ h6::selection
 
 hr
 {
-    border-top: 2px solid rgba(243, 156, 18,1.0);
+    border-top: 2px solid var(--secondaryColor);
 }
 
 img
