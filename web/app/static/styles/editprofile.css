@@ -23,6 +23,10 @@ input[type=password]:focus {
     max-width: 80%;
 }
 
+input:disabled {
+    color: #6c757d !important;
+}
+
 input[type=text] {
     width: 100%;
     height: 50px;

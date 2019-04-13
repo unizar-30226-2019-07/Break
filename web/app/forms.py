@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, IntegerField, validators, FileField, \
-    MultipleFileField, SelectField, RadioField
+    MultipleFileField, SelectField, RadioField, HiddenField
 from wtforms.validators import DataRequired
 
 
@@ -9,7 +9,7 @@ class LoginForm(Form):
     email = StringField('Email', [
         validators.DataRequired(message='Es necesario introducir un email')])
     password = PasswordField('Contraseña', [
-        validators.DataRequired(message='Es necesario una contraseña')])
+        validators.DataRequired(message='Es necesario introducir una contraseña')])
     remember_me = BooleanField('Recuerdame')
     submit = SubmitField('Iniciar Sesión')
 
@@ -37,28 +37,43 @@ class RegisterForm(Form):
     ])
 
 
-class EditProfile(Form):
+class EditProfile(FlaskForm):
     name = StringField('Nombre', [
         validators.DataRequired(message='Es necesario introducir un nombre'),
         validators.Length(min=4, max=50, message='El tamaño máximo del nombre son 50 carácteres')])
     lastname = StringField('Apellidos', [
         validators.DataRequired(message='Es necesario introducir apellidos'),
         validators.Length(min=4, max=50, message='El tamaño máximo del nombre son 50 carácteres')])
+    gender = RadioField('Género', choices = [('hombre','Hombre'),('mujer','Mujer')])
+    submit = SubmitField('Guardar cambios')
 
-    # username = StringField('Username', [
-    #    validators.Length(min=4, max=25, message='El nombre de usuario debe tener entre 4 y 25 carácteres')])
-    email = StringField('Email', [
-        validators.DataRequired(message='Es necesario introducir un email'),
-        validators.Length(min=1, max=50, message='El email no puede contener más de 50 carácteres')])
-    password = PasswordField('Contraseña', [
-        validators.DataRequired(message='Es necesario una contraseña'),
+class EditLocation(FlaskForm):
+    lat = HiddenField('Latitud', [
+        validators.DataRequired(message='No se ha podido obtener la nueva localización')
+    ])
+    lng = HiddenField('Longitud', [
+        validators.DataRequired(message='No se ha podido obtener la nueva localización')
+    ])
+    submit = SubmitField('Establecer ubicación')
+
+class EditPassword(FlaskForm):
+    password = PasswordField('Eliga una contraseña', [
+        validators.DataRequired(message='Es necesario introducir una contraseña'),
         validators.Length(min=8, message='La contraseña debe tener al menos 8 caracteres')
     ])
-    confirm = PasswordField('Confirmar Contraseña', [
+    confirm = PasswordField('Confirme la contraseña', [
         validators.EqualTo('password', message='Las contraseñas no coinciden')
     ])
-    genero = RadioField('Genero', choices = [('hombre','Hombre'),('mujer','Mujer')])
+    submit = SubmitField('Cambiar contraseña')
 
+class EditEmail(FlaskForm):
+    email = StringField('Correo electrónico', [
+        validators.DataRequired(message='Es necesario introducir una dirección de correo'),
+        validators.Length(min=1, max=50, message='El correo no puede contener más de 50 carácteres')])
+    confirm = StringField('Confirmar correo electrónico', [
+        validators.EqualTo('email', message='Los correos no coinciden')
+    ])
+    submit = SubmitField('Cambiar correo')
 
 # Structure of the Subir Anuncio form
 class SubirAnuncioForm(Form):

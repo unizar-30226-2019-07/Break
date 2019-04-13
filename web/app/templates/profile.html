@@ -93,10 +93,10 @@
                         {% endif %}
 
                         {% if current_user.user_id == user.idUsuario %}
-                        <form action="/editprofile">
-                            <input type="submit" id="send" class="mb-5 contact_button"
-                                   value="Editar Perfil">
-                        </form>
+                        <a href="{{ url_for('editprofile') }}">
+                            <input type="submit"
+                             class="mb-5 contact_button" value="Editar Perfil">
+                        </a>
                         {% endif %}
                     </ul>
                 </div>

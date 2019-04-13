@@ -3,7 +3,7 @@ from flask_login import LoginManager, current_user, login_user, logout_user
 from werkzeug.utils import secure_filename
 
 from config import Config
-from app.forms import LoginForm, RegisterForm, EditProfile, SubirAnuncioForm
+from app.forms import LoginForm, RegisterForm, EditProfile, EditEmail, EditPassword, EditLocation, SubirAnuncioForm
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import requests
@@ -306,35 +306,55 @@ def profile():
 @app.route('/editprofile', methods=['GET', 'POST'])
 def editprofile():
     response = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.token})
-    form = EditProfile(request.form)
-    print(response.text)
+    user = json.loads(response.text)
+    print(user['gender'])
+        
+    form_location=EditLocation(prefix="location")
+    form_password=EditPassword(prefix="password")
+    form_email=EditEmail(prefix="email")
+    form_profile=EditProfile(prefix="profile")
+
     # If there is an error retrieving the user (no permissions) the user will be redirected to the login page
     if response.status_code != 200:
         return redirect("/login")
     else:
         if request.method == 'POST':
-            if form.validate():
-                name = form.name.data
-                email = form.email.data
-                password = form.password.data
-                last_name = form.lastname.data
-                genero = form.genero.data
+            form_profile = EditProfile(request.form, prefix="profile")
+            form_password = EditPassword(request.form, prefix="password")
+            form_email = EditEmail(request.form, prefix="email")
+            form_location=EditLocation(request.form, prefix="location")
 
-                # Create the user's JSON
-                usuario = {'email': email, 'first_name': name, 'last_name': last_name, 'password': password, 'gender': genero, 'location': {'lat': 0, 'lng': 0}}
-                print(usuario)
+            if form_profile.submit.data and form_profile.validate_on_submit():
+                user['first_name'] = form_profile.name.data
+                user['last_name'] = form_profile.lastname.data
+                user['gender'] = form_profile.gender.data
 
                 # Send the JSON to the API REST using the POST method
-                response2 = requests.put(url=url + '/users/' + str(current_user.user_id), json=usuario, headers={'Authorization': current_user.token})
-
-                print(response2.text)
-
-                # Print in the console the response from the API
+                response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.token})
                 return redirect(url_for('profile'))
 
-            return render_template('editprofile.html', form=form, userauth=current_user, user=json.loads(response.text))
+            elif form_password.submit.data and form_password.validate_on_submit():
+                user['password'] = form_password.password.data
+                response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.token})
+                return redirect(url_for('profile'))
 
-        return render_template('editprofile.html', form=EditProfile(), userauth=current_user, user=json.loads(response.text))
+            elif form_email.submit.data and form_email.validate_on_submit():
+                user['email'] = form_email.email.data
+                response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.token})
+                return redirect(url_for('logout'))
+
+            elif form_location.submit.data and form_location.validate_on_submit():
+                user['location']['lat'] = form_location.lat.data
+                user['location']['lng'] = form_location.lng.data
+                response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.token})
+                return redirect(url_for('profile'))
+
+        form_profile.gender.default = user['gender']
+        form_profile.process()
+
+        return render_template('editprofile.html', form_profile=form_profile, form_email=form_email, \
+            form_password=form_password, form_location=form_location, userauth=current_user, user=user, \
+            GOOGLEMAPS_KEY=app.config['GOOGLEMAPS_KEY'])
 
 @app.route('/verify')
 def verify():
