@@ -21,3 +21,10 @@ deploy:
     on:
       python: 3.6
       branch: master
+  - provider: heroku
+    api_key:
+      secure: NYM1J7x0gboNtqQuq28J+YY8mu07w1k5Ltopn0ZStc70e+bhXiXhyGNPU/zm+6rs98kaMJXHjGTPF/CQHg/px2YjCjubB85XXEgR62eYTF+c0G44bA/aWBYYFnlZaqXDUYefwbP6BRBb8k122ORD7s0WECo72B4GdfTacCv8RP4ZiIZyeC7IhKACFwufqqW6dUha6m3vsk51/Zuvasge0NYcnDPMhNzQZYCyRKK6PsmRddHlOf9JvVgXNH4ddDTcIWrcenTnOcjDyHAOOgSJ/0seOaCQpPpEgrxOYzvG08rkDbNBYWcRm3GssgHNckoEp8AG1h2ru2izhE2Zw6VMiNutiTI26/UB0kpX3wsOma3w1PP7x4TmUZF9+l7NAE1iuZNv0AiWk3YVIsoVhgXOIxnpX7XHukD7T7gy5WqSgkMDFu9f4DDMgeeJAiXBMrQWymdwCN+og5jhbDgv/TCtmVC6hT8H5bC8aQhsTzvdDpsHT30Z6kzZp8b8I653dpzI+y4jXUSpvreaZzdSn63DK0LJuSyLa9ozDtJquZNOKM7ZQuGmcQjFdL8X3BH8v4JfWkcT42is3Yc6/ecbkzPwjWyiZC9NFO2SREOTOu6WHCPG5T+W2N25Z9V67DTuCGqUcrQO+O6NIh78kvAHDIe55kdLYREWlOTTaHa+KPlSPP8=
+    app: selit-web-develop
+    on:
+      python: 3.6
+      branch: develop
