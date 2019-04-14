@@ -201,64 +201,68 @@ def allowed_file(filename):
 
 @app.route("/upload", methods=['GET', 'POST'])
 def upload():
-    form = SubirAnuncioForm(request.form)
-    print("subir anuncio open")
-    print(request.method)
-    print(form.validate())
-    if request.method == 'POST':
-        if form.validate():
-            # Creamos la ruta donde vamos a guardar las imagenes
-            target = os.path.join(APP_ROOT, 'static/client_images/')
-            print(target)
+    print(current_user)
+    if current_user.is_authenticated:
+        form = SubirAnuncioForm(request.form)
+        print("subir anuncio open")
+        print(request.method)
+        print(form.validate())
+        if request.method == 'POST':
+            if form.validate():
+                # Creamos la ruta donde vamos a guardar las imagenes
+                target = os.path.join(APP_ROOT, 'static/client_images/')
+                print(target)
 
-            # Si no existe la carpeta, la creamos.
-            if not os.path.isdir(target):
-                os.mkdir(target)
+                # Si no existe la carpeta, la creamos.
+                if not os.path.isdir(target):
+                    os.mkdir(target)
 
-            # Tenemos que hacer un bucle para guardar/enviar todas las imagenes que se quieren subir
-            # (El cliente puere queder subir varias)
-            for file in request.files.getlist("images"):
+                # Tenemos que hacer un bucle para guardar/enviar todas las imagenes que se quieren subir
+                # (El cliente puere queder subir varias)
+                for file in request.files.getlist("images"):
 
-                if file.filename == '':
-                    flash('No selected file')
-                    return redirect('subirAnuncio.html')
-                if file and allowed_file(file.filename):
-                    productName = form.productName.data
-                    productPrice = form.productPrice.data
-                    productCategory = form.productCategory.data
-                    productDescripcion = form.productDescription.data
-                    productCurrency = "EUR"
-                    productOwner = current_user.user_id
-                    productType = "sale"
+                    if file.filename == '':
+                        flash('No selected file')
+                        return redirect('subirAnuncio.html')
+                    if file and allowed_file(file.filename):
+                        productName = form.productName.data
+                        productPrice = form.productPrice.data
+                        productCategory = form.productCategory.data
+                        productDescripcion = form.productDescription.data
+                        productCurrency = "EUR"
+                        productOwner = current_user.user_id
+                        productType = "sale"
 
-                    producto = {'type': productType,
-                            'title': productName,
-                            'description': productDescripcion,
-                            'owner_id': current_user.user_id,
-                            'location': {'lat': 0, 'lng': 0},
-                            'category': productCategory,
-                            'price': productPrice,
-                            'currency': productCurrency}
+                        producto = {'type': productType,
+                                'title': productName,
+                                'description': productDescripcion,
+                                'owner_id': current_user.user_id,
+                                'location': {'lat': 0, 'lng': 0},
+                                'category': productCategory,
+                                'price': productPrice,
+                                'currency': productCurrency}
 
-                    print(producto)
-                    print(file) # Debug
-                    # Cogemos el nombre del archivo como nombre que se va a guardar, por ahora.
-                    filename = secure_filename(file.filename)
-                    print(filename)
+                        print(producto)
+                        print(file) # Debug
+                        # Cogemos el nombre del archivo como nombre que se va a guardar, por ahora.
+                        filename = secure_filename(file.filename)
+                        print(filename)
 
-                    #destination = "/".join([target, filename])
-                    #print(destination)  # Debug
-                    #file.save(destination)
+                        #destination = "/".join([target, filename])
+                        #print(destination)  # Debug
+                        #file.save(destination)
 
-                    response = requests.post(url=url + '/products', json=producto, headers={'Authorization': current_user.token})
-                    print(response.text)
+                        response = requests.post(url=url + '/products', json=producto, headers={'Authorization': current_user.token})
+                        print(response.text)
 
-            # Redirige a la ruta deseada, se pueden pasar parametros
-            return redirect("/")
+                # Redirige a la ruta deseada, se pueden pasar parametros
+                return redirect("/")
 
-        return render_template('subirAnuncio.html', form=form, userauth=current_user)
+            return render_template('subirAnuncio.html', form=form, userauth=current_user)
 
-    return render_template('subirAnuncio.html', form=SubirAnuncioForm(), userauth=current_user)
+        return render_template('subirAnuncio.html', form=SubirAnuncioForm(), userauth=current_user)
+    else:
+        return redirect("/login")
 
 # Devuelve las imagenes de un directorio
 @app.route('/imagenes/<filename>')
