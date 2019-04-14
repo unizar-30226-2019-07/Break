@@ -9,7 +9,7 @@
     <!-- General links -->
     {% include 'include/headLinks.html' %}
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/venderObjeto.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/subirAnuncio.css') }}">
 </head>
 <body>
 
@@ -32,7 +32,7 @@
 
         <form id="upload-form" action="" method="POST" enctype="multipart/form-data" novalidate>
             <div class="d-flex justify-content-center">
-                <input type="file" name="images" id="file-input" class="inputfile" 
+                <input type="file" name="images" id="file-input" class="inputfile"
                        data-multiple-caption="{count} imagenes seleccionadas" multiple/>
                 <label for="file-input" class="p-3"><i
                         class="fas fa-arrow-alt-circle-up pr-1"></i><span>Elige una(s) imagen(es)</span></label>
@@ -155,7 +155,7 @@
                 </div>
             </div>
 
-            <input type="submit" class="contact_button mb-5" value="Subir Anuncio" id="upload-button">
+            <input type="submit" class="main_button mb-5" value="Subir Anuncio" id="upload-button">
         </form>
 
 
@@ -172,6 +172,6 @@
 <!-- Google Maps  -->
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
 
-<script src="{{ url_for('static', filename = 'js/venderObjeto.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/subirAnuncio.js') }}"></script>
 </body>
 </html>

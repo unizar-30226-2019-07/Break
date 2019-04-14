@@ -29,14 +29,17 @@
     color: white;
     background-color: var(--secondaryColor);
     display: inline-block;
-    -webkit-box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3);
-    box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3);
+    border-radius: 5px;
+	-webkit-box-shadow: 0 10px 30px 0 rgba(231, 76, 60,0.3);
+    box-shadow: 0 10px 30px 0 rgba(231, 76, 60,0.3);
 }
 
 .inputfile:focus + label,
 .inputfile + label:hover {
     color: white;
     background-color: var(--primaryColor);
+    -webkit-box-shadow: 0 10px 45px 0 rgba(231, 76, 60,0.6);
+    box-shadow: 0 10px 45px 0 rgba(231, 76, 60,0.6);
 }
 
 .inputfile + label {
@@ -173,25 +176,6 @@ footer {
 }
 
 /*********************************
-5. Home
-*********************************/
-
-.home
-{
-	height: 261px;
-}
-.home_content
-{
-	padding-top: 173px;
-}
-.home_title
-{
-	font-size: 30px;
-	font-weight: 500;
-	color: #ffffff;
-}
-
-/*********************************
 6. Contact
 *********************************/
 
@@ -294,42 +278,8 @@ footer {
 	height: 300px;
 	padding-top: 16px;
 }
-.contact_button
-{
-	width: 247px;
-	height: 51px;
-	background: var(--secondaryColor);
-	border: none;
-	outline: none;
-	font-size: 1.50em;
-    font-weight: 800;
-	color: white;
-	text-transform: uppercase;
-	cursor: pointer;
-	margin-top: 23px;
-	-webkit-box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3);
-    box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3);
-}
 
-.contact_button:focus,
-.contact_button:hover {
-    color: white;
-    background-color: var(--primaryColor);
-}
 
-.contact_button{
-	cursor: pointer; /* "hand" cursor */
-}
-
-/* Acceso con teclado */
-.contact_button:focus{
-	outline: 1px dotted #000;
-	outline: -webkit-focus-ring-color auto 5px;
-}
-/* Possible Touch Issues */
-.contact_button * {
-	pointer-events: none;
-}
 
 /*********************************
 7. Google Map
