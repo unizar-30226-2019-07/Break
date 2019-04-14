@@ -83,6 +83,17 @@
                     <li>{{ error }}</li>
                 </div>
                 {% endfor %}
+		{% if notactivated %}
+		<div class="alert alert-danger">
+			<li>El usuario no ha sido verificado</li>
+                </div>
+		{% endif %}
+		{% if veriferror %}
+		<div class="alert alert-danger">
+			<li>Credenciales incorrectas</li>
+                </div>
+		{% endif %}
+
 
 
                 <strong>{{ form.password.label }}</strong><br>

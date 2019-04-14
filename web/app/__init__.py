@@ -68,6 +68,11 @@ def login():
             # Send the JSON to the API REST using the POST method
             response = requests.post(url=url + '/login', json=usuario, headers={'Authorization': ''})
 
+            # Status Code management
+            # 200: Login successful
+            # 401: User exists but it has not been activated
+            # 403: Invalid credentials
+
             if response.status_code == 200:
                 # Use the token to search in the database so that it is posible to have several sessions of the same user (differentiated by the token)
                 user = User.query.filter_by(token=response.headers['Authorization']).first()
@@ -75,7 +80,6 @@ def login():
                     # If the user does not exist in the database that is used for sessions
                     # add him to the database
                     response2 = requests.get(url = url + '/users?email=' + email, headers={'Authorization': response.headers['Authorization']})
-                    print(response2.text)
                     user = User(username=form.email.data, user_id=json.loads(response2.text)[0]['idUsuario'], token=response.headers['Authorization'])
                     db.session.add(user)
                     db.session.commit()
@@ -86,7 +90,18 @@ def login():
                 return redirect('/')
             else:
                 # Authentication failure, go back to the login page
-                return redirect('/login')
+                #return redirect('/login')
+                if response.status_code == 401:
+                    notactivated = True
+                else:
+                    notactivated = False
+
+                if response.status_code == 403:
+                    veriferror = True
+                else:
+                    veriferror = False
+
+                return render_template('login.html', title='Log In', form=LoginForm(), userauth=current_user, notactivated=notactivated, veriferror = veriferror)
 
         return render_template('login.html', form=form, userauth=current_user)
 
