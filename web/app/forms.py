@@ -94,3 +94,15 @@ class SubirAnuncioForm(Form):
     productLat = StringField('Latitud', [
         validators.DataRequired(message='Es necesario introducir una latitud'),
         validators.Length(min=1, max=10, message='El tamaño máximo de la latitud son 10 números')])
+
+
+class ProductSearch(Form):
+    category = StringField('Categoría')
+    type = StringField('Tipo')
+    keywords = StringField('Palabras Clave')
+    minprice = StringField('Precio Mínimo')
+    maxprice = StringField('Precio Máximo')
+    minpublished = StringField('Fecha Mínima de Publicación')
+    maxpublished = StringField('Fecha Máxima de Publicación')
+    submit = SubmitField('Buscar')
+

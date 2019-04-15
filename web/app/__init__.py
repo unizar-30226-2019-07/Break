@@ -3,7 +3,7 @@ from flask_login import LoginManager, current_user, login_user, logout_user
 from werkzeug.utils import secure_filename
 
 from config import Config
-from app.forms import LoginForm, RegisterForm, EditProfile, EditEmail, EditPassword, EditLocation, SubirAnuncioForm
+from app.forms import LoginForm, RegisterForm, EditProfile, EditEmail, EditPassword, EditLocation, SubirAnuncioForm, ProductSearch
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import requests
@@ -164,7 +164,39 @@ def contact():
 
 @app.route('/listings')
 def listing():
-    products = requests.get(url + '/products?lat=0&lng=0&distance=5000000000')
+    form = ProductSearch(request.form)
+    # Parametres that will be used in the search are passed using GET
+    minprice = request.args.get('minprice')
+    maxprice = request.args.get('maxprice')
+    minpublished = request.args.get('minpublished')
+    maxpublished = request.args.get('maxpublished')
+    category = request.args.get('category')
+    type = request.args.get('type')
+    keywords = request.args.get('keywords')
+
+    # Base address, parametres will be concatenadted here
+    products = url + '/products'
+    print(products)
+    products += "?lat=0"
+    products += "&lng=0"
+    products += "&distance=500000000"
+    if minprice != None and minprice != "":
+        products += "&priceFrom=" + minprice
+    if maxprice != None and maxprice != "":
+        products += "&priceTo=" + maxprice
+    if minpublished != None and minpublished != "":
+        products += "&publishedFrom=" + minpublished
+    if maxpublished != None and maxpublished != "":
+        products += "&publishedTo=" + maxpublished
+    if category != None and category != "":
+        products += "&category=" + category
+    if type != None and type != "":
+        products += "&types=" + type
+    if keywords != None and keywords != "":
+        products += "&search=" + keywords
+
+    products = requests.get(products)
+
     prods = json.loads(products.text)
     mymap = Map(
         identifier="view-side",
@@ -186,7 +218,7 @@ def listing():
         language="es",
         region="ES"
     )
-    return render_template('listings.html', userauth=current_user, prods=prods, map=mymap)
+    return render_template('listings.html', userauth=current_user, prods=prods, map=mymap, form=form)
 
 
 # Extensiones permitidas

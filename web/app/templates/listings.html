@@ -1,147 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>Listings</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="myHOME - real estate template project">
+	<head>
+		<title>Listings</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="myHOME - real estate template project">
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/listings.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/listings.css') }}">
 
-    <!-- General links -->
-    {% include 'include/headLinks.html' %}
+		<!-- General links -->
+		{% include 'include/headLinks.html' %}
 
-    {{ map.js }}
+		{{ map.js }}
 
-</head>
+	</head>
 
-<body>
-<div class="super_container">
-    <div class="super_overlay"></div>
+	<body>
+		<div class="super_container">
+			<div class="super_overlay"></div>
 
-    <!-- Header -->
+			<!-- Header -->
 
-    {% include 'include/header.html' %}
+			{% include 'include/header.html' %}
 
-    <!-- Title -->
-    <center>
-        <div class="title_container">
-            <div class="title">Buscar Producto</div>
-        </div>
-    </center>
-
-
-    <!-- Search -->
-    <div class="search">
-        <div class="container">
-            <div class="col-12 p-0">
-                <div class="google_map_container">
-                    {{ map.html }}
-                    <script type="text/javascript">
-                        google.maps.event.addDomListener(window, 'load', function(){
-                            {% for prod in prods %}    
-                            map_markers[{{ loop.index0 }}].addListener('click', function(){
-                                var elem = $("#{{ prod.id_producto }}");
-                                $(document).scrollTop(elem.offset().top - 80);
-                                elem.addClass('focus');
-                                setTimeout(function() {
-                                    elem.removeClass('focus');
-                                }, 2000);
-                            });
-                            {% endfor %}
-                        });
-                    </script>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="search_container">
-                        <div class="search_form_container">
-                            <form action="#" class="search_form" id="search_form">
-                                <div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
-                                    <div class="search_inputs d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
-                                        <input type="text" class="search_input" placeholder="Property type"
-                                               required="required">
-                                        <input type="text" class="search_input" placeholder="No rooms"
-                                               required="required">
-                                        <input type="text" class="search_input" placeholder="Location"
-                                               required="required">
-                                    </div>
-                                    <button class="search_button">submit listing</button>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="extra_search_buttons d-flex flex-row align-items-start justify-content-start">
-                            <div class="extra_search_button search_button_1"><a href="#">Detailed Search</a></div>
-                            <div class="extra_search_button search_button_2"><a href="#">Show Map</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Listings -->
-
-    <div class="listings">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-
-                    <!-- Sorting -->
-                    <div class="sorting d-flex flex-md-row flex-column align-items-start justify-content-start">
-
-                        <!-- Tags -->
-                        <div class="listing_tags">
-                            <ul class="d-flex flex-row align-items-start justify-content-start flex-wrap">
-                                <li><a href="#">Cerca de mi<span>x</span></a></li>
-                                <li><a href="#">Cerveza<span>x</span></a></li>
-                                <li><a href="#">Cerveza<span>x</span></a></li>
-                                <li><a href="#">Cerveza<span>x</span></a></li>
-                                <li><a href="#">Cerveza<span>x</span></a></li>
-                                <li><a href="#">Cerveza Cerveza<span>x</span></a></li>
-                                <li><a href="#">Cerveza<span>x</span></a></li>
-                            </ul>
-                        </div>
-
-                        <!-- Sort -->
-                        <div class="sorting_container">
-                            <div class="sort">
-                                <span>Sort By</span>
-                                <ul>
-                                    <li class="sorting_button" data-isotope-option='{ "sortBy": "original-order" }'>
-                                        Default
-                                    </li>
-                                    <li class="sorting_button" data-isotope-option='{ "sortBy": "price" }'>Price</li>
-                                    <li class="sorting_button" data-isotope-option='{ "sortBy": "area" }'>Area</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                    </div>
+			<!-- Title -->
+			<center>
+				<div class="title_container">
+					<div class="title">Buscar Producto</div>
+				</div>
+			</center>
 
 
-                    {% import 'include/_products.html' as products %}
-                    {{ products.list(prods) }}
+			<!-- Search -->
+			<div class="search">
+				<div class="container">
+					<div class="col-12 p-0">
+						<div class="google_map_container">
+							{{ map.html }}
+							<script type="text/javascript">
+								google.maps.event.addDomListener(window, 'load', function(){
+									{% for prod in prods %}    
+									map_markers[{{ loop.index0 }}].addListener('click', function(){
+										var elem = $("#{{ prod.id_producto }}");
+										$(document).scrollTop(elem.offset().top - 80);
+										elem.addClass('focus');
+										setTimeout(function() {
+											elem.removeClass('focus');
+										}, 2000);
+									});
+									{% endfor %}
+								});
+							</script>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<div class="search_container">
+								<div class="search_form_container">
+									<form action="#" class="search_form" id="search_form">
+										<div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
+											<div class="search_inputs d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
 
-                    <div class="load_more">
-                        <div class="button ml-auto mr-auto"><a href="#">load more</a></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+												{{ form.minprice(class = "search_input", placeholder = "Precio Mínimo") }}
+												{{ form.maxprice(class = "search_input", placeholder = "Precio Máximo") }}
+												{{ form.minpublished(class = "search_input", placeholder = "Fecha Máxima") }}
+												{{ form.maxpublished(class = "search_input", placeholder = "Fecha Mínima") }}
+												{{ form.category(class = "search_input", placeholder = "Categoría") }}
+												{{ form.type(class = "search_input", placeholder = "Tipo") }}
+												{{ form.keywords(class = "search_input", placeholder = "Palabras Clave") }}
+											</div>
+											{{ form.submit(class="search_button") }}
+										</div>
+									</form>
+								</div>
+								<div class="extra_search_buttons d-flex flex-row align-items-start justify-content-start">
+									<div class="extra_search_button search_button_1"><a href="#">Detailed Search</a></div>
+									<div class="extra_search_button search_button_2"><a href="#">Show Map</a></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-    <!-- Footer  -->
-    {% include 'include/footer.html' %}
-</div>
+			<!-- Listings -->
 
-<!-- General Scripts  -->
-{% include 'include/scripts.html' %}
+			<div class="listings">
+				<div class="container">
+					<div class="row">
+						<div class="col">
 
-<!-- Isotope  -->
-<script src="{{ url_for('static', filename = 'plugins/Isotope/isotope.pkgd.min.js') }}"></script>
+							<!-- Sorting -->
+							<div class="sorting d-flex flex-md-row flex-column align-items-start justify-content-start">
 
-<script src="{{ url_for('static', filename = 'js/listings.js') }}"></script>
-</body>
+								<!-- Tags -->
+								<div class="listing_tags">
+									<ul class="d-flex flex-row align-items-start justify-content-start flex-wrap">
+										<li><a href="#">Cerca de mi<span>x</span></a></li>
+										<li><a href="#">Cerveza<span>x</span></a></li>
+										<li><a href="#">Cerveza<span>x</span></a></li>
+										<li><a href="#">Cerveza<span>x</span></a></li>
+										<li><a href="#">Cerveza<span>x</span></a></li>
+										<li><a href="#">Cerveza Cerveza<span>x</span></a></li>
+										<li><a href="#">Cerveza<span>x</span></a></li>
+									</ul>
+								</div>
+
+								<!-- Sort -->
+								<div class="sorting_container">
+									<div class="sort">
+										<span>Sort By</span>
+										<ul>
+											<li class="sorting_button" data-isotope-option='{ "sortBy": "original-order" }'>
+												Default
+											</li>
+											<li class="sorting_button" data-isotope-option='{ "sortBy": "price" }'>Price</li>
+											<li class="sorting_button" data-isotope-option='{ "sortBy": "area" }'>Area</li>
+										</ul>
+									</div>
+								</div>
+
+							</div>
+
+
+							{% import 'include/_products.html' as products %}
+							{{ products.list(prods) }}
+
+							<div class="load_more">
+								<div class="button ml-auto mr-auto"><a href="#">load more</a></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Footer  -->
+			{% include 'include/footer.html' %}
+		</div>
+
+		<!-- General Scripts  -->
+		{% include 'include/scripts.html' %}
+
+		<!-- Isotope  -->
+		<script src="{{ url_for('static', filename = 'plugins/Isotope/isotope.pkgd.min.js') }}"></script>
+
+		<script src="{{ url_for('static', filename = 'js/listings.js') }}"></script>
+	</body>
 </html>
