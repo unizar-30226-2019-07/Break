@@ -31,14 +31,52 @@
 
     <div class="row">
         <div class="col-lg-4 text-center">
-            <div class="mt-5">
-                <!-- Begin Image -->
-                <img class="portrait m-0 mb-3" src={{url_for('static',filename='profiles/pfp.png')}}
-                     alt="{{ user.first_name }} {{ user.last_name }}"/>
+            <div id="profile-image" class="my-5">
+                {% import 'include/_gravatar.html' as gravatar %}
+                {% if user.picture.idImagen is number %}
+                    {% set profile_picture = api + '/pictures/' + (user.picture.idImagen|string) %}
+                {% else %}
+                    {% set profile_picture = gravatar.get(user.email) %}
+                {% endif %}
+                <div id="profile-picture" class="portrait m-0 m-4"
+                    style="background-image: url( {{ profile_picture }} )" 
+                    title="{{ user.first_name }} {{ user.last_name }}"></div>
                 <!-- End Image -->
             </div>
-            <form action="" method="POST">
-                <input type="submit" id="image-change" class="mb-5 main_button" value="Cambiar imagen de perfil">
+            <form action="" method="POST" enctype="multipart/form-data">
+                {{ form_picture.csrf_token }}
+                <div class="justify-content-center">
+                {{ form_picture.picture(class="inputfile", accept="image/bmp,image/jpeg,image/gif,image/png,image/svg+xml,image/tiff") }}
+                <label for="{{ form_picture.picture.name }}" class="p-3" hidden=""><i class="fas fa-arrow-alt-circle-up pr-1"></i><span class="pl-1">Cambiar imagen</span></label>
+                {% for error in form_picture.picture.errors %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+                {{ form_picture.submit(class="mb-5 contact_button", hidden="true") }}
+                {% if user.picture.idImagen is number %}
+                    {{ form_picture.delete(class="mb-5 contact_button") }}
+                {% endif %}
+                <script type="text/javascript">
+                    var reader = new FileReader();
+                    reader.addEventListener("load", function() {
+                        document.getElementById('profile-picture').style.backgroundImage = "url(" + this.result + ")"
+                        document.getElementById('{{ form_picture.submit.name }}').removeAttribute("hidden")
+                    });
+
+                    document.getElementById('{{ form_picture.picture.name }}').addEventListener('change', function() {
+                        if (this.files) {
+                            [].forEach.call(this.files, function(file){
+                                reader.readAsDataURL(file)
+                            });
+                        }
+                    });
+
+                    document.getElementById('profile-picture').addEventListener("click", function() {
+                        document.getElementById('{{ form_picture.picture.name }}').click();
+                    });
+                </script>
+            </div>
             </form>
         </div>
 
