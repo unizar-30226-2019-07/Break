@@ -289,6 +289,7 @@ def editproduct(prod_id):
             # (El cliente puere queder subir varias)
             mime = request.form.getlist("mime[]")
             base64 = request.form.getlist("base64[]")
+            product['media'] = []
             for i, idImagen in  enumerate(request.form.getlist("idImagen[]")):
                 if (int(idImagen) > 0):
                     product['media'].append({
@@ -310,6 +311,9 @@ def editproduct(prod_id):
             product['location']['lng'] = form_sale.lng.data
             product['category'] = form_sale.category.data
             product['price'] = float(form_sale.price.data)
+
+
+            print(product)
 
             if int(prod_id) > 0:
                 response = requests.put(url=url + '/products/' + prod_id, json=product, headers={'Authorization': current_user.token})
