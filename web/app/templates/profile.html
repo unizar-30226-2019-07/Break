@@ -35,12 +35,19 @@
 
     <div class="row mt-5">
         <div class="col-12 col-xl-4">
-            <!-- Begin Image -->
-            <div class="my-5 text-center flex-grow-1">
-                <img class="portrait m-0" src={{url_for('static',filename='profiles/pfp.png')}}
-                     alt="{{ user.first_name }} {{ user.last_name }}"/>
+            <div id="profile-image" class="my-5">
+                <!-- Begin Image -->
+                {% import 'include/_gravatar.html' as gravatar %}
+                {% if user.picture.idImagen is number %}
+                    {% set profile_picture = api + '/pictures/' + (user.picture.idImagen|string) %}
+                {% else %}
+                    {% set profile_picture = gravatar.get(user.email) %}
+                {% endif %}
+                <div class="portrait m-0 m-4" 
+                    style="background-image: url( {{ profile_picture }} )" 
+                    title="{{ user.first_name }} {{ user.last_name }}"></div>
+                <!-- End Image -->
             </div>
-            <!-- End Image -->
         </div>
         <!-- Begin Personal Information -->
         <div class="col-12 col-xl-8">
