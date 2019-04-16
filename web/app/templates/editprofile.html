@@ -53,9 +53,9 @@
                         {{ error }}
                     </div>
                 {% endfor %}
-                {{ form_picture.submit(class="mb-5 contact_button", hidden="true") }}
+                {{ form_picture.submit(class="mb-5 main_button", hidden="true") }}
                 {% if user.picture.idImagen is number %}
-                    {{ form_picture.delete(class="mb-5 contact_button") }}
+                    {{ form_picture.delete(class="mb-5 main_button") }}
                 {% endif %}
                 <script type="text/javascript">
                     var reader = new FileReader();

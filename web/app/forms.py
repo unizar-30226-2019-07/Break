@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, IntegerField, validators, FileField, \
-    MultipleFileField, SelectField, RadioField, HiddenField
+    MultipleFileField, SelectField, RadioField, HiddenField, DecimalField, TextAreaField
 from wtforms.validators import DataRequired
 
 
@@ -81,24 +81,34 @@ class EditPicture(FlaskForm):
     delete = SubmitField('Eliminar imagen')
 
 # Structure of the Subir Anuncio form
-class SubirAnuncioForm(Form):
-    images = MultipleFileField('Imagenes')
-    productName = StringField('Nombre del producto', [
+class SubirAnuncioForm(FlaskForm):
+    # pictures = HiddenField("Imágenes")
+    # mimes = HiddenField("Formatos de imagen")
+    name = StringField('Nombre del producto', [
         validators.DataRequired(message='Es necesario introducir un nombre de producto'),
         validators.Length(min=1, max=50, message='El tamaño máximo del nombre del producto son 50 carácteres')])
-    productPrice = StringField('Precio (€)', [
+    price = DecimalField('Precio (€)', [
         validators.DataRequired(message='Es necesario introducir un precio'),
-        validators.Length(min=1, max=10, message='El tamaño máximo del precio del producto son 10 números')])
-    productCategory = StringField('Categoría', [
-        validators.DataRequired(message='Es necesario seleccionar una categoría')])
-    productDescription = StringField('Descripción detallada', [
+        validators.NumberRange(min=0, max=9999999.99, message='El precio intoducido no es válido')])
+    category = SelectField('Categoría', 
+        choices = [ 
+            ('Automoción', 'Automoción'),
+            ('Informática', 'Informática'),
+            ('Moda', 'Moda'),
+            ('Deporte y ocio', 'Deporte y ocio'),
+            ('Videojuegos', 'Videojuegos'),
+            ('Libros y música', 'Libros y música'),
+            ('Hogar y jardín', 'Hogar y jardín'),
+            ('Foto y audio ', 'Foto y audio ')
+        ], validators = [ 
+            validators.DataRequired(message='Es necesario seleccionar una categoría') ])
+    description = TextAreaField('Descripción', [
         validators.DataRequired(message='Es necesario escribir una descripción')])
-    productLong = StringField('Longitud', [
-        validators.DataRequired(message='Es necesario introducir una longitud'),
-        validators.Length(min=1, max=10, message='El tamaño máximo de la longitud son 10 números')])
-    productLat = StringField('Latitud', [
-        validators.DataRequired(message='Es necesario introducir una latitud'),
-        validators.Length(min=1, max=10, message='El tamaño máximo de la latitud son 10 números')])
+    lat = HiddenField('Latitud', [
+        validators.DataRequired(message='No se ha podido obtener la nueva localización')])
+    lng = HiddenField('Longitud', [
+        validators.DataRequired(message='No se ha podido obtener la nueva localización')])
+    submit = SubmitField('Publicar Anuncio')
 
 
 class ProductSearch(Form):

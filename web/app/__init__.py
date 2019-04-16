@@ -254,68 +254,79 @@ def allowed_file(filename):
 
 @app.route("/upload", methods=['GET', 'POST'])
 def upload():
-    print(current_user)
-    if current_user.is_authenticated:
-        form = SubirAnuncioForm(request.form)
-        print("subir anuncio open")
-        print(request.method)
-        print(form.validate())
-        if request.method == 'POST':
-            if form.validate():
-                # Creamos la ruta donde vamos a guardar las imagenes
-                target = os.path.join(APP_ROOT, 'static/client_images/')
-                print(target)
+    return editproduct(0)
 
-                # Si no existe la carpeta, la creamos.
-                if not os.path.isdir(target):
-                    os.mkdir(target)
-
-                # Tenemos que hacer un bucle para guardar/enviar todas las imagenes que se quieren subir
-                # (El cliente puere queder subir varias)
-                for file in request.files.getlist("images"):
-
-                    if file.filename == '':
-                        flash('No selected file')
-                        return redirect('subirAnuncio.html')
-                    if file and allowed_file(file.filename):
-                        productName = form.productName.data
-                        productPrice = form.productPrice.data
-                        productCategory = form.productCategory.data
-                        productDescripcion = form.productDescription.data
-                        productCurrency = "EUR"
-                        productOwner = current_user.user_id
-                        productType = "sale"
-
-                        producto = {'type': productType,
-                                'title': productName,
-                                'description': productDescripcion,
-                                'owner_id': current_user.user_id,
-                                'location': {'lat': 0, 'lng': 0},
-                                'category': productCategory,
-                                'price': productPrice,
-                                'currency': productCurrency}
-
-                        print(producto)
-                        print(file) # Debug
-                        # Cogemos el nombre del archivo como nombre que se va a guardar, por ahora.
-                        filename = secure_filename(file.filename)
-                        print(filename)
-
-                        #destination = "/".join([target, filename])
-                        #print(destination)  # Debug
-                        #file.save(destination)
-
-                        response = requests.post(url=url + '/products', json=producto, headers={'Authorization': current_user.token})
-                        print(response.text)
-
-                # Redirige a la ruta deseada, se pueden pasar parametros
-                return redirect("/")
-
-            return render_template('subirAnuncio.html', form=form, userauth=current_user)
-
-        return render_template('subirAnuncio.html', form=SubirAnuncioForm(), userauth=current_user)
-    else:
+@app.route("/single/<prod_id>/edit", methods=['GET', 'POST'])
+def editproduct(prod_id):
+    if not current_user.is_authenticated:
         return redirect(url_for('login'))
+
+    if int(prod_id) > 0:
+        # Editar producto preexistente
+        response = requests.get(url + "/products/" + str(prod_id) + "?lng=0&lat=0")
+        product = json.loads(response.text)
+    else:
+        # Crear producto nuevo
+        product = { 'title': '',
+            'description': '',
+            'owner_id': current_user.user_id,
+            'location': {
+                'lat': 0, 
+                'lng': 0
+            },
+            'category': '',
+            'price': 0.0,
+            'currency': 'EUR',
+            'media': []
+        }
+
+    form_sale = SubirAnuncioForm(prefix="sale")
+    if request.method == 'POST':
+        form_sale = SubirAnuncioForm(request.form, prefix="sale")
+        if form_sale.submit.data and form_sale.validate_on_submit():
+
+            # Tenemos que hacer un bucle para guardar/enviar todas las imagenes que se quieren subir
+            # (El cliente puere queder subir varias)
+            mime = request.form.getlist("mime[]")
+            base64 = request.form.getlist("base64[]")
+            for i, idImagen in  enumerate(request.form.getlist("idImagen[]")):
+                if (int(idImagen) > 0):
+                    product['media'].append({
+                        'idImagen': idImagen,
+                        'base64': None,
+                        'mime': None,
+                        'charset': None
+                    })
+                else:
+                    product['media'].append({
+                        'base64': base64[i],
+                        'mime': mime[i],
+                        'charset': 'utf-8'
+                    })
+
+            product['title'] = form_sale.name.data
+            product['description'] = form_sale.description.data
+            product['location']['lat'] = form_sale.lat.data
+            product['location']['lng'] = form_sale.lng.data
+            product['category'] = form_sale.category.data
+            product['price'] = float(form_sale.price.data)
+
+            if int(prod_id) > 0:
+                response = requests.put(url=url + '/products/' + prod_id, json=product, headers={'Authorization': current_user.token})
+
+            else:
+                response = requests.post(url=url + '/products', json=product, headers={'Authorization': current_user.token})
+            
+            print(response.text)
+
+            # Redirige a la ruta deseada, se pueden pasar parametros
+            return redirect(url_for('profile'))
+
+    form_sale.category.default = product['category']
+    form_sale.description.default = product['description']
+    form_sale.process()
+
+    return render_template('subirAnuncio.html', form_sale=form_sale, userauth=current_user, product=product)
 
 # Devuelve las imagenes de un directorio
 @app.route('/imagenes/<filename>')
@@ -438,14 +449,11 @@ def editprofile():
                 file = request.files[form_picture.picture.name]
                 base64_data = base64.b64encode(file.read())
                 user['picture'] = {'mime': file.content_type, 'charset': 'utf-8', 'base64': str(base64_data.decode('utf-8')) }
-                print(user)
                 response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.token})
-                print(response)
                 return redirect(url_for('profile'))
             elif form_picture.delete.data and form_picture.validate_on_submit():
-                user['picture'] = None
+                user['picture'] = { 'idImagen': None , 'mime': None, 'charset': None, 'base64': None}
                 response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.token})
-                print(response)
                 return redirect(url_for('profile'))
 
         form_profile.gender.default = user['gender']
