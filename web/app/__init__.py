@@ -3,7 +3,7 @@ from flask_login import LoginManager, current_user, login_user, logout_user
 from werkzeug.utils import secure_filename
 
 from config import Config
-from app.forms import LoginForm, RegisterForm, EditProfile, EditEmail, EditPassword, EditLocation, SubirAnuncioForm, ProductSearch
+from app.forms import LoginForm, RegisterForm, EditProfile, EditEmail, EditPassword, EditLocation, SubirAnuncioForm, ProductSearch, EditPicture
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import requests
@@ -28,6 +28,12 @@ login = LoginManager(app)
 
 GoogleMaps(app)
 
+import urllib, hashlib
+app.jinja_env.globals['urllib'] = urllib
+app.jinja_env.globals['hashlib'] = hashlib
+
+import base64
+
 from app import models
 from app.models import User
 
@@ -36,6 +42,7 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # URL of the API
 url = 'http://35.234.77.87:8080'
+app.jinja_env.globals['api'] = url
 
 @login.user_loader
 def load_user(id):
@@ -308,7 +315,7 @@ def upload():
 
         return render_template('subirAnuncio.html', form=SubirAnuncioForm(), userauth=current_user)
     else:
-        return redirect("/login")
+        return redirect(url_for('login'))
 
 # Devuelve las imagenes de un directorio
 @app.route('/imagenes/<filename>')
@@ -339,12 +346,15 @@ def get_gallery(prod_id):
 
 @app.route('/user/<user_id>')
 def user(user_id):
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+        
     on_sale = requests.get(url + '/products?lat=0&lng=0&distance=5000000000&owner=' + str(user_id) + '&status=en%20venta')
     sold = requests.get(url + '/products?lat=0&lng=0&distance=5000000000&owner=' + str(user_id) + '&status=vendido')
     response = requests.get(url=url + '/users/' + str(user_id), headers={'Authorization': current_user.token})
     # If there is an error retrieving the user (no permissions) the user will be redirected to the login page
     if response.status_code != 200:
-        return redirect("/login")
+        return redirect(url_for('login'))
     else:
 
         user = json.loads(response.text)
@@ -366,22 +376,31 @@ def user(user_id):
 
 @app.route('/profile')
 def profile():
-    return redirect(url_for('user', user_id=current_user.user_id))
+    if current_user.is_authenticated:
+        return redirect(url_for('user', user_id=current_user.user_id))
+    else:
+        return redirect(url_for('login'))
+
 
 @app.route('/editprofile', methods=['GET', 'POST'])
 def editprofile():
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
     response = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.token})
     user = json.loads(response.text)
-    print(user['gender'])
-        
+
+    user['picture'] = {'idImagen': user['picture']['idImagen']}
+
     form_location=EditLocation(prefix="location")
     form_password=EditPassword(prefix="password")
     form_email=EditEmail(prefix="email")
     form_profile=EditProfile(prefix="profile")
+    form_picture=EditPicture(prefix="picture")
 
     # If there is an error retrieving the user (no permissions) the user will be redirected to the login page
     if response.status_code != 200:
-        return redirect("/login")
+        return redirect(url_for('login'))
     else:
         if request.method == 'POST':
             form_profile = EditProfile(request.form, prefix="profile")
@@ -411,15 +430,30 @@ def editprofile():
             elif form_location.submit.data and form_location.validate_on_submit():
                 user['location']['lat'] = form_location.lat.data
                 user['location']['lng'] = form_location.lng.data
+                print(user)
                 response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.token})
+                print(response)
+                return redirect(url_for('profile'))
+            elif form_picture.submit.data and form_picture.validate_on_submit():
+                file = request.files[form_picture.picture.name]
+                base64_data = base64.b64encode(file.read())
+                user['picture'] = {'mime': file.content_type, 'charset': 'utf-8', 'base64': str(base64_data.decode('utf-8')) }
+                print(user)
+                response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.token})
+                print(response)
+                return redirect(url_for('profile'))
+            elif form_picture.delete.data and form_picture.validate_on_submit():
+                user['picture'] = None
+                response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.token})
+                print(response)
                 return redirect(url_for('profile'))
 
         form_profile.gender.default = user['gender']
         form_profile.process()
 
         return render_template('editprofile.html', form_profile=form_profile, form_email=form_email, \
-            form_password=form_password, form_location=form_location, userauth=current_user, user=user, \
-            GOOGLEMAPS_KEY=app.config['GOOGLEMAPS_KEY'])
+            form_password=form_password, form_location=form_location, form_picture=form_picture, \
+            userauth=current_user, user=user, GOOGLEMAPS_KEY=app.config['GOOGLEMAPS_KEY'])
 
 @app.route('/verify')
 def verify():
@@ -427,7 +461,7 @@ def verify():
     print(random)
     response = requests.post(url=url + '/verify?random=' + str(random))
     print(response.text)
-    return redirect("/login")
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.secret_key = 'secret_key_Selit!_123'

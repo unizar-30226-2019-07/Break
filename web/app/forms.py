@@ -75,6 +75,11 @@ class EditEmail(FlaskForm):
     ])
     submit = SubmitField('Cambiar correo')
 
+class EditPicture(FlaskForm):
+    picture = FileField('Imagen de perfil')
+    submit = SubmitField('Establecer imagen')
+    delete = SubmitField('Eliminar imagen')
+
 # Structure of the Subir Anuncio form
 class SubirAnuncioForm(Form):
     images = MultipleFileField('Imagenes')
