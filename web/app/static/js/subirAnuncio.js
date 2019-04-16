@@ -81,45 +81,75 @@ $(document).ready(function()
 5. previewImages
 
 */
+var numPitures = 0;
+var MAX_NUM_PICTURES = 10;
 function previewImages() {
 
     var preview = document.querySelector('#preview');
 
-    preview.innerHTML = "";
+    // preview.innerHTML = "";
 
     if (this.files) {
         [].forEach.call(this.files, readAndPreview);
     }
+    this.value = "";
 
     function readAndPreview(file) {
 
         // Make sure `file.name` matches our extensions criteria
-        if (!/\.(jpe?g|png|gif|svg)$/i.test(file.name)) {
-        return alert(file.name + " is not an image");
-    } // else...
+		if (numPitures < MAX_NUM_PICTURES) {
 
-    var reader = new FileReader();
+			var reader = new FileReader();
+			var type = file.type;
 
-    reader.addEventListener("load", function() {
-        var new_picture = document.createElement("div");
-        new_picture.className = "pic";
+			reader.addEventListener("load", function() {
+				var new_picture = document.createElement("div");
+				new_picture.className = "col-4 col-md-3 col-lg-2 sortable";
+				container = document.createElement("div");
 
-        var image = new Image();
-        //image.height = 100;
-        image.title  = file.name;
-        image.src    = this.result;
+				var image =  document.createElement("div");
+				image.style.backgroundImage = "url(" + this.result + ")";
 
-        new_picture.appendChild(image)
-        preview.appendChild(new_picture);
-    });
+				container.appendChild(image)
+				new_picture.appendChild(container)
 
-    reader.readAsDataURL(file);
+				new_picture.insertAdjacentHTML('beforeend', 
+					'<div class="row"><i class="fas fa-arrow-left col-4"></i><i class="fas fa-trash col-4"></i><i class="fas fa-arrow-right col-4"></i></div>');
 
-    }
+				picture = document.createElement('input');
+				picture.type = 'hidden';
+				picture.name = 'base64[]';
+				picture.value = this.result.replace(/^data:.+;base64,/, "");
 
+				new_picture.appendChild(picture)
+
+				mime = document.createElement('input');
+				mime.type = 'hidden';
+				mime.name = 'mime[]';
+				mime.value = type;
+
+				new_picture.appendChild(mime)
+
+				idImagen = document.createElement('input');
+				idImagen.type = 'hidden';
+				idImagen.name = 'idImagen[]';
+				idImagen.value = 0;
+
+				new_picture.appendChild(idImagen)
+
+				preview.appendChild(new_picture);
+			});
+
+			reader.readAsDataURL(file);
+        	numPitures = numPitures + 1;
+        	if (numPitures >= MAX_NUM_PICTURES) {
+				document.getElementById('file-input').setAttribute("disabled", true);
+        	}
+		}
+	}
 }
 
-document.querySelector('#file-input').addEventListener("change", previewImages);
+document.getElementById('file-input').addEventListener("change", previewImages);
 
 /*
 
@@ -143,16 +173,18 @@ document.querySelector('#file-input').addEventListener("change", previewImages);
 
 		input.addEventListener( 'change', function( e )
 		{
+			/*
 			var fileName = '';
 			if( this.files && this.files.length > 1 )
 				fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
 			else
-				fileName = e.target.value.split( '\\' ).pop();
+				fileName = "1 imagen seleccionada";
 
 			if( fileName )
 				label.querySelector( 'span' ).innerHTML = fileName;
 			else
 				label.innerHTML = labelVal;
+			*/
 		});
 
 		// Firefox bug fix
@@ -160,3 +192,18 @@ document.querySelector('#file-input').addEventListener("change", previewImages);
 		input.addEventListener( 'blur', function(){ input.classList.remove( 'has-focus' ); });
 	});
 }( document, window, 0 ));
+
+$(document).on('click', '.sortable .fa-arrow-right', function(event) {
+	var element = $(this).closest('.sortable');
+	element.before(element.next());
+});
+
+$(document).on('click', '.sortable .fa-arrow-left', function(event) {
+	var element = $(this).closest('.sortable');
+	element.after(element.prev());
+});
+
+$(document).on('click', '.sortable .fa-trash', function(event) {
+	var element = $(this).closest('.sortable');
+	element.remove();
+});
