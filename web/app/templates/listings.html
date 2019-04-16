@@ -60,22 +60,24 @@
 									<form action="#" class="search_form" id="search_form">
 										<div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
 											<div class="search_inputs d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
-
-												{{ form.minprice(class = "search_input", placeholder = "Precio Mínimo") }}
-												{{ form.maxprice(class = "search_input", placeholder = "Precio Máximo") }}
-												{{ form.minpublished(class = "search_input", placeholder = "Fecha Máxima") }}
-												{{ form.maxpublished(class = "search_input", placeholder = "Fecha Mínima") }}
-												{{ form.category(class = "search_input", placeholder = "Categoría") }}
-												{{ form.type(class = "search_input", placeholder = "Tipo") }}
-												{{ form.keywords(class = "search_input", placeholder = "Palabras Clave") }}
+												<strong>Precio Mínimo</strong>
+												{{ form.minprice(class = "search_input", value = minprice) }}
+												<strong>Precio Máximo</strong>
+												{{ form.maxprice(class = "search_input", value = maxprice) }}
+												<strong>Fecha Mínima de Publicación</strong>
+												{{ form.minpublished(class = "search_input", value = minpublished) }}
+												<strong>Fecha Máxima de Publicación</strong>
+												{{ form.maxpublished(class = "search_input", value = maxpublished) }}
+												<strong>Categoría</strong>
+												{{ form.category(class = "search_input", value = category) }}
+												<strong>Estado</strong>
+												{{ form.status(class = "", value = status) }}
+												<strong>Palabras Clave</strong>
+												{{ form.keywords(class = "search_input", value = keywords) }}
 											</div>
 											{{ form.submit(class="search_button") }}
 										</div>
 									</form>
-								</div>
-								<div class="extra_search_buttons d-flex flex-row align-items-start justify-content-start">
-									<div class="extra_search_button search_button_1"><a href="#">Detailed Search</a></div>
-									<div class="extra_search_button search_button_2"><a href="#">Show Map</a></div>
 								</div>
 							</div>
 						</div>

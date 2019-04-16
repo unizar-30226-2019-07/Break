@@ -98,11 +98,10 @@ class SubirAnuncioForm(Form):
 
 class ProductSearch(Form):
     category = StringField('Categoría')
-    type = StringField('Tipo')
+    status = RadioField('Estado', choices = [('','Todo'),('en venta','En Venta'),('vendido','Vendido')])
     keywords = StringField('Palabras Clave')
     minprice = StringField('Precio Mínimo')
-    maxprice = StringField('Precio Máximo')
+    maxprice = IntegerField('Precio Máximo')
     minpublished = StringField('Fecha Mínima de Publicación')
     maxpublished = StringField('Fecha Máxima de Publicación')
     submit = SubmitField('Buscar')
-

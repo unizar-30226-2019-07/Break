@@ -57,7 +57,7 @@ html
 }
 .search_inputs
 {
-	width: calc(100% - 260px);
+	width: calc(100%);
 }
 .search_button
 {
@@ -83,7 +83,8 @@ html
 }
 .search_input
 {
-	width: calc((100% - 22px) / 3);
+	display: block;
+	width: 800px;
 	height: 51px;
 	padding-left: 27px;
 	background: #ffffff;

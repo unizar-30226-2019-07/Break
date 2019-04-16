@@ -171,7 +171,7 @@ def listing():
     minpublished = request.args.get('minpublished')
     maxpublished = request.args.get('maxpublished')
     category = request.args.get('category')
-    type = request.args.get('type')
+    status = request.args.get('type')
     keywords = request.args.get('keywords')
 
     # Base address, parametres will be concatenadted here
@@ -182,18 +182,32 @@ def listing():
     products += "&distance=500000000"
     if minprice != None and minprice != "":
         products += "&priceFrom=" + minprice
+    else:
+        minprice = ''
     if maxprice != None and maxprice != "":
         products += "&priceTo=" + maxprice
+    else:
+        maxprice = ''
     if minpublished != None and minpublished != "":
         products += "&publishedFrom=" + minpublished
+    else:
+        minpublished = ''
     if maxpublished != None and maxpublished != "":
         products += "&publishedTo=" + maxpublished
+    else:
+        maxpublished = ''
     if category != None and category != "":
         products += "&category=" + category
-    if type != None and type != "":
-        products += "&types=" + type
+    else:
+        category = ''
+    if status != None and status != "":
+        products += "&status=" + type
+    else:
+        status = ''
     if keywords != None and keywords != "":
         products += "&search=" + keywords
+    else:
+        keywords = ''
 
     products = requests.get(products)
 
@@ -218,7 +232,7 @@ def listing():
         language="es",
         region="ES"
     )
-    return render_template('listings.html', userauth=current_user, prods=prods, map=mymap, form=form)
+    return render_template('listings.html', userauth=current_user, prods=prods, map=mymap, form=form, minprice = minprice, maxprice = maxprice, minpublished = minpublished, maxpublished = maxpublished, status = status, keywords = keywords, category = category)
 
 
 # Extensiones permitidas
