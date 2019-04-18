@@ -129,4 +129,16 @@ class ProductSearch(Form):
     maxprice = IntegerField('Precio Máximo')
     minpublished = StringField('Fecha Mínima de Publicación')
     maxpublished = StringField('Fecha Máxima de Publicación')
+    resultados = SelectField('Resultados Por Página',
+            choices = [
+                ('30', '30'),
+                ('45', '45'),
+                ('60', '60'),
+                ('75', '75'),
+                ('90', '90')
+            ])
+    ordenacion = SelectField('Ordenación de Resultados',
+            choices = [
+                ('ASC', 'ASC')
+            ])
     submit = SubmitField('Buscar')

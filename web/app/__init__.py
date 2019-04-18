@@ -42,6 +42,7 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # URL of the API
 url = 'http://35.234.77.87:8080'
+
 app.jinja_env.globals['api'] = url
 
 @login.user_loader
@@ -175,6 +176,8 @@ def contact():
 def listing():
     form = ProductSearch(request.form)
     # Parametres that will be used in the search are passed using GET
+    page = request.args.get('page')
+    size = request.args.get('resultados')
     minprice = request.args.get('minprice')
     maxprice = request.args.get('maxprice')
     minpublished = request.args.get('minpublished')
@@ -182,6 +185,7 @@ def listing():
     category = request.args.get('category')
     status = request.args.get('type')
     keywords = request.args.get('keywords')
+    ordenacion = request.args.get('ordenacion')
 
     # Base address, parametres will be concatenadted here
     products = url + '/products'
@@ -217,10 +221,43 @@ def listing():
         products += "&search=" + keywords
     else:
         keywords = ''
+    
+    if ordenacion != None and ordenacion != "":
+        # TODO no implementado aun
+        #products += "&$sort=" + ordenacion
+        print("faltan cosas que implementar aqui")
+    else:
+        ordenacion = ''
+    if size != None and size != "":
+        products += "&$size=" + size
+    else:
+        # When the number of products per page is not specified it
+        # will be set to 30
+        size = 30
+        products += "&$size=30"
 
+    if page != None and page != "":
+        products += "&$page=" + page
+        productsNext = products + "&$page=" + str(page + 1)
+    else:
+        # Page defaults to 0 when no page is specified
+        products += "&$page=0"
+        # Then the next page is the second one
+        productsNext = products + "&$page=1"
+        page = 0
+
+    print(products)
     products = requests.get(products)
-
+    print(products.status_code)
     prods = json.loads(products.text)
+    print(prods)
+    # When there are no results in the next page we are showing the last page"
+    if len(json.loads(requests.get(productsNext).text)) == 0:
+        print("Se ha alcanzado la última página")
+    # Generate addresses for the previous/next page buttons# Generate addresses for the previous/next page buttons# Generate addresses for the previous/next page buttons
+    nextPageAddr = "/listings?minprice=" + minprice + "&maxprice=" + maxprice + "&minpublished=" + minpublished + "&maxpublished=" + maxpublished + "&category=" + category + "&keywords=" + keywords + "&resultados=" + str(size) + "&ordenacion=" + ordenacion + "&page=" + str(page + 1)
+    prevPageAddr = "/listings?minprice=" + minprice + "&maxprice=" + maxprice + "&minpublished=" + minpublished + "&maxpublished=" + maxpublished + "&category=" + category + "&keywords=" + keywords + "&resultados=" + str(size) + "&ordenacion=" + ordenacion + "&page=" + str(page - 1)
+
     mymap = Map(
         identifier="view-side",
         lat=0,
@@ -241,7 +278,7 @@ def listing():
         language="es",
         region="ES"
     )
-    return render_template('listings.html', userauth=current_user, prods=prods, map=mymap, form=form, minprice = minprice, maxprice = maxprice, minpublished = minpublished, maxpublished = maxpublished, status = status, keywords = keywords, category = category)
+    return render_template('listings.html', userauth=current_user, prods=prods, map=mymap, form=form, minprice = minprice, maxprice = maxprice, minpublished = minpublished, maxpublished = maxpublished, status = status, keywords = keywords, category = category, next = nextPageAddr, prev = prevPageAddr)
 
 
 # Extensiones permitidas

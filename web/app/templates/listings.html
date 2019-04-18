@@ -85,6 +85,14 @@
 									<div class="search_title">Estado</div>
 									{{ form.status(class = "", value = status) }}
 								</div>
+								<div class="col-lg-4">
+									<div class="search_title">Resultados por Página</div>
+									{{ form.resultados(class = "search_input", value = resultados) }}
+								</div>
+								<div class="col-lg-4">
+									<div class="search_title">Ordenación</div>
+									{{ form.ordenacion(class = "search_input", value = ordenacion) }}
+								</div>
 						</div>
 							{{ form.submit(class="search_button") }}
 						</div>
@@ -106,6 +114,10 @@
 								{{ form.category(class = "search_input", value = category) }}
 								<div class="search_title">Estado</div>
 								{{ form.status(class = "", value = status) }}
+								<div class="search_title">Resultados por Página</div>
+								{{ form.resultados(class = "search_input", value = resultados) }}
+								<div class="search_title">Ordenación</div>
+								{{ form.ordenacion(class = "search_input", value = ordenacion) }}
 							</div>
 							{{ form.submit(class="search_button") }}
 						</div>
@@ -145,8 +157,15 @@
 						{% import 'include/_products.html' as products %}
 						{{ products.list(prods) }}
 
-						<div class="load_more">
-							<div class="button ml-auto mr-auto"><a href="#">load more</a></div>
+						<div class="row">
+							<form action={{prev}} method="get">
+								<input type="submit" class="search_button" value="Página Anterior" name="Submit" id="frm1_submit" />
+							</form>
+
+							<form action={{next}} method="get">
+								<input type="submit" class="search_button" value="Página Siguiente" name="Submit" id="frm1_submit" />
+							</form>
+
 						</div>
 					</div>
 				</div>
