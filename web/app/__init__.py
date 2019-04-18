@@ -477,6 +477,11 @@ def verify():
     print(response.text)
     return redirect(url_for('login'))
 
+@app.route('/chat')
+def chat():
+    return render_template("chatpage.html", userauth=current_user)
+
+
 if __name__ == '__main__':
     app.secret_key = 'secret_key_Selit!_123'
     app.run(debug=True)

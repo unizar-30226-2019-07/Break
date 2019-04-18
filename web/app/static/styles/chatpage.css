@@ -1,0 +1,118 @@
+.chat-container {
+    top: -200px;
+    background: white;
+    height: 80vh;
+    border-radius: 5px;
+	-webkit-box-shadow: 0 10px 30px 0 rgba(231, 76, 60,0.3);
+    box-shadow: 0 10px 30px 0 rgba(231, 76, 60,0.3);
+}
+
+.sidebar {
+    z-index: 1;
+    padding: 20px 0;
+    overflow-x: hidden;
+    border-right: 1px solid #eee;
+    height: 100%;
+}
+
+.sidebar .nav {
+    margin-bottom: 20px;
+}
+
+.sidebar .nav-item {
+    width: 100%;
+}
+
+.sidebar .nav-item + .nav-item {
+    margin-left: 0;
+}
+
+.sidebar .nav-link {
+    border-radius: 0;
+}
+
+.placeholders {
+    padding-bottom: 3rem;
+}
+
+.placeholder img {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.messages_scrollable {
+    height: 580px;
+    overflow-y: scroll;
+}
+
+.messages{
+    width: 85%;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    -webkit-box-shadow: 0 0px 5px 0 rgba(231, 76, 60,0.3);
+    box-shadow: 0 0px 5px 0 rgba(231, 76, 60,0.3);
+}
+
+.sender {
+    float: left;
+    color: black;
+    background-color: white;
+    border-radius: 5px 5px 5px 0;
+}
+
+.me {
+    float: right;
+    text-align: right;
+    color: white;
+    background-color: var(--primaryColor);
+    border-radius: 5px 5px 0 5px;
+}
+
+.response {
+    display: none;
+}
+
+
+
+.search_chat_input
+{
+    width: 90%;
+	height: 50px;
+	margin-left: 5%;
+
+	background: #f3f7fb;
+	margin-bottom: 5px;
+	font-size: 16px;
+	color: #2b2e35;
+	font-weight: 500;
+
+    border: none;
+    outline: none;
+    background: white;
+
+    border: 2px solid #f5f5f5;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+input[type=text]:focus {
+    background-color: #fafafa;
+    border-bottom: 2px solid var(--secondaryColor);
+}
+
+input::placeholder {
+  font-family: "Font Awesome 5 Free", "Nunito", sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  font-weight: 900;
+}
