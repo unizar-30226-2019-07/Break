@@ -58,8 +58,15 @@ html
 .search_inputs
 {
 	display: block;
-	width: calc(100%);
 }
+
+.search_title
+{
+	font-size: 15px;
+	font-weight: 500;
+	color: #ffffff;
+}
+
 .search_button
 {
 	width: 247px;
@@ -82,6 +89,12 @@ html
 {
 	border: solid 2px #ffffff;
 }
+
+.col-lg-4
+{
+	padding-bottom: 15px;
+}
+
 .search_input
 {
 	display: block;
@@ -93,6 +106,8 @@ html
 	font-size: 16px;
 	font-weight: 500;
 	color: #2b2e35;
+	width: calc(100%);
+	margin-bottom: 11px;
 }
 .search_input::-webkit-input-placeholder
 {

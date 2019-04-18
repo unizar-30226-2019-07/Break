@@ -100,11 +100,13 @@ def login():
                 #return redirect('/login')
                 if response.status_code == 401:
                     notactivated = True
+                    print("notv")
                 else:
                     notactivated = False
 
                 if response.status_code == 403:
                     veriferror = True
+                    print("note")
                 else:
                     veriferror = False
 

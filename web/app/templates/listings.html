@@ -53,78 +53,108 @@
 							</script>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col">
-							<div class="search_container">
-								<div class="search_form_container">
-									<form action="#" class="search_form" id="search_form">
-										<div class="start justify-content-lg-between justify-content-start">
-											<div class="search_inputs align-items-start justify-content-lg-between justify-content-start">
-												<strong>Precio Mínimo</strong>
-												{{ form.minprice(class = "search_input", value = minprice) }}
-												<strong>Precio Máximo</strong>
-												{{ form.maxprice(class = "search_input", value = maxprice) }}
-												<strong>Fecha Mínima de Publicación</strong>
-												{{ form.minpublished(class = "search_input", value = minpublished) }}
-												<strong>Fecha Máxima de Publicación</strong>
-												{{ form.maxpublished(class = "search_input", value = maxpublished) }}
-												<strong>Categoría</strong>
-												{{ form.category(class = "search_input", value = category) }}
-												<strong>Estado</strong>
-												{{ form.status(class = "", value = status) }}
-												<strong>Palabras Clave</strong>
-												{{ form.keywords(class = "search_input", value = keywords) }}
-											</div>
-											{{ form.submit(class="search_button") }}
-										</div>
-									</form>
+
+					<form action="#" class="search_form m_no_display" id="search_form">
+						<div class="start justify-content-lg-between justify-content-start">
+							<div class="row col search_inputs align-items-start justify-content-lg-between justify-content-start">
+								<div class="col-lg-4">
+									<div class="search_title">Precio Mínimo</div>
+									{{ form.minprice(class = "search_input input-d", value = minprice) }}
+								</div>
+								<div class="col-lg-4">
+									<div class="search_title">Precio Máximo</div>
+									{{ form.maxprice(class = "search_input", value = maxprice) }}
+								</div>
+								<div class="col-lg-4">
+									<div class="search_title">Fecha Mínima de Publicación</div>
+									{{ form.minpublished(class = "search_input", value = minpublished) }}
+								</div>
+								<div class="col-lg-4">
+									<div class="search_title">Fecha Máxima de Publicación</div>
+									{{ form.maxpublished(class = "search_input", value = maxpublished) }}
+								</div>
+								<div class="col-lg-4">
+									<div class="search_title">Categoría</div>
+									{{ form.category(class = "search_input", value = category) }}
+								</div>
+								<div class="col-lg-4">
+									<div class="search_title">Palabras Clave</div>
+									{{ form.keywords(class = "search_input", value = keywords) }}
+								</div>
+								<div class="col-lg-4">
+									<div class="search_title">Estado</div>
+									{{ form.status(class = "", value = status) }}
+								</div>
+						</div>
+							{{ form.submit(class="search_button") }}
+						</div>
+					</form>
+					<form action="#" class="search_form m_display d-lg-none d-xl-none" id="search_form">
+						<div class="start justify-content-lg-between justify-content-start">
+							<div class="col search_inputs align-items-start justify-content-lg-between justify-content-start">
+								<div class="search_title">Precio Mínimo</div>
+								{{ form.minprice(class = "search_input input-d", value = minprice) }}
+								<div class="search_title">Precio Máximo</div>
+								{{ form.maxprice(class = "search_input", value = maxprice) }}
+								<div class="search_title">Fecha Mínima de Publicación</div>
+								{{ form.minpublished(class = "search_input", value = minpublished) }}
+								<div class="search_title">Fecha Máxima de Publicación</div>
+								{{ form.maxpublished(class = "search_input", value = maxpublished) }}
+								<div class="search_title">Palabras Clave</div>
+								{{ form.keywords(class = "search_input", value = keywords) }}
+								<div class="search_title">Categoría</div>
+								{{ form.category(class = "search_input", value = category) }}
+								<div class="search_title">Estado</div>
+								{{ form.status(class = "", value = status) }}
+							</div>
+							{{ form.submit(class="search_button") }}
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- Listings -->
+
+		<div class="listings">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+
+						<!-- Sorting -->
+						<div class="sorting d-flex flex-md-row flex-column align-items-start justify-content-start">
+
+							<!-- Sort -->
+							<div class="sorting_container">
+								<div class="sort">
+									<span>Sort By</span>
+									<ul>
+										<li class="sorting_button" data-isotope-option='{ "sortBy": "original-order" }'>
+											Default
+										</li>
+										<li class="sorting_button" data-isotope-option='{ "sortBy": "price" }'>Price</li>
+										<li class="sorting_button" data-isotope-option='{ "sortBy": "area" }'>Area</li>
+									</ul>
 								</div>
 							</div>
+
+						</div>
+
+
+						{% import 'include/_products.html' as products %}
+						{{ products.list(prods) }}
+
+						<div class="load_more">
+							<div class="button ml-auto mr-auto"><a href="#">load more</a></div>
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
 
-			<!-- Listings -->
-
-			<div class="listings">
-				<div class="container">
-					<div class="row">
-						<div class="col">
-
-							<!-- Sorting -->
-							<div class="sorting d-flex flex-md-row flex-column align-items-start justify-content-start">
-
-								<!-- Sort -->
-								<div class="sorting_container">
-									<div class="sort">
-										<span>Sort By</span>
-										<ul>
-											<li class="sorting_button" data-isotope-option='{ "sortBy": "original-order" }'>
-												Default
-											</li>
-											<li class="sorting_button" data-isotope-option='{ "sortBy": "price" }'>Price</li>
-											<li class="sorting_button" data-isotope-option='{ "sortBy": "area" }'>Area</li>
-										</ul>
-									</div>
-								</div>
-
-							</div>
-
-
-							{% import 'include/_products.html' as products %}
-							{{ products.list(prods) }}
-
-							<div class="load_more">
-								<div class="button ml-auto mr-auto"><a href="#">load more</a></div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- Footer  -->
-			{% include 'include/footer.html' %}
+		<!-- Footer  -->
+		{% include 'include/footer.html' %}
 		</div>
 
 		<!-- General Scripts  -->

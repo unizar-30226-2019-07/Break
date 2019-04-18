@@ -112,7 +112,17 @@ class SubirAnuncioForm(FlaskForm):
 
 
 class ProductSearch(Form):
-    category = StringField('Categoría')
+    category = SelectField('Categoría', 
+        choices = [ 
+            ('Automoción', 'Automoción'),
+            ('Informática', 'Informática'),
+            ('Moda', 'Moda'),
+            ('Deporte y ocio', 'Deporte y ocio'),
+            ('Videojuegos', 'Videojuegos'),
+            ('Libros y música', 'Libros y música'),
+            ('Hogar y jardín', 'Hogar y jardín'),
+            ('Foto y audio ', 'Foto y audio ')
+        ])
     status = RadioField('Estado', choices = [('','Todo'),('en venta','En Venta'),('vendido','Vendido')])
     keywords = StringField('Palabras Clave')
     minprice = StringField('Precio Mínimo')
