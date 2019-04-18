@@ -41,7 +41,19 @@
                             {{ error }}
                         </div>
                     </center>
-                    {% endfor %}
+		    {% endfor %}
+		    {% if notactivated %}
+		    <div class="alert alert-danger">
+			    <li>El usuario no ha sido verificado</li>
+		    </div>
+		    {% endif %}
+		    {% if veriferror %}
+		    <div class="alert alert-danger">
+			    <li>Credenciales incorrectas</li>
+		    </div>
+		    {% endif %}
+
+
                     </p>
                     <p>
                         <strong>{{ form.password.label }}</strong><br>
@@ -58,7 +70,7 @@
                     <p>{{ form.submit(class="search_button") }}</p>
                 </form>
 
-                <!-- Remind Password -->
+                <!-- Remember Password -->
                 <p>
                 <div class="formFooter">
                     <a class="underlineHover" href="#">Forgot Password?</a>
