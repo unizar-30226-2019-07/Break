@@ -174,6 +174,8 @@ def contact():
 
 @app.route('/listings')
 def listing():
+    firstpage = 0
+    lastpage = 0
     form = ProductSearch(request.form)
     # Parametres that will be used in the search are passed using GET
     page = request.args.get('page')
@@ -237,23 +239,24 @@ def listing():
         products += "&$size=30"
 
     if page != None and page != "":
-        products += "&$page=" + page
+        page = int(page)
         productsNext = products + "&$page=" + str(page + 1)
+        products += "&$page=" + str(page)
     else:
         # Page defaults to 0 when no page is specified
-        products += "&$page=0"
         # Then the next page is the second one
         productsNext = products + "&$page=1"
+        products += "&$page=0"
         page = 0
 
-    print(products)
+    if page == 0:
+        firstpage = 1
+
     products = requests.get(products)
-    print(products.status_code)
     prods = json.loads(products.text)
-    print(prods)
     # When there are no results in the next page we are showing the last page"
     if len(json.loads(requests.get(productsNext).text)) == 0:
-        print("Se ha alcanzado la última página")
+        lastpage = 1
     # Generate addresses for the previous/next page buttons# Generate addresses for the previous/next page buttons# Generate addresses for the previous/next page buttons
     nextPageAddr = "/listings?minprice=" + minprice + "&maxprice=" + maxprice + "&minpublished=" + minpublished + "&maxpublished=" + maxpublished + "&category=" + category + "&keywords=" + keywords + "&resultados=" + str(size) + "&ordenacion=" + ordenacion + "&page=" + str(page + 1)
     prevPageAddr = "/listings?minprice=" + minprice + "&maxprice=" + maxprice + "&minpublished=" + minpublished + "&maxpublished=" + maxpublished + "&category=" + category + "&keywords=" + keywords + "&resultados=" + str(size) + "&ordenacion=" + ordenacion + "&page=" + str(page - 1)
@@ -278,7 +281,7 @@ def listing():
         language="es",
         region="ES"
     )
-    return render_template('listings.html', userauth=current_user, prods=prods, map=mymap, form=form, minprice = minprice, maxprice = maxprice, minpublished = minpublished, maxpublished = maxpublished, status = status, keywords = keywords, category = category, next = nextPageAddr, prev = prevPageAddr)
+    return render_template('listings.html', userauth=current_user, prods=prods, map=mymap, form=form, minprice = minprice, maxprice = maxprice, minpublished = minpublished, maxpublished = maxpublished, status = status, keywords = keywords, category = category, next = nextPageAddr, prev = prevPageAddr, first = firstpage, last = lastpage)
 
 
 # Extensiones permitidas

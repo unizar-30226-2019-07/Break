@@ -134,37 +134,27 @@
 				<div class="row">
 					<div class="col">
 
-						<!-- Sorting -->
-						<div class="sorting d-flex flex-md-row flex-column align-items-start justify-content-start">
-
-							<!-- Sort -->
-							<div class="sorting_container">
-								<div class="sort">
-									<span>Sort By</span>
-									<ul>
-										<li class="sorting_button" data-isotope-option='{ "sortBy": "original-order" }'>
-											Default
-										</li>
-										<li class="sorting_button" data-isotope-option='{ "sortBy": "price" }'>Price</li>
-										<li class="sorting_button" data-isotope-option='{ "sortBy": "area" }'>Area</li>
-									</ul>
-								</div>
-							</div>
-
-						</div>
-
-
 						{% import 'include/_products.html' as products %}
 						{{ products.list(prods) }}
 
 						<div class="row">
-							<form action={{prev}} method="get">
-								<input type="submit" class="search_button" value="Página Anterior" name="Submit" id="frm1_submit" />
-							</form>
+							{% if first == 0 %}
+							<button id="prev" style="margin-left:auto;margin-right:auto;" class="search_button" >Página Anterior</button>
+							<script type="text/javascript">
+								document.getElementById("prev").onclick = function () {
+									location.href = "{{prev|safe}}";
+								};
+							</script>
+							{% endif %}
 
-							<form action={{next}} method="get">
-								<input type="submit" class="search_button" value="Página Siguiente" name="Submit" id="frm1_submit" />
-							</form>
+							{% if last == 0 %}
+							<button id="next" style="margin-left:auto;margin-right:auto;" class="search_button" >Página Siguiente</button>
+							<script type="text/javascript">
+								document.getElementById("next").onclick = function () {
+									window.location.href = "{{next|safe}}";
+								};
+							</script>
+							{% endif %}
 
 						</div>
 					</div>
