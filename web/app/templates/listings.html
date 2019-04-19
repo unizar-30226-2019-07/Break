@@ -60,10 +60,20 @@
 								<div class="col-lg-4">
 									<div class="search_title">Precio Mínimo</div>
 									{{ form.minprice(class = "search_input input-d", value = minprice) }}
+									{% if errormin %}
+									<div class="alert alert-danger">
+										<li>Se debe introducir un número</li>
+									</div>
+									{% endif %}
 								</div>
 								<div class="col-lg-4">
 									<div class="search_title">Precio Máximo</div>
 									{{ form.maxprice(class = "search_input", value = maxprice) }}
+									{% if errormax %}
+									<div class="alert alert-danger">
+										<li>Se debe introducir un número</li>
+									</div>
+									{% endif %}
 								</div>
 								<div class="col-lg-4">
 									<div class="search_title">Fecha Mínima de Publicación</div>
@@ -75,11 +85,20 @@
 								</div>
 								<div class="col-lg-4">
 									<div class="search_title">Categoría</div>
-									{{ form.category(class = "search_input", value = category) }}
+									<select class="search_input" id="category" name="category">
+										<option value="">Todo</option>
+										{% for choice in form.categories %}
+										{% if choice == category %}
+										<option selected value="{{choice}}">{{choice}}</option>
+										{% else %}
+										<option value="{{choice}}">{{choice}}</option>
+										{% endif %}
+										{% endfor %}
+									</select>
 								</div>
 								<div class="col-lg-4">
 									<div class="search_title">Palabras Clave</div>
-									{{ form.keywords(class = "search_input", value = keywords) }}
+									{{ form.keywords(class = "search_input", default = keywords) }}
 								</div>
 								<div class="col-lg-4">
 									<div class="search_title">Estado</div>
@@ -87,11 +106,11 @@
 								</div>
 								<div class="col-lg-4">
 									<div class="search_title">Resultados por Página</div>
-									{{ form.resultados(class = "search_input", value = resultados) }}
+									{{ form.resultados(class = "search_input", default = resultados) }}
 								</div>
 								<div class="col-lg-4">
 									<div class="search_title">Ordenación</div>
-									{{ form.ordenacion(class = "search_input", value = ordenacion) }}
+									{{ form.ordenacion(class = "search_input", default = ordenacion) }}
 								</div>
 						</div>
 							{{ form.submit(class="search_button") }}
@@ -102,8 +121,18 @@
 							<div class="col search_inputs align-items-start justify-content-lg-between justify-content-start">
 								<div class="search_title">Precio Mínimo</div>
 								{{ form.minprice(class = "search_input input-d", value = minprice) }}
+								{% if errormin %}
+								<div class="alert alert-danger">
+									<li>Se debe introducir un número</li>
+								</div>
+								{% endif %}
 								<div class="search_title">Precio Máximo</div>
 								{{ form.maxprice(class = "search_input", value = maxprice) }}
+								{% if errormax %}
+								<div class="alert alert-danger">
+									<li>Se debe introducir un número</li>
+								</div>
+								{% endif %}
 								<div class="search_title">Fecha Mínima de Publicación</div>
 								{{ form.minpublished(class = "search_input", value = minpublished) }}
 								<div class="search_title">Fecha Máxima de Publicación</div>
@@ -111,13 +140,22 @@
 								<div class="search_title">Palabras Clave</div>
 								{{ form.keywords(class = "search_input", value = keywords) }}
 								<div class="search_title">Categoría</div>
-								{{ form.category(class = "search_input", value = category) }}
+								<select class="search_input" id="category" name="category">
+									<option value="">Todo</option>
+									{% for choice in form.categories %}
+									{% if choice == category %}
+									<option selected value="{{choice}}">{{choice}}</option>
+									{% else %}
+									<option value="{{choice}}">{{choice}}</option>
+									{% endif %}
+									{% endfor %}
+								</select>
 								<div class="search_title">Estado</div>
 								{{ form.status(class = "", value = status) }}
 								<div class="search_title">Resultados por Página</div>
-								{{ form.resultados(class = "search_input", value = resultados) }}
+								{{ form.resultados(class = "search_input", select = resultados) }}
 								<div class="search_title">Ordenación</div>
-								{{ form.ordenacion(class = "search_input", value = ordenacion) }}
+								{{ form.ordenacion(class = "search_input", select = ordenacion) }}
 							</div>
 							{{ form.submit(class="search_button") }}
 						</div>

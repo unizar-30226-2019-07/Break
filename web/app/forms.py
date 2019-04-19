@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import Form, StringField, PasswordField, BooleanField, SubmitField, IntegerField, validators, FileField, \
     MultipleFileField, SelectField, RadioField, HiddenField, DecimalField, TextAreaField
+from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired
 
 
@@ -12,7 +13,6 @@ class LoginForm(Form):
         validators.DataRequired(message='Es necesario introducir una contraseña')])
     remember_me = BooleanField('Recuerdame')
     submit = SubmitField('Iniciar Sesión')
-
 
 # Structure of the Register form
 class RegisterForm(Form):
@@ -112,6 +112,7 @@ class SubirAnuncioForm(FlaskForm):
 
 
 class ProductSearch(Form):
+    categories = ['Automoción', 'Informática', 'Moda', 'Deporte y ocio', 'Videojuegos', 'Libros y música', 'Hogar y jardín', 'Foto y audio']
     category = SelectField('Categoría', 
         choices = [ 
             ('Automoción', 'Automoción'),
@@ -127,10 +128,11 @@ class ProductSearch(Form):
     keywords = StringField('Palabras Clave')
     minprice = StringField('Precio Mínimo')
     maxprice = IntegerField('Precio Máximo')
-    minpublished = StringField('Fecha Mínima de Publicación')
-    maxpublished = StringField('Fecha Máxima de Publicación')
+    minpublished = DateField('Start', format = '%Y-%m-%d', description = 'Time that the event will occur')
+    maxpublished = DateField('Start', format = '%Y-%m-%d', description = 'Time that the event will occur')
     resultados = SelectField('Resultados Por Página',
             choices = [
+                ('15', '15'),
                 ('30', '30'),
                 ('45', '45'),
                 ('60', '60'),
@@ -139,6 +141,12 @@ class ProductSearch(Form):
             ])
     ordenacion = SelectField('Ordenación de Resultados',
             choices = [
-                ('ASC', 'ASC')
+                ('published ASC', 'Fecha (Más viejos primero)'),
+                ('published DESC', 'Fecha (Más nuevos primero)'),
+                ('distance DESC', 'Distancia Descendente'),
+                ('distance ASC', 'Distancia Ascendente'),
+                ('price ASC', 'Precio Ascendente'),
+                ('price DESC', 'Precio Descendente')
             ])
     submit = SubmitField('Buscar')
+

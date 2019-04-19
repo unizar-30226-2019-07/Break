@@ -174,8 +174,13 @@ def contact():
 
 @app.route('/listings')
 def listing():
+    # Value is 1 whenever the user is on the first/last page
     firstpage = 0
     lastpage = 0
+    # Value is 1 when the user has entered an invalid min or max price
+    errormin = 0
+    errormax = 0
+
     form = ProductSearch(request.form)
     # Parametres that will be used in the search are passed using GET
     page = request.args.get('page')
@@ -196,11 +201,21 @@ def listing():
     products += "&lng=0"
     products += "&distance=500000000"
     if minprice != None and minprice != "":
-        products += "&priceFrom=" + minprice
+        if not minprice.isdigit():
+            errormin = 1
+        else:
+            # The minprice will not be added to the query if it has
+            # been entered incorrectly
+            products += "&priceFrom=" + minprice
     else:
         minprice = ''
     if maxprice != None and maxprice != "":
-        products += "&priceTo=" + maxprice
+        if not maxprice.isdigit():
+            errormax = 1
+        else:
+            # The minprice will not be added to the query if it has
+            # been entered incorrectly
+            products += "&priceTo=" + maxprice
     else:
         maxprice = ''
     if minpublished != None and minpublished != "":
@@ -223,20 +238,17 @@ def listing():
         products += "&search=" + keywords
     else:
         keywords = ''
-    
     if ordenacion != None and ordenacion != "":
-        # TODO no implementado aun
-        #products += "&$sort=" + ordenacion
-        print("faltan cosas que implementar aqui")
+        products += "&$sort=" + ordenacion
     else:
         ordenacion = ''
     if size != None and size != "":
         products += "&$size=" + size
     else:
         # When the number of products per page is not specified it
-        # will be set to 30
-        size = 30
-        products += "&$size=30"
+        # will be set to 15
+        size = 15
+        products += "&$size=15"
 
     if page != None and page != "":
         page = int(page)
@@ -258,8 +270,8 @@ def listing():
     if len(json.loads(requests.get(productsNext).text)) == 0:
         lastpage = 1
     # Generate addresses for the previous/next page buttons# Generate addresses for the previous/next page buttons# Generate addresses for the previous/next page buttons
-    nextPageAddr = "/listings?minprice=" + minprice + "&maxprice=" + maxprice + "&minpublished=" + minpublished + "&maxpublished=" + maxpublished + "&category=" + category + "&keywords=" + keywords + "&resultados=" + str(size) + "&ordenacion=" + ordenacion + "&page=" + str(page + 1)
-    prevPageAddr = "/listings?minprice=" + minprice + "&maxprice=" + maxprice + "&minpublished=" + minpublished + "&maxpublished=" + maxpublished + "&category=" + category + "&keywords=" + keywords + "&resultados=" + str(size) + "&ordenacion=" + ordenacion + "&page=" + str(page - 1)
+    nextPageAddr = "/listings" + ("?minprice=" + minprice)*(not errormin) + ("&maxprice=" + maxprice)*(not errormax) + "&minpublished=" + minpublished + "&maxpublished=" + maxpublished + "&category=" + category + "&keywords=" + keywords + "&resultados=" + str(size) + "&ordenacion=" + ordenacion + "&page=" + str(page + 1)
+    prevPageAddr = "/listings" + ("?minprice=" + minprice)*(not errormin) + ("&maxprice=" + maxprice)*(not errormax) + "&minpublished=" + minpublished + "&maxpublished=" + maxpublished + "&category=" + category + "&keywords=" + keywords + "&resultados=" + str(size) + "&ordenacion=" + ordenacion + "&page=" + str(page - 1)
 
     mymap = Map(
         identifier="view-side",
@@ -281,7 +293,7 @@ def listing():
         language="es",
         region="ES"
     )
-    return render_template('listings.html', userauth=current_user, prods=prods, map=mymap, form=form, minprice = minprice, maxprice = maxprice, minpublished = minpublished, maxpublished = maxpublished, status = status, keywords = keywords, category = category, next = nextPageAddr, prev = prevPageAddr, first = firstpage, last = lastpage)
+    return render_template('listings.html', userauth=current_user, prods=prods, map=mymap, form=form, minprice = minprice, maxprice = maxprice, minpublished = minpublished, maxpublished = maxpublished, status = status, keywords = keywords, category = category, next = nextPageAddr, prev = prevPageAddr, first = firstpage, last = lastpage, sort = ordenacion, errormin = errormin, errormax = errormax)
 
 
 # Extensiones permitidas
