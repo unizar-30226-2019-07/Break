@@ -39,26 +39,28 @@
         }
 
         $('#chat-msgs').append(
-          `<div class="messages ${envio}">
-            <td>
-                <div class="message">${message.text}</div>
+          `<div class="messages-bubble ${envio}-bubble">
+                <div class="">${message.text}</div>
                 <div> @ <span class="date">${ message.createdAt }</span></div>
-            </td>
+                <div class="${envio}-bubble-ds-arrow"></div>
         </div>`
         );
 //      }
     },
 
     /**
-     * Cargar to_dos los mensajes de
+     * Cargar to_dos los mensajes de un chat
      */
     loadChatRoom: evt => {
-      // Limpiamos los mensajes.
+      // Limpiamos los mensajes del html.
       helpers.clearChatMessages();
 
       // Id del producto pulsado
-      var roomId = evt.target.id;
+      console.log(evt);
+      console.log(evt.id);
 
+
+      var roomId = evt.currentTarget.id;
 
       if (roomId !== undefined) {
         $('.response').show();
@@ -91,7 +93,7 @@
     },
 
     /**
-     * Contestar el mensaje
+     * Contestar con un mensaje:
      */
     replyMessage: evt => {
       evt.preventDefault();
@@ -100,14 +102,14 @@
         .val()
         .trim();
 
-      $('#chat-msgs').append(
-          `<div class="messages me">
-            <td>
-                <div class="message">${message}</div>
-                <div> @ <span class="date">now</span></div>
-            </td>
-        </div>`
-        );
+        let msg = {
+            id: "0",
+            createdAt: "now",
+            text: message,
+            enviado: false,
+         }
+
+      helpers.displayChatMessage(msg);
 
       $('#replyMessage input').val('');
     },
@@ -133,15 +135,13 @@
         // Obtener todos los chats y poner un link en la sidebar...
         for (var id in helpers.requestChatsIDs()) {
             $('#rooms').append(
-                `<tr>
-                    <td>
-                        <a class="nav-item">
-                            <div class="nav-link" id="${id}">
-                                <i class="fas fa-fish"></i> Producto Prueba ${id}
-                            </div>
-                         </a>
-                     </td>
-                 </tr>`
+                `<a href="#" onclick="return false;" id="${id}">
+                    <div class="producto-bubble row">
+                        <div class="product-image"
+                            style="background-image: url(static/images/1953-1954-Buick-Skylark.jpg"></div>
+                        <strong>Producto de Prueba ${id}</strong>
+                    </div>
+                </a>`
             );
         }
     },
@@ -160,9 +160,9 @@ function searchChats() {
   input = document.getElementById("inputSearchChat");
   filter = input.value.toUpperCase();
   table = document.getElementById("rooms");
-  tr = table.getElementsByTagName("tr");
+  tr = table.getElementsByTagName("a");
   for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[0];
+    td = tr[i].getElementsByTagName("div")[0];
     if (td) {
       txtValue = td.textContent || td.innerText;
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
