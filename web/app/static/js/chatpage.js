@@ -15,6 +15,7 @@
   const chatBody = $(document);
   const chatRoomsList = $('#rooms');
   const chatReplyMessage = $('#replyMessage');
+  const chatScrollMessageDiv = "msg_scroll";
 
   // ----------------------------------------------------
   // Helpers
@@ -45,6 +46,9 @@
                 <div class="${envio}-bubble-ds-arrow"></div>
         </div>`
         );
+
+        var objDiv = document.getElementById(chatScrollMessageDiv);
+        objDiv.scrollTop = objDiv.scrollHeight;
 //      }
     },
 
