@@ -6,7 +6,11 @@
             <div class="col-sm-6 col-lg-4 d-flex flex-column my-3">
                 <div id="{{ prod.id_producto }}" class="listing d-flex flex-column flex-grow-1">
                     <div class="listing_image">
-                        <div class="listing_image_container" style="background-image: url(data:image/jpeg;base64,{% include 'include/image.html' %})">
+                        {% if prod.media|length > 0 %}
+                            <div class="listing_image_container" style="background-image: url({{ api + '/pictures/' + (prod.media[0].idImagen|string) }})">
+                        {% else %}
+                            <div class="listing_image_container" style="background-image: url({{ url_for('static', filename='images/items.svg') }})">
+                        {% endif %}
                         </div>
                     </div>
 

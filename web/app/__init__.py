@@ -393,9 +393,7 @@ def send_image(filename):
 
 @app.route('/single/<prod_id>')
 def get_gallery(prod_id):
-    # Devuelve un vector de nombres de imgenes de la ruta especificada
-    image_names = os.listdir(APP_ROOT + '/static/client_images')
-    #print(image_names)
+
     response = requests.get(url + "/products/" + str(prod_id) + "?lng=0&lat=0")
     prod = json.loads(response.text)
     # print(response.text)
@@ -411,7 +409,7 @@ def get_gallery(prod_id):
         region="ES"
     )
 
-    return render_template("single.html", image_names=image_names, userauth=current_user, prod=prod, map=mymap)
+    return render_template("single.html", userauth=current_user, prod=prod, map=mymap)
 
 @app.route('/user/<user_id>')
 def user(user_id):

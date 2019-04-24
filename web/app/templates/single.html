@@ -45,11 +45,12 @@
 						<!-- image_slider -->
 						<div class="row image_slider_container mt-5">
 							<div class="owl-carousel owl-theme image_slider">
-								{% for image_name in image_names %}
+							{% if prod.media|length > 0 %}
+								{% for picture in prod.media %}
 								<!-- Slide -->
 								<div class="slide ">
 									<div class="image_slider_container ">
-										<img class="text-center" src="{{ url_for('send_image', filename = image_name) }}">
+										<img class="text-center" src="{{ api + '/pictures/' + (picture.idImagen|string) }}">
 									</div>
 								</div>
 								{% endfor %}
@@ -65,6 +66,13 @@
 
 		</div>-->
 
+							{% else %}
+								<div class="slide ">
+									<div class="image_slider_container ">
+										<img class="text-center" src="{{ url_for('static', filename='images/items.svg') }}">
+									</div>
+								</div>							
+							{% endif %}
 							</div>
 							<!-- Home Slider Navigation -->
 							<div class="image_slider_nav_l"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
