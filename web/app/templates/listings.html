@@ -98,21 +98,48 @@
 								</div>
 								<div class="col-lg-4">
 									<div class="search_title">Palabras Clave</div>
-									{{ form.keywords(class = "search_input", default = keywords) }}
+									{{ form.keywords(class = "search_input", value = keywords) }}
 								</div>
 								<div class="col-lg-4">
 									<div class="search_title">Estado</div>
-									{{ form.status(class = "", value = status) }}
+									<select class="search_input" id="estado" name="estado">
+										<option value="">Todo</option>
+										{% for choice in form.estados %}
+										{% if choice[0] == status %}
+										<option selected value="{{choice[0]}}">{{choice[1]}}</option>
+										{% else %}
+										<option value="{{choice[0]}}">{{choice[1]}}</option>
+										{% endif %}
+										{% endfor %}
+									</select>
 								</div>
 								<div class="col-lg-4">
 									<div class="search_title">Resultados por Página</div>
-									{{ form.resultados(class = "search_input", default = resultados) }}
+									<select class="search_input" id="resultados" name="resultados">
+										{% for choice in form.resultadosporpag %}
+										{% if choice == resultados %}
+										<option selected value="{{choice}}">{{choice}}</option>
+										{% else %}
+										<option value="{{choice}}">{{choice}}</option>
+										{% endif %}
+										{% endfor %}
+									</select>
+
 								</div>
 								<div class="col-lg-4">
 									<div class="search_title">Ordenación</div>
-									{{ form.ordenacion(class = "search_input", default = ordenacion) }}
+									<select class="search_input" id="ordenacion" name="ordenacion">
+										{% for choice in form.ordenacionlist %}
+										{% if choice[0] == sort %}
+										<option selected value="{{choice[0]}}">{{choice[1]}}</option>
+										{% else %}
+										<option value="{{choice[0]}}">{{choice[1]}}</option>
+										{% endif %}
+										{% endfor %}
+									</select>
+
 								</div>
-						</div>
+							</div>
 							{{ form.submit(class="search_button") }}
 						</div>
 					</form>
@@ -137,8 +164,6 @@
 								{{ form.minpublished(class = "search_input", value = minpublished) }}
 								<div class="search_title">Fecha Máxima de Publicación</div>
 								{{ form.maxpublished(class = "search_input", value = maxpublished) }}
-								<div class="search_title">Palabras Clave</div>
-								{{ form.keywords(class = "search_input", value = keywords) }}
 								<div class="search_title">Categoría</div>
 								<select class="search_input" id="category" name="category">
 									<option value="">Todo</option>
@@ -150,12 +175,39 @@
 									{% endif %}
 									{% endfor %}
 								</select>
+								<div class="search_title">Palabras Clave</div>
+								{{ form.keywords(class = "search_input", value = keywords) }}
 								<div class="search_title">Estado</div>
-								{{ form.status(class = "", value = status) }}
+								<select class="search_input" id="estado" name="estado">
+									<option value="">Todo</option>
+									{% for choice in form.estados %}
+									{% if choice[0] == status %}
+									<option selected value="{{choice[0]}}">{{choice[1]}}</option>
+									{% else %}
+									<option value="{{choice[0]}}">{{choice[1]}}</option>
+									{% endif %}
+									{% endfor %}
+								</select>
 								<div class="search_title">Resultados por Página</div>
-								{{ form.resultados(class = "search_input", select = resultados) }}
+								<select class="search_input" id="resultados" name="resultados">
+									{% for choice in form.resultadosporpag %}
+									{% if choice == resultados %}
+									<option selected value="{{choice}}">{{choice}}</option>
+									{% else %}
+									<option value="{{choice}}">{{choice}}</option>
+									{% endif %}
+									{% endfor %}
+								</select>
 								<div class="search_title">Ordenación</div>
-								{{ form.ordenacion(class = "search_input", select = ordenacion) }}
+								<select class="search_input" id="ordenacion" name="ordenacion">
+									{% for choice in form.ordenacionlist %}
+									{% if choice[0] == sort %}
+									<option selected value="{{choice[0]}}">{{choice[1]}}</option>
+									{% else %}
+									<option value="{{choice[0]}}">{{choice[1]}}</option>
+									{% endif %}
+									{% endfor %}
+								</select>
 							</div>
 							{{ form.submit(class="search_button") }}
 						</div>

@@ -124,7 +124,14 @@ class ProductSearch(Form):
             ('Hogar y jardín', 'Hogar y jardín'),
             ('Foto y audio ', 'Foto y audio ')
         ])
-    status = RadioField('Estado', choices = [('','Todo'),('en venta','En Venta'),('vendido','Vendido')])
+    estados = [('en venta', 'En Venta'), ('vendido', 'Vendido')]
+    resultadosporpag = ['15', '30', '45', '60', '75', '90']
+    ordenacionlist = [('published ASC', 'Fecha (Más viejos primero)'), ('published DESC', 'Fecha (Más nuevos primero)'), ('distance DESC', 'Distancia Descendente'), ('distance ASC', 'Distancia Ascendente'), ('price ASC', 'Precio Ascendente'), ('price DESC', 'Precio Descendente')]
+    status = SelectField('Estado',
+            choices = [
+                ('en venta','En Venta'),
+                ('vendido','Vendido')
+            ])
     keywords = StringField('Palabras Clave')
     minprice = StringField('Precio Mínimo')
     maxprice = IntegerField('Precio Máximo')

@@ -190,7 +190,7 @@ def listing():
     minpublished = request.args.get('minpublished')
     maxpublished = request.args.get('maxpublished')
     category = request.args.get('category')
-    status = request.args.get('type')
+    status = request.args.get('estado')
     keywords = request.args.get('keywords')
     ordenacion = request.args.get('ordenacion')
 
@@ -231,7 +231,7 @@ def listing():
     else:
         category = ''
     if status != None and status != "":
-        products += "&status=" + type
+        products += "&status=" + status
     else:
         status = ''
     if keywords != None and keywords != "":
@@ -270,8 +270,8 @@ def listing():
     if len(json.loads(requests.get(productsNext).text)) == 0:
         lastpage = 1
     # Generate addresses for the previous/next page buttons# Generate addresses for the previous/next page buttons# Generate addresses for the previous/next page buttons
-    nextPageAddr = "/listings" + ("?minprice=" + minprice)*(not errormin) + ("&maxprice=" + maxprice)*(not errormax) + "&minpublished=" + minpublished + "&maxpublished=" + maxpublished + "&category=" + category + "&keywords=" + keywords + "&resultados=" + str(size) + "&ordenacion=" + ordenacion + "&page=" + str(page + 1)
-    prevPageAddr = "/listings" + ("?minprice=" + minprice)*(not errormin) + ("&maxprice=" + maxprice)*(not errormax) + "&minpublished=" + minpublished + "&maxpublished=" + maxpublished + "&category=" + category + "&keywords=" + keywords + "&resultados=" + str(size) + "&ordenacion=" + ordenacion + "&page=" + str(page - 1)
+    nextPageAddr = "/listings" + ("?minprice=" + minprice)*(not errormin) + ("&maxprice=" + maxprice)*(not errormax) + "&minpublished=" + minpublished + "&maxpublished=" + maxpublished + "&category=" + category + "&keywords=" + keywords + "&resultados=" + str(size) + "&ordenacion=" + ordenacion + "&page=" + str(page + 1) + "&status=" + status
+    prevPageAddr = "/listings" + ("?minprice=" + minprice)*(not errormin) + ("&maxprice=" + maxprice)*(not errormax) + "&minpublished=" + minpublished + "&maxpublished=" + maxpublished + "&category=" + category + "&keywords=" + keywords + "&resultados=" + str(size) + "&ordenacion=" + ordenacion + "&page=" + str(page - 1) + "&status=" + status
 
     mymap = Map(
         identifier="view-side",
@@ -293,7 +293,7 @@ def listing():
         language="es",
         region="ES"
     )
-    return render_template('listings.html', userauth=current_user, prods=prods, map=mymap, form=form, minprice = minprice, maxprice = maxprice, minpublished = minpublished, maxpublished = maxpublished, status = status, keywords = keywords, category = category, next = nextPageAddr, prev = prevPageAddr, first = firstpage, last = lastpage, sort = ordenacion, errormin = errormin, errormax = errormax)
+    return render_template('listings.html', userauth=current_user, prods=prods, map=mymap, form=form, minprice = minprice, maxprice = maxprice, minpublished = minpublished, maxpublished = maxpublished, status = status, keywords = keywords, category = category, next = nextPageAddr, prev = prevPageAddr, first = firstpage, last = lastpage, sort = ordenacion, errormin = errormin, errormax = errormax, resultados = size)
 
 
 # Extensiones permitidas
