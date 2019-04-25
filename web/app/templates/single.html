@@ -108,9 +108,17 @@
 											</ul>
 										</div>
 										<div class="prop_agent d-flex flex-row align-items-center justify-content-start">
-											<div class="prop_agent_image"><img
-											     src="{{ url_for('static', filename = 'images/agent_1.jpg') }}" alt="">
+											<div class="prop_agent_image">
+												<!-- Begin Image -->
+												{% import 'include/_gravatar.html' as gravatar %}
+												{% if prod.owner.picture.idImagen is number %}
+												{% set profile_picture = api + '/pictures/' + (prod.owner.picture.idImagen|string) %}
+												{% else %}
+												{% set profile_picture = gravatar.get(prod.owner.email) %}
+												{% endif %}
+												<img src="{{profile_picture}}">
 											</div>
+
 											<div class="prop_agent_name">
 												<a href="{{ url_for('user', user_id=prod.owner.idUsuario) }}">
 													{{prod.owner.first_name}} {{prod.owner.last_name}}

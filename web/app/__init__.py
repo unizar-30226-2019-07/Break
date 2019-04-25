@@ -396,7 +396,7 @@ def get_gallery(prod_id):
 
     response = requests.get(url + "/products/" + str(prod_id) + "?lng=0&lat=0")
     prod = json.loads(response.text)
-    # print(response.text)
+    print(response.text)
 
     mymap = Map(
         identifier="view-side",
