@@ -141,6 +141,14 @@
 										{{ map.html }}
 									</div>
 								</div>
+								{% if prod.owner.idUsuario == userauth.user_id %}
+								<button id="next" style="margin-left:auto;margin-right:auto;" class="search_button" >Editar Anuncio</button>
+								<script type="text/javascript">
+									document.getElementById("next").onclick = function () {
+										window.location.href = "/single/{{prod.id_producto}}/edit";
+									};
+								</script>
+								{% endif %}
 							</div>
 						</div>
 

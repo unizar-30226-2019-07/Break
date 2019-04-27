@@ -166,6 +166,7 @@ video
 }
 .search_button
 {
+	display: block;
 	width: 247px;
 	height: 51px;
 	background: var(--primaryColor);
@@ -181,6 +182,7 @@ video
 	-ms-transition: all 200ms ease;
 	-o-transition: all 200ms ease;
 	transition: all 200ms ease;
+	margin-top: 31px;
 }
 .search_button:hover
 {
