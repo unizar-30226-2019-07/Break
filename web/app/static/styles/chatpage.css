@@ -13,7 +13,9 @@
     overflow-x: hidden;
     border-right: 1px solid #eee;
     height: 100%;
-    background-color: lightgray;
+    background-color: #CACCBD;
+
+
 }
 
 .sidebar .nav {
@@ -32,8 +34,10 @@
     border-radius: 0;
 }
 
+
+
 .producto-bubble {
-    background: #efefef;
+    background: #FCF9FA;
     -webkit-border-radius: 4px;
             border-radius: 4px;
     font-size: 1.2rem;
@@ -44,6 +48,17 @@
     display:flex;
     align-items:center;
 
+    position: relative;
+    top: 0;
+    transition: top ease 0.5s;
+
+
+}
+
+.producto-bubble:hover {
+    top: -8px;
+    -webkit-box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3);
+    box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3)
 }
 
 .producto-bubble strong {
@@ -189,13 +204,20 @@
     display: none;
 }
 
+.send-square{
+	padding: 10px 0px 10px 0px;
+    -webkit-box-shadow: 0px -5px 5px 0px rgba(231, 76, 60,0.3);
+    -moz-box-shadow: 0px -5px 5px 0px rgba(231, 76, 60,0.3);
+    box-shadow: 0px -5px 5px 0px rgba(231, 76, 60,0.3);
+
+}
+
 .mensaje_input
 {
-    width: 90%;
+    width: 96%;
 	height: 50px;
 	margin-left: 5%;
 
-	margin-bottom: 5px;
 	font-size: 16px;
 	color: #2b2e35;
 	font-weight: 500;
@@ -212,19 +234,33 @@
     transition: all 0.5s ease-in-out;
 }
 
+.send_button {
+	height: 51px;
+	padding: 0px 10px 0px 10px;
+	background: var(--primaryColor);
+	border: none;
+	outline: none;
+    font-weight: 800;
+	color: white;
+	cursor: pointer;
+	border-radius: 5px;
+	-webkit-box-shadow: 0 10px 30px 0 rgba(231, 76, 60,0.3);
+    box-shadow: 0 10px 30px 0 rgba(231, 76, 60,0.3);
+}
+
 .search_chat_input
 {
     width: 90%;
 	height: 50px;
 	margin-left: 5%;
 
-	background: #f3f7fb;
+	background: #FCF9FA;
 	margin-bottom: 5px;
 	font-size: 16px;
 	color: #2b2e35;
 	font-weight: 500;
 
-    border: none;
+    border-radius: 5px;
     outline: none;
     background: white;
 
