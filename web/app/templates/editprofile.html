@@ -96,15 +96,10 @@
                                     {{ error }}
                                 </div>
                             {% endfor %}
-                            {{ form_location.lng(class="contact_input mb-2", id="lng") }}
-                            {% for error in form_location.lng.errors %}
-                                <div class="alert alert-danger">
-                                    {{ error }}
-                                </div>
-                            {% endfor %}
-                            {{ form_location.submit(class="mb-5 main_button") }}
-                        </form>
-                        <script type="text/javascript">
+			    {{ form_location.lng(class="contact_input mb-2", id="lng") }}
+			    {{ form_location.submit(class="mb-5 main_button") }}
+			</form>
+			<script type="text/javascript">
 
                             if (navigator.geolocation) {
                                 navigator.geolocation.getCurrentPosition(function(location){
