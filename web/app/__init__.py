@@ -50,7 +50,7 @@ def load_user(id):
     # Required function for users to log in
     # Flask_login uses the "id" of the user in the database
     # to manage sessions
-    return User.query.get(int(id))
+    return User.query.get(str(id))
 
 @app.route('/')
 def index():
@@ -83,12 +83,12 @@ def login():
 
             if response.status_code == 200:
                 # Use the token to search in the database so that it is posible to have several sessions of the same user (differentiated by the token)
-                user = User.query.filter_by(token=response.headers['Authorization']).first()
+                user = User.query.filter_by(id=response.headers['Authorization']).first()
                 if user is None:
                     # If the user does not exist in the database that is used for sessions
                     # add him to the database
                     response2 = requests.get(url = url + '/users?email=' + email, headers={'Authorization': response.headers['Authorization']})
-                    user = User(username=form.email.data, user_id=json.loads(response2.text)[0]['idUsuario'], token=response.headers['Authorization'])
+                    user = User(id=response.headers['Authorization'],username=form.email.data, user_id=json.loads(response2.text)[0]['idUsuario'])
                     db.session.add(user)
                     db.session.commit()
                 # Use the User class to login
@@ -150,7 +150,7 @@ def register():
 @app.route('/logout')
 def logout():
     # Delete the session of the user from the database using the token to identify it
-    user = User.query.filter_by(token=current_user.token).first()
+    user = User.query.filter_by(id=current_user.id).first()
     if user is not None:
         logout_user()
         # db.session.delete(user)
@@ -370,10 +370,10 @@ def editproduct(prod_id):
             print(product)
 
             if int(prod_id) > 0:
-                response = requests.put(url=url + '/products/' + prod_id, json=product, headers={'Authorization': current_user.token})
+                response = requests.put(url=url + '/products/' + prod_id, json=product, headers={'Authorization': current_user.id})
 
             else:
-                response = requests.post(url=url + '/products', json=product, headers={'Authorization': current_user.token})
+                response = requests.post(url=url + '/products', json=product, headers={'Authorization': current_user.id})
             
             print(response.text)
 
@@ -418,7 +418,7 @@ def user(user_id):
         
     on_sale = requests.get(url + '/products?lat=0&lng=0&distance=5000000000&owner=' + str(user_id) + '&status=en%20venta')
     sold = requests.get(url + '/products?lat=0&lng=0&distance=5000000000&owner=' + str(user_id) + '&status=vendido')
-    response = requests.get(url=url + '/users/' + str(user_id), headers={'Authorization': current_user.token})
+    response = requests.get(url=url + '/users/' + str(user_id), headers={'Authorization': current_user.id})
     # If there is an error retrieving the user (no permissions) the user will be redirected to the login page
     if response.status_code != 200:
         return redirect(url_for('login'))
@@ -454,7 +454,7 @@ def editprofile():
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
 
-    response = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.token})
+    response = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.id})
     user = json.loads(response.text)
 
     user['picture'] = {'idImagen': user['picture']['idImagen']}
@@ -481,35 +481,35 @@ def editprofile():
                 user['gender'] = form_profile.gender.data
 
                 # Send the JSON to the API REST using the POST method
-                response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.token})
+                response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.id})
                 return redirect(url_for('profile'))
 
             elif form_password.submit.data and form_password.validate_on_submit():
                 user['password'] = form_password.password.data
-                response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.token})
+                response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.id})
                 return redirect(url_for('profile'))
 
             elif form_email.submit.data and form_email.validate_on_submit():
                 user['email'] = form_email.email.data
-                response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.token})
+                response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.id})
                 return redirect(url_for('logout'))
 
             elif form_location.submit.data and form_location.validate_on_submit():
                 user['location']['lat'] = form_location.lat.data
                 user['location']['lng'] = form_location.lng.data
                 print(user)
-                response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.token})
+                response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.id})
                 print(response)
                 return redirect(url_for('profile'))
             elif form_picture.submit.data and form_picture.validate_on_submit():
                 file = request.files[form_picture.picture.name]
                 base64_data = base64.b64encode(file.read())
                 user['picture'] = {'mime': file.content_type, 'charset': 'utf-8', 'base64': str(base64_data.decode('utf-8')) }
-                response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.token})
+                response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.id})
                 return redirect(url_for('profile'))
             elif form_picture.delete.data and form_picture.validate_on_submit():
                 user['picture'] = { 'idImagen': None , 'mime': None, 'charset': None, 'base64': None}
-                response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.token})
+                response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user, headers={'Authorization': current_user.id})
                 return redirect(url_for('profile'))
 
         form_profile.gender.default = user['gender']
