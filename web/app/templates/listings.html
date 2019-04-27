@@ -146,25 +146,25 @@
 					<form action="#" class="search_form m_display d-lg-none d-xl-none" id="search_form">
 						<div class="start justify-content-lg-between justify-content-start">
 							<div class="col search_inputs align-items-start justify-content-lg-between justify-content-start">
-								<div class="search_title">Precio Mínimo</div>
+								<div class="search_titlem">Precio Mínimo</div>
 								{{ form.minprice(class = "search_input input-d", value = minprice) }}
 								{% if errormin %}
 								<div class="alert alert-danger">
 									<li>Se debe introducir un número</li>
 								</div>
 								{% endif %}
-								<div class="search_title">Precio Máximo</div>
+								<div class="search_titlem">Precio Máximo</div>
 								{{ form.maxprice(class = "search_input", value = maxprice) }}
 								{% if errormax %}
 								<div class="alert alert-danger">
 									<li>Se debe introducir un número</li>
 								</div>
 								{% endif %}
-								<div class="search_title">Fecha Mínima de Publicación</div>
+								<div class="search_titlem">Fecha Mínima de Publicación</div>
 								{{ form.minpublished(class = "search_input", value = minpublished) }}
-								<div class="search_title">Fecha Máxima de Publicación</div>
+								<div class="search_titlem">Fecha Máxima de Publicación</div>
 								{{ form.maxpublished(class = "search_input", value = maxpublished) }}
-								<div class="search_title">Categoría</div>
+								<div class="search_titlem">Categoría</div>
 								<select class="search_input" id="category" name="category">
 									<option value="">Todo</option>
 									{% for choice in form.categories %}
@@ -175,9 +175,9 @@
 									{% endif %}
 									{% endfor %}
 								</select>
-								<div class="search_title">Palabras Clave</div>
+								<div class="search_titlem">Palabras Clave</div>
 								{{ form.keywords(class = "search_input", value = keywords) }}
-								<div class="search_title">Estado</div>
+								<div class="search_titlem">Estado</div>
 								<select class="search_input" id="estado" name="estado">
 									<option value="">Todo</option>
 									{% for choice in form.estados %}
@@ -188,7 +188,7 @@
 									{% endif %}
 									{% endfor %}
 								</select>
-								<div class="search_title">Resultados por Página</div>
+								<div class="search_titlem">Resultados por Página</div>
 								<select class="search_input" id="resultados" name="resultados">
 									{% for choice in form.resultadosporpag %}
 									{% if choice == resultados %}
@@ -198,7 +198,7 @@
 									{% endif %}
 									{% endfor %}
 								</select>
-								<div class="search_title">Ordenación</div>
+								<div class="search_titlem">Ordenación</div>
 								<select class="search_input" id="ordenacion" name="ordenacion">
 									{% for choice in form.ordenacionlist %}
 									{% if choice[0] == sort %}
