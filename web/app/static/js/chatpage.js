@@ -125,7 +125,7 @@
      */
     requestChatsIDs: () => {
         var IDs = new Array();
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < 10; i++) {
             IDs.push(i);
         };
         return IDs;

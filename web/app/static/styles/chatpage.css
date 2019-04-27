@@ -2,44 +2,76 @@
     top: -200px;
     background: white;
     height: 80vh;
-    border-radius: 5px;
+    border-radius: 8px;
 	-webkit-box-shadow: 0 10px 30px 0 rgba(231, 76, 60,0.3);
     box-shadow: 0 10px 30px 0 rgba(231, 76, 60,0.3);
 }
 
 .sidebar {
     z-index: 1;
-    padding: 20px 0;
-    overflow-x: hidden;
+    padding: 0px 0;
+
     border-right: 1px solid #eee;
     height: 100%;
-    background-color: #CACCBD;
+    background: var(--NoDarkColor);/*#CACCBD;*/
 
+    -webkit-border-radius: 8px 0 0 8px;
+            border-radius: 8px 0 0 8px;
 
 }
 
-.sidebar .nav {
-    margin-bottom: 20px;
+.sidebar-head {
+    padding: 20px 0 10px;
+    z-index: 2;
+    background: var(--NoDarkColor);/*#CACCBD;*/
+
+    border-style: solid;
+    border-width: 5px 5px 5px 5px;
+    -webkit-border-radius: 8px 0;
+            border-radius: 8px 0;
+    border-color: var(--LighterDarkColor);
+
+	-webkit-box-shadow: 0 10px 30px 0 rgba(42, 54, 63, 0.3);
+    box-shadow: 0 10px 30px 0 rgba(42, 54, 63, 0.3);
 }
 
-.sidebar .nav-item {
-    width: 100%;
+.scrollable-chats {
+    height: 80%;
+    overflow-x: hidden;
+    margin-left: 12px;
+    margin-right: 4px;
+    padding-top: 20px;
 }
 
-.sidebar .nav-item + .nav-item {
-    margin-left: 0;
+/* Scrollbar */
+.scrollable-chats::-webkit-scrollbar-track
+{
+
+	-webkit-box-shadow: inset 0 0 6px rgba(42, 54, 63, 0.3);
+	border-radius: 10px;
+	background-color: var(--NoDarkColor);
 }
 
-.sidebar .nav-link {
-    border-radius: 0;
+.scrollable-chats::-webkit-scrollbar
+{
+	width: 4px;
+	background-color: var(--NoDarkColor);
 }
 
+.scrollable-chats::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: var(--DarkColor);
+}
 
 
 .producto-bubble {
-    background: #FCF9FA;
+    background-color: var(--DarkColor); /*#FCF9FA*/
     -webkit-border-radius: 4px;
             border-radius: 4px;
+
+    z-index: 3;
     font-size: 1.2rem;
     line-height: 1.3;
     margin: 0 auto 5px;
@@ -48,21 +80,22 @@
     display:flex;
     align-items:center;
 
+    margin-right: 4px;
     position: relative;
     top: 0;
     transition: top ease 0.5s;
-
-
 }
 
 .producto-bubble:hover {
     top: -8px;
+
     -webkit-box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3);
     box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3)
 }
 
 .producto-bubble strong {
-    color: black;
+    color: var(--WhiteDarkColor);;
+    padding-left: 5px;
 }
 
 
@@ -83,7 +116,7 @@
 	border-radius: 50%;
 	border-style: solid;
     border-width: 1px;
-    border-color: var(--primaryColor);
+    border-color: var(--NoDarkColor);
 
     -webkit-box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3);
     box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3)

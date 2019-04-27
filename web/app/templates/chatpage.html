@@ -19,12 +19,18 @@
 
         <!-- Navegación de productos -->
         <div class="col-lg-4 sidebar">
-            <h3 class="m-3">{{userauth.username}}</h3>
-            <input type="text" class="search_chat_input" id="inputSearchChat" onkeyup="searchChats()"
-                   placeholder=" &#xf002; Search chats.." title="Escribe un nombre de chat">
-            <hr>
-            <!-- Lista de chats -->
-            <table class="nav nav-pills flex-column" id="rooms" ></table>
+            <div class="sidebar-head">
+                <h3 class="m-3">{{userauth.username}}</h3>
+                <input type="text" class="search_chat_input" id="inputSearchChat" onkeyup="searchChats()"
+                     placeholder=" &#xf002; Search chats.." title="Escribe un nombre de chat">
+            </div>
+
+
+            <div class="scrollable-chats">
+                <!-- Lista de chats -->
+                <div id="rooms" ></div>
+            </div>
+
 
         </div>
 

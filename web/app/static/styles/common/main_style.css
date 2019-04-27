@@ -12,8 +12,35 @@
 ******************************/
 
 :root {
-    --primaryColor: #c0392b; /*pomegrade*/
-    --secondaryColor: #8e342b; /*orange*/
+
+    --primaryColor: #C0392B;
+    --secondaryColor: #8e342b;
+    --tertiaryColor: #B5CCAD;
+
+    --DarkColor: #2A363F;
+    --LighterDarkColor: #495D6D;
+    --NoDarkColor: #DADEE1;
+    --WhiteDarkColor: #CAE6D6;
+
+
+/*
+    --DarkColor: #231D2E;
+    --LighterDarkColor: #3B467E;
+    --NoDarkColor: #8097C3;
+    --WhiteDarkColor: #E3E6E9;
+
+
+/*
+    --primaryColor: #c0392b;
+    --secondaryColor: #E8E487;
+    --tertiaryColor: #34A087;
+
+    --DarkColor: #2A363F;
+    --LighterDarkColor: #34A087;
+    --LettersLighterDarkColor: #CAE6D6;
+
+*/
+
     --clouds: #ecf0f1;
     --asbestos: #7f8c8d;
     --sunFlower: #f1c40f;
