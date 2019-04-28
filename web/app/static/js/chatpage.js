@@ -103,19 +103,26 @@
       evt.preventDefault();
 
       const message = $('#replyMessage input')
-        .val()
-        .trim();
+            .val()
+            .trim();
 
-        let msg = {
+      if (message !== ""){
+          var date = new Date();
+
+          var minutes = date.getMinutes();
+          var hour = date.getHours();
+
+          let msg = {
             id: "0",
-            createdAt: "now",
+            createdAt: hour + ":" + minutes,
             text: message,
             enviado: false,
-         }
+          }
 
-      helpers.displayChatMessage(msg);
+          helpers.displayChatMessage(msg);
 
-      $('#replyMessage input').val('');
+          $('#replyMessage input').val('');
+      }
     },
 
 
