@@ -15,7 +15,7 @@
 
     border-right: 1px solid #eee;
     height: 100%;
-    background: var(--NoDarkColor);/*#CACCBD;*/
+    background: var(--LighterDarkColor);/*#CACCBD;*/
 
     -webkit-border-radius: 8px 0 0 8px;
             border-radius: 8px 0 0 8px;
@@ -70,7 +70,7 @@
 
 
 .producto-bubble {
-    background-color: var(--DarkColor); /*#FCF9FA*/
+    background-color: var(--NoDarkColor); /*#FCF9FA*/
     -webkit-border-radius: 4px;
             border-radius: 4px;
 
@@ -97,7 +97,7 @@
 }
 
 .producto-bubble strong {
-    color: var(--WhiteDarkColor);;
+    color: black;
     padding-left: 5px;
 }
 
