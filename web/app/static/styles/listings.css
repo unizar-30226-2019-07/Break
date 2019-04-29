@@ -16,6 +16,16 @@ html
   scroll-behavior: smooth;
 }
 
+a {
+    all: unset;
+    display: block;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
 /*********************************
 5. Home
 *********************************/

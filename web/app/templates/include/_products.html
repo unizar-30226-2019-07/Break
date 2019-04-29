@@ -3,41 +3,41 @@
         <div class="row">
             <!-- Listings Container -->
             {% for prod in products %}
-            <div class="col-sm-6 col-lg-4 d-flex flex-column my-3">
-                <div id="{{ prod.id_producto }}" class="listing d-flex flex-column flex-grow-1">
-                    <div class="listing_image">
-                        {% if prod.media|length > 0 %}
-                            <div class="listing_image_container" style="background-image: url({{ api + '/pictures/' + (prod.media[0].idImagen|string) }})">
-                        {% else %}
-                            <div class="listing_image_container" style="background-image: url({{ url_for('static', filename='images/items.svg') }})">
-                        {% endif %}
-                        </div>
-                    </div>
 
-                    <div class="listing_content listing_location flex-grow-1">
-                        <div class="tag_price listing_price listing_image">
-                            <strong>
-                                {{ '%0.2f'| format(prod.price|float) }} 
-                                {{ prod.currency }}
-                            </strong>
+                <a href="{{ url_for('get_gallery', prod_id=prod.id_producto) }}" class="col-sm-6 col-lg-4 d-flex flex-column my-3">
+                    <div id="{{ prod.id_producto }}" class="listing d-flex flex-column flex-grow-1">
+                        <div class="listing_image">
+                            {% if prod.media|length > 0 %}
+                                <div class="listing_image_container" style="background-image: url({{ api + '/pictures/' + (prod.media[0].idImagen|string) }})"></div>
+                            {% else %}
+                                <div class="listing_image_container" style="background-image: url({{ url_for('static', filename='images/items.svg') }})"></div>
+                            {% endif %}
+
                         </div>
-                        <div>
-                            <ul>
-                                <li>
-                                    <h3 href="single" class="mb-2">
-                                        <a href="{{ url_for('get_gallery', prod_id=prod.id_producto) }}">
+
+                        <div class="listing_content listing_location flex-grow-1">
+                            <div class="tag_price listing_price listing_image">
+                                <strong>
+                                    {{ '%0.2f'| format(prod.price|float) }}
+                                    {{ prod.currency }}
+                                </strong>
+                            </div>
+                            <div>
+                                <ul>
+                                    <li>
+                                        <h3 class="mb-2">
                                             {{ prod.title }}
-                                        </a>
-                                    </h3>
-                                </li>
-                                <li>
-                                    <p>{{ prod.description }}</p>
-                                </li>
-                            </ul>
+                                        </h3>
+                                    </li>
+                                    <li>
+                                        <p>{{ prod.description }}</p>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </a>
+
             {% endfor %}
         </div>
     </div>
