@@ -171,6 +171,131 @@ def blog():
 def contact():
     return render_template('contact.html', userauth=current_user)
 
+@app.route('/auctions')
+def auctions():
+    # Value is 1 whenever the user is on the first/last page
+    firstpage = 0
+    lastpage = 0
+    # Value is 1 when the user has entered an invalid min or max price
+    errormin = 0
+    errormax = 0
+
+    form = ProductSearch(request.form)
+    # Parametres that will be used in the search are passed using GET
+    page = request.args.get('page')
+    size = request.args.get('resultados')
+    minprice = request.args.get('minprice')
+    maxprice = request.args.get('maxprice')
+    minpublished = request.args.get('minpublished')
+    maxpublished = request.args.get('maxpublished')
+    category = request.args.get('category')
+    status = request.args.get('estado')
+    keywords = request.args.get('keywords')
+    ordenacion = request.args.get('ordenacion')
+
+    # Base address, parametres will be concatenadted here
+    products = url + '/auctions'
+    print(products)
+    products += "?lat=0"
+    products += "&lng=0"
+    products += "&distance=500000000"
+    if minprice != None and minprice != "":
+        if not minprice.isdigit():
+            errormin = 1
+        else:
+            # The minprice will not be added to the query if it has
+            # been entered incorrectly
+            products += "&priceFrom=" + minprice
+    else:
+        minprice = ''
+    if maxprice != None and maxprice != "":
+        if not maxprice.isdigit():
+            errormax = 1
+        else:
+            # The minprice will not be added to the query if it has
+            # been entered incorrectly
+            products += "&priceTo=" + maxprice
+    else:
+        maxprice = ''
+    if minpublished != None and minpublished != "":
+        products += "&publishedFrom=" + minpublished
+    else:
+        minpublished = ''
+    if maxpublished != None and maxpublished != "":
+        products += "&publishedTo=" + maxpublished
+    else:
+        maxpublished = ''
+    if category != None and category != "":
+        products += "&category=" + category
+    else:
+        category = ''
+    if status != None and status != "":
+        products += "&status=" + status
+    else:
+        status = ''
+    if keywords != None and keywords != "":
+        products += "&search=" + keywords
+    else:
+        keywords = ''
+    if ordenacion != None and ordenacion != "":
+        products += "&$sort=" + ordenacion
+    else:
+        ordenacion = ''
+    if size != None and size != "":
+        products += "&$size=" + size
+    else:
+        # When the number of products per page is not specified it
+        # will be set to 15
+        size = 15
+        products += "&$size=15"
+
+    if page != None and page != "":
+        page = int(page)
+        productsNext = products + "&$page=" + str(page + 1)
+        products += "&$page=" + str(page)
+    else:
+        # Page defaults to 0 when no page is specified
+        # Then the next page is the second one
+        productsNext = products + "&$page=1"
+        products += "&$page=0"
+        page = 0
+
+    if page == 0:
+        firstpage = 1
+
+    products = requests.get(products)
+    prods = json.loads(products.text)
+    # When there are no results in the next page we are showing the last page"
+    if len(json.loads(requests.get(productsNext).text)) == 0:
+        lastpage = 1
+    # Generate addresses for the previous/next page buttons# Generate addresses for the previous/next page buttons# Generate addresses for the previous/next page buttons
+    nextPageAddr = "/auctions" + ("?minprice=" + minprice)*(not errormin) + ("&maxprice=" + maxprice)*(not errormax) + "&minpublished=" + minpublished + "&maxpublished=" + maxpublished + "&category=" + category + "&keywords=" + keywords + "&resultados=" + str(size) + "&ordenacion=" + ordenacion + "&page=" + str(page + 1) + "&status=" + status
+    prevPageAddr = "/auctions" + ("?minprice=" + minprice)*(not errormin) + ("&maxprice=" + maxprice)*(not errormax) + "&minpublished=" + minpublished + "&maxpublished=" + maxpublished + "&category=" + category + "&keywords=" + keywords + "&resultados=" + str(size) + "&ordenacion=" + ordenacion + "&page=" + str(page - 1) + "&status=" + status
+
+    mymap = Map(
+        identifier="view-side",
+        lat=0,
+        lng=0,
+        fit_markers_to_bounds = True,
+        center_on_user_location=True,
+        zoom=15,
+        markers=[{
+             'icon': None,
+             'lat': prod['location']['lat'],
+             'lng': prod['location']['lng']
+          } for prod in prods],
+        cluster=True,
+        #cluster_imagepath='https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+        cluster_imagepath=url_for('static', filename='images/m'),
+        cluster_gridsize=30,
+        style="height:300px;margin:0;",
+        language="es",
+        region="ES"
+    )
+    print(prods)
+    return render_template('listings.html', userauth=current_user, prods=prods, map=mymap, form=form, minprice = minprice, maxprice = maxprice, minpublished = minpublished, maxpublished = maxpublished, status = status, keywords = keywords, category = category, next = nextPageAddr, prev = prevPageAddr, first = firstpage, last = lastpage, sort = ordenacion, errormin = errormin, errormax = errormax, resultados = size, auction=True)
+
+
 
 @app.route('/listings')
 def listing():
@@ -293,7 +418,7 @@ def listing():
         language="es",
         region="ES"
     )
-    return render_template('listings.html', userauth=current_user, prods=prods, map=mymap, form=form, minprice = minprice, maxprice = maxprice, minpublished = minpublished, maxpublished = maxpublished, status = status, keywords = keywords, category = category, next = nextPageAddr, prev = prevPageAddr, first = firstpage, last = lastpage, sort = ordenacion, errormin = errormin, errormax = errormax, resultados = size)
+    return render_template('listings.html', userauth=current_user, prods=prods, map=mymap, form=form, minprice = minprice, maxprice = maxprice, minpublished = minpublished, maxpublished = maxpublished, status = status, keywords = keywords, category = category, next = nextPageAddr, prev = prevPageAddr, first = firstpage, last = lastpage, sort = ordenacion, errormin = errormin, errormax = errormax, resultados = size, auction=0)
 
 
 # Extensiones permitidas

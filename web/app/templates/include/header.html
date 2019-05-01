@@ -21,7 +21,8 @@
 		<nav class="main_nav">
 			<ul class="d-flex flex-row align-items-start justify-content-start">
 				<li class="{{ 'active' if request.endpoint == 'index' else '' }}"><a href="{{ url_for('index') }}">Inicio</a></li>
-				<li class="{{ 'active' if request.endpoint == 'listing' else '' }}"><a href="{{ url_for('listing') }}">Buscar</a></li>
+				<li class="{{ 'active' if request.endpoint == 'listing' else '' }}"><a href="{{ url_for('listing') }}">Productos</a></li>
+				<li class="{{ 'active' if request.endpoint == 'auctions' else '' }}"><a href="{{ url_for('auctions') }}">Subastas</a></li>
 				<li class="{{ 'active' if request.endpoint == 'chat' else '' }}"><a href="{{ url_for('chat') }}">Chat</a></li>
 			</ul>
 		</nav>
@@ -67,7 +68,8 @@
 		<nav class="menu_nav">
 			<ul>
 				<li class="{{ 'active' if request.endpoint == 'index' else '' }}"><a href="{{ url_for('index') }}">Inicio</a></li>
-				<li class="{{ 'active' if request.endpoint == 'listing' else '' }}"><a href="{{ url_for('listing') }}">Buscar</a></li>
+				<li class="{{ 'active' if request.endpoint == 'listing' else '' }}"><a href="{{ url_for('listing') }}">Productos</a></li>
+				<li class="{{ 'active' if request.endpoint == 'auctions' else '' }}"><a href="{{ url_for('auctions') }}">Subastas</a></li>
 				<li class="{{ 'active' if request.endpoint == 'chat' else '' }}"><a href="{{ url_for('listing') }}">Chat</a></li>
 				<li class="{{ 'active' if request.endpoint == 'upload' else '' }}"><a href="{{ url_for('upload') }}">Subir Anuncio</a></li>
 			</ul>
