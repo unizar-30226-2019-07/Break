@@ -15,12 +15,12 @@
 4. Formulario
 *********************************/
 .inputfile {
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
 }
 
 .inputfile + label {
@@ -30,16 +30,16 @@
     background-color: var(--secondaryColor);
     display: inline-block;
     border-radius: 5px;
-	-webkit-box-shadow: 0 10px 30px 0 rgba(231, 76, 60,0.3);
-    box-shadow: 0 10px 30px 0 rgba(231, 76, 60,0.3);
+    -webkit-box-shadow: 0 10px 30px 0 rgba(231, 76, 60, 0.3);
+    box-shadow: 0 10px 30px 0 rgba(231, 76, 60, 0.3);
 }
 
 .inputfile:focus + label,
 .inputfile + label:hover {
     color: white;
     background-color: var(--primaryColor);
-    -webkit-box-shadow: 0 10px 45px 0 rgba(231, 76, 60,0.6);
-    box-shadow: 0 10px 45px 0 rgba(231, 76, 60,0.6);
+    -webkit-box-shadow: 0 10px 45px 0 rgba(231, 76, 60, 0.6);
+    box-shadow: 0 10px 45px 0 rgba(231, 76, 60, 0.6);
 }
 
 .inputfile:disabled + label {
@@ -50,22 +50,23 @@
 }
 
 .inputfile + label {
-	cursor: pointer; /* "hand" cursor */
+    cursor: pointer; /* "hand" cursor */
 }
 
 /* Acceso con teclado */
 .inputfile:focus + label {
-	outline: 1px dotted #000;
-	outline: -webkit-focus-ring-color auto 5px;
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
 }
+
 /* Possible Touch Issues */
 .inputfile + label * {
-	pointer-events: none;
+    pointer-events: none;
 }
 
 
 /* Select Category */
-select{
+select {
     display: inline-block;
     margin: 0;
     position: relative;
@@ -73,217 +74,211 @@ select{
     width: 100%;
 
     width: 100%;
-	height: 50px;
-	border: none;
-	outline: none;
-	padding-left: 21px;
-	background: #f3f7fb;
-	margin-bottom: 30px;
-	font-size: 16px;
-	color: #2b2e35;
-	font-weight: 500;
+    height: 50px;
+    border: none;
+    outline: none;
+    padding-left: 21px;
+    background: #f3f7fb;
+    margin-bottom: 30px;
+    font-size: 16px;
+    color: #2b2e35;
+    font-weight: 500;
 }
 
 
 #preview > div {
-  border: solid 10px var(--primaryColor);
-  padding: 0;
-  margin: 15px;
+    border: solid 10px var(--primaryColor);
+    padding: 0;
+    margin: 15px;
 }
 
 #preview > div > div:nth-child(1) {
-  position: relative;
-  width: 100%;
-  padding-top: 100%;
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
 }
 
 #preview > div > div:nth-child(2) {
-  padding: 0 10px;
-  font-size: 1.5em;
+    padding: 0 10px;
+    font-size: 1.5em;
 }
 
 #preview > div > div:nth-child(2) i {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  cursor: pointer;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    cursor: pointer;
 }
 
 #preview > div > div > div {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  bottom: 0px;
-  right: 0px;
-  background-position: center center;
-  background-size: cover;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    background-position: center center;
+    background-size: cover;
 }
 
 @media screen and (max-width: 400px) {
-  .wrapper {
-    margin-top: 0;
-  }
-  header {
-    flex-direction: column;
-  }
-  header span {
-    text-align: left;
-    margin-top: 10px;
-  }
-  .ways li,
-  section input,
-  section textarea,
-  .select-option .head,
-  .select-option .option div {
-   font-size: 8px;
-  }
-  .images .img,
-  .images .pic {
-    flex-basis: 100%;
-    margin-right: 0;
-  }
+    .wrapper {
+        margin-top: 0;
+    }
+
+    header {
+        flex-direction: column;
+    }
+
+    header span {
+        text-align: left;
+        margin-top: 10px;
+    }
+
+    .ways li,
+    section input,
+    section textarea,
+    .select-option .head,
+    .select-option .option div {
+        font-size: 8px;
+    }
+
+    .images .img,
+    .images .pic {
+        flex-basis: 100%;
+        margin-right: 0;
+    }
 }
 
 
 footer {
-  text-align: center;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: #fff;
-  font-size: 12px;
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #fff;
+    font-size: 12px;
 }
 
 /*********************************
 6. Contact
 *********************************/
 
-.contact
-{
-	background: #ffffff;
-	padding-top: 92px;
-	padding-bottom: 85px;
-}
-.contact_row
-{
-	margin-top: 30px;
-}
-.contact_text
-{
-	margin-top: 17px;
-}
-.contact_info ul li:not(:last-of-type)
-{
-	margin-bottom: 18px;
-}
-.contact_info ul li > div:first-of-type
-{
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	background: var(--secondaryColor);
-}
-.contact_info ul li > div:first-of-type > div
-{
-	width: 23px;
-	height: 23px;
-}
-.contact_info ul li > div:first-of-type > div img,
-.contact_info ul li > div:first-of-type > div svg
-{
-	max-height: 100%;
-	max-width: 100%;
-}
-.contact_info ul li span
-{
-	margin-left: 26px;
-	font-size: 16px;
-	font-weight: 600;
-	color: #2b2e35;
-}
-.contact_form_row
-{
-	margin-top: 30px;
-}
-.contact_form
-{
-	display: block;
-}
-.contact_input
-{
-	width: 100%;
-	height: 50px;
-	border: none;
-	outline: none;
-	padding-left: 21px;
-	background: #f3f7fb;
-	margin-bottom: 30px;
-	font-size: 16px;
-	color: #2b2e35;
-	font-weight: 500;
-}
-.contact_input::-webkit-input-placeholder
-{
-	font-size: 14px !important;
-	font-weight: 500 !important;
-	color: #6c7079 !important;
-}
-.contact_input:-moz-placeholder
-{
-	font-size: 14px !important;
-	font-weight: 500 !important;
-	color: #6c7079 !important;
-}
-.contact_input::-moz-placeholder
-{
-	font-size: 14px !important;
-	font-weight: 500 !important;
-	color: #6c7079 !important;
-} 
-.contact_input:-ms-input-placeholder
-{ 
-	font-size: 14px !important;
-	font-weight: 500 !important;
-	color: #6c7079 !important;
-}
-.contact_input::input-placeholder
-{
-	font-size: 14px !important;
-	font-weight: 500 !important;
-	color: #6c7079 !important;
-}
-.contact_textarea
-{
-	height: 300px;
-	padding-top: 16px;
+.contact {
+    background: #ffffff;
+    padding-top: 92px;
+    padding-bottom: 85px;
 }
 
+.contact_row {
+    margin-top: 30px;
+}
+
+.contact_text {
+    margin-top: 17px;
+}
+
+.contact_info ul li:not(:last-of-type) {
+    margin-bottom: 18px;
+}
+
+.contact_info ul li > div:first-of-type {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--secondaryColor);
+}
+
+.contact_info ul li > div:first-of-type > div {
+    width: 23px;
+    height: 23px;
+}
+
+.contact_info ul li > div:first-of-type > div img,
+.contact_info ul li > div:first-of-type > div svg {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.contact_info ul li span {
+    margin-left: 26px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2b2e35;
+}
+
+.contact_form_row {
+    margin-top: 30px;
+}
+
+.contact_form {
+    display: block;
+}
+
+.contact_input {
+    width: 100%;
+    height: 50px;
+    border: none;
+    outline: none;
+    padding-left: 21px;
+    background: #f3f7fb;
+    margin-bottom: 30px;
+    font-size: 16px;
+    color: #2b2e35;
+    font-weight: 500;
+}
+
+.contact_input::-webkit-input-placeholder {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #6c7079 !important;
+}
+
+.contact_input:-moz-placeholder {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #6c7079 !important;
+}
+
+.contact_input::-moz-placeholder {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #6c7079 !important;
+}
+
+.contact_input:-ms-input-placeholder {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #6c7079 !important;
+}
+
+.contact_textarea {
+    height: 300px;
+    padding-top: 16px;
+}
 
 
 /*********************************
 7. Google Map
 *********************************/
 
-.map
-{
-	width: 100%;
-}
-.google_map
-{
-	width: 100%;
-	height: 300px;
-}
-.map_container
-{
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-}
-#map
-{
-	width: 100%;
-	height: calc(100% + 30px);
+.map {
+    width: 100%;
 }
 
+.google_map {
+    width: 100%;
+    height: 300px;
+}
+
+.map_container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#map {
+    width: 100%;
+    height: calc(100% + 30px);
+}
 
 
 /* TEXT INPUT ANIMATIONS */
@@ -298,8 +293,7 @@ input[type=password]:focus {
     border-bottom: 2px solid var(--secondaryColor);
 }
 
-.input-d
-{
+.input-d {
     max-width: 80%;
 }
 

@@ -1,7 +1,6 @@
 @charset "UTF-8";
 
-.contact_button
-{
+.contact_button {
     font-size: 14px;
     font-weight: 500;
 }
@@ -18,8 +17,7 @@ input[type=password]:focus {
     border-bottom: 2px solid var(--secondaryColor);
 }
 
-.input-d
-{
+.input-d {
     max-width: 80%;
 }
 
@@ -82,8 +80,8 @@ input[type=password] {
     color: white;
     background-color: var(--secondaryColor);
     display: inline-block;
-    -webkit-box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3);
-    box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3);
+    -webkit-box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3);
 }
 
 .inputfile:focus + label,
@@ -101,6 +99,7 @@ input[type=password] {
     outline: 1px dotted #000;
     outline: -webkit-focus-ring-color auto 5px;
 }
+
 /* Possible Touch Issues */
 .inputfile + label * {
     pointer-events: none;
@@ -118,6 +117,7 @@ input[type=password] {
     border-radius: 100%;
     cursor: pointer;
 }
+
 .portrait:hover:before {
     opacity: 0.5;
 }

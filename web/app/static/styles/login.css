@@ -7,8 +7,8 @@
     max-width: 450px;
     position: relative;
     padding: 0px;
-    -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
-    box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+    -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
     text-align: center;
 }
 
@@ -16,7 +16,8 @@
     background: #fff;
     width: 100%;
     position: relative;
-    padding: 0px;);
+    padding: 0px;
+);
     text-align: center;
 }
 
@@ -32,22 +33,22 @@
 
 /* FORM TYPOGRAPHY*/
 
-input[type=button], input[type=submit], input[type=reset]  {
+input[type=button], input[type=submit], input[type=reset] {
     width: 247px;
-	height: 51px;
-	background: var(--secondaryColor);
-	border: none;
-	outline: none;
-	font-size: 14px;
-	font-weight: 500;
-	color: #ffffff;
-	text-transform: uppercase;
-	cursor: pointer;
-	margin-top: 5px;
-	margin-bottom: 23px;
+    height: 51px;
+    background: var(--secondaryColor);
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 5px;
+    margin-bottom: 23px;
 
-    -webkit-box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
-    box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
+    -webkit-box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
+    box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
 
     -webkit-transition: all 0.3s ease-in-out;
     -moz-transition: all 0.3s ease-in-out;
@@ -56,11 +57,11 @@ input[type=button], input[type=submit], input[type=reset]  {
     transition: all 0.3s ease-in-out;
 }
 
-input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {
+input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover {
     background-color: var(--primaryColor);
 }
 
-input[type=button]:active, input[type=submit]:active, input[type=reset]:active  {
+input[type=button]:active, input[type=submit]:active, input[type=reset]:active {
     -moz-transform: scale(0.95);
     -webkit-transform: scale(0.95);
     -o-transform: scale(0.95);
@@ -80,8 +81,7 @@ input[type=password]:focus {
     border-bottom: 2px solid var(--secondaryColor);
 }
 
-.input-d
-{
+.input-d {
     max-width: 80%;
 }
 

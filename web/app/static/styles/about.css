@@ -20,243 +20,238 @@
 5. Home
 *********************************/
 
-.home
-{
-	height: 261px;
+.home {
+    height: 261px;
 }
-.home_content
-{
-	padding-top: 173px;
+
+.home_content {
+    padding-top: 173px;
 }
-.home_title
-{
-	font-size: 30px;
-	font-weight: 500;
-	color: #ffffff;
+
+.home_title {
+    font-size: 30px;
+    font-weight: 500;
+    color: #ffffff;
 }
 
 /*********************************
 6. Intro
 *********************************/
 
-.intro
-{
-	background: #ffffff;
-	padding-top: 92px;
-	padding-bottom: 92px;
+.intro {
+    background: #ffffff;
+    padding-top: 92px;
+    padding-bottom: 92px;
 }
-.intro_text
-{
-	margin-top: 36px;
+
+.intro_text {
+    margin-top: 36px;
 }
-.intro_button
-{
-	margin-top: 47px;
+
+.intro_button {
+    margin-top: 47px;
 }
-.intro_image
-{
-	height: 100%;
+
+.intro_image {
+    height: 100%;
 }
-.intro_image > img
-{
-	display: none;
+
+.intro_image > img {
+    display: none;
 }
 
 /*********************************
 7. Services
 *********************************/
 
-.services
-{
-	padding-top: 92px;
-	padding-bottom: 66px;
-	background: #f3f7fb;
+.services {
+    padding-top: 92px;
+    padding-bottom: 66px;
+    background: #f3f7fb;
 }
-.services_row
-{
-	margin-top: 80px;
+
+.services_row {
+    margin-top: 80px;
 }
-.service
-{
-	background: #ffffff;
-	padding-top: 36px;
-	padding-left: 30px;
-	padding-right: 15px;
-	padding-bottom: 45px;
-	margin-bottom: 28px;
-	-webkit-transition: all 200ms ease;
-	-moz-transition: all 200ms ease;
-	-ms-transition: all 200ms ease;
-	-o-transition: all 200ms ease;
-	transition: all 200ms ease;
+
+.service {
+    background: #ffffff;
+    padding-top: 36px;
+    padding-left: 30px;
+    padding-right: 15px;
+    padding-bottom: 45px;
+    margin-bottom: 28px;
+    -webkit-transition: all 200ms ease;
+    -moz-transition: all 200ms ease;
+    -ms-transition: all 200ms ease;
+    -o-transition: all 200ms ease;
+    transition: all 200ms ease;
 }
-.service::after
-{
-	display: block;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	content: '';
-	border: solid 2px #adc867;
-	visibility: hidden;
-	opacity: 0;
-	pointer-events: none;
-	-webkit-transition: all 200ms ease;
-	-moz-transition: all 200ms ease;
-	-ms-transition: all 200ms ease;
-	-o-transition: all 200ms ease;
-	transition: all 200ms ease;
+
+.service::after {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    content: '';
+    border: solid 2px #adc867;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    -webkit-transition: all 200ms ease;
+    -moz-transition: all 200ms ease;
+    -ms-transition: all 200ms ease;
+    -o-transition: all 200ms ease;
+    transition: all 200ms ease;
 }
-.service:hover::after
-{
-	visibility: visible;
-	opacity: 1;
+
+.service:hover::after {
+    visibility: visible;
+    opacity: 1;
 }
-.service:hover
-{
-	box-shadow: 0px 14px 35px rgba(0,0,0,0.23);
+
+.service:hover {
+    box-shadow: 0px 14px 35px rgba(0, 0, 0, 0.23);
 }
-.service_icon
-{
-	width: 38px;
-	height: 50px;
+
+.service_icon {
+    width: 38px;
+    height: 50px;
 }
-.service_icon img
-{
-	max-height: 100%;
+
+.service_icon img {
+    max-height: 100%;
 }
-.service_title
-{
-	padding-left: 19px;
+
+.service_title {
+    padding-left: 19px;
 }
-.service_text
-{
-	margin-top: 9px;
+
+.service_text {
+    margin-top: 9px;
 }
 
 /*********************************
 8. Milestones
 *********************************/
 
-.milestones
-{
-	padding-top: 41px;
-	padding-bottom: 26px;
-	background: var(--primaryColor);
+.milestones {
+    padding-top: 41px;
+    padding-bottom: 26px;
+    background: var(--primaryColor);
 }
-.milestone_col
-{
-	margin-bottom: 35px;
+
+.milestone_col {
+    margin-bottom: 35px;
 }
-.milestone_icon
-{
-	width: 50px;
-	height: 63px;
+
+.milestone_icon {
+    width: 50px;
+    height: 63px;
 }
-.milestone_icon svg
-{
-	max-width: 100%	
-	max-height: 100%;
+
+.milestone_icon svg {
+    max-width: 100%;
+    max-height: 100%;
 }
-.milestone_counter
-{
-	width: 186px;
-	font-size: 72px;
-	font-weight: 600;
-	color: #ffffff;
-	line-height: 0.75;
-	margin-top: 9px;
+
+.milestone_counter {
+    width: 186px;
+    font-size: 72px;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 0.75;
+    margin-top: 9px;
 }
-.milestone_text
-{
-	font-size: 16px;
-	font-weight: 600;
-	color: #ffffff;
-	margin-top: 15px;
+
+.milestone_text {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-top: 15px;
 }
 
 /*********************************
 9. Agents
 *********************************/
 
-.agents
-{
-	background: #ffffff;
-	padding-top: 92px;
-	padding-bottom: 92px;
+.agents {
+    background: #ffffff;
+    padding-top: 92px;
+    padding-bottom: 92px;
 }
-.agents_row
-{
-	margin-top: 80px;
+
+.agents_row {
+    margin-top: 80px;
 }
-.agent_col
-{
-	margin-bottom: 30px;
+
+.agent_col {
+    margin-bottom: 30px;
 }
-.agent
-{
-	background: #f3f7fb;
+
+.agent {
+    background: #f3f7fb;
 }
-.agent_content
-{
-	padding-left: 40px;
-	padding-top: 36px;
-	padding-right: 40px;
-	padding-bottom: 22px;
+
+.agent_content {
+    padding-left: 40px;
+    padding-top: 36px;
+    padding-right: 40px;
+    padding-bottom: 22px;
 }
-.agent_name
-{
+
+.agent_name {
 
 }
-.agent_name a
-{
-	font-size: 24px;
-	font-weight: 600;
-	color: #2b2e35;
+
+.agent_name a {
+    font-size: 24px;
+    font-weight: 600;
+    color: #2b2e35;
 }
-.agent_name a:hover
-{
-	color: #adc867;
+
+.agent_name a:hover {
+    color: #adc867;
 }
-.agent_title
-{
-	font-size: 14px;
-	font-weight: 500;
-	color: #adc867;
-	margin-top: 0px;
+
+.agent_title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #adc867;
+    margin-top: 0px;
 }
-.agent_list
-{
-	margin-top: 32px;
+
+.agent_list {
+    margin-top: 32px;
 }
-.agent_list ul li:not(:last-of-type)
-{
-	margin-bottom: 9px;
+
+.agent_list ul li:not(:last-of-type) {
+    margin-bottom: 9px;
 }
-.agent_list ul li
-{
-	font-size: 14px;
-	font-weight: 500;
-	color: #6c7079;
+
+.agent_list ul li {
+    font-size: 14px;
+    font-weight: 500;
+    color: #6c7079;
 }
-.agent .social
-{
-	margin-top: 33px;
-	margin-left: -3px;
+
+.agent .social {
+    margin-top: 33px;
+    margin-left: -3px;
 }
-.agent .social ul li
-{
-	background: #dbe7f1;
+
+.agent .social ul li {
+    background: #dbe7f1;
 }
-.agent .social ul li:hover
-{
-	background: #adc867;
-	transform: none;
-	box-shadow: none;
+
+.agent .social ul li:hover {
+    background: #adc867;
+    transform: none;
+    box-shadow: none;
 }
-.contact_row
-{
-	margin-top: 62px;
+
+.contact_row {
+    margin-top: 62px;
 }

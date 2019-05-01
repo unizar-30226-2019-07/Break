@@ -5,8 +5,8 @@
 
     border-radius: 8px;
 
-	-webkit-box-shadow: 0 10px 30px 0 rgba(231, 76, 60,0.3);
-    box-shadow: 0 10px 30px 0 rgba(231, 76, 60,0.3);
+    -webkit-box-shadow: 0 10px 30px 0 rgba(231, 76, 60, 0.3);
+    box-shadow: 0 10px 30px 0 rgba(231, 76, 60, 0.3);
 }
 
 .sidebar {
@@ -15,10 +15,10 @@
 
     border-right: 1px solid #eee;
     height: 100%;
-    background: var(--LighterDarkColor);/*#CACCBD;*/
+    background: var(--LighterDarkColor); /*#CACCBD;*/
 
     -webkit-border-radius: 8px 0 0 8px;
-            border-radius: 8px 0 0 8px;
+    border-radius: 8px 0 0 8px;
 
 }
 
@@ -26,15 +26,15 @@
     padding: 20px 0 10px;
     margin: -5px;
     z-index: 2;
-    background: var(--NoDarkColor);/*#CACCBD;*/
+    background: var(--NoDarkColor); /*#CACCBD;*/
 
     border-style: solid;
     border-width: 5px 5px 5px 5px;
     -webkit-border-radius: 8px 0;
-            border-radius: 8px 0;
+    border-radius: 8px 0;
     border-color: var(--LighterDarkColor);
 
-	-webkit-box-shadow: 0 10px 30px 0 rgba(42, 54, 63, 0.3);
+    -webkit-box-shadow: 0 10px 30px 0 rgba(42, 54, 63, 0.3);
     box-shadow: 0 10px 30px 0 rgba(42, 54, 63, 0.3);
 }
 
@@ -47,32 +47,29 @@
 }
 
 /* Scrollbar */
-.scrollable-chats::-webkit-scrollbar-track
-{
+.scrollable-chats::-webkit-scrollbar-track {
 
-	-webkit-box-shadow: inset 0 0 6px rgba(42, 54, 63, 0.3);
-	border-radius: 10px;
-	background-color: var(--NoDarkColor);
+    -webkit-box-shadow: inset 0 0 6px rgba(42, 54, 63, 0.3);
+    border-radius: 10px;
+    background-color: var(--NoDarkColor);
 }
 
-.scrollable-chats::-webkit-scrollbar
-{
-	width: 4px;
-	background-color: var(--NoDarkColor);
+.scrollable-chats::-webkit-scrollbar {
+    width: 4px;
+    background-color: var(--NoDarkColor);
 }
 
-.scrollable-chats::-webkit-scrollbar-thumb
-{
-	border-radius: 10px;
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: var(--DarkColor);
+.scrollable-chats::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: var(--DarkColor);
 }
 
 
 .producto-bubble {
     background-color: var(--NoDarkColor); /*#FCF9FA*/
     -webkit-border-radius: 4px;
-            border-radius: 4px;
+    border-radius: 4px;
 
     z-index: 3;
     font-size: 1.2rem;
@@ -80,8 +77,8 @@
     margin: 0 auto 5px;
     max-width: 400px;
     padding: 10px;
-    display:flex;
-    align-items:center;
+    display: flex;
+    align-items: center;
 
     margin-right: 4px;
     position: relative;
@@ -92,8 +89,8 @@
 .producto-bubble:hover {
     top: -8px;
 
-    -webkit-box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3);
-    box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3)
+    -webkit-box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3)
 }
 
 .producto-bubble strong {
@@ -116,13 +113,13 @@
     background-position: center;
     background-size: cover;
 
-	border-radius: 50%;
-	border-style: solid;
+    border-radius: 50%;
+    border-style: solid;
     border-width: 1px;
     border-color: var(--NoDarkColor);
 
-    -webkit-box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3);
-    box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3)
+    -webkit-box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3)
 }
 
 
@@ -135,7 +132,7 @@
     padding-bottom: 1.5rem;
 }
 
-.chat{
+.chat {
     height: 100%;
 }
 
@@ -146,36 +143,33 @@
 }
 
 /* Scrollbar */
-.messages_scrollable::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	border-radius: 10px;
-	background-color: #F5F5F5;
+.messages_scrollable::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
 }
 
-.messages_scrollable::-webkit-scrollbar
-{
-	width: 12px;
-	margin-left: 15px;
-	background-color: #F5F5F5;
+.messages_scrollable::-webkit-scrollbar {
+    width: 12px;
+    margin-left: 15px;
+    background-color: #F5F5F5;
 }
 
-.messages_scrollable::-webkit-scrollbar-thumb
-{
-	border-radius: 10px;
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: #D62929;
+.messages_scrollable::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #D62929;
 }
 
 /* Bocadillos */
-.messages-bubble{
+.messages-bubble {
     width: 85%;
     padding: 10px;
     font-size: 14px;
     font-weight: 700;
     margin-bottom: 18px;
-    -webkit-box-shadow: 0 0px 5px 0 rgba(231, 76, 60,0.3);
-    box-shadow: 0 0px 5px 0 rgba(231, 76, 60,0.3);
+    -webkit-box-shadow: 0 0px 5px 0 rgba(231, 76, 60, 0.3);
+    box-shadow: 0 0px 5px 0 rgba(231, 76, 60, 0.3);
 }
 
 /* Bocadillo del emisor */
@@ -190,7 +184,7 @@
 /* Flecha bocadillo sombra */
 .sender-bubble-ds-arrow {
     border-right: 20px solid transparent;
-    border-top: 15px solid rgba(231, 76, 60,0.15);
+    border-top: 15px solid rgba(231, 76, 60, 0.15);
     bottom: -15px;
     position: absolute;
     left: 15px;
@@ -220,7 +214,7 @@
 /* Flecha bocadillo sombra */
 .me-bubble-ds-arrow {
     border-left: 20px solid transparent;
-    border-top: 15px solid rgba(231, 76, 60,0.3);
+    border-top: 15px solid rgba(231, 76, 60, 0.3);
     bottom: -15px;
     position: absolute;
     right: 15px;
@@ -240,23 +234,22 @@
     display: none;
 }
 
-.send-square{
-	padding: 10px 0px 10px 0px;
-    -webkit-box-shadow: 0px -5px 5px 0px rgba(231, 76, 60,0.3);
-    -moz-box-shadow: 0px -5px 5px 0px rgba(231, 76, 60,0.3);
-    box-shadow: 0px -5px 5px 0px rgba(231, 76, 60,0.3);
+.send-square {
+    padding: 10px 0px 10px 0px;
+    -webkit-box-shadow: 0px -5px 5px 0px rgba(231, 76, 60, 0.3);
+    -moz-box-shadow: 0px -5px 5px 0px rgba(231, 76, 60, 0.3);
+    box-shadow: 0px -5px 5px 0px rgba(231, 76, 60, 0.3);
 
 }
 
-.mensaje_input
-{
+.mensaje_input {
     width: 96%;
-	height: 50px;
-	margin-left: 5%;
+    height: 50px;
+    margin-left: 5%;
 
-	font-size: 16px;
-	color: #2b2e35;
-	font-weight: 500;
+    font-size: 16px;
+    color: #2b2e35;
+    font-weight: 500;
 
     border-radius: 5px;
     outline: none;
@@ -271,38 +264,37 @@
 }
 
 .send_button {
-	height: 51px;
-	padding: 0px 10px 0px 10px;
-	background: var(--primaryColor);
-	border: none;
-	outline: none;
+    height: 51px;
+    padding: 0px 10px 0px 10px;
+    background: var(--primaryColor);
+    border: none;
+    outline: none;
     font-weight: 800;
-	color: white;
-	cursor: pointer;
-	border-radius: 5px;
-	-webkit-box-shadow: 0 10px 30px 0 rgba(231, 76, 60,0.3);
-    box-shadow: 0 10px 30px 0 rgba(231, 76, 60,0.3);
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 10px 30px 0 rgba(231, 76, 60, 0.3);
+    box-shadow: 0 10px 30px 0 rgba(231, 76, 60, 0.3);
 }
 
 .send_button:focus,
 .send_button:hover {
     color: white;
     background-color: var(--secondaryColor);
-    -webkit-box-shadow: 0 10px 45px 0 rgba(231, 76, 60,0.6);
-    box-shadow: 0 10px 45px 0 rgba(231, 76, 60,0.6);
+    -webkit-box-shadow: 0 10px 45px 0 rgba(231, 76, 60, 0.6);
+    box-shadow: 0 10px 45px 0 rgba(231, 76, 60, 0.6);
 }
 
-.search_chat_input
-{
+.search_chat_input {
     width: 90%;
-	height: 50px;
-	margin-left: 5%;
+    height: 50px;
+    margin-left: 5%;
 
-	background: #FCF9FA;
-	margin-bottom: 5px;
-	font-size: 16px;
-	color: #2b2e35;
-	font-weight: 500;
+    background: #FCF9FA;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #2b2e35;
+    font-weight: 500;
 
     border-radius: 5px;
     outline: none;
@@ -322,13 +314,13 @@ input[type=text]:focus {
 }
 
 input::placeholder {
-  font-family: "Font Awesome 5 Free", "Nunito", sans-serif;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  display: inline-block;
-  font-style: normal;
-  font-variant: normal;
-  text-rendering: auto;
-  line-height: 1;
-  font-weight: 900;
+    font-family: "Font Awesome 5 Free", "Nunito", sans-serif;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    font-weight: 900;
 }

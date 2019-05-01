@@ -6,16 +6,16 @@
 ****************************/
 
 strong {
-	color: black;
+    color: black;
 }
 
 div.content {
-	clear: both;
-	padding:0;
-	margin:0;
-	overflow: hidden;
-	display:block;
-	padding-top:32px;
+    clear: both;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    display: block;
+    padding-top: 32px;
 }
 
 
@@ -23,80 +23,79 @@ div.content {
       Imagen de perfil
 ****************************/
 img.portrait {
-/****************************
-	background-image:url(../images/default_portrait.jpg);
-	background-repeat: no-repeat;
-	background-size: 280px 300px;
-	****************************/
-	width:300px;
-	height:300px;
-	margin-left:22px;
+    /****************************
+        background-image:url(../images/default_portrait.jpg);
+        background-repeat: no-repeat;
+        background-size: 280px 300px;
+        ****************************/
+    width: 300px;
+    height: 300px;
+    margin-left: 22px;
 
-	border-radius: 50%;
-	border-style: solid;
+    border-radius: 50%;
+    border-style: solid;
     border-width: 10px;
     border-color: var(--primaryColor);
 
-    -webkit-box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3);
-    box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3)
+    -webkit-box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3)
 }
 
 #profile-image {
-	position: relative;
-	width: 100%;
-	padding-top: 100%;
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
 }
 
 div.portrait {
-	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
 
     background-position: center;
     background-size: cover;
 
-	margin-left:22px;
+    margin-left: 22px;
 
-	border-radius: 50%;
-	border-style: solid;
+    border-radius: 50%;
+    border-style: solid;
     border-width: 10px;
     border-color: var(--primaryColor);
 
-    -webkit-box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3);
-    box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3)
+    -webkit-box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3)
 }
 
 
 /* SELF INFORMATION */
 /* ----------------------------------------- */
 .verticalLine {
-	float:left;
-	padding-top:11px;
-	margin-left:0px;
-	margin-bottom:0px;
-	border-left: solid var(--secondaryColor);
-	border-left-width: 2px;
-	border-radius: 0%;
+    float: left;
+    padding-top: 11px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+    border-left: solid var(--secondaryColor);
+    border-left-width: 2px;
+    border-radius: 0%;
 }
 
-.contact_button
-{
-	display: block;
-	margin-left: auto;
-  	margin-right: auto;
-	width: 247px;
-	height: 51px;
-	background: var(--secondaryColor);
-	border: none;
-	outline: none;
-	font-size: 14px;
-	font-weight: 500;
-	color: white;
-	text-transform: uppercase;
-	cursor: pointer;
-	margin-top: 23px;
+.contact_button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 247px;
+    height: 51px;
+    background: var(--secondaryColor);
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 23px;
 }
 
 
@@ -116,120 +115,119 @@ div.portrait {
 6. Contact
 *********************************/
 
-.contact
-{
-	background: #ffffff;
-	padding-top: 92px;
-	padding-bottom: 85px;
+.contact {
+    background: #ffffff;
+    padding-top: 92px;
+    padding-bottom: 85px;
 }
-.contact_row
-{
-	margin-top: 30px;
+
+.contact_row {
+    margin-top: 30px;
 }
-.contact_text
-{
-	margin-top: 17px;
+
+.contact_text {
+    margin-top: 17px;
 }
-.contact_info ul li:not(:last-of-type)
-{
-	margin-bottom: 18px;
+
+.contact_info ul li:not(:last-of-type) {
+    margin-bottom: 18px;
 }
-.contact_info ul li > div:first-of-type
-{
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	background: var(--secondaryColor);
+
+.contact_info ul li > div:first-of-type {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--secondaryColor);
 }
-.contact_info ul li > div:first-of-type > div
-{
-	width: 23px;
-	height: 23px;
+
+.contact_info ul li > div:first-of-type > div {
+    width: 23px;
+    height: 23px;
 }
+
 .contact_info ul li > div:first-of-type > div img,
-.contact_info ul li > div:first-of-type > div svg
-{
-	max-height: 100%;
-	max-width: 100%;
+.contact_info ul li > div:first-of-type > div svg {
+    max-height: 100%;
+    max-width: 100%;
 }
-.contact_info ul li span
-{
-	margin-left: 26px;
-	font-size: 16px;
-	font-weight: 600;
-	color: #2b2e35;
+
+.contact_info ul li span {
+    margin-left: 26px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2b2e35;
 }
-.contact_form_row
-{
-	margin-top: 30px;
+
+.contact_form_row {
+    margin-top: 30px;
 }
-.contact_form
-{
-	display: block;
+
+.contact_form {
+    display: block;
 }
-.contact_input
-{
-	width: 100%;
-	height: 50px;
-	border: none;
-	outline: none;
-	padding-left: 21px;
-	background: #f3f7fb;
-	margin-bottom: 30px;
-	font-size: 16px;
-	color: #2b2e35;
-	font-weight: 500;
+
+.contact_input {
+    width: 100%;
+    height: 50px;
+    border: none;
+    outline: none;
+    padding-left: 21px;
+    background: #f3f7fb;
+    margin-bottom: 30px;
+    font-size: 16px;
+    color: #2b2e35;
+    font-weight: 500;
 }
-.contact_input::-webkit-input-placeholder
-{
-	font-size: 14px !important;
-	font-weight: 500 !important;
-	color: #6c7079 !important;
+
+.contact_input::-webkit-input-placeholder {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #6c7079 !important;
 }
-.contact_input:-moz-placeholder
-{
-	font-size: 14px !important;
-	font-weight: 500 !important;
-	color: #6c7079 !important;
+
+.contact_input:-moz-placeholder {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #6c7079 !important;
 }
-.contact_input::-moz-placeholder
-{
-	font-size: 14px !important;
-	font-weight: 500 !important;
-	color: #6c7079 !important;
+
+.contact_input::-moz-placeholder {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #6c7079 !important;
 }
-.contact_input:-ms-input-placeholder
-{
-	font-size: 14px !important;
-	font-weight: 500 !important;
-	color: #6c7079 !important;
+
+.contact_input:-ms-input-placeholder {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #6c7079 !important;
 }
-.contact_input::input-placeholder
-{
-	font-size: 14px !important;
-	font-weight: 500 !important;
-	color: #6c7079 !important;
+
+.contact_input::input-placeholder {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #6c7079 !important;
 }
-.contact_textarea
-{
-	height: 300px;
-	padding-top: 16px;
+
+.contact_textarea {
+    height: 300px;
+    padding-top: 16px;
 }
-.contact_button
-{
-	width: 247px;
-	height: 51px;
-	background: var(--secondaryColor);
-	border: none;
-	outline: none;
-	font-size: 1.50em;
+
+.contact_button {
+    width: 247px;
+    height: 51px;
+    background: var(--secondaryColor);
+    border: none;
+    outline: none;
+    font-size: 1.50em;
     font-weight: 800;
-	color: white;
-	text-transform: uppercase;
-	cursor: pointer;
-	margin-top: 23px;
-	-webkit-box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3);
-    box-shadow: 0 10px 30px 0 rgba(0,0,0,0.3);
+    color: white;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 23px;
+    -webkit-box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3);
 }
 
 .contact_button:focus,
@@ -238,70 +236,68 @@ div.portrait {
     background-color: var(--primaryColor);
 }
 
-.contact_button{
-	cursor: pointer; /* "hand" cursor */
+.contact_button {
+    cursor: pointer; /* "hand" cursor */
 }
 
 /* Acceso con teclado */
-.contact_button:focus{
-	outline: 1px dotted #000;
-	outline: -webkit-focus-ring-color auto 5px;
+.contact_button:focus {
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
 }
+
 /* Possible Touch Issues */
 .contact_button * {
-	pointer-events: none;
+    pointer-events: none;
 }
 
 /****************************
             TABS
 ****************************/
-.listing_tabs
-{
-	background: var(--secondaryColor);
-	border-radius: 33px;
-	padding-left: 0px !important;
-	padding-right: 0px !important;
-	min-width: 307px;
-	border-color: var(--primaryColor);
-	border-width: 7px;
-	border-style: solid;
-	-webkit-box-shadow: 0px 4px 10px 1px rgba(0,0,0,0.3);
-    box-shadow: 0px 4px 10px 1px rgba(0,0,0,0.3);
-}
-.tab_content
-{
-	height: 40px;
-	border-radius: 20px;
-	cursor: pointer;
-	margin: 6px;
-	padding: 0 2em;
-	-webkit-transition: all 200ms ease;
-	-moz-transition: all 200ms ease;
-	-ms-transition: all 200ms ease;
-	-o-transition: all 200ms ease;
-	transition: all 200ms ease;
-
-	font-size: 17px;
-	font-weight: 600;
-	color: white;
-
-	-webkit-touch-callout: none; /* iOS Safari */
-	-webkit-user-select: none; /* Safari */
-	-khtml-user-select: none; /* Konqueror HTML */
-	-moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* Internet Explorer/Edge */
-	user-select: none;
+.listing_tabs {
+    background: var(--secondaryColor);
+    border-radius: 33px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    min-width: 307px;
+    border-color: var(--primaryColor);
+    border-width: 7px;
+    border-style: solid;
+    -webkit-box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.3);
 }
 
-.tab .tab_content:hover
-{
+.tab_content {
+    height: 40px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin: 6px;
+    padding: 0 2em;
+    -webkit-transition: all 200ms ease;
+    -moz-transition: all 200ms ease;
+    -ms-transition: all 200ms ease;
+    -o-transition: all 200ms ease;
+    transition: all 200ms ease;
+
+    font-size: 17px;
+    font-weight: 600;
+    color: white;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+}
+
+.tab .tab_content:hover {
     background: rgba(255, 255, 255, .33);
 }
 
-.tab[aria-expanded="true"] .tab_content
-{
-	color: black; 
-	background: white;
+.tab[aria-expanded="true"] .tab_content {
+    color: black;
+    background: white;
 }
 
 .collapsing {
