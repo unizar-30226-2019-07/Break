@@ -435,6 +435,10 @@ def allowed_file(filename):
 def upload():
     return editproduct(0)
 
+@app.route("/uploadAuction", methods=['GET', 'POST'])
+def uploadAuction():
+    return editauction(0)
+
 @app.route("/single/<prod_id>/edit", methods=['GET', 'POST'])
 def editproduct(prod_id):
     if not current_user.is_authenticated:
@@ -534,7 +538,27 @@ def get_gallery(prod_id):
         region="ES"
     )
 
-    return render_template("single.html", userauth=current_user, prod=prod, map=mymap)
+    return render_template("single.html", userauth=current_user, prod=prod, map=mymap, auction=False)
+
+@app.route('/auction/<prod_id>')
+def get_auction(prod_id):
+
+    response = requests.get(url + "/auctions/" + str(prod_id) + "?lng=0&lat=0")
+    prod = json.loads(response.text)
+    print(response.text)
+
+    mymap = Map(
+        identifier="view-side",
+        lat=prod['location']['lat'],
+        lng=prod['location']['lng'],
+        zoom=15,
+        circles=[(prod['location']['lat'], prod['location']['lng'], 200)],
+        style="height:400px;margin:0;",
+        language="es",
+        region="ES"
+    )
+
+    return render_template("single.html", userauth=current_user, prod=prod, map=mymap, auction=True)
 
 @app.route('/user/<user_id>')
 def user(user_id):

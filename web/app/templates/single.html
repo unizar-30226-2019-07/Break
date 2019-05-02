@@ -28,7 +28,13 @@
 	<!-- Title -->
     <center>
         <div class="title_container">
-            <div class="title">Ver producto</div>
+            <div class="title">
+		    {% if auction == True %}
+		    Ver Subasta
+		    {% else %}
+		    Ver producto
+		    {% endif %}
+	    </div>
         </div>
     </center>
 
@@ -45,7 +51,8 @@
 						<!-- image_slider -->
 						<div class="row image_slider_container mt-5">
 							<div class="owl-carousel owl-theme image_slider">
-							{% if prod.media|length > 0 %}
+								{% if prod.media != None %}
+								{% if prod.media|length > 0 %}
 								{% for picture in prod.media %}
 								<!-- Slide -->
 								<div class="slide ">
@@ -57,22 +64,29 @@
 
 								<!-- Videos de prueba -->
 								<!--
-		<div class="slide">
+								<div class="slide">
 
-		<div class="item-video"><div class="maxh"> <a class="owl-video" href="https://www.youtube.com/watch?v=gkTb9GP9lVI"></a></div></div>
+								<div class="item-video"><div class="maxh"> <a class="owl-video" href="https://www.youtube.com/watch?v=gkTb9GP9lVI"></a></div></div>
 
-		</div>
-		<div class="item" data-videosrc="https://scontent-mad1-1.cdninstagram.com/vp/1aa116f7338c9fba02b783055667c957/5C87D0D2/t50.2886-16/50126655_288401928545789_3525096521315909632_n.mp4?_nc_ht=scontent-mad1-1.cdninstagram.com">
+								</div>
+								<div class="item" data-videosrc="https://scontent-mad1-1.cdninstagram.com/vp/1aa116f7338c9fba02b783055667c957/5C87D0D2/t50.2886-16/50126655_288401928545789_3525096521315909632_n.mp4?_nc_ht=scontent-mad1-1.cdninstagram.com">
 
-		</div>-->
+								</div>-->
 
-							{% else %}
+								{% else %}
 								<div class="slide ">
 									<div class="image_slider_container ">
 										<img class="text-center" src="{{ url_for('static', filename='images/items.svg') }}">
 									</div>
 								</div>							
-							{% endif %}
+								{% endif %}
+								{% else %} 
+								<div class="slide ">
+									<div class="image_slider_container ">
+										<img class="text-center" src="{{ url_for('static', filename='images/items.svg') }}">
+									</div>
+								</div>							
+								{% endif %}
 							</div>
 							<!-- Home Slider Navigation -->
 							<div class="image_slider_nav_l"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
@@ -93,12 +107,21 @@
 							<div class="row">
 								<div class="col-lg-6">
 									<div class="property_info">
-										<div class="tag_price listing_price">{{prod.price}} €</div>
+										<div class="tag_price listing_price">
+											{% if auction == True %}
+											{{ '%0.2f'| format(prod.lastBid.amount|float) }}
+											{% else %}
+											{{ '%0.2f'| format(prod.price|float) }}
+											{% endif %}
+											{{ prod.currency }}
+										</div>
 										<div class="listing_name"><h1>{{prod.title}}</h1></div>
 										<div class="listing_location d-flex flex-row align-items-start justify-content-start">
 											<img src="{{ url_for('static', filename = 'images/icon_1.png') }}" alt="">
 											<span>
+												{% if prod.distance != None %}
 												A {{ prod.distance|round(1) }} km de tí
+												{% endif %}
 											</span>
 
 										</div>
@@ -141,6 +164,12 @@
 										{{ map.html }}
 									</div>
 								</div>
+								{% if auction == True %}
+								<div class="col-12">
+									Esto es una subasta,
+									Aquí se mostrarán las acciones que se pueden realizar sobre la subasta
+								</div>
+								{% endif %}
 								{% if prod.owner.idUsuario == userauth.user_id %}
 								<button id="next" style="margin-left:auto;margin-right:auto;" class="search_button" >Editar Anuncio</button>
 								<script type="text/javascript">
