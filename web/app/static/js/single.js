@@ -223,14 +223,16 @@ function abrirChat() {
     console.log(anunID);
     console.log(productID);
 
-    var citiesRef = db.collection("chat");
-    citiesRef.doc("p" + productID + "_a" + anunID + "_c" + cliID).set({
+    db.collection("chat").doc("p" + productID + "_a" + anunID + "_c" + cliID).set({
         idAnunciante: anunID, idCliente: cliID, idProducto: productID,
         visible: [0, cliID]
     })
+        .then(db.collection("chat").doc("p" + productID + "_a" + anunID + "_c" + cliID).collection("mensaje").doc("0").set({
+        contenido: "dummy", estado: "dummy", fecha: 0,
+        idEmisor: cliID
+    }));
 
-    .then(redirigirChat());
-
+    redirigirChat();
 }
 
 function redirigirChat() {

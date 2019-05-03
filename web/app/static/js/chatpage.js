@@ -94,11 +94,25 @@ function loadChatRoom(evt) {
         $('#room-title').text("Producto Prueba " + roomId);
 
         // Mensajes pruebas creados para probar la interfaz
-        showMessagesFromFirebase();
+        refMensajes = db.collection("chat").doc(roomId).collection("mensaje");
+
+        refMensajes.get()
+        .then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+                console.log(doc.id);
+                displayChatMessage(new Message(1, "Juan", "1:00", doc.id, true));
+            });
+        })
+        .catch(function (error) {
+            console.log("Error getting documents: ", error);
+        });
+
+
     }
 
     evt.preventDefault();
 }
+
 
 /**
  * Contestar con un mensaje:
@@ -158,7 +172,7 @@ function loadChatManager() {
                 imagen = api + '/pictures/' + (producto.media[0].idImagen);
 
                 $('#rooms').append(
-                    `<a href="#" onclick="return false;" id="${idProducto}">
+                    `<a href="#" onclick="return false;" id="${doc.id}">
                         <div class="producto-bubble row">
                             <div class="product-image"
                                 style="background-image: url(${imagen})"></div>
@@ -174,16 +188,6 @@ function loadChatManager() {
         });
 
 
-}
-
-function showMessagesFromFirebase() {
-    refMensajes = db.collection("chat").child("messages");
-    refMensajes.on("value", function (snap) {
-        datos = snap.val();
-        for (var key in datos) {
-            displayChatMessage(new Message(1, "Juan", "1:00", "Texto Prueba", true));
-        }
-    })
 }
 
 
@@ -207,14 +211,12 @@ function searchChats() {
 }
 
 
-function httpGet(theUrl)
-{
+function httpGet(theUrl) {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-    xmlHttp.send( null );
+    xmlHttp.open("GET", theUrl, false); // false for synchronous request
+    xmlHttp.send(null);
     return xmlHttp.responseText;
 }
-
 
 
 function initializeFirebase() {
