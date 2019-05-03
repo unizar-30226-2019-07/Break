@@ -66,11 +66,12 @@ function displayChatMessage(message) {
     if (message.idEmisor === myID) {
         envio = "me";
     }
+    var fecha = convertTimestamp(message.fecha);
 
     $('#chat-msgs').append(
         `<div class="messages-bubble ${envio}-bubble">
                 <div class="">${message.contenido}</div>
-                <div> ${message.estado}@ <span class="date">${message.fecha}</span></div>
+                <div> ${message.estado}@ <span class="date">${fecha}</span></div>
                 <div class="${envio}-bubble-ds-arrow"></div>
         </div>`
     );
@@ -78,6 +79,32 @@ function displayChatMessage(message) {
     var objDiv = document.getElementById(chatScrollMessageDiv);
     objDiv.scrollTop = objDiv.scrollHeight;
 // }
+}
+
+function convertTimestamp(timestamp) {
+    var d = new Date(timestamp.seconds * 1000);	// Convert the passed timestamp to milliseconds
+    var yyyy = d.getFullYear();
+    var mm = ('0' + (d.getMonth() + 1)).slice(-2);	// Months are zero based. Add leading 0.
+    var dd = ('0' + d.getDate()).slice(-2);		// Add leading 0.
+    var hh = d.getHours();
+    var h = hh;
+    var min = ('0' + d.getMinutes()).slice(-2);		// Add leading 0.
+    var ampm = 'AM';
+
+    if (hh > 12) {
+        h = hh - 12;
+        ampm = 'PM';
+    } else if (hh === 12) {
+        h = 12;
+        ampm = 'PM';
+    } else if (hh == 0) {
+        h = 12;
+    }
+
+    // ie: 2013-02-18, 8:35 AM
+    var time = dd + '-' + mm + '-' + yyyy + ', ' + h + ':' + min + ' ' + ampm;
+
+    return time;
 }
 
 /**
@@ -121,7 +148,7 @@ function loadChatRoom(evt) {
                         var estado = change.doc.get("estado");
                         var fecha = change.doc.get("fecha");
                         var idEmisor = change.doc.get("idEmisor");
-                        
+
                         displayChatMessage(new Message(change.doc.id, contenido, estado, fecha, idEmisor));
                     }
                     if (change.type === "modified") {
