@@ -10,11 +10,12 @@ var anunID;
 var cliID;
 
 class Message {
-    constructor(id, sender_name, createdAt, text, enviado) {
+    constructor(id, contenido, estado, fecha, idEmisor) {
         this.id = id;
-        this.createdAt = createdAt;
-        this.text = text;
-        this.enviado = enviado;
+        this.contenido = contenido;
+        this.estado = estado;
+        this.fecha = fecha;
+        this.idEmisor = idEmisor;
     }
 }
 
@@ -61,15 +62,15 @@ function displayChatMessage(message) {
 // if (chat.messages[message.id] === undefined) {
 // chat.messages[message.id] = message;
 
-    var envio = "me";
-    if (message.enviado) {
-        envio = "sender";
+    var envio = "sender";
+    if (message.idEmisor === myID) {
+        envio = "me";
     }
 
     $('#chat-msgs').append(
         `<div class="messages-bubble ${envio}-bubble">
-                <div class="">${message.text}</div>
-                <div> @ <span class="date">${message.createdAt}</span></div>
+                <div class="">${message.contenido}</div>
+                <div> ${message.estado}@ <span class="date">${message.fecha}</span></div>
                 <div class="${envio}-bubble-ds-arrow"></div>
         </div>`
     );
@@ -93,19 +94,44 @@ function loadChatRoom(evt) {
         $('.response').show();
         $('#room-title').text("Producto Prueba " + roomId);
 
+        // Obtener datos del producto:
+        refProducto = db.collection("chat").doc(roomId);
+        refProducto.get().then(function (doc) {
+            if (doc.exists) {
+                let producto = doc.data();
+                productoActual = producto.idProducto;
+                cliID = producto.idCliente;
+                anunID = producto.idAnunciante;
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch(function (error) {
+            console.log("Error getting document:", error);
+        });
+
         // Mensajes pruebas creados para probar la interfaz
         refMensajes = db.collection("chat").doc(roomId).collection("mensaje");
 
-        refMensajes.get()
-        .then(function (querySnapshot) {
-            querySnapshot.forEach(function (doc) {
-                console.log(doc.id);
-                displayChatMessage(new Message(1, "Juan", "1:00", doc.id, true));
+        refMensajes
+            .onSnapshot(function (snapshot) {
+                snapshot.docChanges().forEach(function (change) {
+                    if (change.type === "added") {
+                        var contenido = change.doc.get("contenido");
+                        var estado = change.doc.get("estado");
+                        var fecha = change.doc.get("fecha");
+                        var idEmisor = change.doc.get("idEmisor");
+                        
+                        displayChatMessage(new Message(change.doc.id, contenido, estado, fecha, idEmisor));
+                    }
+                    if (change.type === "modified") {
+                        // Mensaje modificado.
+                    }
+                    if (change.type === "removed") {
+                        // Mensaje eliminado
+                    }
+                });
             });
-        })
-        .catch(function (error) {
-            console.log("Error getting documents: ", error);
-        });
 
 
     }
@@ -127,23 +153,19 @@ function replyMessage(evt) {
     if (message !== "") {
         var date = new Date();
 
-        var minutes = date.getMinutes();
-        var hour = date.getHours();
-
-        let msg = {
-            id: "0",
-            createdAt: hour + ":" + minutes,
-            text: message,
-            enviado: false,
-        }
-
-        refChats = db.collection("chat");
-
         //displayChatMessage(msg);
-        refChats.doc("TOK").set({
-            name: "Tokyo", state: null, country: "Japan",
-            capital: true, population: 9000000
-        });
+        console.log("p" + productoActual + "_a" + anunID + "_c" + cliID);
+        refMessage = db.collection("chat").doc("p" + productoActual + "_a" + anunID + "_c" + cliID).collection("mensaje");
+        refMessage.add({
+            contenido: message, estado: "esperando", fecha: date,
+            idEmisor: myID
+        })
+            .then(function (docRef) {
+                console.log("Document written with ID: ", docRef.id);
+            })
+            .catch(function (error) {
+                console.error("Error adding document: ", error);
+            });
 
         // Limpiar Barra:
         $('#replyMessage input').val('');
@@ -167,8 +189,6 @@ function loadChatManager() {
                 var idProducto = doc.get("idProducto");
                 let producto = JSON.parse(httpGet(api + "/products/" + idProducto + "?lng=0&lat=0"));
 
-                console.log(producto);
-                console.log(producto.title);
                 imagen = api + '/pictures/' + (producto.media[0].idImagen);
 
                 $('#rooms').append(
