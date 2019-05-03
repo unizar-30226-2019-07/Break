@@ -191,6 +191,7 @@ $(document).ready(function () {
         });
     }
 
+
 });
 
 function isMobile(width) {
@@ -202,4 +203,55 @@ function isMobile(width) {
     } else {
         return false;
     }
+}
+
+
+/***********************
+ Editar anuncio
+ ***********************/
+function redirigirEditarProducto() {
+    window.location.href = "/single/" + productID + "/edit";
+}
+
+/***********************
+ Abrir un chat con el anuciante
+ ***********************/
+function abrirChat() {
+    db = initializeFirebase();
+
+    console.log(cliID);
+    console.log(anunID);
+    console.log(productID);
+
+    var citiesRef = db.collection("chat");
+    citiesRef.doc("p" + productID + "_a" + anunID + "_c" + cliID).set({
+        idAnunciante: anunID, idCliente: cliID, idProducto: productID,
+        visible: [0, cliID]
+    })
+
+    .then(redirigirChat());
+
+}
+
+function redirigirChat() {
+    window.location.href = "/chat";
+}
+
+/***********************
+ Inicializar firebase
+ ***********************/
+function initializeFirebase() {
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyBVkzjZBaHoupJYOl3MDMtrSyBAhpSfv6Q",
+        authDomain: "selit-7d67c.firebaseapp.com",
+        databaseURL: "https://selit-7d67c.firebaseio.com",
+        projectId: "selit-7d67c",
+        storageBucket: "selit-7d67c.appspot.com",
+        messagingSenderId: "663470816058"
+    };
+    var app = firebase.initializeApp(config);
+
+    // Return firestore database:
+    return firebase.firestore(app);
 }

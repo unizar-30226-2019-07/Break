@@ -538,6 +538,7 @@ def get_gallery(prod_id):
         region="ES"
     )
 
+    print(current_user)
     return render_template("single.html", userauth=current_user, prod=prod, map=mymap, auction=False)
 
 @app.route('/auction/<prod_id>')
@@ -679,6 +680,10 @@ def verify():
 @app.route('/chat')
 def chat():
     return render_template("chatpage.html", userauth=current_user)
+
+@app.route('/firebase-messaging-sw.js')
+def firebase_sw():
+    return send_from_directory("static/js", 'firebase-messaging-sw.js')
 
 
 if __name__ == '__main__':

@@ -1,204 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>Single Listing</title>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="description" content="myHOME - real estate template project">
+<head>
+    <title>Single Listing</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="myHOME - real estate template project">
 
-		<!-- General links -->
-		{% include 'include/headLinks.html' %}
+    <!-- General links -->
+    {% include 'include/headLinks.html' %}
 
-		<link rel="stylesheet" type="text/css"
-				       href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.carousel.css') }}">
-		<link rel="stylesheet" type="text/css"
-				       href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.theme.default.css') }}">
-		<link rel="stylesheet" type="text/css"
-				       href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/animate.css') }}">
-		<link href="{{ url_for('static', filename = 'plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css') }}">
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.carousel.css') }}">
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.theme.default.css') }}">
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/animate.css') }}">
+    <link href="{{ url_for('static', filename = 'plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css') }}">
 
-		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/single.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/single.css') }}">
 
-		{{ map.js }}
-	</head>
+    {{ map.js }}
+</head>
 
-	<!-- Header -->
-	{% include 'include/header.html' %}
+<!-- Header -->
+{% include 'include/header.html' %}
 
-	<!-- Title -->
-    <center>
-        <div class="title_container">
-            <div class="title">
-		    {% if auction == True %}
-		    Ver Subasta
-		    {% else %}
-		    Ver producto
-		    {% endif %}
-	    </div>
+<!-- Title -->
+<center>
+    <div class="title_container">
+        <div class="title">
+            {% if auction == True %}
+            Ver Subasta
+            {% else %}
+            Ver producto
+            {% endif %}
         </div>
-    </center>
+    </div>
+</center>
 
-	<!-- Home -->
-	<body>
-		<!-- Listing -->
-		<div class="listing_container">
+<!-- Home -->
+<body>
+<!-- Listing -->
+<div class="listing_container">
 
-			<div class="container">
-				<div class="row">
-					<div class="col">
-
-
-						<!-- image_slider -->
-						<div class="row image_slider_container mt-5">
-							<div class="owl-carousel owl-theme image_slider">
-								{% if prod.media != None %}
-								{% if prod.media|length > 0 %}
-								{% for picture in prod.media %}
-								<!-- Slide -->
-								<div class="slide ">
-									<div class="image_slider_container ">
-										<img class="text-center" src="{{ api + '/pictures/' + (picture.idImagen|string) }}">
-									</div>
-								</div>
-								{% endfor %}
-
-								<!-- Videos de prueba -->
-								<!--
-								<div class="slide">
-
-								<div class="item-video"><div class="maxh"> <a class="owl-video" href="https://www.youtube.com/watch?v=gkTb9GP9lVI"></a></div></div>
-
-								</div>
-								<div class="item" data-videosrc="https://scontent-mad1-1.cdninstagram.com/vp/1aa116f7338c9fba02b783055667c957/5C87D0D2/t50.2886-16/50126655_288401928545789_3525096521315909632_n.mp4?_nc_ht=scontent-mad1-1.cdninstagram.com">
-
-								</div>-->
-
-								{% else %}
-								<div class="slide ">
-									<div class="image_slider_container ">
-										<img class="text-center" src="{{ url_for('static', filename='images/items.svg') }}">
-									</div>
-								</div>							
-								{% endif %}
-								{% else %} 
-								<div class="slide ">
-									<div class="image_slider_container ">
-										<img class="text-center" src="{{ url_for('static', filename='images/items.svg') }}">
-									</div>
-								</div>							
-								{% endif %}
-							</div>
-							<!-- Home Slider Navigation -->
-							<div class="image_slider_nav_l"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
-							<div class="image_slider_nav_r"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
-						</div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
 
 
+                <!-- image_slider -->
+                <div class="row image_slider_container mt-5">
+                    <div class="owl-carousel owl-theme image_slider">
+                        {% if prod.media != None %}
+                        {% if prod.media|length > 0 %}
+                        {% for picture in prod.media %}
+                        <!-- Slide -->
+                        <div class="slide ">
+                            <div class="image_slider_container ">
+                                <img class="text-center" src="{{ api + '/pictures/' + (picture.idImagen|string) }}">
+                            </div>
+                        </div>
+                        {% endfor %}
 
-						<!-- Image -->
+                        <!-- Videos de prueba -->
+                        <!--
+                        <div class="slide">
+
+                        <div class="item-video"><div class="maxh"> <a class="owl-video" href="https://www.youtube.com/watch?v=gkTb9GP9lVI"></a></div></div>
+
+                        </div>
+                        <div class="item" data-videosrc="https://scontent-mad1-1.cdninstagram.com/vp/1aa116f7338c9fba02b783055667c957/5C87D0D2/t50.2886-16/50126655_288401928545789_3525096521315909632_n.mp4?_nc_ht=scontent-mad1-1.cdninstagram.com">
+
+                        </div>-->
+
+                        {% else %}
+                        <div class="slide ">
+                            <div class="image_slider_container ">
+                                <img class="text-center" src="{{ url_for('static', filename='images/items.svg') }}">
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% else %}
+                        <div class="slide ">
+                            <div class="image_slider_container ">
+                                <img class="text-center" src="{{ url_for('static', filename='images/items.svg') }}">
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <!-- Home Slider Navigation -->
+                    <div class="image_slider_nav_l"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
+                    <div class="image_slider_nav_r"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+                </div>
 
 
-						<div class="listing_image"></div>
+                <!-- Image -->
 
 
+                <div class="listing_image"></div>
 
-						<!-- About -->
-						<div class="about">
-							<div class="row">
-								<div class="col-lg-6">
-									<div class="property_info">
-										<div class="tag_price listing_price">
-											{% if auction == True %}
-											{{ '%0.2f'| format(prod.lastBid.amount|float) }}
-											{% else %}
-											{{ '%0.2f'| format(prod.price|float) }}
-											{% endif %}
-											{{ prod.currency }}
-										</div>
-										<div class="listing_name"><h1>{{prod.title}}</h1></div>
-										<div class="listing_location d-flex flex-row align-items-start justify-content-start">
-											<img src="{{ url_for('static', filename = 'images/icon_1.png') }}" alt="">
-											<span>
+
+                <!-- About -->
+                <div class="about">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="property_info">
+                                <div class="tag_price listing_price">
+                                    {% if auction == True %}
+                                    {{ '%0.2f'| format(prod.lastBid.amount|float) }}
+                                    {% else %}
+                                    {{ '%0.2f'| format(prod.price|float) }}
+                                    {% endif %}
+                                    {{ prod.currency }}
+                                </div>
+                                <div class="listing_name"><h1>{{prod.title}}</h1></div>
+                                <div class="listing_location d-flex flex-row align-items-start justify-content-start">
+                                    <img src="{{ url_for('static', filename = 'images/icon_1.png') }}" alt="">
+                                    <span>
 												{% if prod.distance != None %}
 												A {{ prod.distance|round(1) }} km de tí
 												{% endif %}
 											</span>
 
-										</div>
-										<div class="listing_list">
-											<ul>
-												<li>Posted on: September 22, 2018</li>
-											</ul>
-										</div>
-										<div class="prop_agent d-flex flex-row align-items-center justify-content-start">
-											<div class="prop_agent_image">
-												<!-- Begin Image -->
-												{% import 'include/_gravatar.html' as gravatar %}
-												{% if prod.owner.picture.idImagen is number %}
-												{% set profile_picture = api + '/pictures/' + (prod.owner.picture.idImagen|string) %}
-												{% else %}
-												{% set profile_picture = gravatar.get(prod.owner.email) %}
-												{% endif %}
-												<img src="{{profile_picture}}">
-											</div>
+                                </div>
+                                <div class="listing_list">
+                                    <ul>
+                                        <li>Posted on: September 22, 2018</li>
+                                    </ul>
+                                </div>
+                                <div class="prop_agent d-flex flex-row align-items-center justify-content-start">
+                                    <div class="prop_agent_image">
+                                        <!-- Begin Image -->
+                                        {% import 'include/_gravatar.html' as gravatar %}
+                                        {% if prod.owner.picture.idImagen is number %}
+                                        {% set profile_picture = api + '/pictures/' +
+                                        (prod.owner.picture.idImagen|string) %}
+                                        {% else %}
+                                        {% set profile_picture = gravatar.get(prod.owner.email) %}
+                                        {% endif %}
+                                        <img src="{{profile_picture}}">
+                                    </div>
 
-											<div class="prop_agent_name">
-												<a href="{{ url_for('user', user_id=prod.owner.idUsuario) }}">
-													{{prod.owner.first_name}} {{prod.owner.last_name}}
-												</a>
-												<br/>
-												{{prod.owner.email}}
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="about_text">
-										<p>
-										{{ prod.description }}
-										</p>
-									</div>
-								</div>
-								<div class="col-12">
-									<div class="google_map_container">
-										{{ map.html }}
-									</div>
-								</div>
-								{% if auction == True %}
-								<div class="col-12">
-									Esto es una subasta,
-									Aquí se mostrarán las acciones que se pueden realizar sobre la subasta
-								</div>
-								{% endif %}
-								{% if prod.owner.idUsuario == userauth.user_id %}
-								<button id="next" style="margin-left:auto;margin-right:auto;" class="search_button" >Editar Anuncio</button>
-								<script type="text/javascript">
-									document.getElementById("next").onclick = function () {
-										window.location.href = "/single/{{prod.id_producto}}/edit";
-									};
-								</script>
-								{% endif %}
-							</div>
-						</div>
+                                    <div class="prop_agent_name">
+                                        <a href="{{ url_for('user', user_id=prod.owner.idUsuario) }}">
+                                            {{prod.owner.first_name}} {{prod.owner.last_name}}
+                                        </a>
+                                        <br/>
+                                        {{prod.owner.email}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="about_text">
+                                <p>
+                                    {{ prod.description }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="google_map_container">
+                                {{ map.html }}
+                            </div>
+                        </div>
+                        {% if auction == True %}
+                        <div class="col-12">
+                            Esto es una subasta,
+                            Aquí se mostrarán las acciones que se pueden realizar sobre la subasta
+                        </div>
+                        {% endif %}
+                        {% if prod.owner.idUsuario == userauth.user_id %}
+                        <button style="margin-left:auto;margin-right:auto;" class="search_button" onclick="redirigirEditarProducto()">Editar
+                            Anuncio
+                        </button>
+                        {% else %}
+                        <button style="margin-left:auto;margin-right:auto;" class="main_button" onclick="abrirChat()">
+                            Abrir chat
+                        </button>
 
-					</div>
-				</div>
-			</div>
+                        {% endif %}
+                    </div>
+                </div>
 
-		</div>
+            </div>
+        </div>
+    </div>
 
-		<!-- Footer  -->
-		{% include 'include/footer.html' %}
+</div>
 
-		<!-- General Scripts  -->
-		{% include 'include/scripts.html' %}
+<!-- Footer  -->
+{% include 'include/footer.html' %}
 
-		<!-- Owl Carousel  -->
-		<script src="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.carousel.js') }}"></script>
+<!-- General Scripts  -->
+{% include 'include/scripts.html' %}
 
-		<script src="{{ url_for('static', filename = 'plugins/colorbox/jquery.colorbox-min.js') }}"></script>
+<!-- Owl Carousel  -->
+<script src="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.carousel.js') }}"></script>
 
-		<script src="{{ url_for('static', filename = 'js/single.js') }}"></script>
+<script src="{{ url_for('static', filename = 'plugins/colorbox/jquery.colorbox-min.js') }}"></script>
 
-	</body>
+<!-- Firebase App is always required and must be first -->
+<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
+
+<!-- Add additional services that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-firestore.js"></script>
+
+<script type="text/javascript">
+    var cliID = {{userauth.user_id}};
+    var anunID = {{prod.owner.idUsuario}};
+    var productID = {{prod.id_producto}};
+</script>
+
+<script src="{{ url_for('static', filename = 'js/single.js') }}"></script>
+
+</body>
 </html>

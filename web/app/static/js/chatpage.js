@@ -1,10 +1,22 @@
 // ----------------------------------------------------
-// Chat Details
+// Variables globales:
 // ----------------------------------------------------
-let chat = {
-    rooms: [],
-    messages: [],
-};
+var db;
+var myID;
+const api = "http://35.234.77.87:8080";
+
+var productoActual;
+var anunID;
+var cliID;
+
+class Message {
+    constructor(id, sender_name, createdAt, text, enviado) {
+        this.id = id;
+        this.createdAt = createdAt;
+        this.text = text;
+        this.enviado = enviado;
+    }
+}
 
 // ----------------------------------------------------
 // Targeted Elements
@@ -13,6 +25,26 @@ const chatBody = $(document);
 const chatRoomsList = $('#rooms');
 const chatReplyMessage = $('#replyMessage');
 const chatScrollMessageDiv = "msg_scroll";
+
+
+// ----------------------------------------------------
+// Inicialize scripts.
+// ----------------------------------------------------
+$(document)
+    .ready(
+        function () {
+            'use strict';
+
+            initializeFirebase();
+
+            // ----------------------------------------------------
+            // Register page event listeners
+            // ----------------------------------------------------
+            chatBody.ready(loadChatManager);
+            chatReplyMessage.on('submit', replyMessage);
+            chatRoomsList.on('click', 'a', loadChatRoom);
+        });
+
 
 /**
  * Limpiar los mensajes del chat
@@ -55,10 +87,6 @@ function loadChatRoom(evt) {
     clearChatMessages();
 
     // Id del producto pulsado
-    console.log(evt);
-    console.log(evt.id);
-
-
     var roomId = evt.currentTarget.id;
 
     if (roomId !== undefined) {
@@ -66,26 +94,7 @@ function loadChatRoom(evt) {
         $('#room-title').text("Producto Prueba " + roomId);
 
         // Mensajes pruebas creados para probar la interfaz
-        var msgs = [];
-
-        class Message {
-            constructor(id, sender_name, createdAt, text, enviado) {
-                this.id = id;
-                this.sender_name = sender_name;
-                this.createdAt = createdAt;
-                this.text = text;
-                this.enviado = enviado;
-            }
-        }
-
-        msgs.push(new Message(1, "Juan", "1:00", "Texto Prueba", Math.random() >= 0.5));
-        msgs.push(new Message(2, "Juan", "1:01", "Texto Prueba 2", Math.random() >= 0.5));
-        msgs.push(new Message(3, "Juan", "1:02", "Texto Prueba 3", Math.random() >= 0.5));
-        msgs.push(new Message(4, "Juan", "1:03", "Texto Prueba 4", Math.random() >= 0.5));
-        msgs.push(new Message(5, "Juan", "1:04", "Texto Prueba 5", Math.random() >= 0.5));
-
-        // Imprime los mensajes nuevos / los ultimos:
-        msgs.forEach(message => displayChatMessage(message));
+        showMessagesFromFirebase();
     }
 
     evt.preventDefault();
@@ -114,23 +123,17 @@ function replyMessage(evt) {
             enviado: false,
         }
 
-        displayChatMessage(msg);
+        refChats = db.collection("chat");
 
+        //displayChatMessage(msg);
+        refChats.doc("TOK").set({
+            name: "Tokyo", state: null, country: "Japan",
+            capital: true, population: 9000000
+        });
+
+        // Limpiar Barra:
         $('#replyMessage input').val('');
     }
-}
-
-
-/**
- * Pedir los productos a la API
- */
-function requestChatsIDs() {
-    var IDs = new Array();
-    for (var i = 0; i < 10; i++) {
-        IDs.push(i);
-    }
-    ;
-    return IDs;
 }
 
 
@@ -139,18 +142,50 @@ function requestChatsIDs() {
  */
 function loadChatManager() {
     // Obtener todos los chats y poner un link en la sidebar...
-    for (var id in requestChatsIDs()) {
-        $('#rooms').append(
-            `<a href="#" onclick="return false;" id="${id}">
-                    <div class="producto-bubble row">
-                        <div class="product-image"
-                            style="background-image: url(static/images/1953-1954-Buick-Skylark.jpg"></div>
-                        <strong>Producto de Prueba ${id}</strong>
-                    </div>
-                </a>`
-        );
-    }
+    refChats = db.collection("chat");
+
+
+    refChats.get()
+        .then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+                // doc.data() is never undefined for query doc snapshots
+
+                var idProducto = doc.get("idProducto");
+                let producto = JSON.parse(httpGet(api + "/products/" + idProducto + "?lng=0&lat=0"));
+
+                console.log(producto);
+                console.log(producto.title);
+                imagen = api + '/pictures/' + (producto.media[0].idImagen);
+
+                $('#rooms').append(
+                    `<a href="#" onclick="return false;" id="${idProducto}">
+                        <div class="producto-bubble row">
+                            <div class="product-image"
+                                style="background-image: url(${imagen})"></div>
+                            <strong>${producto.title}</strong>
+                        </div>
+                    </a>`
+                );
+
+            });
+        })
+        .catch(function (error) {
+            console.log("Error getting documents: ", error);
+        });
+
+
 }
+
+function showMessagesFromFirebase() {
+    refMensajes = db.collection("chat").child("messages");
+    refMensajes.on("value", function (snap) {
+        datos = snap.val();
+        for (var key in datos) {
+            displayChatMessage(new Message(1, "Juan", "1:00", "Texto Prueba", true));
+        }
+    })
+}
+
 
 function searchChats() {
     var input, filter, table, tr, td, i, txtValue;
@@ -172,16 +207,45 @@ function searchChats() {
 }
 
 
-$(document)
-    .ready(
-        function () {
-            'use strict';
+function httpGet(theUrl)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
 
 
-            // ----------------------------------------------------
-            // Register page event listeners
-            // ----------------------------------------------------
-            chatBody.ready(loadChatManager);
-            chatReplyMessage.on('submit', replyMessage);
-            chatRoomsList.on('click', 'a', loadChatRoom);
-        });
+
+function initializeFirebase() {
+
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyBVkzjZBaHoupJYOl3MDMtrSyBAhpSfv6Q",
+        authDomain: "selit-7d67c.firebaseapp.com",
+        databaseURL: "https://selit-7d67c.firebaseio.com",
+        projectId: "selit-7d67c",
+        storageBucket: "selit-7d67c.appspot.com",
+        messagingSenderId: "663470816058"
+    };
+    var app = firebase.initializeApp(config);
+    db = firebase.firestore(app);
+
+    const messaging = firebase.messaging();
+    messaging.requestPermission()
+        .then(function () {
+            console.log("Tenemos permiso");
+            console.log(messaging.getToken());
+            return messaging.getToken();
+        })
+        .then(function (token) {
+            //console.log(token);
+        })
+        .catch(function (err) {
+            console.log("Error Ocurred");
+        })
+
+    messaging.onMessage(function (payload) {
+        console.log('onMessage: ', payload);
+    })
+}

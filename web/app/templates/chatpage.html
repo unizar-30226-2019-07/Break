@@ -81,28 +81,10 @@
 
 <!-- Add additional services that you want to use -->
 <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-messaging.js"></script>
-
-<!-- Comment out (or don't include) services that you don't want to use -->
-<!--
-<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-database.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-functions.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-storage.js"></script> -->
-
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyBVkzjZBaHoupJYOl3MDMtrSyBAhpSfv6Q",
-    authDomain: "selit-7d67c.firebaseapp.com",
-    databaseURL: "https://selit-7d67c.firebaseio.com",
-    projectId: "selit-7d67c",
-    storageBucket: "selit-7d67c.appspot.com",
-    messagingSenderId: "663470816058"
-  };
-  firebase.initializeApp(config);
-</script>
-
+ <script type="text/javascript">
+    var myID = {{userauth.user_id}};
+ </script>
 <script src="{{ url_for('static', filename = 'js/chatpage.js') }}"></script>
 
 </body>
