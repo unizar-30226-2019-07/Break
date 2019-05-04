@@ -118,7 +118,7 @@
                                     <img src="{{ url_for('static', filename = 'images/icon_1.png') }}" alt="">
                                     <span>
 												{% if prod.distance != None %}
-												A {{ prod.distance|round(1) }} km de tí
+												A {{ (prod.distance/1000)|round(1) }} km de tí
 												{% endif %}
 											</span>
 

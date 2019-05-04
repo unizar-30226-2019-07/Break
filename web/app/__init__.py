@@ -272,6 +272,7 @@ def auctions():
     nextPageAddr = "/auctions" + ("?minprice=" + minprice)*(not errormin) + ("&maxprice=" + maxprice)*(not errormax) + "&minpublished=" + minpublished + "&maxpublished=" + maxpublished + "&category=" + category + "&keywords=" + keywords + "&resultados=" + str(size) + "&ordenacion=" + ordenacion + "&page=" + str(page + 1) + "&status=" + status
     prevPageAddr = "/auctions" + ("?minprice=" + minprice)*(not errormin) + ("&maxprice=" + maxprice)*(not errormax) + "&minpublished=" + minpublished + "&maxpublished=" + maxpublished + "&category=" + category + "&keywords=" + keywords + "&resultados=" + str(size) + "&ordenacion=" + ordenacion + "&page=" + str(page - 1) + "&status=" + status
 
+    print(prods)
     mymap = Map(
         identifier="view-side",
         lat=0,
@@ -292,7 +293,6 @@ def auctions():
         language="es",
         region="ES"
     )
-    print(prods)
     return render_template('listings.html', userauth=current_user, prods=prods, map=mymap, form=form, minprice = minprice, maxprice = maxprice, minpublished = minpublished, maxpublished = maxpublished, status = status, keywords = keywords, category = category, next = nextPageAddr, prev = prevPageAddr, first = firstpage, last = lastpage, sort = ordenacion, errormin = errormin, errormax = errormax, resultados = size, auction=True)
 
 
@@ -305,6 +305,20 @@ def listing():
     # Value is 1 when the user has entered an invalid min or max price
     errormin = 0
     errormax = 0
+
+    # Base address, parametres will be concatenadted here
+    products = url + '/products'
+
+    lat = 0
+    lng = 0
+    if current_user.is_authenticated:
+        usuario = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.id})
+        localizacion = json.loads(usuario.text)['location']
+        lng = localizacion['lng']
+        lat = localizacion['lat']
+
+    products += "?lat=" + str(lat)
+    products += "&lng=" + str(lng)
 
     form = ProductSearch(request.form)
     # Parametres that will be used in the search are passed using GET
@@ -319,11 +333,6 @@ def listing():
     keywords = request.args.get('keywords')
     ordenacion = request.args.get('ordenacion')
 
-    # Base address, parametres will be concatenadted here
-    products = url + '/products'
-    print(products)
-    products += "?lat=0"
-    products += "&lng=0"
     products += "&distance=500000000"
     if minprice != None and minprice != "":
         if not minprice.isdigit():
@@ -400,8 +409,8 @@ def listing():
 
     mymap = Map(
         identifier="view-side",
-        lat=0,
-        lng=0,
+        lat=lat,
+        lng=lng,
         fit_markers_to_bounds = True,
         center_on_user_location=True,
         zoom=15,
@@ -496,15 +505,11 @@ def editproduct(prod_id):
             product['price'] = float(form_sale.price.data)
 
 
-            print(product)
-
             if int(prod_id) > 0:
                 response = requests.put(url=url + '/products/' + prod_id, json=product, headers={'Authorization': current_user.id})
 
             else:
                 response = requests.post(url=url + '/products', json=product, headers={'Authorization': current_user.id})
-            
-            print(response.text)
 
             # Redirige a la ruta deseada, se pueden pasar parametros
             return redirect(url_for('profile'))
