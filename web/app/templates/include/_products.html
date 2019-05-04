@@ -20,7 +20,13 @@
 					{% else %}
 					<div class="listing_image_container" style="background-image: url({{ url_for('static', filename='images/items.svg') }})"></div>
 					{% endif %}
-
+                    {% if prod.status == "vendido" %}
+                    <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
+                        <span class="d-md-flex">
+                            Vendido
+                        </span>
+                    </div>
+                    {% endif %}
 				</div>
 
 				<div class="listing_content listing_location flex-grow-1">
