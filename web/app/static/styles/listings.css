@@ -22,6 +22,7 @@ a {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 
@@ -394,7 +395,16 @@ a {
     position: absolute;
     top: 10px;
     right: 10px;
-    background-color: #8e342b;
+    background-color: var(--secondaryColor);
+}
+
+/****************************
+           WISHLIST
+****************************/
+.listing_image > .wishlist {
+    position: absolute;
+    bottom: -26px;
+    right: 13px;
 }
 
 .listing:hover .listing_image_container > img {
@@ -480,7 +490,7 @@ a {
 
 .listing_location {
     padding-left: 34px !important;
-    padding-top: 17px;
+    padding-top: 30px;
     padding-bottom: 60px;
     padding-right: 30px;
     background: var(--clouds);

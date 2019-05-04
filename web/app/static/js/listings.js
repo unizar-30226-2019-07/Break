@@ -56,4 +56,18 @@ $(document).ready(function () {
         }
     }
 
+    $(document).on('click', '.tab', function(e){
+        var tab = $(this);
+        var target = $(this).data('target');
+        document.location.hash = target;
+        $(target).load(location.href + " " + target + "_inner", function(){
+            var length = $(target).find('.listing').length;
+            tab.find('span').text( function(i,txt) {return txt.replace(/\d+/, length); });
+        });
+    });
+
+    var url = document.location.toString();
+    if ( url.match('#') ) {
+        $('#'+url.split('#')[1]).collapse('show');
+    }
 });

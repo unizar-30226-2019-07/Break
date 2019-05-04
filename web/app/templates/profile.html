@@ -9,6 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/listings.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/wishlist.css') }}">
+
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/jquery-3.3.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/wishlist.js') }}"></script>
 
     <!-- General links -->
     {% include 'include/headLinks.html' %}
@@ -114,7 +118,7 @@
     <!-- Begin 1st Row -->
 
     <!-- Tabs -->
-    <div id="collapse-tabs">
+    <div id="collapse-tabs" style="min-height: 100vh;">
         <div class="listing_tabs d-flex flex-row align-items-start justify-content-between flex-wrap mt-5 mb-3">
 
             <!-- Tab -->
@@ -152,17 +156,23 @@
         {% import 'include/_products.html' as products %}
         <!-- EN VENTA -->
         <div id="on_sale" class="listings collapse show" data-parent="#collapse-tabs">
+            <div id="on_sale_inner">
             {{ products.list(on_sale) }}
+            </div>
         </div>
 
         <!-- VENDIDOS -->
-        <div id="sold" class="collapse" data-parent="#collapse-tabs">
+        <div id="sold" class="listings collapse" data-parent="#collapse-tabs">
+            <div id="sold_inner">
             {{ products.list(sold) }}
+            </div>
         </div>
 
         <!-- LISTA DE DESEOS -->
-        <div id="wishlist" class="collapse" data-parent="#collapse-tabs">
+        <div id="wishlist" class="listings collapse" data-parent="#collapse-tabs">
+            <div id="wishlist_inner">
             {{ products.list(wishlist) }}
+            </div>
         </div>
         </div>
     </div>

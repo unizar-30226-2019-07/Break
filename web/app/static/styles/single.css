@@ -402,7 +402,10 @@ video {
 }
 
 .prop_agent {
-    margin-top: 31px;
+    margin-top: 15px;
+    padding: 15px 20px;
+    border-radius: 10px;
+    border: solid 3px var(--clouds);
 }
 
 .prop_agent_image {
@@ -458,7 +461,11 @@ video {
 }
 
 .about_text {
-    padding-top: 124px;
+    padding-top: 2em;
+}
+
+.about_text * {
+    font-size: 1.15em;
 }
 
 .listing_features {
@@ -541,7 +548,7 @@ video {
 }
 
 .google_map_container {
-    margin-top: 92px;
+    margin-top: 30px;
 }
 
 .map {

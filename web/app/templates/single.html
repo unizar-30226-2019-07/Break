@@ -18,6 +18,9 @@
     <link href="{{ url_for('static', filename = 'plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css') }}">
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/single.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/wishlist.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/jquery-3.3.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/wishlist.js') }}"></script>
 
     {{ map.js }}
 </head>
@@ -93,7 +96,7 @@
                 <!-- About -->
                 <div class="about">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                             <div class="property_info">
                                 <div class="tag_price listing_price">
                                     {% if auction == True %}
@@ -103,6 +106,10 @@
                                     {% endif %}
                                     {{ prod.currency }}
                                 </div>
+                                <div class="wishlist {{ 'in_wishlist' if prod.in_wishlist else '' }} float-right d-flex align-items-center justify-content-center" data-id="{{ prod.id_producto }}">
+			                        <i class="fas fa-heart"></i>
+			                        <i class="far fa-heart"></i>
+			                    </div>
                                 <div class="listing_name"><h1>{{prod.title}}</h1></div>
                                 <div class="listing_location d-flex flex-row align-items-start justify-content-start">
                                     <img src="{{ url_for('static', filename = 'images/icon_1.png') }}" alt="">
@@ -113,11 +120,12 @@
 											</span>
 
                                 </div>
-                                <div class="listing_list">
-                                    <ul>
-                                        <li>Posted on: September 22, 2018</li>
-                                    </ul>
-                                </div>
+	                            <div class="about_text">
+	                                <p class="text-dark">
+	                                    {{ prod.description }}
+	                                </p>
+	                            </div>
+                                <h3 class="mt-5">Acerca del vendedor</h3>
                                 <div class="prop_agent d-flex flex-row align-items-center justify-content-start">
                                     <div class="prop_agent_image">
                                         <!-- Begin Image -->
@@ -136,16 +144,9 @@
                                             {{prod.owner.first_name}} {{prod.owner.last_name}}
                                         </a>
                                         <br/>
-                                        {{prod.owner.email}}
+                                        Publicado: {{ prod.publicate_date }}
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="about_text">
-                                <p>
-                                    {{ prod.description }}
-                                </p>
                             </div>
                         </div>
                         <div class="col-12">

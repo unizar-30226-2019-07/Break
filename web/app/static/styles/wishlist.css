@@ -1,0 +1,45 @@
+.wishlist {
+    border-radius: 100%;
+    padding: 15px;
+    font-size: 1.6em;
+    background-color: var(--light);
+    color: var(--secondaryColor);
+    -webkit-box-shadow: 1px 1px 8px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 1px 1px 8px 0 rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.wishlist i.fas {
+    display: none;
+}
+
+.wishlist.in_wishlist i.far,
+.wishlist:hover i.far {
+    display: none;
+}
+.wishlist.in_wishlist i.fas,
+.wishlist:hover i.fas {
+    display: initial;
+}
+
+.popup {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    bottom: 0;
+    padding: 15px 30px;
+    text-align: center;
+    font-size: 1.1em;
+    z-index: 100;
+}
+
+.popup::after {
+    content: "×";
+    position: absolute;
+    right: 15px;
+    font-size: 25px;
+    margin-top: -6px;
+    font-weight: 800;
+    opacity: 0.75;
+    cursor: pointer;
+}

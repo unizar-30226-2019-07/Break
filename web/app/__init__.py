@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, redirect, request, send_from_directory, flash, url_for, jsonify
+from flask import Flask, render_template, session, redirect, request, send_from_directory, flash, url_for, jsonify, abort
 from flask_login import LoginManager, current_user, login_user, logout_user
 from werkzeug.utils import secure_filename
 
@@ -88,6 +88,11 @@ def login():
                     # If the user does not exist in the database that is used for sessions
                     # add him to the database
                     response2 = requests.get(url = url + '/users?email=' + email, headers={'Authorization': response.headers['Authorization']})
+                    if app.debug:
+                        print(response2.text)
+                    else:
+                        if response2.status_code != 200:
+                            abort(response2.status_code)
                     user = User(id=response.headers['Authorization'],username=form.email.data, user_id=json.loads(response2.text)[0]['idUsuario'])
                     db.session.add(user)
                     db.session.commit()
@@ -187,6 +192,11 @@ def auctions():
     lng = 0
     if current_user.is_authenticated:
         usuario = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.id})
+        if app.debug:
+            print(usuario.text)
+        else:
+            if usuario.status_code != 200:
+                abort(usuario.status_code)
         localizacion = json.loads(usuario.text)['location']
         lng = localizacion['lng']
         lat = localizacion['lat']
@@ -272,6 +282,11 @@ def auctions():
         firstpage = 1
 
     products = requests.get(products)
+    if app.debug:
+        print(products.text)
+    else:
+        if products.status_code != 200:
+            abort(products.status_code)
     prods = json.loads(products.text)
     # When there are no results in the next page we are showing the last page"
     if len(json.loads(requests.get(productsNext).text)) == 0:
@@ -321,6 +336,11 @@ def listing():
     lng = 0
     if current_user.is_authenticated:
         usuario = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.id})
+        if app.debug:
+            print(usuario.text)
+        else:
+            if usuario.status_code != 200:
+                abort(usuario.status_code)
         localizacion = json.loads(usuario.text)['location']
         lng = localizacion['lng']
         lat = localizacion['lat']
@@ -406,7 +426,15 @@ def listing():
     if page == 0:
         firstpage = 1
 
-    products = requests.get(products)
+    if current_user.is_authenticated:
+        products = requests.get(products + "&token=yes", headers={'Authorization': current_user.id})
+    else:
+        products = requests.get(products)
+    if app.debug:
+        print(products.text)
+    else:
+        if products.status_code != 200:
+            abort(products.status_code)
     prods = json.loads(products.text)
     # When there are no results in the next page we are showing the last page"
     if len(json.loads(requests.get(productsNext).text)) == 0:
@@ -469,6 +497,11 @@ def editproduct(prod_id):
         return redirect(url_for('login'))
     else:
         usuario = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.id})
+        if app.debug:
+            print(usuario.text)
+        else:
+            if usuario.status_code != 200:
+                abort(usuario.status_code)
         localizacion = json.loads(usuario.text)['location']
         lng = localizacion['lng']
         lat = localizacion['lat']
@@ -476,6 +509,11 @@ def editproduct(prod_id):
     if int(prod_id) > 0:
         # Editar producto preexistente
         response = requests.get(url + "/products/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat))
+        if app.debug:
+            print(response.text)
+        else:
+            if response.status_code != 200:
+                abort(response.status_code)
         product = json.loads(response.text)
     else:
         # Crear producto nuevo
@@ -547,6 +585,11 @@ def editauction(prod_id):
     lng = 0
     if current_user.is_authenticated:
         usuario = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.id})
+        if app.debug:
+            print(usuario.text)
+        else:
+            if usuario.status_code != 200:
+                abort(usuario.status_code)
         localizacion = json.loads(usuario.text)['location']
         lng = localizacion['lng']
         lat = localizacion['lat']
@@ -555,6 +598,11 @@ def editauction(prod_id):
     if int(prod_id) > 0:
         # Editar subasta preexistente
         response = requests.get(url + "/products/" + str(prod_id) + "?lng=" + str(lng) + "lat=" + str(lat))
+        if app.debug:
+            print(response.text)
+        else:
+            if response.status_code != 200:
+                abort(response.status_code)
         product = json.loads(response.text)
     else:
         # Crear nueva subasta
@@ -632,13 +680,25 @@ def get_gallery(prod_id):
     lng = 0
     if current_user.is_authenticated:
         usuario = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.id})
+        if app.debug:
+            print(usuario.text)
+        else:
+            if usuario.status_code != 200:
+                abort(usuario.status_code)
         localizacion = json.loads(usuario.text)['location']
         lng = localizacion['lng']
         lat = localizacion['lat']
 
-    response = requests.get(url + "/products/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat))
+    if current_user.is_authenticated:
+        response = requests.get(url + "/products/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat) + "&token=yes", headers={'Authorization': current_user.id})
+    else:
+        response = requests.get(url + "/products/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat))
+    if app.debug:
+        print(response.text)
+    else:
+        if response.status_code != 200 and not app.debug:
+            abort(response.status_code)
     prod = json.loads(response.text)
-    print(response.text)
 
     mymap = Map(
         identifier="view-side",
@@ -660,11 +720,21 @@ def get_auction(prod_id):
     lng = 0
     if current_user.is_authenticated:
         usuario = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.id})
+        if app.debug:
+            print(usuario.text)
+        else:
+            if usuario.status_code != 200:
+                abort(usuario.status_code)
         localizacion = json.loads(usuario.text)['location']
         lng = localizacion['lng']
         lat = localizacion['lat']
 
     response = requests.get(url + "/auctions/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat))
+    if app.debug:
+        print(response.text)
+    else:
+        if response.status_code != 200:
+            abort(response.status_code)
     prod = json.loads(response.text)
     print(response.text)
 
@@ -687,15 +757,41 @@ def user(user_id):
     lng = 0
     if current_user.is_authenticated:
         usuario = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.id})
+        if app.debug:
+            print(usuario.text)
+        else:
+            if usuario.status_code != 200:
+                abort(usuario.status_code)
         localizacion = json.loads(usuario.text)['location']
         lng = localizacion['lng']
         lat = localizacion['lat']
     else:
         return redirect(url_for('login'))
         
-    on_sale = requests.get(url + '/products?lat=' + str(lat) + '&lng=' + str(lng) + '&distance=5000000000&owner=' + str(user_id) + '&status=en%20venta')
-    sold = requests.get(url + '/products?lat=' + str(lat) + '&lng=' + str(lng) + '&distance=5000000000&owner=' + str(user_id) + '&status=vendido')
+    on_sale = requests.get(url + '/products?lat=' + str(lat) + '&lng=' + str(lng) + '&distance=5000000000&owner=' + str(user_id) + '&status=en%20venta&token=yes', headers={'Authorization': current_user.id})
+    if app.debug:
+        print(on_sale.text)
+    else:
+        if on_sale.status_code != 200:
+            abort(on_sale.status_code)
+    sold = requests.get(url + '/products?lat=' + str(lat) + '&lng=' + str(lng) + '&distance=5000000000&owner=' + str(user_id) + '&status=vendido&token=yes', headers={'Authorization': current_user.id})
+    if app.debug:
+        print(sold.text)
+    else:
+        if sold.status_code != 200:
+            abort(sold.status_code)
+    wishlist = requests.get(url + '/users/' + str(user_id) + '/wishes_products?lat=' + str(lat) + '&lng=' + str(lng) + '&distance=5000000000&token=yes', headers={'Authorization': current_user.id})
+    if app.debug:
+        print(wishlist.text)
+    else:
+        if wishlist.status_code != 200:
+            abort(wishlist.status_code)
     response = requests.get(url=url + '/users/' + str(user_id), headers={'Authorization': current_user.id})
+    if app.debug:
+        print(response.text)
+    else:
+        if response.status_code != 200:
+            abort(response.status_code)
     # If there is an error retrieving the user (no permissions) the user will be redirected to the login page
     if response.status_code != 200:
         return redirect(url_for('login'))
@@ -715,7 +811,7 @@ def user(user_id):
         )
 
         return render_template('profile.html', userauth=current_user, on_sale=json.loads(on_sale.text), \
-            sold=json.loads(sold.text), wishlist=[], user=user, map=mymap)
+            sold=json.loads(sold.text), wishlist=json.loads(wishlist.text), user=user, map=mymap)
 
 
 @app.route('/profile')
@@ -732,6 +828,11 @@ def editprofile():
         return redirect(url_for('login'))
 
     response = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.id})
+    if app.debug:
+        print(response.text)
+    else:
+        if response.status_code != 200:
+            abort(response.status_code)
     user = json.loads(response.text)
 
     user['picture'] = {'idImagen': user['picture']['idImagen']}
@@ -812,6 +913,27 @@ def chat():
 def firebase_sw():
     return send_from_directory("static/js", 'firebase-messaging-sw.js')
 
+@app.route('/ajax/wishes_products/<prod_id>', methods = ['PUT', 'DELETE'])
+def wishes_products(prod_id):
+    if not current_user.is_authenticated:
+        return "", 401
+
+    if request.method == 'PUT':
+        response = requests.put(url=url + '/users/' + str(current_user.user_id) + '/wishes_products/' + prod_id, headers={'Authorization': current_user.id})
+    elif request.method == 'DELETE':
+        response = requests.delete(url=url + '/users/' + str(current_user.user_id) + '/wishes_products/' + prod_id, headers={'Authorization': current_user.id})
+
+    if app.debug:
+        print(response.text)
+    return "", response.status_code
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('error.html', error="404", msg="No encontrado", userauth=current_user), 404
+
+@app.errorhandler(500)
+def server_error(e):
+    return render_template('error.html', error="500", msg="Error interno", userauth=current_user), 500
 
 if __name__ == '__main__':
     app.secret_key = 'secret_key_Selit!_123'

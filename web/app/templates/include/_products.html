@@ -27,6 +27,10 @@
                         </span>
                     </div>
                     {% endif %}
+                    <div class="wishlist {{ 'in_wishlist' if prod.in_wishlist else '' }} d-flex align-items-center justify-content-center" data-id="{{ prod.id_producto }}">
+                        <i class="fas fa-heart"></i>
+                        <i class="far fa-heart"></i>
+                    </div>
 				</div>
 
 				<div class="listing_content listing_location flex-grow-1">
