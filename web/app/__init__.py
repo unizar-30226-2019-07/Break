@@ -180,6 +180,17 @@ def auctions():
     errormin = 0
     errormax = 0
 
+    # Base address, parametres will be concatenadted here
+    products = url + '/auctions'
+
+    lat = 0
+    lng = 0
+    if current_user.is_authenticated:
+        usuario = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.id})
+        localizacion = json.loads(usuario.text)['location']
+        lng = localizacion['lng']
+        lat = localizacion['lat']
+
     form = ProductSearch(request.form)
     # Parametres that will be used in the search are passed using GET
     page = request.args.get('page')
@@ -193,11 +204,8 @@ def auctions():
     keywords = request.args.get('keywords')
     ordenacion = request.args.get('ordenacion')
 
-    # Base address, parametres will be concatenadted here
-    products = url + '/auctions'
-    print(products)
-    products += "?lat=0"
-    products += "&lng=0"
+    products += "?lat=" + str(lat)
+    products += "&lng=" + str(lng)
     products += "&distance=500000000"
     if minprice != None and minprice != "":
         if not minprice.isdigit():
@@ -275,8 +283,8 @@ def auctions():
     print(prods)
     mymap = Map(
         identifier="view-side",
-        lat=0,
-        lng=0,
+        lat=lat,
+        lng=lng,
         fit_markers_to_bounds = True,
         center_on_user_location=True,
         zoom=15,
@@ -448,14 +456,26 @@ def upload():
 def uploadAuction():
     return editauction(0)
 
+@app.route("/single/<prod_id>/delete", methods=['GET'])
+def deleteproduct(prod_id):
+    response = requests.delete(url=url + '/products/' + prod_id, headers={'Authorization': current_user.id})
+    return redirect(url_for('profile'))
+
 @app.route("/single/<prod_id>/edit", methods=['GET', 'POST'])
 def editproduct(prod_id):
+    lat = 0
+    lng = 0
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
+    else:
+        usuario = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.id})
+        localizacion = json.loads(usuario.text)['location']
+        lng = localizacion['lng']
+        lat = localizacion['lat']
 
     if int(prod_id) > 0:
         # Editar producto preexistente
-        response = requests.get(url + "/products/" + str(prod_id) + "?lng=0&lat=0")
+        response = requests.get(url + "/products/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat))
         product = json.loads(response.text)
     else:
         # Crear producto nuevo
@@ -463,8 +483,8 @@ def editproduct(prod_id):
             'description': '',
             'owner_id': current_user.user_id,
             'location': {
-                'lat': 0, 
-                'lng': 0
+                'lat': lat, 
+                'lng': lng
             },
             'category': '',
             'price': 0.0,
@@ -520,6 +540,87 @@ def editproduct(prod_id):
 
     return render_template('subirAnuncio.html', form_sale=form_sale, userauth=current_user, product=product)
 
+@app.route("/auction/<prod_id>/edit", methods=['GET', 'POST'])
+def editauction(prod_id):
+
+    lat = 0
+    lng = 0
+    if current_user.is_authenticated:
+        usuario = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.id})
+        localizacion = json.loads(usuario.text)['location']
+        lng = localizacion['lng']
+        lat = localizacion['lat']
+    else:
+        return redirect(url_for('login'))
+    if int(prod_id) > 0:
+        # Editar subasta preexistente
+        response = requests.get(url + "/products/" + str(prod_id) + "?lng=" + str(lng) + "lat=" + str(lat))
+        product = json.loads(response.text)
+    else:
+        # Crear nueva subasta
+        product = { 'title': '',
+            'description': '',
+            'owner_id': current_user.user_id,
+            'location': {
+                'lat': lat, 
+                'lng': lng
+            },
+            'category': '',
+            'price': 0.0,
+            'currency': 'EUR',
+            'media': []
+        }
+
+    form_sale = SubirAnuncioForm(prefix="sale")
+    if request.method == 'POST':
+        form_sale = SubirAnuncioForm(request.form, prefix="sale")
+        if form_sale.submit.data and form_sale.validate_on_submit():
+
+            # Tenemos que hacer un bucle para guardar/enviar todas las imagenes que se quieren subir
+            # (El cliente puere queder subir varias)
+            mime = request.form.getlist("mime[]")
+            base64 = request.form.getlist("base64[]")
+            product['media'] = []
+            for i, idImagen in  enumerate(request.form.getlist("idImagen[]")):
+                if (int(idImagen) > 0):
+                    product['media'].append({
+                        'idImagen': idImagen,
+                        'base64': None,
+                        'mime': None,
+                        'charset': None
+                    })
+                else:
+                    product['media'].append({
+                        'base64': base64[i],
+                        'mime': mime[i],
+                        'charset': 'utf-8'
+                    })
+
+            product['title'] = form_sale.name.data
+            product['description'] = form_sale.description.data
+            product['location']['lat'] = form_sale.lat.data
+            product['location']['lng'] = form_sale.lng.data
+            product['category'] = form_sale.category.data
+            product['price'] = float(form_sale.price.data)
+
+
+            if int(prod_id) > 0:
+                response = requests.put(url=url + '/products/' + prod_id, json=product, headers={'Authorization': current_user.id})
+
+            else:
+                response = requests.post(url=url + '/products', json=product, headers={'Authorization': current_user.id})
+
+            # Redirige a la ruta deseada, se pueden pasar parametros
+            return redirect(url_for('profile'))
+
+    form_sale.category.default = product['category']
+    form_sale.description.default = product['description']
+    form_sale.process()
+
+    return render_template('subirAnuncio.html', form_sale=form_sale, userauth=current_user, product=product)
+
+
+
 # Devuelve las imagenes de un directorio
 @app.route('/imagenes/<filename>')
 def send_image(filename):
@@ -527,8 +628,15 @@ def send_image(filename):
 
 @app.route('/single/<prod_id>')
 def get_gallery(prod_id):
+    lat = 0
+    lng = 0
+    if current_user.is_authenticated:
+        usuario = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.id})
+        localizacion = json.loads(usuario.text)['location']
+        lng = localizacion['lng']
+        lat = localizacion['lat']
 
-    response = requests.get(url + "/products/" + str(prod_id) + "?lng=0&lat=0")
+    response = requests.get(url + "/products/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat))
     prod = json.loads(response.text)
     print(response.text)
 
@@ -548,8 +656,15 @@ def get_gallery(prod_id):
 
 @app.route('/auction/<prod_id>')
 def get_auction(prod_id):
+    lat = 0
+    lng = 0
+    if current_user.is_authenticated:
+        usuario = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.id})
+        localizacion = json.loads(usuario.text)['location']
+        lng = localizacion['lng']
+        lat = localizacion['lat']
 
-    response = requests.get(url + "/auctions/" + str(prod_id) + "?lng=0&lat=0")
+    response = requests.get(url + "/auctions/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat))
     prod = json.loads(response.text)
     print(response.text)
 
@@ -568,11 +683,18 @@ def get_auction(prod_id):
 
 @app.route('/user/<user_id>')
 def user(user_id):
-    if not current_user.is_authenticated:
+    lat = 0
+    lng = 0
+    if current_user.is_authenticated:
+        usuario = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.id})
+        localizacion = json.loads(usuario.text)['location']
+        lng = localizacion['lng']
+        lat = localizacion['lat']
+    else:
         return redirect(url_for('login'))
         
-    on_sale = requests.get(url + '/products?lat=0&lng=0&distance=5000000000&owner=' + str(user_id) + '&status=en%20venta')
-    sold = requests.get(url + '/products?lat=0&lng=0&distance=5000000000&owner=' + str(user_id) + '&status=vendido')
+    on_sale = requests.get(url + '/products?lat=' + str(lat) + '&lng=' + str(lng) + '&distance=5000000000&owner=' + str(user_id) + '&status=en%20venta')
+    sold = requests.get(url + '/products?lat=' + str(lat) + '&lng=' + str(lng) + '&distance=5000000000&owner=' + str(user_id) + '&status=vendido')
     response = requests.get(url=url + '/users/' + str(user_id), headers={'Authorization': current_user.id})
     # If there is an error retrieving the user (no permissions) the user will be redirected to the login page
     if response.status_code != 200:

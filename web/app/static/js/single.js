@@ -214,6 +214,12 @@ function redirigirEditarProducto() {
 }
 
 /***********************
+ Borrar anuncio
+ **********************/
+function redirigirBorrarProducto() {
+    window.location.href = "/single/" + productID + "/delete";
+}
+/***********************
  Abrir un chat con el anuciante
  ***********************/
 function abrirChat() {
