@@ -477,9 +477,14 @@ a {
 
 .listing_content p {
     line-height: 1.75;
-    text-align: justify;
+    text-align: left;
     font-size: 15px;
     color: #5c5c5c;
+    max-height: 7em;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .listing_price {
