@@ -89,8 +89,9 @@ function convertTimestamp(timestamp) {
     var hh = d.getHours();
     var h = hh;
     var min = ('0' + d.getMinutes()).slice(-2);		// Add leading 0.
-    var ampm = 'AM';
+    //var ampm = 'AM';
 
+    /* American version:
     if (hh > 12) {
         h = hh - 12;
         ampm = 'PM';
@@ -99,10 +100,10 @@ function convertTimestamp(timestamp) {
         ampm = 'PM';
     } else if (hh == 0) {
         h = 12;
-    }
+    }*/
 
     // ie: 2013-02-18, 8:35 AM
-    var time = dd + '-' + mm + '-' + yyyy + ', ' + h + ':' + min + ' ' + ampm;
+    var time = dd + '-' + mm + '-' + yyyy + ', ' + h + ':' + min; // + ' ' + ampm
 
     return time;
 }
@@ -151,12 +152,16 @@ function loadChatRoom(evt) {
 
                         displayChatMessage(new Message(change.doc.id, contenido, estado, fecha, idEmisor));
                     }
+                    /*
                     if (change.type === "modified") {
                         // Mensaje modificado.
+                        // No hace nada. Si en el futuro se quiere implementar algo
                     }
                     if (change.type === "removed") {
                         // Mensaje eliminado
+                        // No hace nada. Si en el futuro se quiere implementar algo
                     }
+                    */
                 });
             });
 
