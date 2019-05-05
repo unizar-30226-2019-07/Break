@@ -124,32 +124,45 @@
             <!-- Tab -->
             <div class="tab" data-toggle="collapse" data-target="#on_sale" aria-expanded="true" aria-controls="on_sale">
                 <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-                    <span class="d-none d-md-flex">
+                    <span class="d-none d-lg-flex">
                         En venta ({{ on_sale|length }})
                     </span>
-                    <span class="d-flex d-md-none"><i class="fas fa-store"></i></span>
+                    <span class="d-flex d-lg-none"><i class="fas fa-store"></i></span>
                 </div>
             </div>
 
             <!-- Tab -->
             <div class="tab" data-toggle="collapse" data-target="#sold" aria-expanded="false" aria-controls="sold">
                 <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-                    <span class="d-md-flex">
+                    <span class="d-lg-flex">
                         Vendidos ({{ sold|length }})
                     </span>                    
-                    <span class="d-flex d-md-none"><i class="fas fa-history"></i></span>
+                    <span class="d-flex d-lg-none"><i class="fas fa-history"></i></span>
                 </div>
             </div>
+            
+            <!-- Tab -->
+            <div class="tab" data-toggle="collapse" data-target="#reviews" aria-expanded="false" aria-controls="reviews">
+                <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
+                    <span class="d-lg-flex">
+                        Valoraciones (0)
+                    </span>
+                    <span class="d-flex d-lg-none"><i class="fas fa-star"></i></span>
+                </div>
+            </div>
+            
 
+            {% if current_user.user_id == user.idUsuario %}
             <!-- Tab -->
             <div class="tab" data-toggle="collapse" data-target="#wishlist" aria-expanded="false" aria-controls="wishlist">
                 <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-                    <span class="d-md-flex">
+                    <span class="d-lg-flex">
                         Lista de deseos ({{ wishlist|length }})
                     </span>
-                    <span class="d-flex d-md-none"><i class="fas fa-heart"></i></span>
+                    <span class="d-flex d-lg-none"><i class="fas fa-heart"></i></span>
                 </div>
             </div>
+            {% endif %}
         </div>
 
 
@@ -168,6 +181,14 @@
             </div>
         </div>
 
+        <!-- VALORACIONES -->
+        <div id="reviews" class="listings collapse" data-parent="#collapse-tabs">
+            <div id="reviews_inner">
+            
+            </div>
+        </div>
+
+        {% if current_user.user_id == user.idUsuario %}
         <!-- LISTA DE DESEOS -->
         <div id="wishlist" class="listings collapse" data-parent="#collapse-tabs">
             <div id="wishlist_inner">
@@ -175,6 +196,7 @@
             </div>
         </div>
         </div>
+        {% endif %}
     </div>
 </div>
 

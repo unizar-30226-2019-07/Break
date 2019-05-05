@@ -780,12 +780,18 @@ def user(user_id):
     else:
         if sold.status_code != 200:
             abort(sold.status_code)
-    wishlist = requests.get(url + '/users/' + str(user_id) + '/wishes_products?lat=' + str(lat) + '&lng=' + str(lng) + '&distance=5000000000&token=yes', headers={'Authorization': current_user.id})
-    if app.debug:
-        print(wishlist.text)
+
+    if current_user.is_authenticated and str(current_user.user_id) == user_id:
+        wishlist = requests.get(url + '/users/' + str(user_id) + '/wishes_products?lat=' + str(lat) + '&lng=' + str(lng) + '&distance=5000000000&token=yes', headers={'Authorization': current_user.id})
+        if app.debug:
+            print(wishlist.text)
+        else:
+            if wishlist.status_code != 200:
+                abort(wishlist.status_code)
+        wishlist = json.loads(wishlist.text)
     else:
-        if wishlist.status_code != 200:
-            abort(wishlist.status_code)
+        wishlist = None
+
     response = requests.get(url=url + '/users/' + str(user_id), headers={'Authorization': current_user.id})
     if app.debug:
         print(response.text)
@@ -811,7 +817,7 @@ def user(user_id):
         )
 
         return render_template('profile.html', userauth=current_user, on_sale=json.loads(on_sale.text), \
-            sold=json.loads(sold.text), wishlist=json.loads(wishlist.text), user=user, map=mymap)
+            sold=json.loads(sold.text), wishlist=wishlist, user=user, map=mymap)
 
 
 @app.route('/profile')

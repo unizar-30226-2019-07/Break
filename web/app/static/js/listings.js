@@ -62,7 +62,7 @@ $(document).ready(function () {
         document.location.hash = target;
         $(target).load(location.href + " " + target + "_inner", function(){
             var length = $(target).find('.listing').length;
-            tab.find('span').text( function(i,txt) {return txt.replace(/\d+/, length); });
+            tab.find('span').first().text( function(i,txt) {return txt.replace(/\d+/, length); });
         });
     });
 
