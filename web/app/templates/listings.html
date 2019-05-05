@@ -110,7 +110,7 @@
 									<div class="search_title">Palabras Clave</div>
 									{{ form.keywords(class = "search_input", value = keywords) }}
 								</div>
-								<div class="col-lg-4">
+								<div class="col-lg-6">
 									<div class="search_title">Estado</div>
 									<select class="search_input" id="estado" name="estado">
 										<option value="">Todo</option>
@@ -123,7 +123,7 @@
 										{% endfor %}
 									</select>
 								</div>
-								<div class="col-lg-4">
+								<div class="col-lg-6">
 									<div class="search_title">Resultados por Página</div>
 									<select class="search_input" id="resultados" name="resultados">
 										{% for choice in form.resultadosporpag %}
@@ -136,7 +136,7 @@
 									</select>
 
 								</div>
-								<div class="col-lg-4">
+								<div class="col-lg-6">
 									<div class="search_title">Ordenación</div>
 									<select class="search_input" id="ordenacion" name="ordenacion">
 										{% for choice in form.ordenacionlist %}
@@ -149,6 +149,16 @@
 									</select>
 
 								</div>
+								<div class="col-lg-6">
+									<div class="search_titlem">Distancia (KM)</div>
+									{{ form.distancia(class = "search_input input-d", value = distancia) }}
+									{% if errordist %}
+									<div class="alert alert-danger">
+										<li>Se debe introducir un número</li>
+									</div>
+								</div>
+								{% endif %}
+
 							</div>
 							{{ form.submit(class="search_button") }}
 						</div>
@@ -218,6 +228,14 @@
 									{% endif %}
 									{% endfor %}
 								</select>
+								<div class="search_titlem">Distancia (KM)</div>
+								{{ form.distancia(class = "search_input input-d", value = distancia) }}
+								{% if errordist %}
+								<div class="alert alert-danger">
+									<li>Se debe introducir un número</li>
+								</div>
+								{% endif %}
+
 							</div>
 							{{ form.submit(class="search_button") }}
 						</div>

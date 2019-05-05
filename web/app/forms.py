@@ -155,5 +155,6 @@ class ProductSearch(Form):
                 ('price ASC', 'Precio Ascendente'),
                 ('price DESC', 'Precio Descendente')
             ])
+    distancia = StringField('Distancia')
     submit = SubmitField('Buscar')
 

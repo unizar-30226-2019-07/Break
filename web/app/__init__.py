@@ -184,6 +184,7 @@ def auctions():
     # Value is 1 when the user has entered an invalid min or max price
     errormin = 0
     errormax = 0
+    errordist = 0
 
     # Base address, parametres will be concatenadted here
     products = url + '/auctions'
@@ -213,10 +214,10 @@ def auctions():
     status = request.args.get('estado')
     keywords = request.args.get('keywords')
     ordenacion = request.args.get('ordenacion')
+    distancia = request.args.get('distancia')
 
     products += "?lat=" + str(lat)
     products += "&lng=" + str(lng)
-    products += "&distance=500000000"
     if minprice != None and minprice != "":
         if not minprice.isdigit():
             errormin = 1
@@ -235,6 +236,16 @@ def auctions():
             products += "&priceTo=" + maxprice
     else:
         maxprice = ''
+
+    if distancia != None and distancia != "":
+        if not distancia.isdigit():
+            errordist = 1;
+            products += "&distance=500000000"
+        else:
+            products += "&distance=" + distancia
+    else:
+        products += "&distance=500000000"
+
     if minpublished != None and minpublished != "":
         products += "&publishedFrom=" + minpublished
     else:
@@ -316,7 +327,7 @@ def auctions():
         language="es",
         region="ES"
     )
-    return render_template('listings.html', userauth=current_user, prods=prods, map=mymap, form=form, minprice = minprice, maxprice = maxprice, minpublished = minpublished, maxpublished = maxpublished, status = status, keywords = keywords, category = category, next = nextPageAddr, prev = prevPageAddr, first = firstpage, last = lastpage, sort = ordenacion, errormin = errormin, errormax = errormax, resultados = size, auction=True)
+    return render_template('listings.html', userauth=current_user, prods=prods, map=mymap, form=form, minprice = minprice, maxprice = maxprice, minpublished = minpublished, maxpublished = maxpublished, status = status, keywords = keywords, category = category, next = nextPageAddr, prev = prevPageAddr, first = firstpage, last = lastpage, sort = ordenacion, errormin = errormin, errormax = errormax, resultados = size, auction=True, distancia=distancia, errordist= errordist)
 
 
 
@@ -328,6 +339,7 @@ def listing():
     # Value is 1 when the user has entered an invalid min or max price
     errormin = 0
     errormax = 0
+    errordist = 0
 
     # Base address, parametres will be concatenadted here
     products = url + '/products'
@@ -360,8 +372,8 @@ def listing():
     status = request.args.get('estado')
     keywords = request.args.get('keywords')
     ordenacion = request.args.get('ordenacion')
+    distancia = request.args.get('distancia')
 
-    products += "&distance=500000000"
     if minprice != None and minprice != "":
         if not minprice.isdigit():
             errormin = 1
@@ -380,6 +392,15 @@ def listing():
             products += "&priceTo=" + maxprice
     else:
         maxprice = ''
+
+    if distancia != None and distancia != "":
+        if not distancia.isdigit():
+            errordist = 1;
+            products += "&distance=500000000"
+        else:
+            products += "&distance=" + distancia
+    else:
+        products += "&distance=500000000"
     if minpublished != None and minpublished != "":
         products += "&publishedFrom=" + minpublished
     else:
@@ -463,7 +484,7 @@ def listing():
         language="es",
         region="ES"
     )
-    return render_template('listings.html', userauth=current_user, prods=prods, map=mymap, form=form, minprice = minprice, maxprice = maxprice, minpublished = minpublished, maxpublished = maxpublished, status = status, keywords = keywords, category = category, next = nextPageAddr, prev = prevPageAddr, first = firstpage, last = lastpage, sort = ordenacion, errormin = errormin, errormax = errormax, resultados = size, auction=0)
+    return render_template('listings.html', userauth=current_user, prods=prods, map=mymap, form=form, minprice = minprice, maxprice = maxprice, minpublished = minpublished, maxpublished = maxpublished, status = status, keywords = keywords, category = category, next = nextPageAddr, prev = prevPageAddr, first = firstpage, last = lastpage, sort = ordenacion, errormin = errormin, errormax = errormax, resultados = size, auction=0, distancia=distancia, errordist=errordist)
 
 
 # Extensiones permitidas
