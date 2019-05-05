@@ -37,7 +37,11 @@
 					<div class="tag_price listing_price listing_image">
 						<strong>
 							{% if auction == True %}
+							{% if prod.lastBid != None %}
 							{{ '%0.2f'| format(prod.lastBid.amount|float) }}
+							{% else %}
+							{{ '%0.2f'| format(prod.startPrice|float) }}
+							{% endif %}
 							{% else %}
 							{{ '%0.2f'| format(prod.price|float) }}
 							{% endif %}
