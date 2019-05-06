@@ -189,7 +189,7 @@ function replyMessage(evt) {
         console.log("p" + productoActual + "_a" + anunID + "_c" + cliID);
         refMessage = db.collection("chat").doc("p" + productoActual + "_a" + anunID + "_c" + cliID).collection("mensaje");
         refMessage.add({
-            contenido: message, estado: "esperando", fecha: date,
+            contenido: message, estado: "enviado", fecha: date,
             idEmisor: myID
         })
             .then(function (docRef) {
