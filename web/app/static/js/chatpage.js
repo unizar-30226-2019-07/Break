@@ -3,7 +3,7 @@
 // ----------------------------------------------------
 var db;
 var myID;
-const api = "http://35.234.77.87:8080";
+const api = "https://35.234.77.87:8080";
 
 var productoActual;
 var anunID;
@@ -215,17 +215,29 @@ function loadChatManager() {
 
     refChats.get()
         .then(function (querySnapshot) {
-            querySnapshot.forEach(function (doc) {
-                // doc.data() is never undefined for query doc snapshots
+                querySnapshot.forEach(function (doc) {
+                    // doc.data() is never undefined for query doc snapshots
 
-                var idProducto = doc.get("idProducto");
-                let producto = JSON.parse(httpGet(api + "/products/" + idProducto + "?lng=0&lat=0"));
-                console.log(producto);
+                    var idProducto = doc.get("idProducto");
+                    console.log(idProducto);
+                    let producto = null;
 
-                imagen = api + '/pictures/' + (producto.media[0].idImagen);
+                    try {
+                        producto = JSON.parse(httpGet(api + "/products/" + idProducto));
 
-                $('#rooms').append(
-                    `<a href="#" onclick="return false;" id="${doc.id}">
+                        try {
+                            imagen = api + '/pictures/' + (producto.media[0].idImagen);
+                        } catch (err) {
+                            imagen = "static/images/items.svg";
+                        }
+                    } catch
+                        (err) {
+                        console.log("Fallo al cargar elemento");
+                    }
+
+                    if (producto !== null) {
+                        $('#rooms').append(
+                            `<a href="#" onclick="return false;" id="${doc.id}">
                         <div class="producto-bubble row">
                  
                             <div class="col-3 product-image"
@@ -236,9 +248,12 @@ function loadChatManager() {
                              </div>     
                         </div>
                     </a>`
-                );
-            });
-        })
+                        );
+                    }
+
+                });
+            }
+        )
         .catch(function (error) {
             console.log("Error getting documents: ", error);
         });
@@ -269,7 +284,7 @@ function searchChats() {
 
 function httpGet(theUrl) {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", theUrl, false); // false for synchronous request
+    xmlHttp.open("GET", theUrl, false); // for synchronous request
     xmlHttp.send(null);
     return xmlHttp.responseText;
 }
