@@ -189,18 +189,6 @@
     background: #588dfb;
 }
 
-.tag_price {
-    display: inline-block;
-    height: 37px;
-    padding-left: 27px;
-    padding-right: 26px;
-    background: #ff006c;
-    line-height: 37px;
-    font-size: 16px;
-    font-weight: 500;
-    color: #ffffff;
-}
-
 .listing_price {
     position: absolute;
     left: 34px;

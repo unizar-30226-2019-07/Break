@@ -1,189 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>Inicio</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Índice de SELIT! web">
+	<head>
+		<title>Inicio</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="Índice de SELIT! web">
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/index.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/index.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/listings.css') }}">
+    		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/wishlist.css') }}">
 
-    <!-- General links -->
-    {% include 'include/headLinks.html' %}
-</head>
+	    	<script type="text/javascript" src="{{ url_for('static', filename = 'js/jquery-3.3.1.min.js') }}"></script>
+	    	<script type="text/javascript" src="{{ url_for('static', filename = 'js/wishlist.js') }}"></script>
 
-<body>
-<div class="super_container">
-    <div class="super_overlay"></div>
+		<!-- General links -->
+		{% include 'include/headLinks.html' %}
+	</head>
 
-    <!-- Header -->
-    {% include 'include/header.html' %}
+	<body>
+		<div class="super_container">
+			<div class="super_overlay"></div>
 
-    <!-- Title -->
-    <center>
-        <div class="title_container">
-            <div class="title">Find your home</div>
-        </div>
-    </center>
+			<!-- Header -->
+			{% include 'include/header.html' %}
+			{% import 'include/_products.html' as products %}
 
-    <!-- Featured -->
+			<!-- Title -->
+			<center>
+				<div class="title_container">
+					<div class="title">Página Principal</div>
+				</div>
+			</center>
 
-    <div class="featured">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="section_title_container text-center">
-                        <div class="section_subtitle">the best deals</div>
-                        <div class="section_title"><h1>Featured Properties</h1></div>
-                    </div>
-                </div>
-            </div>
-            <div class="row featured_row">
+			<!-- Featured -->
 
-                <!-- Featured Item -->
-                <div class="col-lg-4">
-                    <div class="listing">
-                        <div class="listing_image">
-                            <div class="listing_image_container">
-                                <img src="{{ url_for('static', filename = 'images/listing_1.jpg') }}" alt="">
-                            </div>
-                            <div class="tags d-flex flex-row align-items-start justify-content-start flex-wrap">
-                                <div class="tag tag_house"><a href="listings.html">house</a></div>
-                                <div class="tag tag_sale"><a href="listings.html">for sale</a></div>
-                            </div>
-                            <div class="tag_price listing_price">$ 217 346</div>
-                        </div>
-                        <div class="listing_content">
-                            <div class="prop_location listing_location d-flex flex-row align-items-start justify-content-start">
-                                <img src="{{ url_for('static', filename = 'images/icon_1.png') }}" alt="">
-                                <a href="single.html">280 Doe Meadow Drive Landover, MD 20785</a>
-                            </div>
-                            <div class="listing_info">
-                                <ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
-                                    <li class="property_area d-flex flex-row align-items-center justify-content-start">
-                                        <img src="{{ url_for('static', filename = 'images/icon_2.png') }}" alt="">
-                                        <span>2500 sq ft</span>
-                                    </li>
-                                    <li class="d-flex flex-row align-items-center justify-content-start">
-                                        <img src="{{ url_for('static', filename = 'images/icon_3.png') }}" alt="">
-                                        <span>2</span>
-                                    </li>
-                                    <li class="d-flex flex-row align-items-center justify-content-start">
-                                        <img src="{{ url_for('static', filename = 'images/icon_4.png') }}" alt="">
-                                        <span>5</span>
-                                    </li>
-                                    <li class="d-flex flex-row align-items-center justify-content-start">
-                                        <img src="{{ url_for('static', filename = 'images/icon_5.png') }}" alt="">
-                                        <span>2</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+			<div class="featured">
+				<div class="container">
+					<div class="row">
+						<div class="col">
+							<div class="section_title_container text-center">
+								<div class="section_subtitle"></div>
+								<div class="section_title"><h1>Últimos productos añadidos</h1></div>
+							</div>
+						</div>
+					</div>
+					<div class="row featured_row">
+						<div class="listings">
+							<div class="container">
+								<div class="row">
+									<div class="col">
+										{{ products.list(prods, 0) }}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 
-                <!-- Featured Item -->
-                <div class="col-lg-4">
-                    <div class="listing">
-                        <div class="listing_image">
-                            <div class="listing_image_container">
-                                <img src="{{ url_for('static', filename = 'images/listing_2.jpg') }}" alt="">
-                            </div>
-                            <div class="tags d-flex flex-row align-items-start justify-content-start flex-wrap">
-                                <div class="tag tag_house"><a href="listings.html">house</a></div>
-                                <div class="tag tag_rent"><a href="listings.html">for rent</a></div>
-                            </div>
-                            <div class="tag_price listing_price">$ 515 957</div>
-                        </div>
-                        <div class="listing_content">
-                            <div class="prop_location listing_location d-flex flex-row align-items-start justify-content-start">
-                                <img src="{{ url_for('static', filename = 'images/icon_1.png') }}" alt="">
-                                <a href="single.html">4812 Haul Road Saint Paul, MN 55102</a>
-                            </div>
-                            <div class="listing_info">
-                                <ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
-                                    <li class="property_area d-flex flex-row align-items-center justify-content-start">
-                                        <img src="{{ url_for('static', filename = 'images/icon_2.png') }}" alt="">
-                                        <span>1234 sq ft</span>
-                                    </li>
-                                    <li class="d-flex flex-row align-items-center justify-content-start">
-                                        <img src="{{ url_for('static', filename = 'images/icon_3.png') }}" alt="">
-                                        <span>2</span>
-                                    </li>
-                                    <li class="d-flex flex-row align-items-center justify-content-start">
-                                        <img src="{{ url_for('static', filename = 'images/icon_4.png') }}" alt="">
-                                        <span>5</span>
-                                    </li>
-                                    <li class="d-flex flex-row align-items-center justify-content-start">
-                                        <img src="{{ url_for('static', filename = 'images/icon_5.png') }}" alt="">
-                                        <span>2</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+					<div class="row">
+						<div class="col">
+							<div class="section_title_container text-center">
+								<div class="section_subtitle"></div>
+								<div class="section_title"><h1>Subastas a punto de terminar</h1></div>
+							</div>
+						</div>
+					</div>
+					<div class="row featured_row">
+						<div class="listings">
+							<div class="container">
+								<div class="row">
+									<div class="col">
+										{{ products.list(auctions, 1) }}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 
-                <!-- Featured Item -->
-                <div class="col-lg-4">
-                    <div class="listing">
-                        <div class="listing_image">
-                            <div class="listing_image_container">
-                                <img src="{{ url_for('static', filename = 'images/listing_3.jpg') }}" alt="">
-                            </div>
-                            <div class="tags d-flex flex-row align-items-start justify-content-start flex-wrap">
-                                <div class="tag tag_house"><a href="listings.html">house</a></div>
-                                <div class="tag tag_sale"><a href="listings.html">for sale</a></div>
-                            </div>
-                            <div class="tag_price listing_price">$ 375 255</div>
-                        </div>
-                        <div class="listing_content">
-                            <div class="prop_location listing_location d-flex flex-row align-items-start justify-content-start">
-                                <img src="{{ url_for('static', filename = 'images/icon_1.png') }}" alt="">
-                                <a href="single.html">4067 Wolf Pen Road Mountain View, CA 94041</a>
-                            </div>
-                            <div class="listing_info">
-                                <ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
-                                    <li class="property_area d-flex flex-row align-items-center justify-content-start">
-                                        <img src="{{ url_for('static', filename = 'images/icon_2.png') }}" alt="">
-                                        <span>2000 sq ft</span>
-                                    </li>
-                                    <li class="d-flex flex-row align-items-center justify-content-start">
-                                        <img src="{{ url_for('static', filename = 'images/icon_3.png') }}" alt="">
-                                        <span>2</span>
-                                    </li>
-                                    <li class="d-flex flex-row align-items-center justify-content-start">
-                                        <img src="{{ url_for('static', filename = 'images/icon_4.png') }}" alt="">
-                                        <span>5</span>
-                                    </li>
-                                    <li class="d-flex flex-row align-items-center justify-content-start">
-                                        <img src="{{ url_for('static', filename = 'images/icon_5.png') }}" alt="">
-                                        <span>2</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+				</div>
+			</div>
 
-            </div>
-        </div>
-    </div>
+			<!-- Footer  -->
+			{% include 'include/footer.html' %}
+		</div>
 
-    <!-- Footer  -->
-    {% include 'include/footer.html' %}
-</div>
+		<!-- General Scripts  -->
+		{% include 'include/scripts.html' %}
 
-<!-- General Scripts  -->
-{% include 'include/scripts.html' %}
+		<!-- Owl Carousel  -->
+		<script src="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.carousel.js') }}"></script>
 
-<!-- Owl Carousel  -->
-<script src="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.carousel.js') }}"></script>
+		<!-- Google Maps  -->
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
 
-<!-- Google Maps  -->
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+		<script src="{{ url_for('static', filename = 'js/index.js') }}"></script>
 
-<script src="{{ url_for('static', filename = 'js/index.js') }}"></script>
-
-</body>
+	</body>
 </html>

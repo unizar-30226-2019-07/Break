@@ -54,7 +54,51 @@ def load_user(id):
 
 @app.route('/')
 def index():
-    return render_template('index.html', userauth=current_user)
+    # Base URLs
+    products = url + '/products'
+    auctions = url + '/auctions'
+
+    lat = 0
+    lng = 0
+    args = ""
+    if current_user.is_authenticated:
+        usuario = requests.get(url=url + '/users/' + str(current_user.user_id), headers={'Authorization': current_user.id})
+        if app.debug:
+            print(usuario.text)
+        else:
+            if usuario.status_code != 200:
+                abort(usuario.status_code)
+        localizacion = json.loads(usuario.text)['location']
+        lng = localizacion['lng']
+        lat = localizacion['lat']
+        args += "?distance=100"
+
+    else:
+        # If the user is not logged in show products from all around the globe
+        args += "?distance=1000000000000000"
+
+    args += "&lng=" + str(lng) + "&lat=" + str(lat) + "&$size=3" + "&$page=0" + "&$sort=published DESC"
+
+    products += args
+    auctions += args
+
+    products = requests.get(products)
+    if app.debug:
+        print(products.text)
+    else:
+        if products.status_code != 200:
+            abort(products.status_code)
+    prods = json.loads(products.text)
+
+    auctions = requests.get(auctions)
+    if app.debug:
+        print(auctions.text)
+    else:
+        if auctions.status_code != 200:
+            abort(auctions.status_code)
+    auctions = json.loads(auctions.text)
+
+    return render_template('index.html', userauth=current_user, auctions=auctions, prods=prods)
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -245,6 +289,7 @@ def auctions():
             products += "&distance=" + distancia
     else:
         products += "&distance=500000000"
+        distancia = ''
 
     if minpublished != None and minpublished != "":
         products += "&publishedFrom=" + minpublished
@@ -399,8 +444,11 @@ def listing():
             products += "&distance=500000000"
         else:
             products += "&distance=" + distancia
+            distancia = ''
     else:
         products += "&distance=500000000"
+        distancia = ''
+
     if minpublished != None and minpublished != "":
         products += "&publishedFrom=" + minpublished
     else:

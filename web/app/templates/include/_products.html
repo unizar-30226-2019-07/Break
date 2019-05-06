@@ -5,7 +5,7 @@
 		{% for prod in products %}
 
 		{% if auction == True %}
-		<a href="{{ url_for('get_auction', prod_id=prod.id) }}" class="col-sm-6 col-lg-4 d-flex flex-column my-3">
+		<a href="{{ url_for('get_auction', prod_id=prod.idSubasta) }}" class="col-sm-6 col-lg-4 d-flex flex-column my-3">
 		{% else %}
 		<a href="{{ url_for('get_gallery', prod_id=prod.id_producto) }}" class="col-sm-6 col-lg-4 d-flex flex-column my-3">
 		{% endif %}
