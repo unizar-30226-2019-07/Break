@@ -139,7 +139,7 @@ function loadChatRoom(evt) {
         });
 
         // Mensajes pruebas creados para probar la interfaz
-        refMensajes = db.collection("chat").doc(roomId).collection("mensaje");
+        refMensajes = db.collection("chat").doc(roomId).collection("mensaje").orderBy("fecha");
 
         refMensajes
             .onSnapshot(function (snapshot) {
