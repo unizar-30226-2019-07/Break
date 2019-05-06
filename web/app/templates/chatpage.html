@@ -22,51 +22,57 @@
             <div class="sidebar-head">
                 <h3 class="m-3">{{userauth.username}}</h3>
                 <input type="text" class="search_chat_input" id="inputSearchChat" onkeyup="searchChats()"
-                     placeholder=" &#xf002; Search chats.." title="Escribe un nombre de chat">
+                       placeholder=" &#xf002; Search chats.." title="Escribe un nombre de chat">
             </div>
 
-
-            <div class="scrollable-chats">
-                <!-- Lista de chats -->
-                <div id="rooms" ></div>
+            <div class="scrollable-chats-container">
+                <div class="scrollable-chats">
+                    <!-- Lista de chats -->
+                    <div id="rooms"></div>
+                </div>
             </div>
-
-
         </div>
 
         <!-- Cuadro principal -->
-        <div role="main" class="col-lg-8 pt-3" id="main">
 
-            <div class="chat" style="">
+        <div class="chat col-lg-8 pt-3" style="">
+            <div class="chat-tittle">
+                <div class="chat-headerspace"></div>
+                <div class="chat-headerspace-diagonal"></div>
                 <center>
-                  <h1 id="room-title">Chats</h1>
-                    <hr>
+                    <div class="chat-title_container">
+                        <div class="chat-title">Chats</div>
+                    </div>
                 </center>
+            </div>
 
-                <!-- Mensajes -->
-                <div class="messages_scrollable" id="msg_scroll">
-                    <nav id="chat-msgs">
-                        <br><br><br><br><br>
-                        <p>👈 Selecciona un chat para cargar los mensajes</p>
-                    </nav>
-                </div>
 
-                <!-- Enviar mensaje -->
-                <div class="response mt-3">
-                    <form id="replyMessage">
-                        <div class="row send-square">
-                            <div class="col-10">
-                                <input type="text" placeholder="Introducir Mensaje..." class="mensaje_input" name="message"/>
-                            </div>
-                            <div class="col-2">
-                                <button type="summit" class="send_button">Enviar <i class="fas fa-paper-plane"></i></button>
-                            </div>
+            <!-- Mensajes -->
+            <div class="messages_scrollable" id="msg_scroll">
+                <nav id="chat-msgs">
+                    <br><br><br><br><br>
+                    <p>👈 Selecciona un chat para cargar los mensajes</p>
+                </nav>
+            </div>
+
+            <!-- Enviar mensaje -->
+            <div class="response">
+                <form id="replyMessage">
+                    <div class="row send-square">
+                        <div class="col-10">
+                            <input type="text" placeholder="Introducir Mensaje..." class="mensaje_input"
+                                   name="message"/>
                         </div>
-                    </form>
-                </div>
+                        <div class="col-2">
+                            <button type="summit" class="send_button">Enviar <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+
 </div>
 
 
@@ -82,9 +88,9 @@
 <!-- Add additional services that you want to use -->
 <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-messaging.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-firestore.js"></script>
- <script type="text/javascript">
+<script type="text/javascript">
     var myID = {{userauth.user_id}};
- </script>
+</script>
 <script src="{{ url_for('static', filename = 'js/chatpage.js') }}"></script>
 
 </body>

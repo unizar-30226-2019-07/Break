@@ -220,19 +220,23 @@ function loadChatManager() {
 
                 var idProducto = doc.get("idProducto");
                 let producto = JSON.parse(httpGet(api + "/products/" + idProducto + "?lng=0&lat=0"));
+                console.log(producto);
 
                 imagen = api + '/pictures/' + (producto.media[0].idImagen);
 
                 $('#rooms').append(
                     `<a href="#" onclick="return false;" id="${doc.id}">
                         <div class="producto-bubble row">
-                            <div class="product-image"
+                 
+                            <div class="col-3 product-image"
                                 style="background-image: url(${imagen})"></div>
-                            <strong>${producto.title}</strong>
+                             <div class="col-8 row">
+                                <strong class="title-bubble">${producto.title}</strong>
+                                <strong class="subtitle-bubble">${producto.owner.first_name} ${producto.owner.last_name}</strong>       
+                             </div>     
                         </div>
                     </a>`
                 );
-
             });
         })
         .catch(function (error) {
