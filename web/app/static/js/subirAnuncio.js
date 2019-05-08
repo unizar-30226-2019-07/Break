@@ -203,3 +203,17 @@ $(document).on('click', '.sortable .fa-trash', function (event) {
     var element = $(this).closest('.sortable');
     element.remove();
 });
+
+function cambiarSubasta() {
+	var auctions = document.getElementById('auction');
+	var displaySetting = auctions.style.display;
+
+	if (displaySetting == 'block') {
+		auctions.style.display = 'none';
+		document.getElementById('prodPrice').innerHTML = '<label>Precio (€)</label>';
+	}
+	else {
+		auctions.style.display = 'block';
+		document.getElementById('prodPrice').innerHTML = '<label>Precio Base (€)</label>';
+	}
+}

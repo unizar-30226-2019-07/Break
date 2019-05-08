@@ -108,6 +108,7 @@ class SubirAnuncioForm(FlaskForm):
         validators.DataRequired(message='No se ha podido obtener la nueva localización')])
     lng = HiddenField('Longitud', [
         validators.DataRequired(message='No se ha podido obtener la nueva localización')])
+    enddate = DateField('End', format = '%Y-%m-%d', description = 'Time that the event will occur')
     submit = SubmitField('Publicar Anuncio')
 
 
