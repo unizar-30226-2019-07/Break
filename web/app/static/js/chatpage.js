@@ -52,32 +52,32 @@ $(document)
  */
 function clearChatMessages() {
     $('#chat-msgs').html('');
+    $('#other_user').html('');
 }
 
 /**
  * Mostrar un nuevo mensaje en la ventana de mensajes
  */
 function displayChatMessage(message) {
-    // Si el mensaje no se encuentra en memoria
-// if (chat.messages[message.id] === undefined) {
-// chat.messages[message.id] = message;
+    // Si el mensaje no está
+    if(document.getElementById(message.id) === null){
+        var envio = "sender";
+            if (message.idEmisor === myID) {
+                envio = "me";
+            }
+            var fecha = convertTimestamp(message.fecha);
 
-    var envio = "sender";
-    if (message.idEmisor === myID) {
-        envio = "me";
+            $('#chat-msgs').append(
+                `<div class="messages-bubble ${envio}-bubble" id="${message.id}">
+                        <div class="">${message.contenido}</div>
+                        <div> ${message.estado}@ <span class="date">${fecha}</span></div>
+                        <div class="${envio}-bubble-ds-arrow"></div>
+                </div>`
+            );
+
+            var objDiv = document.getElementById(chatScrollMessageDiv);
+            objDiv.scrollTop = objDiv.scrollHeight;
     }
-    var fecha = convertTimestamp(message.fecha);
-
-    $('#chat-msgs').append(
-        `<div class="messages-bubble ${envio}-bubble">
-                <div class="">${message.contenido}</div>
-                <div> ${message.estado}@ <span class="date">${fecha}</span></div>
-                <div class="${envio}-bubble-ds-arrow"></div>
-        </div>`
-    );
-
-    var objDiv = document.getElementById(chatScrollMessageDiv);
-    objDiv.scrollTop = objDiv.scrollHeight;
 // }
 }
 
@@ -117,6 +117,8 @@ function loadChatRoom(evt) {
 
     // Id del producto pulsado
     var roomId = evt.currentTarget.id;
+    var productId = evt.currentTarget.name;
+    console.log(evt.currentTarget);
 
     if (roomId !== undefined) {
         $('.response').show();
@@ -137,6 +139,32 @@ function loadChatRoom(evt) {
         }).catch(function (error) {
             console.log("Error getting document:", error);
         });
+
+        // Mostrar el usuario con el que se conversa en la parte superior
+        let producto = null;
+
+        try {
+            producto = JSON.parse(httpGet(api + "/products/" + productId));
+
+            try {
+                imagen = api + '/pictures/' + (producto.owner.picture.idImagen);
+            } catch (err) {
+                imagen = "static/images/items.svg";
+            }
+        } catch
+            (err) {
+            console.log("Fallo al cargar elemento");
+        }
+
+        $('#other_user').append(
+            `<div class="user-bubble row">
+                <div class="col-3 user-image"
+                    style="background-image: url(${imagen})"></div>
+                 <div class="col-8 row">
+                    <strong class="title-bubble-white">${producto.owner.first_name} ${producto.owner.last_name}</strong>   
+                 </div>     
+            </div>`
+        );
 
         // Mensajes pruebas creados para probar la interfaz
         refMensajes = db.collection("chat").doc(roomId).collection("mensaje").orderBy("fecha");
@@ -215,30 +243,45 @@ function loadChatManager() {
 
     refChats.get()
         .then(function (querySnapshot) {
-            querySnapshot.forEach(function (doc) {
-                // doc.data() is never undefined for query doc snapshots
+                querySnapshot.forEach(function (doc) {
+                    // doc.data() is never undefined for query doc snapshots
 
-                var idProducto = doc.get("idProducto");
-                let producto = JSON.parse(httpGet(api + "/products/" + idProducto + "?lng=0&lat=0"));
-                console.log(producto);
+                    var idProducto = doc.get("idProducto");
+                    console.log(idProducto);
+                    let producto = null;
 
-                imagen = api + '/pictures/' + (producto.media[0].idImagen);
+                    try {
+                        producto = JSON.parse(httpGet(api + "/products/" + idProducto));
 
-                $('#rooms').append(
-                    `<a href="#" onclick="return false;" id="${doc.id}">
-                        <div class="producto-bubble row">
-                 
-                            <div class="col-3 product-image"
-                                style="background-image: url(${imagen})"></div>
-                             <div class="col-8 row">
-                                <strong class="title-bubble">${producto.title}</strong>
-                                <strong class="subtitle-bubble">${producto.owner.first_name} ${producto.owner.last_name}</strong>       
-                             </div>     
-                        </div>
-                    </a>`
-                );
-            });
-        })
+                        try {
+                            imagen = api + '/pictures/' + (producto.media[0].idImagen);
+                        } catch (err) {
+                            imagen = "static/images/items.svg";
+                        }
+                    } catch
+                        (err) {
+                        console.log("Fallo al cargar elemento");
+                    }
+
+                    if (producto !== null) {
+                        $('#rooms').append(
+                            `<a href="#" onclick="return false;" id="${doc.id}" name="${idProducto}">
+                                <div class="producto-bubble row">
+                         
+                                    <div class="col-3 product-image"
+                                        style="background-image: url(${imagen})"></div>
+                                     <div class="col-8 row">
+                                        <strong class="title-bubble">${producto.title}</strong>
+                                        <strong class="subtitle-bubble">${producto.owner.first_name} ${producto.owner.last_name}</strong>       
+                                     </div>     
+                                </div>
+                            </a>`
+                        );
+                    }
+
+                });
+            }
+        )
         .catch(function (error) {
             console.log("Error getting documents: ", error);
         });
@@ -269,7 +312,7 @@ function searchChats() {
 
 function httpGet(theUrl) {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", theUrl, false); // false for synchronous request
+    xmlHttp.open("GET", theUrl, false); // for synchronous request
     xmlHttp.send(null);
     return xmlHttp.responseText;
 }
