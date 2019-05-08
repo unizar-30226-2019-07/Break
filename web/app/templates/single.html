@@ -166,9 +166,15 @@
 								</div>
 								{% endif %}
 								{% if prod.owner.idUsuario == userauth.user_id %}
-								<button style="margin-left:auto;margin-right:auto;" class="search_button" onclick="redirigirEditarProducto()">Editar
+								{% if auction == True %}
+								<button style="margin-left:auto;margin-right:auto;" class="search_button" onclick="redirigirEditarProducto(true)">Editar
 									Anuncio
 								</button>
+								{% else %}
+								<button style="margin-left:auto;margin-right:auto;" class="search_button" onclick="redirigirEditarProducto(false)">Editar
+									Anuncio
+								</button>
+								{% endif %}
 								<button style="margin-left:auto;margin-right:auto;" class="search_button" onclick="redirigirBorrarProducto()">Borrar
 									Anuncio
 								</button>
@@ -207,8 +213,16 @@
 		<script type="text/javascript">
 			var cliID = {{userauth.user_id}};
 var anunID = {{prod.owner.idUsuario}};
+		</script>
+		{% if auction == 1 %}
+		<script type="text/javascript">
+var productID = {{prod.idSubasta}};
+		</script>
+		{% else %}
+		<script type="text/javascript">
 var productID = {{prod.id_producto}};
 		</script>
+		{% endif %}
 
 		<script src="{{ url_for('static', filename = 'js/single.js') }}"></script>
 

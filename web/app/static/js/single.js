@@ -209,8 +209,13 @@ function isMobile(width) {
 /***********************
  Editar anuncio
  ***********************/
-function redirigirEditarProducto() {
-    window.location.href = "/single/" + productID + "/edit";
+function redirigirEditarProducto(isAuction) {
+	if (isAuction == true) {
+		window.location.href = "/single/" + productID + "/edit?isAuction=1";
+	}
+	else {
+		window.location.href = "/single/" + productID + "/edit?isAuction=0";
+	}
 }
 
 /***********************

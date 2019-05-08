@@ -593,8 +593,12 @@ def deleteproduct(prod_id):
 
 @app.route("/single/<prod_id>/edit", methods=['GET', 'POST'])
 def editproduct(prod_id):
+    isAuction = request.args.get('isAuction')
+    isNew = 0
     lat = 0
     lng = 0
+    print("A")
+    print(isAuction)
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
     else:
@@ -611,7 +615,13 @@ def editproduct(prod_id):
 
     if int(prod_id) > 0:
         # Editar producto preexistente
-        response = requests.get(url + "/products/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat))
+        print("b")
+        if int(isAuction) == 1:
+            print("c")
+            response = requests.get(url + "/auctions/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat))
+        else:
+            print("d")
+            response = requests.get(url + "/products/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat))
         if app.debug:
             print(response.text)
         else:
@@ -619,6 +629,7 @@ def editproduct(prod_id):
                 abort(response.status_code)
         product = json.loads(response.text)
     else:
+        isNew = 1
         # Crear producto nuevo
         product = { 'title': '',
             'description': '',
@@ -657,11 +668,10 @@ def editproduct(prod_id):
                         'mime': mime[i],
                         'charset': 'utf-8'
                     })
-            isAuction = False
-            if request.form.getlist('isAuction') != []:
-                isAuction = (request.form.getlist('isAuction')[0] == 'y')
-            print(isAuction)
-            print("a")
+            if int(prod_id) == 0:
+                isAuction = False
+                if request.form.getlist('isAuction') != []:
+                    isAuction = (request.form.getlist('isAuction')[0] == 'y')
             product['title'] = form_sale.name.data
             product['description'] = form_sale.description.data
             product['location']['lat'] = form_sale.lat.data
@@ -675,7 +685,15 @@ def editproduct(prod_id):
                 product['type'] = "sale"
 
             if int(prod_id) > 0:
-                response = requests.put(url=url + '/products/' + prod_id, json=product,
+                if int(isAuction) == 1:
+                    print("Esto va bien")
+                    product['owner_id'] = current_user.user_id
+                    print(product)
+                    response = requests.put(url=url + '/auctions/' + prod_id, json=product,
+                                        headers={'Authorization': current_user.id})
+                    print(response.text)
+                else:
+                    response = requests.put(url=url + '/products/' + prod_id, json=product,
                                         headers={'Authorization': current_user.id})
 
             else:
@@ -693,98 +711,7 @@ def editproduct(prod_id):
     form_sale.description.default = product['description']
     form_sale.process()
 
-    return render_template('subirAnuncio.html', form_sale=form_sale, userauth=current_user, product=product)
-
-
-@app.route("/auction/<prod_id>/edit", methods=['GET', 'POST'])
-def editauction(prod_id):
-    lat = 0
-    lng = 0
-    if current_user.is_authenticated:
-        usuario = requests.get(url=url + '/users/' + str(current_user.user_id),
-                               headers={'Authorization': current_user.id})
-        if app.debug:
-            print(usuario.text)
-        else:
-            if usuario.status_code != 200:
-                abort(usuario.status_code)
-        localizacion = json.loads(usuario.text)['location']
-        lng = localizacion['lng']
-        lat = localizacion['lat']
-    else:
-        return redirect(url_for('login'))
-    if int(prod_id) > 0:
-        # Editar subasta preexistente
-        response = requests.get(url + "/products/" + str(prod_id) + "?lng=" + str(lng) + "lat=" + str(lat))
-        if app.debug:
-            print(response.text)
-        else:
-            if response.status_code != 200:
-                abort(response.status_code)
-        product = json.loads(response.text)
-    else:
-        # Crear nueva subasta
-        product = {'title': '',
-                   'description': '',
-                   'owner_id': current_user.user_id,
-                   'location': {
-                       'lat': lat,
-                       'lng': lng
-                   },
-                   'category': '',
-                   'price': 0.0,
-                   'currency': 'EUR',
-                   'media': []
-                   }
-
-    form_sale = SubirAnuncioForm(prefix="sale")
-    if request.method == 'POST':
-        form_sale = SubirAnuncioForm(request.form, prefix="sale")
-        if form_sale.submit.data and form_sale.validate_on_submit():
-
-            # Tenemos que hacer un bucle para guardar/enviar todas las imagenes que se quieren subir
-            # (El cliente puere queder subir varias)
-            mime = request.form.getlist("mime[]")
-            base64 = request.form.getlist("base64[]")
-            product['media'] = []
-            for i, idImagen in enumerate(request.form.getlist("idImagen[]")):
-                if (int(idImagen) > 0):
-                    product['media'].append({
-                        'idImagen': idImagen,
-                        'base64': None,
-                        'mime': None,
-                        'charset': None
-                    })
-                else:
-                    product['media'].append({
-                        'base64': base64[i],
-                        'mime': mime[i],
-                        'charset': 'utf-8'
-                    })
-
-            product['title'] = form_sale.name.data
-            product['description'] = form_sale.description.data
-            product['location']['lat'] = form_sale.lat.data
-            product['location']['lng'] = form_sale.lng.data
-            product['category'] = form_sale.category.data
-            product['price'] = float(form_sale.price.data)
-
-            if int(prod_id) > 0:
-                response = requests.put(url=url + '/products/' + prod_id, json=product,
-                                        headers={'Authorization': current_user.id})
-
-            else:
-                response = requests.post(url=url + '/products', json=product,
-                                         headers={'Authorization': current_user.id})
-
-            # Redirige a la ruta deseada, se pueden pasar parametros
-            return redirect(url_for('profile'))
-
-    form_sale.category.default = product['category']
-    form_sale.description.default = product['description']
-    form_sale.process()
-
-    return render_template('subirAnuncio.html', form_sale=form_sale, userauth=current_user, product=product)
+    return render_template('subirAnuncio.html', form_sale=form_sale, userauth=current_user, product=product, isAuction=(int(isAuction) == 1), isNew=(prod_id == 0))
 
 # Devuelve las imagenes de un directorio
 @app.route('/imagenes/<filename>')

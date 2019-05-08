@@ -70,7 +70,8 @@
 					<div class="row contact_form_row">
 						<div class="col">
 							<div class="contact_form_container">
-
+								
+								{% if isNew == 1 %}
 								<div class="col-lg-12">
 									<div class="prop_agent">
 										<div class="row">
@@ -86,6 +87,7 @@
 										</div>
 									</div>
 								</div>
+								{% endif %}
 
 								<div class="row">
 									<div class="col-lg-7">
@@ -101,9 +103,15 @@
 									</div>
 									<div class="col-lg-2">
 										<strong id="prodPrice" >
+											{% if isAuction == 0 %}
 											<label>
 												Precio (€)
 											</label>
+											{% else %}
+											<label>
+												Precio Base (€)
+											</label>
+											{% endif %}
 										</strong><br>
 										{{ form_sale.price(class="contact_input", placeholder="0.00", maxlength="10", value=product.price) }}
 										{% for error in form_sale.price.errors %}
@@ -141,10 +149,17 @@
 
 									</div>
 									
+									{% if isAuction == 1 %}
+									<div class="col-lg-12" id="auction" style="display:block;">
+										<div class="search_title">Fecha de finalización de la subasta</div>
+										{{ form_sale.enddate(class = "calendar-input") }}
+									</div>
+									{% else %}
 									<div class="col-lg-12" id="auction" style="display:none;">
 										<div class="search_title">Fecha de finalización de la subasta</div>
 										{{ form_sale.enddate(class = "calendar-input") }}
 									</div>
+									{% endif %}
 
 									<div class="col-lg-12">
 										{{ form_sale.lat() }}
