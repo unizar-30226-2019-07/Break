@@ -629,6 +629,7 @@ def editproduct(prod_id):
                 abort(response.status_code)
         product = json.loads(response.text)
     else:
+        isAuction = 0
         isNew = 1
         # Crear producto nuevo
         product = { 'title': '',
