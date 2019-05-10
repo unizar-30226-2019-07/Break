@@ -39,6 +39,7 @@
 
     <div class="row mt-5">
         <div class="col-12 col-xl-4">
+            <div class="portrait-container">
             <div id="profile-image" class="my-5">
                 <!-- Begin Image -->
                 {% import 'include/_gravatar.html' as gravatar %}
@@ -51,6 +52,7 @@
                     style="background-image: url( {{ profile_picture }} )" 
                     title="{{ user.first_name }} {{ user.last_name }}"></div>
                 <!-- End Image -->
+            </div>
             </div>
         </div>
         <!-- Begin Personal Information -->
@@ -83,7 +85,7 @@
                                     <i class="fas fa-star"></i>
                                 </div>
                             </div>
-                            {{ user.rating }}
+                            <!-- {{ user.rating }} -->
                         </div>
                         <!--<i class="fas fa-star-half-alt"></i>-->
                     </div>
@@ -145,7 +147,7 @@
             <div class="tab" data-toggle="collapse" data-target="#reviews" aria-expanded="false" aria-controls="reviews">
                 <div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
                     <span class="d-lg-flex">
-                        Valoraciones (0)
+                        Valoraciones ({{ reviews|length }})
                     </span>
                     <span class="d-flex d-lg-none"><i class="fas fa-star"></i></span>
                 </div>
@@ -184,7 +186,44 @@
         <!-- VALORACIONES -->
         <div id="reviews" class="listings collapse" data-parent="#collapse-tabs">
             <div id="reviews_inner">
-            
+            <div class="container">
+            {% for review in reviews %}
+            <div class="listing row">
+                <div class="col-3 col-md-2 col-lg-1">
+                {% if user.picture.idImagen is number %}
+                    {% set profile_picture = api + '/pictures/' + (user.picture.idImagen|string) %}
+                {% else %}
+                    {% set profile_picture = gravatar.get("") %}
+                {% endif %}
+                <div class="square my-3">
+                    <div class="image_fill" 
+                        style="background-image: url( {{ profile_picture }} )" 
+                        title="{{ user.first_name }} {{ user.last_name }}"></div>
+                    </div>
+                </div>
+                <div class="col-9 col-md-10 col-lg-11">
+                    <div class="h5 mt-3">{{ user.first_name }} {{ user.last_name }}</div>
+                     <div class="mt-2 mb-3 h5">
+                        <div class="stars d-inline-block">
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <div class="m-0 p-0" style="width: {{ review.valor * 20 }}%">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mb-3">"{{ review.comentario }}"</p>
+                </div>
+            </div>
+            {% endfor %}
+            </div>
             </div>
         </div>
 

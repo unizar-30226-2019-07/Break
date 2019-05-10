@@ -31,6 +31,7 @@
 
     <div class="row">
         <div class="col-lg-4 text-center">
+            <div class="portrait-container">
             <div id="profile-image" class="my-5">
                 {% import 'include/_gravatar.html' as gravatar %}
                 {% if user.picture.idImagen is number %}
@@ -42,6 +43,7 @@
                     style="background-image: url( {{ profile_picture }} )" 
                     title="{{ user.first_name }} {{ user.last_name }}"></div>
                 <!-- End Image -->
+            </div>
             </div>
             <form action="" method="POST" enctype="multipart/form-data">
                 {{ form_picture.csrf_token }}

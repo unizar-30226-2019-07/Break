@@ -835,6 +835,13 @@ def user(user_id):
     else:
         if sold.status_code != 200:
             abort(sold.status_code)
+    reviews = requests.get(url + '/users/' + user_id + '/reviews', headers={'Authorization': current_user.id})
+    if app.debug:
+        print("OK\n\n\n")
+        print(reviews.text)
+    else:
+        if reviews.status_code != 200:
+            abort(reviews.status_code)
 
     if current_user.is_authenticated and str(current_user.user_id) == user_id:
         wishlist = requests.get(url + '/users/' + str(user_id) + '/wishes_products?lat=' + str(lat) + '&lng=' + str(
@@ -873,7 +880,8 @@ def user(user_id):
         )
 
         return render_template('profile.html', userauth=current_user, on_sale=json.loads(on_sale.text), \
-                               sold=json.loads(sold.text), wishlist=wishlist, user=user, map=mymap)
+                               sold=json.loads(sold.text), wishlist=wishlist, user=user, map=mymap, \
+                               reviews=json.loads(reviews.text))
 
 
 @app.route('/profile')

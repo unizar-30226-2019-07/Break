@@ -18,6 +18,10 @@ div.content {
     padding-top: 32px;
 }
 
+p {
+    line-height: 1.5;
+}
+
 
 /****************************
       Imagen de perfil
@@ -41,13 +45,19 @@ img.portrait {
     box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3)
 }
 
-#profile-image {
+.portrait-container {
+    max-width: 500px;
+    margin: auto;
+}
+
+#profile-image, .square {
     position: relative;
     width: 100%;
     padding-top: 100%;
 }
 
-div.portrait {
+div.portrait,
+.image_fill {
     position: absolute;
     top: 0;
     left: 0;
@@ -57,16 +67,19 @@ div.portrait {
     background-position: center;
     background-size: cover;
 
-    margin-left: 22px;
-
     border-radius: 50%;
+}
+
+div.portrait {
+    margin-left: 22px;
     border-style: solid;
     border-width: 10px;
     border-color: var(--primaryColor);
 
     -webkit-box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3);
-    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3)
+    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3);
 }
+
 
 
 /* SELF INFORMATION */
@@ -102,6 +115,7 @@ div.portrait {
 /* Stars score */
 .stars {
     position: relative;
+    color: #ffb238;
 }
 
 .stars div {
