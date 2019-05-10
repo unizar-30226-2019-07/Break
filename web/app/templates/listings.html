@@ -63,10 +63,23 @@
 							</script>
 						</div>
 					</div>
-
-					<form action="#" class="search_form m_no_display" id="search_form">
+					<form action="#" class="search_form" id="search_form">
 						<div class="start justify-content-lg-between justify-content-start">
 							<div class="row col search_inputs align-items-start justify-content-lg-between justify-content-start">
+								<div class="col-12 col-lg-8">
+									<div class="search_title">Palabras Clave</div>
+									{{ form.keywords(class = "search_input", value = keywords) }}
+								</div>
+								<div class="col-8 col-lg-2 text-center align-self-end">
+									{{ form.submit(class="search_button") }}
+								</div>
+								<div class="col-4 col-lg-2 text-center align-self-end">
+									<div class="search_button d-block " data-toggle="collapse" data-target="#filters" aria-expanded="false" aria-controls="filters">
+										<!-- <i class="fas fa-sliders-h" style="line-height: 51px"></i> -->
+										<span class="search_button_center">Filtrar</span>
+									</div>
+								</div>
+								<div id="filters" class="row collapse mt-3 search_inputs align-items-start justify-content-lg-between justify-content-start">
 								<div class="col-lg-4">
 									<div class="search_title">Precio Mínimo</div>
 									{{ form.minprice(class = "search_input input-d", value = minprice) }}
@@ -86,14 +99,6 @@
 									{% endif %}
 								</div>
 								<div class="col-lg-4">
-									<div class="search_title">Fecha Mínima de Publicación</div>
-									{{ form.minpublished(class = "search_input", value = minpublished) }}
-								</div>
-								<div class="col-lg-4">
-									<div class="search_title">Fecha Máxima de Publicación</div>
-									{{ form.maxpublished(class = "search_input", value = maxpublished) }}
-								</div>
-								<div class="col-lg-4">
 									<div class="search_title">Categoría</div>
 									<select class="search_input" id="category" name="category">
 										<option value="">Todo</option>
@@ -107,10 +112,14 @@
 									</select>
 								</div>
 								<div class="col-lg-4">
-									<div class="search_title">Palabras Clave</div>
-									{{ form.keywords(class = "search_input", value = keywords) }}
+									<div class="search_title">Fecha Mínima de Publicación</div>
+									{{ form.minpublished(class = "search_input", value = minpublished) }}
 								</div>
-								<div class="col-lg-6">
+								<div class="col-lg-4">
+									<div class="search_title">Fecha Máxima de Publicación</div>
+									{{ form.maxpublished(class = "search_input", value = maxpublished) }}
+								</div>
+								<div class="col-lg-4">
 									<div class="search_title">Estado</div>
 									<select class="search_input" id="estado" name="estado">
 										<option value="">Todo</option>
@@ -123,20 +132,16 @@
 										{% endfor %}
 									</select>
 								</div>
-								<div class="col-lg-6">
-									<div class="search_title">Resultados por Página</div>
-									<select class="search_input" id="resultados" name="resultados">
-										{% for choice in form.resultadosporpag %}
-										{% if choice == resultados %}
-										<option selected value="{{choice}}">{{choice}}</option>
-										{% else %}
-										<option value="{{choice}}">{{choice}}</option>
-										{% endif %}
-										{% endfor %}
-									</select>
-
+								<div class="col-lg-4">
+									<div class="search_titlem">Distancia Máxima (Km)</div>
+									{{ form.distancia(class = "search_input input-d", value = distancia) }}
+									{% if errordist %}
+									<div class="alert alert-danger">
+										<li>Se debe introducir un número</li>
+									</div>
+									{% endif %}
 								</div>
-								<div class="col-lg-6">
+								<div class="col-lg-4">
 									<div class="search_title">Ordenación</div>
 									<select class="search_input" id="ordenacion" name="ordenacion">
 										{% for choice in form.ordenacionlist %}
@@ -149,99 +154,25 @@
 									</select>
 
 								</div>
-								<div class="col-lg-6">
-									<div class="search_titlem">Distancia (KM)</div>
-									{{ form.distancia(class = "search_input input-d", value = distancia) }}
-									{% if errordist %}
-									<div class="alert alert-danger">
-										<li>Se debe introducir un número</li>
-									</div>
-									{% endif %}
+								<div class="col-lg-4">
+									<div class="search_title">Resultados por Página</div>
+									<select class="search_input" id="resultados" name="resultados">
+										{% for choice in form.resultadosporpag %}
+										{% if choice == resultados %}
+										<option selected value="{{choice}}">{{choice}}</option>
+										{% else %}
+										<option value="{{choice}}">{{choice}}</option>
+										{% endif %}
+										{% endfor %}
+									</select>
 								</div>
-
+								<div class="col-12 text-center align-self-end">
+									{{ form.submit(class="search_button", value="Aplicar") }}
+								</div>							
+								</div>
 							</div>
-							{{ form.submit(class="search_button") }}
 						</div>
 					</form>
-
-					<form action="#" class="search_form m_display d-lg-none d-xl-none" id="search_form">
-						<div class="start justify-content-lg-between justify-content-start">
-							<div class="col search_inputs align-items-start justify-content-lg-between justify-content-start">
-								<div class="search_titlem">Precio Mínimo</div>
-								{{ form.minprice(class = "search_input input-d", value = minprice) }}
-								{% if errormin %}
-								<div class="alert alert-danger">
-									<li>Se debe introducir un número</li>
-								</div>
-								{% endif %}
-								<div class="search_titlem">Precio Máximo</div>
-								{{ form.maxprice(class = "search_input", value = maxprice) }}
-								{% if errormax %}
-								<div class="alert alert-danger">
-									<li>Se debe introducir un número</li>
-								</div>
-								{% endif %}
-								<div class="search_titlem">Fecha Mínima de Publicación</div>
-								{{ form.minpublished(class = "search_input", value = minpublished) }}
-								<div class="search_titlem">Fecha Máxima de Publicación</div>
-								{{ form.maxpublished(class = "search_input", value = maxpublished) }}
-								<div class="search_titlem">Categoría</div>
-								<select class="search_input" id="category" name="category">
-									<option value="">Todo</option>
-									{% for choice in form.categories %}
-									{% if choice == category %}
-									<option selected value="{{choice}}">{{choice}}</option>
-									{% else %}
-									<option value="{{choice}}">{{choice}}</option>
-									{% endif %}
-									{% endfor %}
-								</select>
-								<div class="search_titlem">Palabras Clave</div>
-								{{ form.keywords(class = "search_input", value = keywords) }}
-								<div class="search_titlem">Estado</div>
-								<select class="search_input" id="estado" name="estado">
-									<option value="">Todo</option>
-									{% for choice in form.estados %}
-									{% if choice[0] == status %}
-									<option selected value="{{choice[0]}}">{{choice[1]}}</option>
-									{% else %}
-									<option value="{{choice[0]}}">{{choice[1]}}</option>
-									{% endif %}
-									{% endfor %}
-								</select>
-								<div class="search_titlem">Resultados por Página</div>
-								<select class="search_input" id="resultados" name="resultados">
-									{% for choice in form.resultadosporpag %}
-									{% if choice == resultados %}
-									<option selected value="{{choice}}">{{choice}}</option>
-									{% else %}
-									<option value="{{choice}}">{{choice}}</option>
-									{% endif %}
-									{% endfor %}
-								</select>
-								<div class="search_titlem">Ordenación</div>
-								<select class="search_input" id="ordenacion" name="ordenacion">
-									{% for choice in form.ordenacionlist %}
-									{% if choice[0] == sort %}
-									<option selected value="{{choice[0]}}">{{choice[1]}}</option>
-									{% else %}
-									<option value="{{choice[0]}}">{{choice[1]}}</option>
-									{% endif %}
-									{% endfor %}
-								</select>
-								<div class="search_titlem">Distancia (KM)</div>
-								{{ form.distancia(class = "search_input input-d", value = distancia) }}
-								{% if errordist %}
-								<div class="alert alert-danger">
-									<li>Se debe introducir un número</li>
-								</div>
-								{% endif %}
-
-							</div>
-							{{ form.submit(class="search_button") }}
-						</div>
-					</form>
-
 				</div>
 			</div>
 		</div>

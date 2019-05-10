@@ -13,13 +13,20 @@
     display: none;
 }
 
-.wishlist.in_wishlist i.far,
-.wishlist:hover i.far {
+.wishlist.in_wishlist i.far {
     display: none;
 }
-.wishlist.in_wishlist i.fas,
-.wishlist:hover i.fas {
+.wishlist.in_wishlist i.fas {
     display: initial;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .wishlist:hover i.far {
+        display: none;
+    }
+    .wishlist:hover i.fas {
+        display: initial;
+    }
 }
 
 .popup {
