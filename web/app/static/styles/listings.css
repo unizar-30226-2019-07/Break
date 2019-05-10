@@ -587,8 +587,19 @@ a {
     user-select: none;
 }
 
+@media (max-width: 768px) {
+    .listing_tabs .tab_content {
+        padding: 0 1em;
+        max-width: 40px;
+    }
+}
+
 .tab .tab_content:hover {
     background: rgba(255, 255, 255, .33);
+}
+
+.tab_content span {
+    margin-top: 0 !important;
 }
 
 .tab[aria-expanded="true"] .tab_content {

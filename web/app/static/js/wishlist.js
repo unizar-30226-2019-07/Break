@@ -2,18 +2,20 @@ $(document).ready(function () {
     $(document).on('click', '.wishlist', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        var heart = $(this);
+        var heart = this;
         if ($(this).hasClass('in_wishlist')) {
             $.ajax({
-                url: '/ajax/wishes_products/' + heart.data('id'),
+                url: '/ajax/wishes_products/' + $(heart).data('id'),
                 type: 'DELETE',
                 success: function(data) {
-                    heart.removeClass('in_wishlist');
+                    $(heart).removeClass('in_wishlist');
+                    heart.style.pointerEvents = "none";
                     $('.popup').remove();
                     $('body').append('<div class="popup bg-success text-light">Eliminado de la lista de deseos.</div>');
                     var popup = $('.popup');
                     setTimeout(function(){
                         popup.remove();
+                        heart.style.pointerEvents = "auto";
                     }, 2500);
                 },
                 error: function (request, status, error) {
@@ -24,10 +26,10 @@ $(document).ready(function () {
             });
         } else {
             $.ajax({
-                url: '/ajax/wishes_products/' + heart.data('id'),
+                url: '/ajax/wishes_products/' + $(heart).data('id'),
                 type: 'PUT',
                 success: function(data) {
-                    heart.addClass('in_wishlist');
+                    $(heart).addClass('in_wishlist');
                     $('.popup').remove();
                     $('body').append('<div class="popup bg-success text-light">Añadido a la lista de deseos.</div>');
                     var popup = $('.popup');
