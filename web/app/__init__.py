@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 
 from config import Config
 from app.forms import LoginForm, RegisterForm, EditProfile, EditEmail, EditPassword, EditLocation, SubirAnuncioForm, \
-    ProductSearch, EditPicture
+    ProductSearch, EditPicture, Review
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import requests
@@ -767,6 +767,67 @@ def get_gallery(prod_id):
 
     return render_template("single.html", userauth=current_user, prod=prod, map=mymap, auction=False)
 
+def review(prod_id, isAuction):
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+    else:
+        usuario = requests.get(url=url + '/users/' + str(current_user.user_id),
+                               headers={'Authorization': current_user.id})
+        if app.debug:
+            if usuario.status_code != 200:
+                print(usuario.text)
+        else:
+            if usuario.status_code != 200:
+                abort(usuario.status_code)
+        
+        usuario = json.loads(usuario.text)
+
+    if isAuction:
+        response = requests.get(url + "/auctions/" + str(prod_id) + "?lng=0&lat=0")
+    else:
+        response = requests.get(url + "/products/" + str(prod_id) + "?lng=0&lat=0")
+    if app.debug:
+        if response.status_code != 200:
+            print(response.text)
+    else:
+        if response.status_code != 200 and not app.debug:
+            abort(response.status_code)
+    prod = json.loads(response.text)
+
+    form_review = Review(prefix="review")
+    if request.method == 'POST':
+        form_review = Review(request.form, prefix="review")
+        if form_review.submit.data and form_review.validate_on_submit():
+
+            review = {}
+            review['id_comprador'] = usuario['idUsuario']
+            review['id_anunciante'] = prod['owner']['idUsuario']
+            review['valor'] = form_review.stars.data
+            review['comentario'] = form_review.comment.data
+            if isAuction:
+                review['id_subasta'] = prod_id
+            else:
+                review['id_producto'] = prod_id
+
+            response = requests.post(url=url + '/users/' + str(review['id_anunciante']) + '/reviews', json=review,
+                                    headers={'Authorization': current_user.id})
+            if app.debug:
+                if response.status_code != 200:
+                    print(response.text)
+            else:
+                if response.status_code != 200:
+                    abort(response.status_code)
+
+            if isAuction:
+                return redirect(url_for('get_auction', prod_id=prod_id))
+            else:
+                return redirect(url_for('get_gallery', prod_id=prod_id))
+
+    return render_template('review.html', form_review=form_review, userauth=current_user)
+
+@app.route('/single/<prod_id>/review', methods=['GET', 'POST'])
+def review_gallery(prod_id):
+    return review(prod_id, False)
 
 @app.route('/auction/<prod_id>')
 def get_auction(prod_id):
@@ -796,7 +857,7 @@ def get_auction(prod_id):
         if response.status_code != 200:
             abort(response.status_code)
     prod = json.loads(response.text)
-
+    print(response.text)
     mymap = Map(
         identifier="view-side",
         lat=prod['location']['lat'],
@@ -810,6 +871,9 @@ def get_auction(prod_id):
 
     return render_template("single.html", userauth=current_user, prod=prod, map=mymap, auction=True)
 
+@app.route('/auction/<prod_id>/review', methods=['GET', 'POST'])
+def review_auction(prod_id):
+    return review(prod_id, True)
 
 @app.route('/user/<user_id>')
 def user(user_id):

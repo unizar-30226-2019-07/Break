@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Publicar Valoración</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+		<!-- General links -->
+		{% include 'include/headLinks.html' %}
+
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/subirAnuncio.css') }}">
+
+	</head>
+	<body>
+
+		<div class="super_container">
+			<div class="super_overlay"></div>
+
+			<!-- Header -->
+			{% include 'include/header.html' %}
+
+			<!-- Title -->
+			<center>
+				<div class="title_container">
+					<div class="title">Publicar Valoración</div>
+				</div>
+			</center>
+
+
+			<!-- Formulario -->
+			<center class="container">
+
+				<form id="upload-form" action="" method="POST" enctype="multipart/form-data" novalidate>
+					{{ form_review.csrf_token }}
+
+					<div class="row contact_form_row">
+						<div class="col">
+							<div class="contact_form_container">
+
+								<div class="row">
+									<div class="col-12">
+										<strong>{{ form_review.stars.label }}</strong><br>
+										{{ form_review.stars(class="contact_input", type="number", step="1", min="1", max="5") }}
+										{% for error in form_review.stars.errors %}
+										<center>
+											<div class="alert alert-danger">
+												{{ error }}
+											</div>
+										</center>
+										{% endfor %}
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-12">
+										<strong>{{ form_review.comment.label }}</strong><br>
+										{{ form_review.comment(class="contact_textarea contact_input", maxlength="300") }}
+										{% for error in form_review.comment.errors %}
+										<center>
+											<div class="alert alert-danger">
+												{{ error }}
+											</div>
+										</center>
+										{% endfor %}
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					{{ form_review.submit(class="mb-5 main_button") }}
+				</form>
+
+
+			</center>
+
+			<!-- Footer  -->
+			{% include 'include/footer.html' %}
+		</div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+		<!-- General Scripts  -->
+		{% include 'include/scripts.html' %}
+
+		<script src="{{ url_for('static', filename = 'js/subirAnuncio.js') }}"></script>
+	</body>
+</html>

@@ -159,3 +159,10 @@ class ProductSearch(Form):
     distancia = StringField('Distancia')
     submit = SubmitField('Buscar')
 
+class Review(FlaskForm):
+    stars = IntegerField('Puntuación', [
+        validators.DataRequired(message='Es necesario introducir una puntuación entre 1 y 5'),
+        validators.NumberRange(min=1, max=5, message='La puntuación debe ser de 1 a 5 estrellas')])
+    comment = TextAreaField('Comentario', [
+        validators.DataRequired(message='Es necesario escribir un comentario')])
+    submit = SubmitField('Publicar Valoración')

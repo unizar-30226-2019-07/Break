@@ -208,7 +208,7 @@
 													{{prod.owner.first_name}} {{prod.owner.last_name}}
 												</a>
 												<br/>
-												Publicado: {{ prod.publicate_date }}
+												Publicado: {{ prod.published if auction else prod.publicate_date }}
 											</div>
 										</div>
 									</div>

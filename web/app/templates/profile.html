@@ -188,7 +188,7 @@
             <div id="reviews_inner">
             <div class="container">
             {% for review in reviews %}
-            <div class="listing row">
+            <div class="listing row mb-4">
                 <div class="col-3 col-md-2 col-lg-1">
                 {% if user.picture.idImagen is number %}
                     {% set profile_picture = api + '/pictures/' + (user.picture.idImagen|string) %}
