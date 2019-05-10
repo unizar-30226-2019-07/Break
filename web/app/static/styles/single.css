@@ -571,3 +571,23 @@ video {
     height: calc(100% + 30px);
 }
 
+.badge_on_sale,
+.badge_sold {
+    height: 40px;
+    line-height: 40px;
+    border-radius: 20px;
+    margin: 6px;
+    padding: 0 2em;
+
+    font-size: 17px;
+    font-weight: 600;
+    color: white;
+}
+
+.badge_on_sale {
+    background-color: var(--primaryColor); 
+}
+
+.badge_sold {
+    background-color: var(--secondaryColor);
+}

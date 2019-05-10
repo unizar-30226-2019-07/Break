@@ -97,8 +97,9 @@
 						<div class="about">
 							<div class="row">
 								<div class="col-lg-12">
-									<div class="property_info">
-										<div class="tag_price listing_price">
+									<div class="property_info d-flex">
+										<div class="flex-grow-1 mt-3">
+										<div class="tag_price listing_price text-center mr-3 mb-3">
 											{% if auction == True %}
 											{% if prod.lastBid != None %}
 											{{ '%0.2f'| format(prod.lastBid.amount|float) }}
@@ -111,9 +112,26 @@
 											{{ prod.currency }}
 
 										</div>
+										{% if prod.status == "vendido" %}
+										<div class="badge badge_sold m-0 mr-3">
+											<span class="text-center">
+												Vendido
+											</span>
+										</div>
+										{% else %}
+										<div class="badge badge_on_sale m-0 mr-3">
+											<span class="text-center">
+												En venta
+											</span>
+										</div>
+										{% endif %}
+										</div>
+										<div class="align-self-center">
 										<div class="wishlist {{ 'in_wishlist' if prod.in_wishlist else '' }} float-right d-flex align-items-center justify-content-center" data-id="{{ prod.id_producto }}">
 											<i class="fas fa-heart"></i>
 											<i class="far fa-heart"></i>
+										</div>
+										</div>
 										</div>
 										<div class="listing_name"><h1>{{prod.title}}</h1></div>
 										<div class="listing_location d-flex flex-row align-items-start justify-content-start">
@@ -128,6 +146,11 @@
 										<div class="about_text">
 											<p class="text-dark">
 											{{ prod.description }}
+											</p>
+										</div>
+										<div class="mt-3">
+											<p class="m-0">
+												Categoría: {{ prod.category }}
 											</p>
 										</div>
 										<h3 class="mt-5">Acerca del vendedor</h3>
