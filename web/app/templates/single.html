@@ -86,12 +86,28 @@
 							{% endif %}
 						</div>
 
-
-						<!-- Image -->
-
-
-						<div class="listing_image"></div>
-
+						{% if prod.status == "en venta" %}
+						<div class="text-center">
+						{% if prod.owner.idUsuario == userauth.user_id %}
+						{% if auction == True %}
+						<button class="main_button mx-2" onclick="redirigirEditarProducto(true)">
+							Editar subasta
+						</button>
+						{% else %}
+						<button class="main_button mx-2" onclick="redirigirEditarProducto(false)">
+							Editar producto
+						</button>
+						{% endif %}
+						<button class="main_button bg-gray mx-2" onclick="redirigirBorrarProducto()">
+							Borrar producto
+						</button>
+						{% else %}
+						<button class="main_button mx-2" onclick="abrirChat()">
+							Contactar vendedor
+						</button>
+						{% endif %}
+						</div>
+						{% endif %}
 
 						<!-- About -->
 						<div class="about">
@@ -147,7 +163,7 @@
 										<div class="wishlist {{ 'in_wishlist' if prod.in_wishlist else '' }} d-flex align-items-center justify-content-center" 
 						                    	data-id="{{ prod.idSubasta if auction else prod.id_producto }}" 
 						                    	data-type="{{ 'wishes_auctions' if auction else 'wishes_products' }}">
-						                    	
+
 											<i class="fas fa-heart"></i>
 											<i class="far fa-heart"></i>
 										</div>
@@ -207,25 +223,6 @@
 									Esto es una subasta,
 									Aquí se mostrarán las acciones que se pueden realizar sobre la subasta
 								</div>
-								{% endif %}
-								{% if prod.owner.idUsuario == userauth.user_id %}
-								{% if auction == True %}
-								<button style="margin-left:auto;margin-right:auto;" class="search_button" onclick="redirigirEditarProducto(true)">Editar
-									Anuncio
-								</button>
-								{% else %}
-								<button style="margin-left:auto;margin-right:auto;" class="search_button" onclick="redirigirEditarProducto(false)">Editar
-									Anuncio
-								</button>
-								{% endif %}
-								<button style="margin-left:auto;margin-right:auto;" class="search_button" onclick="redirigirBorrarProducto()">Borrar
-									Anuncio
-								</button>
-								{% else %}
-								<button style="margin-left:auto;margin-right:auto;" class="main_button" onclick="abrirChat()">
-									Abrir chat
-								</button>
-
 								{% endif %}
 							</div>
 						</div>

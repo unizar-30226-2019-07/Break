@@ -591,3 +591,11 @@ video {
 .badge_sold {
     background-color: var(--secondaryColor);
 }
+
+.main_button.bg-gray {
+    background-color: var(--gray);
+}
+
+.main_button.bg-gray:hover {
+    background-color: var(--gray-dark);
+}
