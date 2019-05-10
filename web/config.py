@@ -7,3 +7,5 @@ class Config(object):
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     GOOGLEMAPS_KEY = "AIzaSyAkLTINSma4ccZ0vYOdtDIJuQIYkvrJpXg"
+    USERNAME = 'user@example.com'
+    PASSWORD = '1234abcd'
