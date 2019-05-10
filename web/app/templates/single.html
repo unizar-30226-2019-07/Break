@@ -119,11 +119,28 @@
 											</span>
 										</div>
 										{% else %}
-										<div class="badge badge_on_sale m-0 mr-3">
-											<span class="text-center">
-												En venta
-											</span>
-										</div>
+											{% if auction %}
+							                	<div class="badge badge_on_sale m-0 mr-3">
+							                    	<span class="d-flex">
+							                    		{% set left = 1 + (strptime(prod.endDate, '%Y-%m-%d') - now()).days %}
+							                    		{% if left < 0 %}
+							                    			Terminada
+							                    		{% elif left == 0 %}
+							                    			Hoy
+							                    		{% elif left == 1 %}
+							                    			Mañana
+							                    		{% else %}
+								               				{{  left }} días
+								               			{% endif %}
+							                		</span>
+							                	</div>
+							               	{% else %}
+												<div class="badge badge_on_sale m-0 mr-3">
+													<span class="text-center">
+														En venta
+													</span>
+												</div>
+							                {% endif %}
 										{% endif %}
 										</div>
 										<div class="align-self-center">

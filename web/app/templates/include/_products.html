@@ -1,8 +1,12 @@
-{% macro list(products, auction) -%}
+{% macro list(products) -%}
 <div class="container">
 	<div class="row">
 		<!-- Listings Container -->
 		{% for prod in products %}
+
+		{% if 'idSubasta' in prod %}
+			{% set auction = True %}
+		{% endif %}
 
 		{% if auction == True %}
 		<a href="{{ url_for('get_auction', prod_id=prod.idSubasta) }}" class="col-sm-6 col-lg-4 flex-column d-flex my-3">
@@ -26,8 +30,28 @@
                             Vendido
                         </span>
                     </div>
+                    {% else %}
+	                    {% if auction %}
+	                	<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
+	                    	<span class="d-flex">
+	                    		{% set left = 1 + (strptime(prod.endDate, '%Y-%m-%d') - now()).days %}
+	                    		{% if left < 0 %}
+	                    			Terminada
+	                    		{% elif left == 0 %}
+	                    			Hoy
+	                    		{% elif left == 1 %}
+	                    			Mañana
+	                    		{% else %}
+		               				{{  left }} días
+		               			{% endif %}
+	                		</span>
+	                	</div>
+	                    {% endif %}
                     {% endif %}
-                    <div class="wishlist {{ 'in_wishlist' if prod.in_wishlist else '' }} d-flex align-items-center justify-content-center" data-id="{{ prod.id_producto }}">
+                    <div class="wishlist {{ 'in_wishlist' if prod.in_wishlist else '' }} d-flex align-items-center justify-content-center" 
+                    	data-id="{{ prod.idSubasta if auction else prod.id_producto }}" 
+                    	data-type="{{ 'wishes_auctions' if auction else 'wishes_products' }}">
+
                         <i class="fas fa-heart"></i>
                         <i class="far fa-heart"></i>
                     </div>

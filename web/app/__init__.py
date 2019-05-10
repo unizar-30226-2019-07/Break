@@ -48,6 +48,10 @@ url = 'http://35.234.77.87:8080'
 
 app.jinja_env.globals['api'] = url
 
+import datetime
+app.jinja_env.globals['now'] = datetime.datetime.utcnow
+app.jinja_env.globals['strptime'] = datetime.datetime.strptime
+
 
 @login.user_loader
 def load_user(id):
@@ -811,7 +815,8 @@ def user(user_id):
         usuario = requests.get(url=url + '/users/' + str(current_user.user_id),
                                headers={'Authorization': current_user.id})
         if app.debug:
-            print(usuario.text)
+            if usuario.status_code != 200:
+                print(usuario.text)
         else:
             if usuario.status_code != 200:
                 abort(usuario.status_code)
@@ -819,69 +824,121 @@ def user(user_id):
         lng = localizacion['lng']
         lat = localizacion['lat']
     else:
-        return redirect(url_for('login'))
+        lng = 0
+        lat = 0
+
+    ###############################
+    ####    NORMAL PRODUCTS    ####
+    ###############################
 
     on_sale = requests.get(url + '/products?lat=' + str(lat) + '&lng=' + str(lng) + '&distance=5000000000&owner=' + str(
         user_id) + '&status=en%20venta&token=yes', headers={'Authorization': current_user.id})
     if app.debug:
-        print(on_sale.text)
+        if on_sale.status_code != 200:
+            print(on_sale.text)
     else:
         if on_sale.status_code != 200:
             abort(on_sale.status_code)
+    products_on_sale = json.loads(on_sale.text)
+
     sold = requests.get(url + '/products?lat=' + str(lat) + '&lng=' + str(lng) + '&distance=5000000000&owner=' + str(
         user_id) + '&status=vendido&token=yes', headers={'Authorization': current_user.id})
     if app.debug:
-        print(sold.text)
+        if sold.status_code != 200:
+            print(sold.text)
     else:
         if sold.status_code != 200:
             abort(sold.status_code)
-    reviews = requests.get(url + '/users/' + user_id + '/reviews', headers={'Authorization': current_user.id})
-    if app.debug:
-        print("OK\n\n\n")
-        print(reviews.text)
-    else:
-        if reviews.status_code != 200:
-            abort(reviews.status_code)
+    products_sold = json.loads(sold.text)
 
     if current_user.is_authenticated and str(current_user.user_id) == user_id:
         wishlist = requests.get(url + '/users/' + str(user_id) + '/wishes_products?lat=' + str(lat) + '&lng=' + str(
             lng) + '&distance=5000000000&token=yes', headers={'Authorization': current_user.id})
         if app.debug:
-            print(wishlist.text)
+            if wishlist.status_code != 200:
+                print(wishlist.text)
         else:
             if wishlist.status_code != 200:
                 abort(wishlist.status_code)
-        wishlist = json.loads(wishlist.text)
+        products_wishlist = json.loads(wishlist.text)
     else:
-        wishlist = None
+        products_wishlist = None
+
+    ################################
+    ####    AUCTION PRODUCTS    ####
+    ################################
+
+    on_sale = requests.get(url + '/auctions?lat=' + str(lat) + '&lng=' + str(lng) + '&distance=5000000000&owner=' + str(
+        user_id) + '&status=en%20venta&token=yes', headers={'Authorization': current_user.id})
+    if app.debug:
+        if on_sale.status_code != 200:
+            print(on_sale.text)
+    else:
+        if on_sale.status_code != 200:
+            abort(on_sale.status_code)
+    auctions_on_sale = json.loads(on_sale.text)
+
+    sold = requests.get(url + '/auctions?lat=' + str(lat) + '&lng=' + str(lng) + '&distance=5000000000&owner=' + str(
+        user_id) + '&status=vendido&token=yes', headers={'Authorization': current_user.id})
+    if app.debug:
+        if sold.status_code != 200:
+            print(sold.text)
+    else:
+        if sold.status_code != 200:
+            abort(sold.status_code)
+    auctions_sold = json.loads(sold.text)
+
+    if current_user.is_authenticated and str(current_user.user_id) == user_id:
+        wishlist = requests.get(url + '/users/' + str(user_id) + '/wishes_auctions?lat=' + str(lat) + '&lng=' + str(
+            lng) + '&distance=5000000000&token=yes', headers={'Authorization': current_user.id})
+        if app.debug:
+            if wishlist.status_code != 200:
+                print(wishlist.text)
+        else:
+            if wishlist.status_code != 200:
+                abort(wishlist.status_code)
+        auctions_wishlist = json.loads(wishlist.text)
+    else:
+        auctions_wishlist = None
 
     response = requests.get(url=url + '/users/' + str(user_id), headers={'Authorization': current_user.id})
     if app.debug:
-        print(response.text)
+        if response.status_code != 200:
+            print(response.text)
     else:
         if response.status_code != 200:
             abort(response.status_code)
-    # If there is an error retrieving the user (no permissions) the user will be redirected to the login page
-    if response.status_code != 200:
-        return redirect(url_for('login'))
+
+    reviews = requests.get(url + '/users/' + user_id + '/reviews', headers={'Authorization': current_user.id})
+    if app.debug:
+        if reviews.status_code != 200:
+            print(reviews.text)
     else:
+        if reviews.status_code != 200:
+            abort(reviews.status_code)
 
-        user = json.loads(response.text)
+    user = json.loads(response.text)
 
-        mymap = Map(
-            identifier="view-side",
-            lat=user['location']['lat'],
-            lng=user['location']['lng'],
-            zoom=15,
-            circles=[(user['location']['lat'], user['location']['lng'], 200)],
-            style="height:200px;margin:0;",
-            language="es",
-            region="ES"
-        )
+    mymap = Map(
+        identifier="view-side",
+        lat=user['location']['lat'],
+        lng=user['location']['lng'],
+        zoom=15,
+        circles=[(user['location']['lat'], user['location']['lng'], 200)],
+        style="height:200px;margin:0;",
+        language="es",
+        region="ES"
+    )
 
-        return render_template('profile.html', userauth=current_user, on_sale=json.loads(on_sale.text), \
-                               sold=json.loads(sold.text), wishlist=wishlist, user=user, map=mymap, \
-                               reviews=json.loads(reviews.text))
+    on_sale = products_on_sale + auctions_on_sale
+    print(on_sale)
+    sold = products_sold + auctions_sold
+    wishlist = products_wishlist + auctions_wishlist
+    reviews = json.loads(reviews.text);
+
+    return render_template('profile.html', userauth=current_user, on_sale=on_sale, \
+                           sold=sold, wishlist=wishlist, user=user, map=mymap, \
+                           reviews=reviews)
 
 
 @app.route('/profile')
@@ -1021,6 +1078,22 @@ def wishes_products(prod_id):
                                 headers={'Authorization': current_user.id})
     elif request.method == 'DELETE':
         response = requests.delete(url=url + '/users/' + str(current_user.user_id) + '/wishes_products/' + prod_id,
+                                   headers={'Authorization': current_user.id})
+
+    if app.debug:
+        print(response.text)
+    return "", response.status_code
+
+@app.route('/ajax/wishes_auctions/<prod_id>', methods=['PUT', 'DELETE'])
+def wishes_auctions(prod_id):
+    if not current_user.is_authenticated:
+        return "", 401
+
+    if request.method == 'PUT':
+        response = requests.put(url=url + '/users/' + str(current_user.user_id) + '/wishes_auctions/' + prod_id,
+                                headers={'Authorization': current_user.id})
+    elif request.method == 'DELETE':
+        response = requests.delete(url=url + '/users/' + str(current_user.user_id) + '/wishes_auctions/' + prod_id,
                                    headers={'Authorization': current_user.id})
 
     if app.debug:

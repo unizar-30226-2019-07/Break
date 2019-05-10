@@ -5,7 +5,7 @@ $(document).ready(function () {
         var heart = this;
         if ($(this).hasClass('in_wishlist')) {
             $.ajax({
-                url: '/ajax/wishes_products/' + $(heart).data('id'),
+                url: '/ajax/' + $(this).data('type') + '/' + $(heart).data('id'),
                 type: 'DELETE',
                 success: function(data) {
                     $(heart).removeClass('in_wishlist');
@@ -26,7 +26,7 @@ $(document).ready(function () {
             });
         } else {
             $.ajax({
-                url: '/ajax/wishes_products/' + $(heart).data('id'),
+                url: '/ajax/' + $(this).data('type') + '/' + $(heart).data('id'),
                 type: 'PUT',
                 success: function(data) {
                     $(heart).addClass('in_wishlist');
