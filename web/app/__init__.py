@@ -355,7 +355,7 @@ def auctions():
     if page == 0:
         firstpage = 1
 
-    products = requests.get(products)
+    products = requests.get(products + '&token=yes', headers={'Authorization': current_user.id})
     if app.debug:
         print(products.text)
     else:
