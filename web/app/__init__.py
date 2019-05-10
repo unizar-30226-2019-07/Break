@@ -784,7 +784,7 @@ def get_auction(prod_id):
         lng = localizacion['lng']
         lat = localizacion['lat']
 
-    response = requests.get(url + "/auctions/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat))
+    response = requests.get(url + "/auctions/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat) + "&token=yes", headers={'Authorization': current_user.id})
     if app.debug:
         print(response.text)
     else:

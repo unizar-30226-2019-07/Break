@@ -144,7 +144,10 @@
 										{% endif %}
 										</div>
 										<div class="align-self-center">
-										<div class="wishlist {{ 'in_wishlist' if prod.in_wishlist else '' }} float-right d-flex align-items-center justify-content-center" data-id="{{ prod.id_producto }}">
+										<div class="wishlist {{ 'in_wishlist' if prod.in_wishlist else '' }} d-flex align-items-center justify-content-center" 
+						                    	data-id="{{ prod.idSubasta if auction else prod.id_producto }}" 
+						                    	data-type="{{ 'wishes_auctions' if auction else 'wishes_products' }}">
+						                    	
 											<i class="fas fa-heart"></i>
 											<i class="far fa-heart"></i>
 										</div>
