@@ -601,6 +601,7 @@ def editproduct(prod_id):
     isNew = 0
     lat = 0
     lng = 0
+    noDateError = 0
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
     else:
@@ -691,32 +692,36 @@ def editproduct(prod_id):
 
             if int(prod_id) > 0:
                 if int(isAuction) == 1:
-                    print("Esto va bien")
-                    product['owner_id'] = current_user.user_id
-                    print(product)
-                    response = requests.put(url=url + '/auctions/' + prod_id, json=product,
-                                        headers={'Authorization': current_user.id})
-                    print(response.text)
+                    if product['endDate']  != None:
+                        product['owner_id'] = current_user.user_id
+                        response = requests.put(url=url + '/auctions/' + prod_id, json=product,
+                                            headers={'Authorization': current_user.id})
+                        print(response.text)
+                    else:
+                        noDateError = 1;
                 else:
                     response = requests.put(url=url + '/products/' + prod_id, json=product,
                                         headers={'Authorization': current_user.id})
 
             else:
                 if isAuction:
-                    print(product)
-                    response = requests.post(url=url + '/auctions', json=product, headers={'Authorization': current_user.id})
-                    print(response.text)
+                    print(len(str(product['endDate'])))
+                    if len(str(product['endDate'])) != 4:
+                        response = requests.post(url=url + '/auctions', json=product, headers={'Authorization': current_user.id})
+                    else:
+                        noDateError = 1;
                 else:
                     response = requests.post(url=url + '/products', json=product, headers={'Authorization': current_user.id})
 
-            # Redirige a la ruta deseada, se pueden pasar parametros
-            return redirect(url_for('profile'))
+            if noDateError == 0:
+                # Redirige a la ruta deseada, se pueden pasar parametros
+                return redirect(url_for('profile'))
 
     form_sale.category.default = product['category']
     form_sale.description.default = product['description']
     form_sale.process()
 
-    return render_template('subirAnuncio.html', form_sale=form_sale, userauth=current_user, product=product, isAuction=(int(isAuction) == 1), isNew=(prod_id == 0))
+    return render_template('subirAnuncio.html', form_sale=form_sale, userauth=current_user, product=product, isAuction=(int(isAuction) == 1), isNew=(prod_id == 0), noDateError=(int(noDateError==1)))
 
 # Devuelve las imagenes de un directorio
 @app.route('/imagenes/<filename>')
