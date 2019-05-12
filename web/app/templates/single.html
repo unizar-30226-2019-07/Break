@@ -98,9 +98,16 @@
 							Editar producto
 						</button>
 						{% endif %}
-						<button class="main_button bg-gray mx-2" onclick="redirigirBorrarProducto()">
+						{% if auction == True %}
+						<button class="main_button bg-gray mx-2" onclick="redirigirBorrarProducto(true)">
 							Borrar producto
 						</button>
+						{% else %}
+						<button class="main_button bg-gray mx-2" onclick="redirigirBorrarProducto(false)">
+							Borrar subasta
+						</button>
+						{% endif %}
+
 						{% else %}
 						<button class="main_button mx-2" onclick="abrirChat()">
 							Contactar vendedor

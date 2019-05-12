@@ -221,8 +221,13 @@ function redirigirEditarProducto(isAuction) {
 /***********************
  Borrar anuncio
  **********************/
-function redirigirBorrarProducto() {
-    window.location.href = "/single/" + productID + "/delete";
+function redirigirBorrarProducto(isAuction) {
+	if (isAuction == true) {
+		window.location.href = "/single/" + productID + "/delete?isAuction=1";
+	}
+	else {
+		window.location.href = "/single/" + productID + "/delete?isAuction=0";
+	}
 }
 /***********************
  Abrir un chat con el anuciante
