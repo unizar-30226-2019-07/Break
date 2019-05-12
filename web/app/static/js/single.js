@@ -230,9 +230,14 @@ function redirigirBorrarProducto() {
 function abrirChat() {
     db = initializeFirebase();
 
-    respuesta = db.collection("chat").doc("p" + productID + "_a" + anunID + "_c" + cliID).set({
-        idAnunciante: anunID, idCliente: cliID, idProducto: productID,
-        visible: [0, cliID]
+    var tipoProducto = "sale";
+    if(auction){
+        tipoProducto = "auction";
+    }
+
+    var respuesta = db.collection("chat").doc("p" + productID + "_a" + anunID + "_c" + cliID).set({
+        fechaUltimoMensaje: new Date(),idAnunciante: anunID, idCliente: cliID, idProducto: productID,
+        tipoProducto: tipoProducto, ultimoMensaje: "",visible: [cliID]
     });
 
     if(respuesta){

@@ -252,15 +252,17 @@
 
 		<script type="text/javascript">
 			var cliID = {{userauth.user_id}};
-var anunID = {{prod.owner.idUsuario}};
+			var anunID = {{prod.owner.idUsuario}};
 		</script>
 		{% if auction == 1 %}
 		<script type="text/javascript">
-var productID = {{prod.idSubasta}};
+			var productID = {{prod.idSubasta}};
+			var auction = true;
 		</script>
 		{% else %}
 		<script type="text/javascript">
-var productID = {{prod.id_producto}};
+			var productID = {{prod.id_producto}};
+			var auction = false;
 		</script>
 		{% endif %}
 
