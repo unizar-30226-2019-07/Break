@@ -591,7 +591,11 @@ def uploadAuction():
 
 @app.route("/single/<prod_id>/delete", methods=['GET'])
 def deleteproduct(prod_id):
-    response = requests.delete(url=url + '/products/' + prod_id, headers={'Authorization': current_user.id})
+    isAuction = request.args.get('isAuction')
+    if int(isAuction) == 1:
+        response = requests.delete(url=url + '/auctions/' + prod_id, headers={'Authorization': current_user.id})
+    else:
+        response = requests.delete(url=url + '/products/' + prod_id, headers={'Authorization': current_user.id})
     return redirect(url_for('profile'))
 
 

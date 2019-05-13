@@ -98,9 +98,16 @@
 							Editar producto
 						</button>
 						{% endif %}
-						<button class="main_button bg-gray mx-2" onclick="redirigirBorrarProducto()">
+						{% if auction == True %}
+						<button class="main_button bg-gray mx-2" onclick="redirigirBorrarProducto(true)">
+							Borrar subasta
+						</button>
+						{% else %}
+						<button class="main_button bg-gray mx-2" onclick="redirigirBorrarProducto(false)">
 							Borrar producto
 						</button>
+						{% endif %}
+
 						{% else %}
 						<button class="main_button mx-2" onclick="abrirChat()">
 							Contactar vendedor
@@ -272,15 +279,17 @@
 
 		<script type="text/javascript">
 			var cliID = {{userauth.user_id}};
-var anunID = {{prod.owner.idUsuario}};
+			var anunID = {{prod.owner.idUsuario}};
 		</script>
 		{% if auction == 1 %}
 		<script type="text/javascript">
-var productID = {{prod.idSubasta}};
+			var productID = {{prod.idSubasta}};
+			var auction = true;
 		</script>
 		{% else %}
 		<script type="text/javascript">
-var productID = {{prod.id_producto}};
+			var productID = {{prod.id_producto}};
+			var auction = false;
 		</script>
 		{% endif %}
 
