@@ -897,9 +897,12 @@ def get_auction(prod_id):
                 else:
                     if int(prod['lastBid']['amount']) >= int(amount):
                         errorNum = 1
-        if errorNoLogin == 0 and erroNum == 0:
-            usuario = {'amount': amount, 'bidder_id': current_user.id}
-            response = requests.post(url=url + '/auctions/' + str(prod_id) + '/bid', json=puja, headers={'Authorization': current_user.token})
+        if errorNoLogin == 0 and errorNum == 0:
+            puja = {'amount': amount, 'bidder_id': current_user.user_id}
+            response = requests.post(url=url + '/auctions/' + str(prod_id) + '/bid', json=puja, headers={'Authorization': current_user.id})
+            # Reload the product to update the price
+            response = requests.get(url + "/auctions/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat) + "&token=yes", headers={'Authorization': current_user.id})
+            prod = json.loads(response.text)
 
     return render_template("single.html", userauth=current_user, prod=prod, map=mymap, auction=True, form=form, errorNum=errorNum, errorNoLogin=errorNoLogin)
 
