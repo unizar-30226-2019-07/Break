@@ -189,6 +189,32 @@
 												Categoría: {{ prod.category }}
 											</p>
 										</div>
+										{% if auction == True %}
+										<h3 class="mt-5">Realizar una puja</h3>
+										<form action="#" class="bid_form" id="bid_form" method="post">
+											<div class="start justify-content-lg-between justify-content-start">
+												<div class="row col bid_inputs align-items-start justify-content-lg-between justify-content-start">
+													<div class="col-lg-12">
+														<div class="bid_title">Cantidad ({{ prod.currency }})</div>
+														{{ form.amount(class = "bid_input input-d") }}
+														{% if errorNum %}
+														<div class="alert alert-danger">
+															<li>Se debe introducir un número mayor a la cantidad propuesta</li>
+														</div>
+														{% endif %}
+														{% if errorNoLogin %}
+														<div class="alert alert-danger">
+															<li>Se debe estar logeado para realizar una puja</li>
+														</div>
+														{% endif %}
+													</div>
+													<div class="col-12 text-center align-self-end">
+														{{ form.submit(class="bid_button", value="Confirmar") }}
+													</div>							
+												</div>
+											</div>
+										</form>
+										{% endif %}
 										<h3 class="mt-5">Acerca del vendedor</h3>
 										<div class="prop_agent d-flex flex-row align-items-center justify-content-start">
 											<div class="prop_agent_image">
@@ -218,12 +244,6 @@
 										{{ map.html }}
 									</div>
 								</div>
-								{% if auction == True %}
-								<div class="col-12">
-									Esto es una subasta,
-									Aquí se mostrarán las acciones que se pueden realizar sobre la subasta
-								</div>
-								{% endif %}
 							</div>
 						</div>
 

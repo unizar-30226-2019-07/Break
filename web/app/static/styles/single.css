@@ -599,3 +599,60 @@ video {
 .main_button.bg-gray:hover {
     background-color: var(--gray-dark);
 }
+
+.bid_form {
+    display: block;
+    padding-top: 18px;
+    padding-bottom: 15px;
+    padding-left: 23px;
+    padding-right: 24px;
+    background: var(--primaryColor);
+    margin-top: 15px;
+}
+
+.bid_input {
+    display: block;
+    height: 51px;
+    padding-left: 27px;
+    background: #ffffff;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: 500;
+    color: #2b2e35;
+    width: calc(100%);
+    margin-bottom: 11px;
+}
+
+.bid_button {
+    width: 100% !important;
+    margin-bottom: 11px;
+    height: 51px;
+    background: var(--secondaryColor);
+    color: #ffffff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    -webkit-transition: all 200ms ease;
+    -moz-transition: all 200ms ease;
+    -ms-transition: all 200ms ease;
+    -o-transition: all 200ms ease;
+    transition: all 200ms ease;
+}
+
+.bid_inputs {
+    display: block;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+}
+
+.bid_title {
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    color: #ffffff !important;
+    height: inherit !important;
+    line-height: inherit !important;
+}

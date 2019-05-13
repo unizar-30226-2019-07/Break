@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 
 from config import Config
 from app.forms import LoginForm, RegisterForm, EditProfile, EditEmail, EditPassword, EditLocation, SubirAnuncioForm, \
-    ProductSearch, EditPicture, Review
+    ProductSearch, EditPicture, Review, bidPlacementForm
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import requests
@@ -769,7 +769,6 @@ def get_gallery(prod_id):
         language="es",
         region="ES"
     )
-
     return render_template("single.html", userauth=current_user, prod=prod, map=mymap, auction=False)
 
 def review(prod_id, isAuction):
@@ -834,10 +833,12 @@ def review(prod_id, isAuction):
 def review_gallery(prod_id):
     return review(prod_id, False)
 
-@app.route('/auction/<prod_id>')
+@app.route('/auction/<prod_id>', methods=['GET', 'POST'])
 def get_auction(prod_id):
     lat = 0
     lng = 0
+    errorNum = 0
+    errorNoLogin = 0
     if current_user.is_authenticated:
         usuario = requests.get(url=url + '/users/' + str(current_user.user_id),
                                headers={'Authorization': current_user.id})
@@ -874,7 +875,29 @@ def get_auction(prod_id):
         region="ES"
     )
 
-    return render_template("single.html", userauth=current_user, prod=prod, map=mymap, auction=True)
+    form = bidPlacementForm(request.form)
+    if request.method == 'POST':
+        print("c")
+        print("a")
+        if not current_user.is_authenticated:
+            errorNoLogin = 1
+            print("b")
+        else:
+            amount = form.amount.data
+            if not str(amount).isdigit():
+                errorNum = 1
+            else: 
+                if prod['lastBid'] == None:
+                    if int(prod['startPrice']) >= int(amount):
+                        errorNum = 1
+                else:
+                    if int(prod['lastBid']['amount']) >= int(amount):
+                        errorNum = 1
+        if errorNoLogin == 0 and erroNum == 0:
+            usuario = {'amount': amount, 'bidder_id': current_user.id}
+            response = requests.post(url=url + '/auctions/' + str(prod_id) + '/bid', json=puja, headers={'Authorization': current_user.token})
+
+    return render_template("single.html", userauth=current_user, prod=prod, map=mymap, auction=True, form=form, errorNum=errorNum, errorNoLogin=errorNoLogin)
 
 @app.route('/auction/<prod_id>/review', methods=['GET', 'POST'])
 def review_auction(prod_id):

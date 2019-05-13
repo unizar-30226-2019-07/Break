@@ -166,3 +166,8 @@ class Review(FlaskForm):
     comment = TextAreaField('Comentario', [
         validators.DataRequired(message='Es necesario escribir un comentario')])
     submit = SubmitField('Publicar Valoración')
+
+
+class bidPlacementForm(FlaskForm):
+    amount = IntegerField('Cantidad')
+    submit = SubmitField('Realizar Puja')
