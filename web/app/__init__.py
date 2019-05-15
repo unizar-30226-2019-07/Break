@@ -843,6 +843,7 @@ def get_auction(prod_id):
     lng = 0
     errorNum = 0
     errorNoLogin = 0
+    winnerId = - 1
     if current_user.is_authenticated:
         usuario = requests.get(url=url + '/users/' + str(current_user.user_id),
                                headers={'Authorization': current_user.id})
@@ -858,8 +859,13 @@ def get_auction(prod_id):
 
     if current_user.is_authenticated:
         response = requests.get(url + "/auctions/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat) + "&token=yes", headers={'Authorization': current_user.id})
+        response_sell = requests.put(url + "/auctions/" + str(prod_id) + "/sell", headers={'Authorization': current_user.id})
+        if len(response_sell.text) > 0:
+            winnerId = int(json.loads(response_sell.text)['bidder']['idUsuario'])
     else:
         response = requests.get(url + "/auctions/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat))
+
+    print(response_sell.text)
     if app.debug:
         if response.status_code != 200:
             print(response.text)
@@ -904,7 +910,7 @@ def get_auction(prod_id):
             response = requests.get(url + "/auctions/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat) + "&token=yes", headers={'Authorization': current_user.id})
             prod = json.loads(response.text)
 
-    return render_template("single.html", userauth=current_user, prod=prod, map=mymap, auction=True, form=form, errorNum=errorNum, errorNoLogin=errorNoLogin)
+    return render_template("single.html", userauth=current_user, prod=prod, map=mymap, auction=True, form=form, errorNum=errorNum, errorNoLogin=errorNoLogin, winner=int(winnerId))
 
 @app.route('/auction/<prod_id>/review', methods=['GET', 'POST'])
 def review_auction(prod_id):

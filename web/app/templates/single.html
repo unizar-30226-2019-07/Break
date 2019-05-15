@@ -144,7 +144,7 @@
 										{% else %}
 											{% if auction %}
 							                	<div class="badge badge_on_sale m-0 mr-3">
-							                    	<span class="d-flex">
+							                    		<span class="d-flex">
 							                    		{% set left = 1 + (strptime(prod.endDate, '%Y-%m-%d') - now()).days %}
 							                    		{% if left < 0 %}
 							                    			Terminada
@@ -197,6 +197,7 @@
 											</p>
 										</div>
 										{% if auction == True %}
+										{% if winner == -1 %}
 										<h3 class="mt-5">Realizar una puja</h3>
 										<form action="#" class="bid_form" id="bid_form" method="post">
 											<div class="start justify-content-lg-between justify-content-start">
@@ -221,6 +222,12 @@
 												</div>
 											</div>
 										</form>
+										{% else %} 
+										<h3 class="mt-5">Subasta Terminada</h3>
+										{% if prod.owner.idUsuario == userauth.user_id %}
+										<li>Eres el propietario, contactar con el ganador (falta completar)</li>
+										{% endif %}
+										{% endif %}
 										{% endif %}
 										<h3 class="mt-5">Acerca del vendedor</h3>
 										<div class="prop_agent d-flex flex-row align-items-center justify-content-start">
