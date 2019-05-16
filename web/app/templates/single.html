@@ -197,7 +197,7 @@
 											</p>
 										</div>
 										{% if auction == True %}
-										{% if winner == -1 %}
+										{% if finSub == 0 %}
 										<h3 class="mt-5">Realizar una puja</h3>
 										<form action="#" class="bid_form" id="bid_form" method="post">
 											<div class="start justify-content-lg-between justify-content-start">
@@ -225,7 +225,11 @@
 										{% else %} 
 										<h3 class="mt-5">Subasta Terminada</h3>
 										{% if prod.owner.idUsuario == userauth.user_id %}
-										<li>Eres el propietario, contactar con el ganador (falta completar)</li>
+										{% if winnerId >= 0 %}
+										<button class="main_button mx-2" onclick="abrirChatGan()">
+											Contactar ganador
+										</button>
+										{% endif %}
 										{% endif %}
 										{% endif %}
 										{% endif %}
@@ -287,6 +291,7 @@
 		<script type="text/javascript">
 			var cliID = {{userauth.user_id}};
 			var anunID = {{prod.owner.idUsuario}};
+			var ganId = {{winnerId}}
 		</script>
 		{% if auction == 1 %}
 		<script type="text/javascript">

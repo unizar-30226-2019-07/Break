@@ -250,6 +250,26 @@ function abrirChat() {
     }
 }
 
+/********************
+ Abrir chat con el ganador de la subasta
+ *******************/
+function abrirChatGan() {
+    db = initializeFirebase();
+
+    var tipoProducto = "sale";
+    if(auction){
+        tipoProducto = "auction";
+    }
+
+    var respuesta = db.collection("chat").doc("p" + productID + "_a" + ganId + "_c" + cliID).set({
+        fechaUltimoMensaje: new Date(),idAnunciante: anunID, idCliente: cliID, idProducto: productID,
+        tipoProducto: tipoProducto, ultimoMensaje: "",visible: [cliID]
+    });
+
+    if(respuesta){
+        redirigirChat();
+    }
+}
 function redirigirChat() {
     window.location.href = "/chat";
 }

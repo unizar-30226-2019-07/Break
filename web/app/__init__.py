@@ -44,7 +44,7 @@ from app.models import User
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # URL of the API
-url = 'http://35.234.77.87:8080'
+url = 'https://selit.naval.cat:8443'
 
 app.jinja_env.globals['api'] = url
 
@@ -844,6 +844,7 @@ def get_auction(prod_id):
     errorNum = 0
     errorNoLogin = 0
     winnerId = - 1
+    finSub = 0
     if current_user.is_authenticated:
         usuario = requests.get(url=url + '/users/' + str(current_user.user_id),
                                headers={'Authorization': current_user.id})
@@ -857,11 +858,13 @@ def get_auction(prod_id):
         lng = localizacion['lng']
         lat = localizacion['lat']
 
+    response_sell = requests.put(url + "/auctions/" + str(prod_id) + "/sell")
+    if len(response_sell.text) > 0:
+        if json.loads(response_sell.text)['amount'] > 0:
+            winnerId = int(json.loads(response_sell.text)['bidder']['idUsuario'])
+        finSub = 1
     if current_user.is_authenticated:
         response = requests.get(url + "/auctions/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat) + "&token=yes", headers={'Authorization': current_user.id})
-        response_sell = requests.put(url + "/auctions/" + str(prod_id) + "/sell", headers={'Authorization': current_user.id})
-        if len(response_sell.text) > 0:
-            winnerId = int(json.loads(response_sell.text)['bidder']['idUsuario'])
     else:
         response = requests.get(url + "/auctions/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat))
 
@@ -910,7 +913,7 @@ def get_auction(prod_id):
             response = requests.get(url + "/auctions/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat) + "&token=yes", headers={'Authorization': current_user.id})
             prod = json.loads(response.text)
 
-    return render_template("single.html", userauth=current_user, prod=prod, map=mymap, auction=True, form=form, errorNum=errorNum, errorNoLogin=errorNoLogin, winner=int(winnerId))
+    return render_template("single.html", userauth=current_user, prod=prod, map=mymap, auction=True, form=form, errorNum=errorNum, errorNoLogin=errorNoLogin, winner=int(winnerId), finSub=int(finSub))
 
 @app.route('/auction/<prod_id>/review', methods=['GET', 'POST'])
 def review_auction(prod_id):
