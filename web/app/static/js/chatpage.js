@@ -25,6 +25,7 @@ class Message {
 // ----------------------------------------------------
 const chatBody = $(document);
 const chatRoomsList = $('#rooms');
+const chatMessages = $('#chat-msgs');
 const chatReplyMessage = $('#replyMessage');
 const chatScrollMessageDiv = "msg_scroll";
 
@@ -52,7 +53,18 @@ $(document)
  * Limpiar los mensajes del chat
  */
 function clearChatMessages() {
-    $('#chat-msgs').html('');
+    chatMessages.html('');
+}
+
+/**
+ * Mostrar día de los mensajes.
+ */
+function displayDateMessage(fecha){
+    chatMessages.append(
+        `<div class="messages-bubble-date">
+            ${fecha}
+        </div>`
+    );
 }
 
 /**
@@ -68,39 +80,28 @@ function displayChatMessage(message, fechaUltimoMensaje) {
 
         [tiempo, dd, mm, yyyy] = convertTimestamp(message.fecha);
 
-        if (fechaUltimoMensaje !== undefined) {
+        // Mostrar el día cuando este cambia. Se muestra entre dos mensajes:
+        if (fechaUltimoMensaje === undefined) {
+            displayDateMessage(dd + '-' + mm + '-' + yyyy);
+        }
+        else {
             [fechaAntes, ddAntes, mmAntes, yyyyAntes] = convertTimestamp(fechaUltimoMensaje);
             if (ddAntes !== dd || mmAntes !== mm || yyyyAntes !== yyyy) {
-                var fecha = dd + '-' + mm + '-' + yyyy;
-                $('#chat-msgs').append(
-                    `
-                    <div class="messages-bubble-date">
-                        ${fecha}
-                    </div>
-                `
-                );
+                displayDateMessage(dd + '-' + mm + '-' + yyyy);
             }
-        } else {
-            var fecha = dd + '-' + mm + '-' + yyyy;
-            $('#chat-msgs').append(
-                `
-                <div class="messages-bubble-date">
-                    ${fecha}
-                </div>
-            `
-            );
         }
-
 
         $('#chat-msgs').append(
             `<div class="col-12">
                 <div class="messages-bubble ${envio}-bubble" id="${message.id}">
                         <div>${message.contenido}</div>
-                        <div class="me-bubble-date"> ${message.estado}@ <span class="date">${tiempo}</span></div>
+                        <div class="me-bubble-date"> 
+                            <span id="${message.id}-estado">${message.estado}</span> 
+                            <span class="date">${tiempo}</span>
+                        </div>
                         <div class="${envio}-bubble-ds-arrow"></div>
                 </div>
-            </div>
-                `
+            </div>`
         );
 
         var objDiv = document.getElementById(chatScrollMessageDiv);
@@ -108,6 +109,9 @@ function displayChatMessage(message, fechaUltimoMensaje) {
     }
 }
 
+/**
+ * Convertir timestamp a tiempo legible.
+ */
 function convertTimestamp(timestamp) {
     var d = new Date(timestamp.seconds * 1000);	// Convert the passed timestamp to milliseconds
     var yyyy = d.getFullYear();
@@ -116,9 +120,9 @@ function convertTimestamp(timestamp) {
     var hh = d.getHours();
     var h = hh;
     var min = ('0' + d.getMinutes()).slice(-2);		// Add leading 0.
-    //var ampm = 'AM';
 
     /* American version:
+    var ampm = 'AM';
     if (hh > 12) {
         h = hh - 12;
         ampm = 'PM';
@@ -129,7 +133,6 @@ function convertTimestamp(timestamp) {
         h = 12;
     }*/
 
-    // ie: 2013-02-18, 8:35 AM
     var time = h + ':' + min; // + ' ' + ampm
 
     return [time, dd, mm, yyyy];
@@ -182,6 +185,9 @@ function loadChatRoom(evt) {
     evt.preventDefault();
 }
 
+/**
+ * Carga el contenido de un chat. El otro usuario (arriba) y los mensajes.
+ */
 function mostrarChatRoom(response, [roomId, esSubasta]) {
     producto = JSON.parse(response);
 
@@ -193,20 +199,14 @@ function mostrarChatRoom(response, [roomId, esSubasta]) {
     }
 
 
-    $('#other_user').html('')
-
-    $('#other_user').append(
-        `<div class="user-bubble row">
+    $('#other_user').html(`<div class="user-bubble row">
         <div class="col-3 user-image"
             style="background-image: url(${imagen})"></div>
          <div class="col-8 row">
             <strong class="title-bubble-white">${producto.owner.first_name} ${producto.owner.last_name}</strong>   
          </div>     
-    </div>`
-    );
+    </div>`);
 
-
-// Mensajes pruebas creados para probar la interfaz
     refMensajes = db.collection("chat").doc(roomId).collection("mensaje").orderBy("fecha");
 
     var fechaAnterior = undefined;
@@ -227,11 +227,17 @@ function mostrarChatRoom(response, [roomId, esSubasta]) {
                     }
                     fechaAnterior = fecha;
                 }
-                /*
                 if (change.type === "modified") {
                     // Mensaje modificado.
-                    // No hace nada. Si en el futuro se quiere implementar algo
+                    var estadoId = change.doc.id + "-estado";
+                    var estado = change.doc.get("estado");
+
+                    $('#' + estadoId).html(estado);
+
+
+
                 }
+                /*
                 if (change.type === "removed") {
                     // Mensaje eliminado
                     // No hace nada. Si en el futuro se quiere implementar algo
@@ -262,6 +268,15 @@ function replyMessage(evt) {
         refChat.update({
             fechaUltimoMensaje: date,
             ultimoMensaje: message
+        });
+
+        refProducto.get().then(function (doc) {
+            var otherId = ((myID === cliID) ? anunID : cliID);
+            if (!doc.get("visible").includes(otherId)) {
+                refChat.update({
+                    visible: firebase.firestore.FieldValue.arrayUnion(otherId)
+                });
+            }
         });
 
 
@@ -335,20 +350,22 @@ function loadChatManager() {
                         }
                     }
                 }
-                /*
                 if (change.type === "removed") {
-
+                    // Si se elimina el chat:
+                    document.getElementById(change.doc.id).remove();
                 }
-                */
             });
         });
 }
 
-
+/**
+ * Mostrar un chat.
+ * @param response
+ * @param doc
+ * @param esSubasta
+ */
 function mostrarChatBubble(response, [doc, esSubasta]) {
     producto = JSON.parse(response);
-
-
     if (producto.status === "en venta") {
         try {
             imagen = API + '/pictures/' + (producto.media[0].idImagen);
@@ -364,7 +381,7 @@ function mostrarChatBubble(response, [doc, esSubasta]) {
 
         var ultimoMensaje = doc.get("ultimoMensaje");
 
-        $('#rooms').prepend(
+        chatRoomsList.prepend(
             `<a href="#" onclick="return false;" id="${doc.id}" name="${idProducto}">
                 <div class="producto-bubble row">
          
@@ -381,6 +398,9 @@ function mostrarChatBubble(response, [doc, esSubasta]) {
     }
 }
 
+/**
+ * Buscar títulos y personas en los chats.
+ */
 function searchChats() {
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("inputSearchChat");
