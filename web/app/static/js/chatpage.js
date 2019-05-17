@@ -3,7 +3,7 @@
 // ----------------------------------------------------
 var db;
 var myID;
-const API = "http://35.234.77.87:8080";
+const API = "https://selit.naval.cat:8443";
 const TIMEOUT = 5000;
 
 var productoActual;
