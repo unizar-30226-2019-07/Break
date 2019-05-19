@@ -9,6 +9,9 @@ const TIMEOUT = 5000;
 var productoActual;
 var anunID;
 var cliID;
+var otherId;
+
+var escucharMensajes;
 
 class Message {
     constructor(id, contenido, estado, fecha, idEmisor) {
@@ -59,7 +62,7 @@ function clearChatMessages() {
 /**
  * Mostrar día de los mensajes.
  */
-function displayDateMessage(fecha){
+function displayDateMessage(fecha) {
     chatMessages.append(
         `<div class="messages-bubble-date">
             ${fecha}
@@ -73,33 +76,33 @@ function displayDateMessage(fecha){
 function displayChatMessage(message, fechaUltimoMensaje) {
     // Si el mensaje no está
     if (document.getElementById(message.id) === null) {
-        var envio = "sender";
-        if (message.idEmisor === myID) {
-            envio = "me";
-        }
+        // Quien manda el mensaje
+        var envio = (message.idEmisor === myID ? "me" : "sender");
 
         [tiempo, dd, mm, yyyy] = convertTimestamp(message.fecha);
 
         // Mostrar el día cuando este cambia. Se muestra entre dos mensajes:
         if (fechaUltimoMensaje === undefined) {
             displayDateMessage(dd + '-' + mm + '-' + yyyy);
-        }
-        else {
+        } else {
             [fechaAntes, ddAntes, mmAntes, yyyyAntes] = convertTimestamp(fechaUltimoMensaje);
             if (ddAntes !== dd || mmAntes !== mm || yyyyAntes !== yyyy) {
                 displayDateMessage(dd + '-' + mm + '-' + yyyy);
             }
         }
 
+        // Si el mensaje ha sido recibido o no.
+        var estado = (message.estado === "recibido" ? '<i class="fas fa-check-double"></i>' : '<i class="fas fa-check"></i>');
+
         $('#chat-msgs').append(
             `<div class="col-12">
                 <div class="messages-bubble ${envio}-bubble" id="${message.id}">
-                        <div>${message.contenido}</div>
-                        <div class="me-bubble-date"> 
-                            <span id="${message.id}-estado">${message.estado}</span> 
-                            <span class="date">${tiempo}</span>
-                        </div>
-                        <div class="${envio}-bubble-ds-arrow"></div>
+                     <div>${message.contenido}</div>
+                     <div class="me-bubble-date"> 
+                        <span id="${message.id}-estado">${estado}</span> 
+                        <span class="date">${tiempo}</span>
+                     </div>
+                     <div class="${envio}-bubble-ds-arrow"></div>
                 </div>
             </div>`
         );
@@ -142,6 +145,10 @@ function convertTimestamp(timestamp) {
  * Cargar to_dos los mensajes de un chat
  */
 function loadChatRoom(evt) {
+    // Dejamos de escuchar mensajes (si estabamos).
+    if(escucharMensajes !== undefined){
+        escucharMensajes();
+    }
     // Limpiamos los mensajes del html.
     clearChatMessages();
 
@@ -162,6 +169,7 @@ function loadChatRoom(evt) {
                 productoActual = producto.idProducto;
                 cliID = producto.idCliente;
                 anunID = producto.idAnunciante;
+                otherId = ((myID === cliID) ? anunID : cliID);
                 tipoProducto = producto.tipoProducto;
 
             } else {
@@ -185,32 +193,19 @@ function loadChatRoom(evt) {
     evt.preventDefault();
 }
 
+
 /**
  * Carga el contenido de un chat. El otro usuario (arriba) y los mensajes.
  */
 function mostrarChatRoom(response, [roomId, esSubasta]) {
     producto = JSON.parse(response);
 
-    // Mostrar el usuario con el que se conversa en la parte superior
-    if (producto.owner.picture.idImagen !== null) {
-        imagen = API + '/pictures/' + (producto.owner.picture.idImagen);
-    } else {
-        imagen = "gravatar.get(" + producto.owner.email + ")";
-    }
+    httpGet(API + "/users/" + otherId, mostrarOtroUsuario, [producto]);
 
-
-    $('#other_user').html(`<div class="user-bubble row">
-        <div class="col-3 user-image"
-            style="background-image: url(${imagen})"></div>
-         <div class="col-8 row">
-            <strong class="title-bubble-white">${producto.owner.first_name} ${producto.owner.last_name}</strong>   
-         </div>     
-    </div>`);
-
-    refMensajes = db.collection("chat").doc(roomId).collection("mensaje").orderBy("fecha");
+    var refMensajes = db.collection("chat").doc(roomId).collection("mensaje").orderBy("fecha");
 
     var fechaAnterior = undefined;
-    refMensajes
+    escucharMensajes = refMensajes
         .onSnapshot(function (snapshot) {
             snapshot.docChanges().forEach(function (change) {
                 if (change.type === "added") {
@@ -230,11 +225,9 @@ function mostrarChatRoom(response, [roomId, esSubasta]) {
                 if (change.type === "modified") {
                     // Mensaje modificado.
                     var estadoId = change.doc.id + "-estado";
-                    var estado = change.doc.get("estado");
+                    var estado = (change.doc.get("estado") === "recibido" ? '<i class="fas fa-check-double"></i>' : '<i class="fas fa-check"></i>');
 
                     $('#' + estadoId).html(estado);
-
-
 
                 }
                 /*
@@ -245,6 +238,29 @@ function mostrarChatRoom(response, [roomId, esSubasta]) {
                 */
             });
         });
+}
+
+
+function mostrarOtroUsuario(response, [producto]) {
+    usuario = JSON.parse(response);
+
+    console.log(usuario);
+
+    // Mostrar el usuario con el que se conversa en la parte superior
+    if (usuario.picture.idImagen !== null) {
+        imagen = API + '/pictures/' + (usuario.picture.idImagen);
+    } else {
+        imagen = "gravatar.get(" + usuario.email + ")";
+    }
+
+    $('#other_user').html(
+        `<a href="/user/${usuario.idUsuario}" class="user-bubble row">
+        <div class="col-3 user-image" style="background-image: url(${imagen})"></div>
+         <div class="col-8 row">
+            <strong class="title-bubble-white">${usuario.first_name} ${usuario.last_name}</strong>
+         </div>
+    </a>`);
+
 }
 
 
@@ -261,9 +277,6 @@ function replyMessage(evt) {
     if (message !== "") {
         var date = new Date();
 
-        //displayChatMessage(msg);
-        console.log("p" + productoActual + "_a" + anunID + "_c" + cliID);
-
         refChat = db.collection("chat").doc("p" + productoActual + "_a" + anunID + "_c" + cliID);
         refChat.update({
             fechaUltimoMensaje: date,
@@ -271,7 +284,6 @@ function replyMessage(evt) {
         });
 
         refProducto.get().then(function (doc) {
-            var otherId = ((myID === cliID) ? anunID : cliID);
             if (!doc.get("visible").includes(otherId)) {
                 refChat.update({
                     visible: firebase.firestore.FieldValue.arrayUnion(otherId)
@@ -303,51 +315,43 @@ function replyMessage(evt) {
  */
 function loadChatManager() {
     // Obtener todos los chats y poner un link en la sidebar...
-    refChats = db.collection("chat").orderBy("fechaUltimoMensaje");
+    refChats = db.collection("chat").orderBy("fechaUltimoMensaje").where('visible', 'array-contains', myID);
 
     refChats
         .onSnapshot(function (snapshot) {
             snapshot.docChanges().forEach(function (change) {
                 if (change.type === "added") {
-                    var visible = change.doc.get("visible");
-                    if (visible.includes(myID)) {
-                        var idProducto = change.doc.get("idProducto");
-                        var tipoProducto = change.doc.get("tipoProducto");
+                    var idProducto = change.doc.get("idProducto");
+                    var tipoProducto = change.doc.get("tipoProducto");
 
-                        try {
+                    try {
 
-                            if (tipoProducto === "sale") {
-                                httpGet(API + "/products/" + idProducto, mostrarChatBubble, [change.doc, false]);
-                            } else {
-                                httpGet(API + "/auctions/" + idProducto, mostrarChatBubble, [change.doc, true]);
-                            }
-                        } catch
-                            (err) {
-                            console.log("Fallo al cargar elemento");
-                            console.log(err);
+                        if (tipoProducto === "sale") {
+                            httpGet(API + "/products/" + idProducto, mostrarChatBubble, [change.doc, false]);
+                        } else {
+                            httpGet(API + "/auctions/" + idProducto, mostrarChatBubble, [change.doc, true]);
                         }
+                    } catch
+                        (err) {
+                        console.log("Fallo al cargar elemento");
+                        console.log(err);
                     }
                 }
                 if (change.type === "modified") {
                     document.getElementById(change.doc.id).remove();
-                    console.log(change.doc.id);
-                    var visible = change.doc.get("visible");
-                    if (visible.includes(myID)) {
-                        var idProducto = change.doc.get("idProducto");
-                        var tipoProducto = change.doc.get("tipoProducto");
+                    var idProducto = change.doc.get("idProducto");
+                    var tipoProducto = change.doc.get("tipoProducto");
 
-                        try {
-
-                            if (tipoProducto === "sale") {
-                                httpGet(API + "/products/" + idProducto, mostrarChatBubble, [change.doc, false]);
-                            } else {
-                                httpGet(API + "/auctions/" + idProducto, mostrarChatBubble, [change.doc, true]);
-                            }
-                        } catch
-                            (err) {
-                            console.log("Fallo al cargar elemento");
-                            console.log(err);
+                    try {
+                        if (tipoProducto === "sale") {
+                            httpGet(API + "/products/" + idProducto, mostrarChatBubble, [change.doc, false]);
+                        } else {
+                            httpGet(API + "/auctions/" + idProducto, mostrarChatBubble, [change.doc, true]);
                         }
+                    } catch
+                        (err) {
+                        console.log("Fallo al cargar elemento");
+                        console.log(err);
                     }
                 }
                 if (change.type === "removed") {
@@ -373,11 +377,9 @@ function mostrarChatBubble(response, [doc, esSubasta]) {
             imagen = "static/images/items.svg";
         }
 
-        if (esSubasta) {
-            idProducto = producto.idSubasta;
-        } else {
-            idProducto = producto.id_producto;
-        }
+        var idProducto = ((esSubasta) ? producto.idSubasta : producto.id_producto);
+
+        var nombreVendedor = ((myID === producto.owner.idUsuario) ? "Mi producto" : producto.owner.first_name + producto.owner.last_name);
 
         var ultimoMensaje = doc.get("ultimoMensaje");
 
@@ -389,7 +391,7 @@ function mostrarChatBubble(response, [doc, esSubasta]) {
                         style="background-image: url(${imagen})"></div>
                     <div class="col-8 row">
                         <strong class="title-bubble">${producto.title}</strong>
-                        <strong class="subtitle-bubble">${producto.owner.first_name} ${producto.owner.last_name}</strong>
+                        <strong class="subtitle-bubble">${nombreVendedor}</strong>
                         <strong class="message-title-bubble">${ultimoMensaje}</strong>        
                     </div>     
                 </div>
@@ -441,8 +443,9 @@ function httpGet(sUrl, callback, cArguments) {
             }
         }
     };
-    xhr.open("GET", sUrl, false); // Poner a true y descomentar timeout para quitar warning (chats desordenados de tiempo)
-    //xhr.timeout = TIMEOUT;
+    xhr.open("GET", sUrl, true); // Poner a true y descomentar timeout para quitar warning (chats desordenados de tiempo)
+    xhr.setRequestHeader('Authorization', myAuthID);
+    xhr.timeout = TIMEOUT;
     xhr.send(null);
 }
 
@@ -473,6 +476,7 @@ function initializeFirebase() {
     var app = firebase.initializeApp(config);
     db = firebase.firestore(app);
 
+    /*
     const messaging = firebase.messaging();
     messaging.requestPermission()
         .then(function () {
@@ -490,4 +494,5 @@ function initializeFirebase() {
     messaging.onMessage(function (payload) {
         console.log('onMessage: ', payload);
     })
+    */
 }

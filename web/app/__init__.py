@@ -1174,7 +1174,7 @@ def chat():
         else:
             user = json.loads(response.text)
 
-        return render_template("chatpage.html", userauth=current_user, user=user)
+        return render_template("chatpage.html", userauth=current_user)
     else:
         return redirect(url_for('login'))
 
