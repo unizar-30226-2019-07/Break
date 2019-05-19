@@ -1018,6 +1018,9 @@ def user(user_id):
         auctions_wishlist = []
 
     response = requests.get(url=url + '/users/' + str(user_id), headers=headers)
+    print(response.text)
+    if response.status_code == 403:
+        return redirect('/login')
     if app.debug:
         if response.status_code != 200:
             print(response.text)
