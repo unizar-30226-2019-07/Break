@@ -254,12 +254,29 @@ function mostrarOtroUsuario(response, [producto]) {
     }
 
     $('#other_user').html(
-        `<a href="/user/${usuario.idUsuario}" class="user-bubble row">
-        <div class="col-3 user-image" style="background-image: url(${imagen})"></div>
-         <div class="col-8 row">
-            <strong class="title-bubble-white">${usuario.first_name} ${usuario.last_name}</strong>
-         </div>
-    </a>`);
+        `
+        <div class="row user-bubble">
+            <a href="/user/${usuario.idUsuario}" class="col-5">
+                <div class="row center-vertically">
+                    <div class="col user-image" style="background-image: url(${imagen})"></div>
+                    <strong class="col title-bubble-white chat-user-name">${usuario.first_name} ${usuario.last_name}</strong>
+                </div>
+            </a>
+            <div class="col-6"></div>
+            <div class="col-1">
+                <div class="dropdown">
+                  <button class="chat-user-options dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v"></i>
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#"><i class="fas fa-euro-sign"></i> Verder Producto</a>
+                    <a class="dropdown-item" href="#"><i class="far fa-flag"></i> Reportar Usuario</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-times"></i> Eliminar Chat</a>
+                  </div>
+                </div>
+            </div>
+        </div>    
+    `);
 
 }
 
@@ -460,6 +477,13 @@ NodeList.prototype.remove = HTMLCollection.prototype.remove = function () {
         }
     }
 }
+
+$(function(){
+  $('body').on('click', '.producto-bubble', function(){
+    $('.producto-bubble').removeClass('active');
+    $(this).closest('.producto-bubble').addClass('active');
+  });
+});
 
 
 function initializeFirebase() {

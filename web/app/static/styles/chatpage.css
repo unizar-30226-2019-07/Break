@@ -11,7 +11,7 @@
 
 .sidebar {
     z-index: 1;
-    padding: 0px 0;
+    padding: 0 0;
 
     border-right: 1px solid #eee;
     height: 100%;
@@ -80,13 +80,12 @@
 
     font-size: 1.2rem;
     line-height: 1.3;
-    margin: 0 auto 5px;
+    margin: 0 4px 5px auto;
     max-width: 400px;
     padding: 10px;
     display: flex;
     align-items: center;
 
-    margin-right: 4px;
     position: relative;
     top: 0;
 
@@ -100,9 +99,13 @@
 .producto-bubble:hover {
     top: -8px;
 
-    -webkit-box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3);
-    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3);
-    box-shadow: inset 0 0 20px 20px rgba(98, 115, 112, 0.3);
+    -webkit-box-shadow: inset 0 0 20px 20px rgba(136, 123, 121, 0.3);
+    box-shadow: inset 0 0 20px 20px rgba(136, 123, 121, 0.3);
+}
+
+.producto-bubble.active {
+    -webkit-box-shadow: inset 0 0 20px 20px rgba(136, 123, 121, 0.3);
+    box-shadow: inset 0 0 20px 20px rgba(136, 123, 121, 0.3);
 }
 
 .producto-bubble strong {
@@ -177,7 +180,6 @@
     font-size: 1.2rem;
     line-height: 1.3;
     margin: 5px 5px auto;
-    max-width: 400px;
     padding: 5px;
     display: flex;
     align-items: center;
@@ -193,8 +195,8 @@
 .user-image {
     height: 65px;
     width: 65px;
+    min-width: 65px;
     max-width: 65px;
-    display: inline-block;
     margin-right: 10px;
 
     background-color: white; /*#FCF9FA*/
@@ -208,6 +210,39 @@
 
     -webkit-box-shadow: 0 10px 30px 0 rgba(42, 54, 63, 0.3);
     box-shadow: 0 10px 30px 0 rgba(42, 54, 63, 0.3);
+}
+
+.chat-user-name {
+    overflow: hidden;
+    width: 110%;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.center-vertically{
+    display: flex;
+    align-items: center;
+}
+
+.chat-user-options {
+    padding: 15px;
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.chat-user-options:focus,
+.chat-user-options:hover {
+    color: white;
+    background-color: var(--secondaryColor);
+    -webkit-box-shadow: 0 10px 45px 0 rgba(231, 76, 60, 0.6);
+    box-shadow: 0 10px 45px 0 rgba(231, 76, 60, 0.6);
+}
+
+.dropdown-toggle::after {
+    display:none;
 }
 
 .chat-title-text {
@@ -249,8 +284,8 @@
     border-width: 5px 0 5px;
 
     z-index: 1;
-    -webkit-box-shadow: 0px 5px 5px 2px rgba(221, 234, 243, 0.3);
-    box-shadow: 0px 5px 5px 2px rgba(221, 234, 243, 0.3)
+    -webkit-box-shadow: 0 5px 5px 2px rgba(221, 234, 243, 0.3);
+    box-shadow: 0 5px 5px 2px rgba(221, 234, 243, 0.3)
 }
 
 .chat-headerspace-diagonal {
@@ -304,8 +339,8 @@
     font-size: 14px;
     font-weight: 700;
     margin-bottom: 18px;
-    -webkit-box-shadow: 0 0px 5px 0 rgba(231, 76, 60, 0.3);
-    box-shadow: 0 0px 5px 0 rgba(231, 76, 60, 0.3);
+    -webkit-box-shadow: 0 0 5px 0 rgba(231, 76, 60, 0.3);
+    box-shadow: 0 0 5px 0 rgba(231, 76, 60, 0.3);
 }
 
 .messages-bubble-date {
@@ -314,7 +349,7 @@
     padding: 5px;
     background-color: #f5e7e7;
     border-radius: 5px;
-    -webkit-box-shadow: 0 0px 5px 0 rgba(245, 231, 231, 0.8);
+    -webkit-box-shadow: 0 0 5px 0 rgba(245, 231, 231, 0.8);
     box-shadow: 0 1px 5px 0 rgba(245, 231, 231, 0.8);
 }
 
@@ -351,7 +386,7 @@
     color: white;
     background-color: var(--primaryColor);
     border-radius: 5px 5px 0 5px;
-    -webkit-box-shadow: 0 0px 5px 0 rgba(231, 76, 60, 0.45);
+    -webkit-box-shadow: 0 0 5px 0 rgba(231, 76, 60, 0.45);
     box-shadow: 0 1px 5px 0 rgba(231, 76, 60, 0.45);
     margin-right: 22px;
 }
@@ -389,10 +424,10 @@
 .send-square {
     height: 100%;
     max-height: 100%;
-    padding: 10px 0px 10px 0px;
-    -webkit-box-shadow: 0px -5px 5px 0px rgba(231, 76, 60, 0.3);
-    -moz-box-shadow: 0px -5px 5px 0px rgba(231, 76, 60, 0.3);
-    box-shadow: 0px -5px 5px 0px rgba(231, 76, 60, 0.3);
+    padding: 10px 0 10px 0;
+    -webkit-box-shadow: 0 -5px 5px 0 rgba(231, 76, 60, 0.3);
+    -moz-box-shadow: 0 -5px 5px 0 rgba(231, 76, 60, 0.3);
+    box-shadow: 0 -5px 5px 0 rgba(231, 76, 60, 0.3);
 
 }
 
@@ -419,7 +454,7 @@
 
 .send_button {
     height: 51px;
-    padding: 0px 10px 0px 10px;
+    padding: 0 10px 0 10px;
     background: var(--primaryColor);
     border: none;
     outline: none;
@@ -437,6 +472,12 @@
     background-color: var(--secondaryColor);
     -webkit-box-shadow: 0 10px 45px 0 rgba(231, 76, 60, 0.6);
     box-shadow: 0 10px 45px 0 rgba(231, 76, 60, 0.6);
+}
+
+.send_button.active {
+    background-color: var(--secondaryColor);
+    -webkit-box-shadow: 0 10px 20px 0 rgba(231, 76, 60, 0.6);
+    box-shadow: 0 10px 20px 0 rgba(231, 76, 60, 0.6);
 }
 
 .search_chat_input {
@@ -479,4 +520,8 @@ input::placeholder {
     text-rendering: auto;
     line-height: 1;
     font-weight: 900;
+}
+
+.send_button input{
+    display: none;
 }
