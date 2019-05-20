@@ -269,7 +269,7 @@ function mostrarOtroUsuario(response, [producto]) {
                     <i class="fas fa-ellipsis-v"></i>
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#"><i class="fas fa-euro-sign"></i> Verder Producto</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-euro-sign"></i> Vender Producto</a>
                     <a class="dropdown-item" href="#"><i class="far fa-flag"></i> Reportar Usuario</a>
                     <a class="dropdown-item" href="#"><i class="fas fa-times"></i> Eliminar Chat</a>
                   </div>
@@ -500,7 +500,6 @@ function initializeFirebase() {
     var app = firebase.initializeApp(config);
     db = firebase.firestore(app);
 
-    /*
     const messaging = firebase.messaging();
     messaging.requestPermission()
         .then(function () {
@@ -518,5 +517,5 @@ function initializeFirebase() {
     messaging.onMessage(function (payload) {
         console.log('onMessage: ', payload);
     })
-    */
+
 }
