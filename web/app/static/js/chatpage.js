@@ -10,6 +10,7 @@ var productoActual;
 var anunID;
 var cliID;
 var otherId;
+var tipoProducto;
 
 var escucharMensajes;
 
@@ -155,7 +156,6 @@ function loadChatRoom(evt) {
     // Id del producto pulsado
     var roomId = evt.currentTarget.id;
     var productId = evt.currentTarget.name;
-    var tipoProducto;
 
     if (roomId !== undefined) {
         $('.response').show();
@@ -294,7 +294,9 @@ function replyMessage(evt) {
     if (message !== "") {
         var date = new Date();
 
-        refChat = db.collection("chat").doc("p" + productoActual + "_a" + anunID + "_c" + cliID);
+        var tipo = (tipoProducto === "sale") ? "p" : "s";
+
+        refChat = db.collection("chat").doc(tipo + productoActual + "_a" + anunID + "_c" + cliID);
         refChat.update({
             fechaUltimoMensaje: date,
             ultimoMensaje: message
@@ -339,11 +341,11 @@ function loadChatManager() {
             snapshot.docChanges().forEach(function (change) {
                 if (change.type === "added") {
                     var idProducto = change.doc.get("idProducto");
-                    var tipoProducto = change.doc.get("tipoProducto");
+                    var tipoProd = change.doc.get("tipoProducto");
 
                     try {
 
-                        if (tipoProducto === "sale") {
+                        if (tipoProd === "sale") {
                             httpGet(API + "/products/" + idProducto, mostrarChatBubble, [change.doc, false]);
                         } else {
                             httpGet(API + "/auctions/" + idProducto, mostrarChatBubble, [change.doc, true]);
@@ -357,10 +359,10 @@ function loadChatManager() {
                 if (change.type === "modified") {
                     document.getElementById(change.doc.id).remove();
                     var idProducto = change.doc.get("idProducto");
-                    var tipoProducto = change.doc.get("tipoProducto");
+                    var tipoProd = change.doc.get("tipoProducto");
 
                     try {
-                        if (tipoProducto === "sale") {
+                        if (tipoProd === "sale") {
                             httpGet(API + "/products/" + idProducto, mostrarChatBubble, [change.doc, false]);
                         } else {
                             httpGet(API + "/auctions/" + idProducto, mostrarChatBubble, [change.doc, true]);

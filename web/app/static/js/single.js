@@ -222,7 +222,7 @@ function redirigirEditarProducto(isAuction) {
  Borrar anuncio
  **********************/
 function redirigirBorrarProducto(isAuction) {
-	if (isAuction == true) {
+	if (isAuction === true) {
 		window.location.href = "/single/" + productID + "/delete?isAuction=1";
 	}
 	else {
@@ -236,11 +236,13 @@ function abrirChat() {
     db = initializeFirebase();
 
     var tipoProducto = "sale";
-    if(auction){
+    var tipo = "p";
+    if(auction) {
         tipoProducto = "auction";
+        tipo = "s";
     }
 
-    var respuesta = db.collection("chat").doc("p" + productID + "_a" + anunID + "_c" + cliID).set({
+    var respuesta = db.collection("chat").doc(tipo + productID + "_a" + anunID + "_c" + cliID).set({
         fechaUltimoMensaje: new Date(),idAnunciante: anunID, idCliente: cliID, idProducto: productID,
         tipoProducto: tipoProducto, ultimoMensaje: "",visible: [cliID]
     });
