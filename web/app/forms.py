@@ -171,3 +171,15 @@ class Review(FlaskForm):
 class bidPlacementForm(FlaskForm):
     amount = IntegerField('Cantidad')
     submit = SubmitField('Realizar Puja')
+
+class reportForm(Form):
+    category = SelectField('Categoría', 
+        choices = [ 
+            ('Sospecha de fraude', 'Sospecha de fraude'),
+            ('No acudió a la cita', 'No acudió a la cita'),
+            ('Mal comportamiento', 'Mal comportamiento'),
+            ('Artículo defectuoso', 'Artículo defectuoso'), 
+            ('Otros', 'Otros')])
+    description = TextAreaField('Descripción del informe', [
+        validators.DataRequired(message='Es necesario escribir una descripción')])
+    submit = SubmitField('Publicar Informe')

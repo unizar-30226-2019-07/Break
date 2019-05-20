@@ -256,13 +256,10 @@ function abrirChat() {
 function abrirChatGan() {
     db = initializeFirebase();
 
-    var tipoProducto = "sale";
-    if(auction){
-        tipoProducto = "auction";
-    }
+    tipoProducto = "auction";
 
     var respuesta = db.collection("chat").doc("p" + productID + "_a" + ganId + "_c" + cliID).set({
-        fechaUltimoMensaje: new Date(),idAnunciante: anunID, idCliente: cliID, idProducto: productID,
+        fechaUltimoMensaje: new Date(),idAnunciante: ganId, idCliente: cliID, idProducto: productID,
         tipoProducto: tipoProducto, ultimoMensaje: "",visible: [cliID]
     });
 

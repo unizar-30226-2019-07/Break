@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Informe de Usuario</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="myHOME - real estate template project">
+
+		<!-- General links -->
+		{% include 'include/headLinks.html' %}
+
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/subirAnuncio.css') }}">
+	</head>
+	<body>
+
+		<div class="super_container">
+			<div class="super_overlay"></div>
+
+			<!-- Header -->
+			{% include 'include/header.html' %}
+
+			<!-- Title -->
+			<center>
+				<div class="title_container">
+					<div class="title">Informe de Usuario</div>
+				</div>
+			</center>
+
+
+			<!-- Formulario -->
+			<center class="container">
+
+				<form id="upload-form" action="" method="POST" enctype="multipart/form-data" novalidate>
+					<div class="row contact_form_row">
+						<div class="col">
+							<div class="contact_form_container">
+								<div class="row">
+									<div class="col-lg-12">
+										<strong>{{ form.category.label }}</strong><br>
+										{{ form.category() }}
+										{% for error in form.category.errors %}
+										<center>
+											<div class="alert alert-danger">
+												{{ error }}
+											</div>
+										</center>
+										{% endfor %}
+
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-12">
+										<strong>{{ form.description.label }}</strong><br>
+										{{ form.description(class="contact_textarea contact_input") }}
+										{% for error in form.description.errors %}
+										<center>
+											<div class="alert alert-danger">
+												{{ error }}
+											</div>
+										</center>
+										{% endfor %}
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					{{ form.submit(class="mb-5 main_button") }}
+				</form>
+
+
+			</center>
+
+			<!-- Footer  -->
+			{% include 'include/footer.html' %}
+		</div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+		<!-- General Scripts  -->
+		{% include 'include/scripts.html' %}
+
+		<script src="{{ url_for('static', filename = 'js/subirAnuncio.js') }}"></script>
+	</body>
+</html>

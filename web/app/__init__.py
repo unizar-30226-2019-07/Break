@@ -5,9 +5,10 @@ from werkzeug.utils import secure_filename
 
 from config import Config
 from app.forms import LoginForm, RegisterForm, EditProfile, EditEmail, EditPassword, EditLocation, SubirAnuncioForm, \
-    ProductSearch, EditPicture, Review, bidPlacementForm
+    ProductSearch, EditPicture, Review, bidPlacementForm, reportForm
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from datetime import datetime
 import requests
 
 # Para poder acceder a herramientas del sistema operativo
@@ -913,7 +914,7 @@ def get_auction(prod_id):
             response = requests.get(url + "/auctions/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat) + "&token=yes", headers={'Authorization': current_user.id})
             prod = json.loads(response.text)
 
-    return render_template("single.html", userauth=current_user, prod=prod, map=mymap, auction=True, form=form, errorNum=errorNum, errorNoLogin=errorNoLogin, winner=int(winnerId), finSub=int(finSub))
+    return render_template("single.html", userauth=current_user, prod=prod, map=mymap, auction=True, form=form, errorNum=errorNum, errorNoLogin=errorNoLogin, winnerId=int(winnerId), finSub=int(finSub))
 
 @app.route('/auction/<prod_id>/review', methods=['GET', 'POST'])
 def review_auction(prod_id):
@@ -1177,6 +1178,30 @@ def chat():
         return render_template("chatpage.html", userauth=current_user)
     else:
         return redirect(url_for('login'))
+
+@app.route('/report/<user_id>', methods=['GET', 'POST'])
+def report(user_id):
+    form = reportForm(request.form)
+    if request.method == 'POST':
+        print('a')
+        if form.validate():
+            print('b')
+            category = form.category.data
+            description = form.description.data
+            fecha = datetime.datetime.now().strftime('%Y-%m-%d')
+            # Create the report's JSON
+            informe = {'id_evaluado': user_id, 'id_informador': current_user.user_id, 'descripcion': description, 'fecha_realizacion': fecha,
+                       'asunto': category}
+
+            # Send the JSON to the API REST using the PUT method
+            response = requests.post(url=url + '/reports/' + str(user_id) + '/report', json=informe, headers={'Authorization': current_user.id})
+
+            print(response.text)
+            return redirect('/')
+
+        return render_template('report.html', form=form, userauth=current_user)
+
+    return render_template('report.html', form=reportForm(), userauth=current_user)
 
 
 @app.route('/firebase-messaging-sw.js')
