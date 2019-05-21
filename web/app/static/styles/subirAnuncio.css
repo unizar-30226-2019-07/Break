@@ -66,6 +66,7 @@
 
 .isAuctionLabel {
     display: block;
+    float: left;
     line-height: 36px;
     margin-left: 15px;
     font-size: 18px;
@@ -416,10 +417,13 @@ input:checked + .slider:before {
     padding: 20px 20px 15px;
     border-radius: 10px;
     border: solid 3px var(--clouds);
+    overflow: auto;
 }
 
 .auctionButton {
-    left: 75%
+    right: 15px;
+
+    float: right;
 }
 
 .calendar-input {
