@@ -2,6 +2,9 @@
 // Variables globales:
 // ----------------------------------------------------
 var db;
+var admin;
+var messaging;
+var myTokenMessage;
 var myID;
 const API = "https://selit.naval.cat:8443";
 const TIMEOUT = 5000;
@@ -13,6 +16,7 @@ var otherId;
 var tipoProducto;
 
 var escucharMensajes;
+
 
 class Message {
     constructor(id, contenido, estado, fecha, idEmisor) {
@@ -147,7 +151,7 @@ function convertTimestamp(timestamp) {
  */
 function loadChatRoom(evt) {
     // Dejamos de escuchar mensajes (si estabamos).
-    if(escucharMensajes !== undefined){
+    if (escucharMensajes !== undefined) {
         escucharMensajes();
     }
     // Limpiamos los mensajes del html.
@@ -325,6 +329,29 @@ function replyMessage(evt) {
 
         // Limpiar Barra:
         $('#replyMessage input').val('');
+
+        // This registration token comes from the client FCM SDKs.
+        var registrationToken = myTokenMessage;
+
+        var not = {
+            data: {
+                score: '850',
+                time: '2:45'
+            },
+            token: registrationToken
+        };
+
+        // Send a message to the device corresponding to the provided
+        // registration token.
+        admin.messaging().send(not)
+            .then((response) => {
+                // Response is a message ID string.
+                console.log('Successfully sent message:', response);
+            })
+            .catch((error) => {
+                console.log('Error sending message:', error);
+            });
+
     }
 }
 
@@ -480,13 +507,38 @@ NodeList.prototype.remove = HTMLCollection.prototype.remove = function () {
     }
 }
 
-$(function(){
-  $('body').on('click', '.producto-bubble', function(){
-    $('.producto-bubble').removeClass('active');
-    $(this).closest('.producto-bubble').addClass('active');
-  });
+$(function () {
+    $('body').on('click', '.producto-bubble', function () {
+        $('.producto-bubble').removeClass('active');
+        $(this).closest('.producto-bubble').addClass('active');
+    });
 });
 
+
+// Send the Instance ID token your application server, so that it can:
+// - send messages back to this app
+// - subscribe/unsubscribe the token from topics
+function sendTokenToServer(currentToken) {
+    if (!isTokenSentToServer()) {
+        console.log('Sending token to server...');
+        refNot = db.collection("userNotification").doc(myID.toString());
+        refNot.update({
+            tokenDesktop: currentToken
+        });
+        setTokenSentToServer(true);
+    } else {
+        console.log('Token already sent to server so won\'t send it again ' +
+            'unless it changes');
+    }
+}
+
+function isTokenSentToServer() {
+    return window.localStorage.getItem('sentToServer') === '1';
+}
+
+function setTokenSentToServer(sent) {
+    window.localStorage.setItem('sentToServer', sent ? '1' : '0');
+}
 
 function initializeFirebase() {
 
@@ -502,18 +554,20 @@ function initializeFirebase() {
     var app = firebase.initializeApp(config);
     db = firebase.firestore(app);
 
-    const messaging = firebase.messaging();
+    messaging = firebase.messaging();
     messaging.requestPermission()
         .then(function () {
-            console.log("Tenemos permiso");
-            console.log(messaging.getToken());
+            // El usuario ha aceptado que le mandemos notificaciones.
             return messaging.getToken();
         })
         .then(function (token) {
-            //console.log(token);
+            sendTokenToServer(token);
+            myTokenMessage = token;
         })
         .catch(function (err) {
-            console.log("Error Ocurred");
+            // El usuario NO ha aceptado que le mandemos notificaciones.
+            console.log("Acepta los permisos para poder obtener notificaciones de los mensajes.");
+            console.log(err);
         })
 
     messaging.onMessage(function (payload) {
