@@ -416,34 +416,33 @@ function loadChatManager() {
  */
 function mostrarChatBubble(response, [doc, esSubasta]) {
     producto = JSON.parse(response);
-    if (producto.status === "en venta") {
-        try {
-            imagen = API + '/pictures/' + (producto.media[0].idImagen);
-        } catch (err) {
-            imagen = "static/images/items.svg";
-        }
-
-        var idProducto = ((esSubasta) ? producto.idSubasta : producto.id_producto);
-
-        var nombreVendedor = ((myID === producto.owner.idUsuario) ? "Mi producto" : producto.owner.first_name + producto.owner.last_name);
-
-        var ultimoMensaje = doc.get("ultimoMensaje");
-
-        chatRoomsList.prepend(
-            `<a href="#" onclick="return false;" id="${doc.id}" name="${idProducto}">
-                <div class="producto-bubble row">
-         
-                    <div class="col-3 product-image"
-                        style="background-image: url(${imagen})"></div>
-                    <div class="col-8 row">
-                        <strong class="title-bubble">${producto.title}</strong>
-                        <strong class="subtitle-bubble">${nombreVendedor}</strong>
-                        <strong class="message-title-bubble">${ultimoMensaje}</strong>        
-                    </div>     
-                </div>
-            </a>`
-        );
+    try {
+        imagen = API + '/pictures/' + (producto.media[0].idImagen);
+    } catch (err) {
+        imagen = "static/images/items.svg";
     }
+
+    var idProducto = ((esSubasta) ? producto.idSubasta : producto.id_producto);
+
+    var nombreVendedor = ((myID === producto.owner.idUsuario) ? "Mi producto" : producto.owner.first_name + producto.owner.last_name);
+
+    var ultimoMensaje = doc.get("ultimoMensaje");
+
+    chatRoomsList.prepend(
+        `<a href="#" onclick="return false;" id="${doc.id}" name="${idProducto}">
+            <div class="producto-bubble row">
+     
+                <div class="col-3 product-image"
+                    style="background-image: url(${imagen})"></div>
+                <div class="col-8 row">
+                    <strong class="title-bubble">${producto.title}</strong>
+                    <strong class="subtitle-bubble">${nombreVendedor}</strong>
+                    <strong class="message-title-bubble">${ultimoMensaje}</strong>        
+                </div>     
+            </div>
+        </a>`
+    );
+
 }
 
 /**

@@ -260,9 +260,10 @@ function abrirChatGan() {
 
     tipoProducto = "auction";
 
-    var respuesta = db.collection("chat").doc("p" + productID + "_a" + ganId + "_c" + cliID).set({
-        fechaUltimoMensaje: new Date(),idAnunciante: ganId, idCliente: cliID, idProducto: productID,
-        tipoProducto: tipoProducto, ultimoMensaje: "",visible: [cliID]
+
+    var respuesta = db.collection("chat").doc("s" + productID + "_a" + anunID + "_c" + ganId).set({
+        fechaUltimoMensaje: new Date(),idAnunciante: anunID, idCliente: ganId, idProducto: productID,
+        tipoProducto: tipoProducto, ultimoMensaje: "",visible: [anunID]
     });
 
     if(respuesta){
