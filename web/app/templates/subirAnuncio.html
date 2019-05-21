@@ -190,6 +190,13 @@
 										{% endfor %}
 
 										{{ form_sale.lng() }}
+										{% for error in form_sale.lng.errors %}
+										<center>
+											<div class="alert alert-danger">
+												{{ error }}
+											</div>
+										</center>
+										{% endfor %}
 									</div>
 
 								</div>

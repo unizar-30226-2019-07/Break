@@ -89,7 +89,7 @@ class SubirAnuncioForm(FlaskForm):
         validators.Length(min=1, max=50, message='El tamaño máximo del nombre del producto son 50 carácteres')])
     price = DecimalField('Precio (€)', [
         validators.DataRequired(message='Es necesario introducir un precio'),
-        validators.NumberRange(min=0, max=9999999.99, message='El precio intoducido no es válido')])
+        validators.NumberRange(min=0, max=1000000, message='El precio intoducido no es válido (de 0 € a 999.999,99 €)')])
     category = SelectField('Categoría', 
         choices = [ 
             ('Automoción', 'Automoción'),
@@ -108,7 +108,8 @@ class SubirAnuncioForm(FlaskForm):
         validators.DataRequired(message='No se ha podido obtener la nueva localización')])
     lng = HiddenField('Longitud', [
         validators.DataRequired(message='No se ha podido obtener la nueva localización')])
-    enddate = DateField('End', format = '%Y-%m-%d', description = 'Time that the event will occur')
+    enddate = DateField('End', format = '%Y-%m-%d', description = 'Time that the event will occur',
+        validators= [validators.Optional()] )
     submit = SubmitField('Publicar Anuncio')
 
 

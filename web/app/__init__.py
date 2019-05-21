@@ -592,7 +592,7 @@ def uploadAuction():
 
 @app.route("/single/<prod_id>/delete", methods=['GET'])
 def deleteproduct(prod_id):
-    isAuction = request.args.get('isAuction')
+    isAuction = int(request.args.get('isAuction') or '0') == 1
     if int(isAuction) == 1:
         response = requests.delete(url=url + '/auctions/' + prod_id, headers={'Authorization': current_user.id})
     else:
@@ -602,7 +602,7 @@ def deleteproduct(prod_id):
 
 @app.route("/single/<prod_id>/edit", methods=['GET', 'POST'])
 def editproduct(prod_id):
-    isAuction = request.args.get('isAuction')
+    isAuction = int(request.args.get('isAuction') or '0') == 1
     isNew = 0
     lat = 0
     lng = 0
@@ -625,7 +625,7 @@ def editproduct(prod_id):
     if int(prod_id) > 0:
         # Editar producto preexistente
         print("b")
-        if int(isAuction) == 1:
+        if isAuction:
             print("c")
             response = requests.get(url + "/auctions/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat))
         else:
@@ -639,7 +639,7 @@ def editproduct(prod_id):
                 abort(response.status_code)
         product = json.loads(response.text)
     else:
-        isAuction = 0
+        isAuction = False
         isNew = 1
         # Crear producto nuevo
         product = { 'title': '',
@@ -657,8 +657,7 @@ def editproduct(prod_id):
     form_sale = SubirAnuncioForm(prefix="sale")
     if request.method == 'POST':
         form_sale = SubirAnuncioForm(request.form, prefix="sale")
-        form_sale.validate()
-        if form_sale.submit.data and form_sale.lat.errors == [] and form_sale.name.errors == [] and form_sale.description.errors == []:
+        if form_sale.submit.data and form_sale.validate_on_submit():
 
             # Tenemos que hacer un bucle para guardar/enviar todas las imagenes que se quieren subir
             # (El cliente puere queder subir varias)
@@ -690,6 +689,7 @@ def editproduct(prod_id):
             product['category'] = form_sale.category.data
             if not isAuction:
                 product['price'] = float(form_sale.price.data)
+                print(product['price'])
             else:
                 product['startPrice'] = float(form_sale.price.data)
                 product['endDate'] = str(form_sale.enddate.data) 
@@ -701,12 +701,25 @@ def editproduct(prod_id):
                         product['owner_id'] = current_user.user_id
                         response = requests.put(url=url + '/auctions/' + prod_id, json=product,
                                             headers={'Authorization': current_user.id})
-                        print(response.text)
+                        if app.debug:
+                            if response.status_code != 200:
+                                print(response.text)
+                        else:
+                            if response.status_code != 200:
+                                abort(500)
                     else:
                         noDateError = 1;
                 else:
                     response = requests.put(url=url + '/products/' + prod_id, json=product,
                                         headers={'Authorization': current_user.id})
+                    print("OOOOKKK")
+                    print(response.text)
+                    if app.debug:
+                        if response.status_code != 200:
+                            print(response.text)
+                    else:
+                        if response.status_code != 200:
+                            abort(500)
 
             else:
                 if isAuction:
