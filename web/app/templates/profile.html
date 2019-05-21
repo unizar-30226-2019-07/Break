@@ -190,19 +190,19 @@
             {% for review in reviews %}
             <div class="listing row mb-4">
                 <div class="col-3 col-md-2 col-lg-1">
-                {% if user.picture.idImagen is number %}
-                    {% set profile_picture = api + '/pictures/' + (user.picture.idImagen|string) %}
+                {% if review.buyer.picture.idImagen is number %}
+                    {% set profile_picture = api + '/pictures/' + (review.buyer.picture.idImagen|string) %}
                 {% else %}
-                    {% set profile_picture = gravatar.get("") %}
+                    {% set profile_picture = gravatar.get(review.buyer.email) %}
                 {% endif %}
                 <div class="square my-3">
                     <div class="image_fill" 
                         style="background-image: url( {{ profile_picture }} )" 
-                        title="{{ user.first_name }} {{ user.last_name }}"></div>
+                        title="{{ review.buyer.first_name }} {{ review.buyer.last_name }}"></div>
                     </div>
                 </div>
                 <div class="col-9 col-md-10 col-lg-11">
-                    <div class="h5 mt-3">{{ user.first_name }} {{ user.last_name }}</div>
+                    <div class="h5 mt-3">{{ review.buyer.first_name }} {{ review.buyer.last_name }}</div>
                      <div class="mt-2 mb-3 h5">
                         <div class="stars d-inline-block">
                             <i class="far fa-star"></i>
