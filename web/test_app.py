@@ -58,7 +58,8 @@ class AnonymousUser(unittest.TestCase):
 
 	def test_user_page(self):
 		response = self.client.get('/user/573')
-		self.assertEqual(response.status_code, 403)
+		self.assertEqual(response.status_code, 302)
+		self.assertEqual(urlparse(response.location).path, url_for('login'))
 
 class Ordinary(unittest.TestCase):
 
