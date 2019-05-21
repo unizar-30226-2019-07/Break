@@ -53,7 +53,6 @@ import datetime
 app.jinja_env.globals['now'] = datetime.datetime.utcnow
 app.jinja_env.globals['strptime'] = datetime.datetime.strptime
 
-
 @login.user_loader
 def load_user(id):
     # Required function for users to log in
@@ -624,12 +623,9 @@ def editproduct(prod_id):
 
     if int(prod_id) > 0:
         # Editar producto preexistente
-        print("b")
         if isAuction:
-            print("c")
             response = requests.get(url + "/auctions/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat))
         else:
-            print("d")
             response = requests.get(url + "/products/" + str(prod_id) + "?lng=" + str(lng) + "&lat=" + str(lat))
         if app.debug:
             if response.status_code != 200:
@@ -658,6 +654,7 @@ def editproduct(prod_id):
     if request.method == 'POST':
         form_sale = SubirAnuncioForm(request.form, prefix="sale")
         if form_sale.submit.data and form_sale.validate_on_submit():
+            print("A")
 
             # Tenemos que hacer un bucle para guardar/enviar todas las imagenes que se quieren subir
             # (El cliente puere queder subir varias)
@@ -904,21 +901,21 @@ def get_auction(prod_id):
 
     form = bidPlacementForm(request.form)
     if request.method == 'POST':
-        print("c")
-        print("a")
         if not current_user.is_authenticated:
             errorNoLogin = 1
-            print("b")
         else:
             amount = form.amount.data
-            if not str(amount).isdigit():
+            print("a")
+            print(str(amount))
+            if not str(amount).replace('.','',1).isdigit():
+                print("b")
                 errorNum = 1
             else: 
                 if prod['lastBid'] == None:
-                    if int(prod['startPrice']) >= int(amount):
+                    if int(prod['startPrice']) >= float(amount):
                         errorNum = 1
                 else:
-                    if int(prod['lastBid']['amount']) >= int(amount):
+                    if int(prod['lastBid']['amount']) >= float(amount):
                         errorNum = 1
         if errorNoLogin == 0 and errorNum == 0:
             puja = {'amount': amount, 'bidder_id': current_user.user_id}

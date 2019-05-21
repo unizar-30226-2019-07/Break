@@ -104,10 +104,8 @@ class SubirAnuncioForm(FlaskForm):
             validators.DataRequired(message='Es necesario seleccionar una categoría') ])
     description = TextAreaField('Descripción', [
         validators.DataRequired(message='Es necesario escribir una descripción')])
-    lat = HiddenField('Latitud', [
-        validators.DataRequired(message='No se ha podido obtener la nueva localización')])
-    lng = HiddenField('Longitud', [
-        validators.DataRequired(message='No se ha podido obtener la nueva localización')])
+    lat = HiddenField('Latitud')
+    lng = HiddenField('Longitud')
     enddate = DateField('End', format = '%Y-%m-%d', description = 'Time that the event will occur',
         validators= [validators.Optional()] )
     submit = SubmitField('Publicar Anuncio')
@@ -136,7 +134,7 @@ class ProductSearch(Form):
             ])
     keywords = StringField('Palabras Clave')
     minprice = StringField('Precio Mínimo')
-    maxprice = IntegerField('Precio Máximo')
+    maxprice = StringField('Precio Máximo')
     minpublished = DateField('Start', format = '%Y-%m-%d', description = 'Time that the event will occur')
     maxpublished = DateField('Start', format = '%Y-%m-%d', description = 'Time that the event will occur')
     resultados = SelectField('Resultados Por Página',
@@ -170,7 +168,7 @@ class Review(FlaskForm):
 
 
 class bidPlacementForm(FlaskForm):
-    amount = IntegerField('Cantidad')
+    amount = StringField('Cantidad')
     submit = SubmitField('Realizar Puja')
 
 class reportForm(Form):
