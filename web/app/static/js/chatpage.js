@@ -3,7 +3,6 @@
 // ----------------------------------------------------
 var db;
 var messaging;
-var myTokenMessage;
 var myID;
 const API = "https://selit.naval.cat:8443";
 const TIMEOUT = 5000;
@@ -209,6 +208,7 @@ function loadChatRoom(evt) {
 function mostrarChatRoom(response, [roomId, esSubasta]) {
     producto = JSON.parse(response);
 
+    refDocumentoChat = roomId;
     productoActual = producto;
     titleProducto = producto.title;
     mediaProducto = producto.media;
@@ -264,7 +264,7 @@ function mostrarOtroUsuario(response, [producto]) {
         imagen = "gravatar.get(" + usuario.email + ")";
     }
 
-    var sellPro = (productoActual.status === "en venta") ? '<a class="dropdown-item" href="#" onclick="venderProducto(); return false;"><i class="fas fa-euro-sign"></i> Vender Producto</a>' : "";
+    var sellPro = (productoActual.status === "en venta" && anunID === myID) ? '<a class="dropdown-item" href="#" onclick="venderProducto(); return false;"><i class="fas fa-euro-sign"></i> Vender Producto</a>' : "";
 
     $('#other_user').html(
         `
@@ -283,8 +283,8 @@ function mostrarOtroUsuario(response, [producto]) {
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     ${sellPro}
-                    <a class="dropdown-item" href="#" onclick=" return false;"><i class="far fa-flag"></i> Reportar Usuario</a>
-                    <a class="dropdown-item" href="#" onclick=" return false;"><i class="fas fa-times"></i> Eliminar Chat</a>
+                    <a class="dropdown-item" href="#" onclick="reportarUsuario(); return false;"><i class="far fa-flag"></i> Reportar Usuario</a>
+                    <a class="dropdown-item" href="#" onclick="ocultarChat(); return false;"><i class="fas fa-times"></i> Ocultar Chat</a>
                   </div>
                 </div>
             </div>
@@ -317,6 +317,21 @@ function venderProducto() {
     xhr.send(null)
 }
 
+function reportarUsuario() {
+    window.location.href = "/report/" + otherId;
+}
+
+function ocultarChat() {
+    console.log(idProductoActual);
+    var refChat = db.collection("chat").doc(idProductoActual);
+
+    console.log("Eliminando");
+    refChat.update({
+        visible: firebase.firestore.FieldValue.arrayRemove(myID)
+    });
+
+}
+
 /**
  * Contestar con un mensaje:
  */
@@ -330,9 +345,7 @@ function replyMessage(evt) {
     if (message !== "") {
         var date = new Date();
 
-        var tipo = (tipoProducto === "sale") ? "p" : "s";
-
-        refChat = db.collection("chat").doc(tipo + idProductoActual + "_a" + anunID + "_c" + cliID);
+        refChat = db.collection("chat").doc(idProductoActual);
         refChat.update({
             fechaUltimoMensaje: date,
             ultimoMensaje: message
@@ -628,9 +641,17 @@ function sendTokenToServer(currentToken) {
     if (!isTokenSentToServer()) {
         //console.log('Sending token to server...');
         refNot = db.collection("userNotification").doc(myID.toString());
-        refNot.update({
-            tokenDesktop: currentToken
-        });
+
+        if (refNot.get().exists) {
+            refNot.update({
+                tokenDesktop: currentToken
+            });
+        } else {
+            refNot.set({
+                tokenDesktop: currentToken
+            });
+        }
+
         setTokenSentToServer(true);
     } else {
         console.log('Token already sent to server so won\'t send it again ' +

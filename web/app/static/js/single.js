@@ -210,25 +210,24 @@ function isMobile(width) {
  Editar anuncio
  ***********************/
 function redirigirEditarProducto(isAuction) {
-	if (isAuction == true) {
-		window.location.href = "/single/" + productID + "/edit?isAuction=1";
-	}
-	else {
-		window.location.href = "/single/" + productID + "/edit?isAuction=0";
-	}
+    if (isAuction == true) {
+        window.location.href = "/single/" + productID + "/edit?isAuction=1";
+    } else {
+        window.location.href = "/single/" + productID + "/edit?isAuction=0";
+    }
 }
 
 /***********************
  Borrar anuncio
  **********************/
 function redirigirBorrarProducto(isAuction) {
-	if (isAuction === true) {
-		window.location.href = "/single/" + productID + "/delete?isAuction=1";
-	}
-	else {
-		window.location.href = "/single/" + productID + "/delete?isAuction=0";
-	}
+    if (isAuction === true) {
+        window.location.href = "/single/" + productID + "/delete?isAuction=1";
+    } else {
+        window.location.href = "/single/" + productID + "/delete?isAuction=0";
+    }
 }
+
 /***********************
  Abrir un chat con el anuciante
  ***********************/
@@ -237,17 +236,33 @@ function abrirChat() {
 
     var tipoProducto = "sale";
     var tipo = "p";
-    if(auction) {
+    if (auction) {
         tipoProducto = "auction";
         tipo = "s";
     }
 
-    var respuesta = db.collection("chat").doc(tipo + productID + "_a" + anunID + "_c" + cliID).set({
-        fechaUltimoMensaje: new Date(),idAnunciante: anunID, idCliente: cliID, idProducto: productID,
-        tipoProducto: tipoProducto, ultimoMensaje: "",visible: [cliID]
-    });
+    var refChat = db.collection("chat").doc(tipo + productID + "_a" + anunID + "_c" + cliID);
 
-    if(respuesta){
+    if (refChat.get().exists) {
+        if (!refChat.get("visible").includes(otherId)) {
+            var respuesta = refChat.update({
+                visible: firebase.firestore.FieldValue.arrayUnion(cliID)
+            });
+        }
+    } else {
+        var respuesta = refChat.set({
+            fechaUltimoMensaje: new Date(),
+            idAnunciante: anunID,
+            idCliente: cliID,
+            idProducto: productID,
+            tipoProducto: tipoProducto,
+            ultimoMensaje: "",
+            visible: [cliID]
+        });
+    }
+
+
+    if (respuesta) {
         redirigirChat();
     }
 }
@@ -260,16 +275,31 @@ function abrirChatGan() {
 
     tipoProducto = "auction";
 
+    var refChat = db.collection("chat").doc("s" + productID + "_a" + anunID + "_c" + ganId);
 
-    var respuesta = db.collection("chat").doc("s" + productID + "_a" + anunID + "_c" + ganId).set({
-        fechaUltimoMensaje: new Date(),idAnunciante: anunID, idCliente: ganId, idProducto: productID,
-        tipoProducto: tipoProducto, ultimoMensaje: "",visible: [anunID]
-    });
+    if (refChat.get().exists) {
+        if (!refChat.get("visible").includes(otherId)) {
+            var respuesta = refChat.update({
+                visible: firebase.firestore.FieldValue.arrayUnion(anunID)
+            });
+        }
+    } else {
+        var respuesta = refChat.set({
+            fechaUltimoMensaje: new Date(),
+            idAnunciante: anunID,
+            idCliente: ganId,
+            idProducto: productID,
+            tipoProducto: tipoProducto,
+            ultimoMensaje: "",
+            visible: [anunID]
+        });
+    }
 
-    if(respuesta){
+    if (respuesta !== undefined) {
         redirigirChat();
     }
 }
+
 function redirigirChat() {
     window.location.href = "/chat";
 }
