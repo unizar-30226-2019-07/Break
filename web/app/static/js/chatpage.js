@@ -343,14 +343,35 @@ function replyMessage(evt) {
 
         // Send a message to the device corresponding to the provided
         // registration token.
-        admin.messaging().send(not)
-            .then((response) => {
-                // Response is a message ID string.
-                console.log('Successfully sent message:', response);
-            })
-            .catch((error) => {
-                console.log('Error sending message:', error);
-            });
+
+        var xhr = new XMLHttpRequest();
+        xhr.ontimeout = function () {
+            console.error("The request notification timed out.");
+        };
+        xhr.onload = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    callback(xhr.responseText, cArguments);
+                } else {
+                    console.error(xhr.statusText);
+                }
+            }
+        };
+        xhr.open("POST", 'https://fcm.googleapis.com/selit-7d67c/send', true);
+        xhr.timeout = TIMEOUT;
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.setRequestHeader('Authorization', "key=BK-AegxjyvjeS0GclUETazIzl-_vCyeieTiZUxTc8Jw9YmsmpA9aK382uHcXDKszxbgo5lbKQqGNl07TqtTAGKk");
+        xhr.setRequestHeader('Access-Control-Allow-Origin', "http://localhost:5000");
+        xhr.send(JSON.stringify({
+            "message": {
+                "token": myTokenMessage,
+                "notification": {
+                    "body": "This is an FCM notification message!",
+                    "title": "FCM Message",
+                }
+            }
+        }))
+        //xhr.send(null);
 
     }
 }
