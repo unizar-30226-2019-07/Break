@@ -283,6 +283,7 @@ function mostrarOtroUsuario(response, [producto]) {
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     ${sellPro}
+                    <a class="dropdown-item" href="#" onclick="irAProducto(); return false;"><i class="fas fa-arrow-alt-circle-right"></i></i> Ir a producto</a>
                     <a class="dropdown-item" href="#" onclick="reportarUsuario(); return false;"><i class="far fa-flag"></i> Reportar Usuario</a>
                     <a class="dropdown-item" href="#" onclick="ocultarChat(); return false;"><i class="fas fa-times"></i> Ocultar Chat</a>
                   </div>
@@ -315,6 +316,13 @@ function venderProducto() {
     xhr.open('POST', '/ajax/sell/' + productoActual.id_producto + '/' + otherId, true);
     xhr.timeout = TIMEOUT;
     xhr.send(null)
+}
+
+function irAProducto() {
+    var tProd = (tipoProducto === "sale") ? "single" : "auction";
+    var id = (tipoProducto === "sale") ? producto.id_producto : producto.idSubasta;
+
+    window.location.href = "/" + tProd + "/" + id;
 }
 
 function reportarUsuario() {
@@ -586,6 +594,68 @@ function searchChats() {
         }
     }
 }
+
+$("#record-filters :radio").change(function () {
+        if ($(this).is(":checked")) {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("inputSearchChat");
+            filter = "Mi producto";
+            table = document.getElementById("rooms");
+            tr = table.getElementsByTagName("a");
+
+            var val = this.id;
+            switch (val) {
+                case "interesado":
+                    for (i = 0; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("div")[0];
+                        td = td.getElementsByTagName("div")[1];
+                        td = td.getElementsByTagName("strong")[1];
+                        if (td) {
+                            txtValue = td.innerText;
+                            if (txtValue.indexOf(filter) <= -1) {
+                                tr[i].style.display = "";
+                            } else {
+                                tr[i].style.display = "none";
+                            }
+                        }
+                    }
+                    break;
+
+                case "misProductos":
+                    for (i = 0; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("div")[0];
+                        td = td.getElementsByTagName("div")[1];
+                        td = td.getElementsByTagName("strong")[1];
+                        if (td) {
+                            txtValue = td.innerText;
+                            if (txtValue.indexOf(filter) > -1) {
+                                tr[i].style.display = "";
+                            } else {
+                                tr[i].style.display = "none";
+                            }
+                        }
+                    }
+                    break;
+
+                case "todosProductos":
+                    for (i = 0; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("div")[0];
+                        td = td.getElementsByTagName("div")[1];
+                        td = td.getElementsByTagName("strong")[1];
+                        if (td) {
+                            txtValue = td.innerText;
+                            if (txtValue.indexOf("") > -1) {
+                                tr[i].style.display = "";
+                            } else {
+                                tr[i].style.display = "none";
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+);
 
 /**
  * Hace una petición a la URL, cuando recibe la respuesta llama a callback con la respuesta. Se puede
