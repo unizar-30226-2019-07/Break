@@ -356,25 +356,30 @@ function replyMessage(evt) {
         xhr.onload = function () {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
-                    callback(xhr.responseText, cArguments);
+                    console.log(xhr.responseText);
                 } else {
                     console.error(xhr.statusText);
+                    console.error(xhr.responseText);
                 }
             }
         };
-        xhr.open("POST", 'https://fcm.googleapis.com/v1/projects/selit-7d67c/messages:send', true);
+        xhr.open("POST", 'https://fcm.googleapis.com/fcm/send', true);
         xhr.timeout = TIMEOUT;
-        xhr.setRequestHeader('Authorization', "Bearer " + authToken);
+        xhr.setRequestHeader('Authorization', "key=AAAAmnnxOzo:APA91bFNw5x3riFYigg8jsk-mVtwE92G2GQ3qy4pT2itd5-uIOn29NQh-8ZX1cFb5lwbYWVedZb_ewSvjsVSB3-ofj-Y099B7DZiRHi4MqIOIvRj8He6eDWrAW6iLZrjbV1JHTN1y4jW");
         xhr.setRequestHeader("Content-Type", "application/json; UTF-8");
-        xhr.send(JSON.stringify({
-            "message": {
-                "token": myTokenMessage,
+        xhr.send(JSON.stringify(
+            {
+                "to": "/topics/news",
                 "notification": {
-                    "body": "This is an FCM notification message!",
-                    "title": "FCM Message",
+                    "title": "Breaking News",
+                    "body": "New news story available.",
+                    "click_action": "TOP_STORY_ACTIVITY"
+                },
+                "data": {
+                    "story_id": "story_12345"
                 }
             }
-        }))
+        ))
         //xhr.send(null);
 
     }
@@ -440,7 +445,7 @@ function loadChatManager() {
                                     `<div class="numberCircle" id="${change.doc.id}-msl">1</div>`);
                             }
                         }
-                        
+
                         try {
                             if (tipoProd === "sale") {
                                 httpGet(API + "/products/" + idProducto, actualizarChatBubble, [change.doc, false]);
