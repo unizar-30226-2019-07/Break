@@ -14,6 +14,8 @@ var anunID;
 var cliID;
 var otherId;
 var tipoProducto;
+var titleProducto;
+var mediaProducto;
 
 var escucharMensajes;
 
@@ -209,6 +211,9 @@ function loadChatRoom(evt) {
 function mostrarChatRoom(response, [roomId, esSubasta]) {
     producto = JSON.parse(response);
 
+    titleProducto = producto.title;
+    mediaProducto = producto.media;
+
     httpGet(API + "/users/" + otherId, mostrarOtroUsuario, [producto]);
 
     var refMensajes = db.collection("chat").doc(roomId).collection("mensaje").orderBy("fecha");
@@ -369,15 +374,12 @@ function replyMessage(evt) {
         xhr.setRequestHeader("Content-Type", "application/json; UTF-8");
         xhr.send(JSON.stringify(
             {
-                "to": "/topics/news",
+                "to": "d9VibToO3gA:APA91bExzpPuYpSowOmQ5YYQP_y49PLDr7mNV3daflOdZNXyWrw5C-ylRf8P1oNs5k7GIkB5rZPegwNjk-crcbUWyaFNFIK5Guluf7QrWRshOxXEXVOwQNzKG0UPiWzjferNrQi0YjFE",
                 "notification": {
-                    "title": "Breaking News",
-                    "body": "New news story available.",
-                    "click_action": "TOP_STORY_ACTIVITY"
+                    "title": titleProducto,
+                    "body": message,
+                    "icon": API + '/pictures/' + (mediaProducto[0].idImagen)
                 },
-                "data": {
-                    "story_id": "story_12345"
-                }
             }
         ))
         //xhr.send(null);
@@ -406,9 +408,7 @@ function loadChatManager() {
                             mensajesSinLeer = snap.size; // Mensajes sin leer
 
                             refMensajesSinLeer.where("idEmisor", "==", myID).get().then(snap => {
-                                console.log("Se ejecuta?");
                                 mensajesSinLeer = mensajesSinLeer - snap.size; // Mensajes sin leer
-                                console.log(mensajesSinLeer);
 
                                 chatRoomsList.prepend(
                                     `<a href="#" onclick="return false;" id="${change.doc.id}" name="${idProducto}">
@@ -655,6 +655,7 @@ function initializeFirebase() {
         });
 
     messaging.onMessage(function (payload) {
+        console.log("HEEEEEY");
         console.log('onMessage: ', payload);
     });
 
