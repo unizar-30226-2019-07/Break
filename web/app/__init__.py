@@ -1232,7 +1232,7 @@ def sell_product(prod_id, usr_id):
         producto['buyer_id'] = usr_id
 
         response = requests.put(url=url + '/products/' + prod_id + '/sell',
-                                 headers={'Authorization': current_user.id}, data=json.dumps(producto))
+                                 headers={'Authorization': current_user.id}, json=producto)
         if app.debug:
             if response.status_code != 200:
                 print(response.text)
