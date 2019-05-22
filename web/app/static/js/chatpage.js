@@ -258,8 +258,6 @@ function mostrarChatRoom(response, [roomId, esSubasta]) {
 function mostrarOtroUsuario(response, [producto]) {
     usuario = JSON.parse(response);
 
-    console.log(usuario);
-
     // Mostrar el usuario con el que se conversa en la parte superior
     if (usuario.picture.idImagen !== null) {
         imagen = API + '/pictures/' + (usuario.picture.idImagen);
@@ -331,7 +329,7 @@ function replyMessage(evt) {
             idEmisor: myID
         })
             .then(function (docRef) {
-                console.log("Document written with ID: ", docRef.id);
+                //console.log("Document written with ID: ", docRef.id);
             })
             .catch(function (error) {
                 console.error("Error adding document: ", error);
@@ -340,55 +338,57 @@ function replyMessage(evt) {
         // Limpiar Barra:
         $('#replyMessage input').val('');
 
-        // This registration token comes from the client FCM SDKs.
-        var registrationToken = myTokenMessage;
-
-        var not = {
-            data: {
-                score: '850',
-                time: '2:45'
-            },
-            token: registrationToken
-        };
-
-        // Send a message to the device corresponding to the provided
-        // registration token.
-
-        var xhr = new XMLHttpRequest();
-        xhr.ontimeout = function () {
-            console.error("The request notification timed out.");
-        };
-        xhr.onload = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    console.log(xhr.responseText);
-                } else {
-                    console.error(xhr.statusText);
-                    console.error(xhr.responseText);
+        // Mandar notificacion al otro usuario.
+        refProducto = db.collection("userNotification").doc(otherId.toString());
+        refProducto.get().then(function (doc) {
+            if (doc.data() !== undefined) {
+                var token2Send = doc.data().tokenDesktop;
+                if (token2Send !== undefined) {
+                    sendNotifycation(token2Send);
                 }
             }
-        };
-        xhr.open("POST", 'https://fcm.googleapis.com/fcm/send', true);
-        xhr.timeout = TIMEOUT;
-        xhr.setRequestHeader('Authorization', "key=AAAAmnnxOzo:APA91bFNw5x3riFYigg8jsk-mVtwE92G2GQ3qy4pT2itd5-uIOn29NQh-8ZX1cFb5lwbYWVedZb_ewSvjsVSB3-ofj-Y099B7DZiRHi4MqIOIvRj8He6eDWrAW6iLZrjbV1JHTN1y4jW");
-        xhr.setRequestHeader("Content-Type", "application/json; UTF-8");
-        xhr.send(JSON.stringify(
-            {
-                "to": "d9VibToO3gA:APA91bExzpPuYpSowOmQ5YYQP_y49PLDr7mNV3daflOdZNXyWrw5C-ylRf8P1oNs5k7GIkB5rZPegwNjk-crcbUWyaFNFIK5Guluf7QrWRshOxXEXVOwQNzKG0UPiWzjferNrQi0YjFE",
-                "notification": {
-                    "title": titleProducto,
-                    "body": message,
-                    "icon": API + '/pictures/' + (mediaProducto[0].idImagen)
-                },
-            }
-        ))
-        //xhr.send(null);
-
+        });
     }
 }
 
 
-/*
+/**
+ * Cargar la lista de chats
+ */
+function sendNotifycation(token) {
+    // Send a message to the device corresponding to the provided
+    // registration token.
+    var xhr = new XMLHttpRequest();
+    xhr.ontimeout = function () {
+        console.error("The request notification timed out.");
+    };
+    xhr.onload = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                console.log(xhr.responseText);
+            } else {
+                console.error(xhr.statusText);
+                console.error(xhr.responseText);
+            }
+        }
+    };
+    xhr.open("POST", 'https://fcm.googleapis.com/fcm/send', true);
+    xhr.timeout = TIMEOUT;
+    xhr.setRequestHeader('Authorization', "key=AAAAmnnxOzo:APA91bFNw5x3riFYigg8jsk-mVtwE92G2GQ3qy4pT2itd5-uIOn29NQh-8ZX1cFb5lwbYWVedZb_ewSvjsVSB3-ofj-Y099B7DZiRHi4MqIOIvRj8He6eDWrAW6iLZrjbV1JHTN1y4jW");
+    xhr.setRequestHeader("Content-Type", "application/json; UTF-8");
+    xhr.send(JSON.stringify(
+        {
+            "to": token,
+            "notification": {
+                "title": titleProducto,
+                "body": message,
+                "icon": API + '/pictures/' + (mediaProducto[0].idImagen)
+            },
+        }
+    ))
+}
+
+/**
  * Cargar la lista de chats
  */
 function loadChatManager() {
@@ -602,7 +602,7 @@ $(function () {
 // - subscribe/unsubscribe the token from topics
 function sendTokenToServer(currentToken) {
     if (!isTokenSentToServer()) {
-        console.log('Sending token to server...');
+        //console.log('Sending token to server...');
         refNot = db.collection("userNotification").doc(myID.toString());
         refNot.update({
             tokenDesktop: currentToken
@@ -644,9 +644,8 @@ function initializeFirebase() {
             return messaging.getToken();
         })
         .then(function (token) {
+            setTokenSentToServer(false);
             sendTokenToServer(token);
-            console.log(token);
-            myTokenMessage = token;
         })
         .catch(function (err) {
             // El usuario NO ha aceptado que le mandemos notificaciones.
