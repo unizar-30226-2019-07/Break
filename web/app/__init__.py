@@ -709,7 +709,6 @@ def editproduct(prod_id):
                 else:
                     response = requests.put(url=url + '/products/' + prod_id, json=product,
                                         headers={'Authorization': current_user.id})
-                    print("OOOOKKK")
                     print(response.text)
                     if app.debug:
                         if response.status_code != 200:
@@ -905,10 +904,7 @@ def get_auction(prod_id):
             errorNoLogin = 1
         else:
             amount = form.amount.data
-            print("a")
-            print(str(amount))
             if not str(amount).replace('.','',1).isdigit():
-                print("b")
                 errorNum = 1
             else: 
                 if prod['lastBid'] == None:
@@ -1193,9 +1189,7 @@ def chat():
 def report(user_id):
     form = reportForm(request.form)
     if request.method == 'POST':
-        print('a')
         if form.validate():
-            print('b')
             category = form.category.data
             description = form.description.data
             fecha = datetime.datetime.now().strftime('%Y-%m-%d')
@@ -1212,6 +1206,35 @@ def report(user_id):
         return render_template('report.html', form=form, userauth=current_user)
 
     return render_template('report.html', form=reportForm(), userauth=current_user)
+
+@app.route('/reports')
+def reports():
+    response = requests.get(url=url + '/reports', headers={'Authorization': current_user.id})
+    print(response.text)
+    return render_template('reports.html', userauth=current_user, reports=json.loads(response.text))
+
+@app.route('/solveReport/<user_id>')
+def solveReport(user_id):
+    response = requests.get(url=url + '/reports', headers={'Authorization': current_user.id})
+    reports = json.loads(response.text)
+    i = 0
+    report = {}
+    while i < len(reports):
+        if int(reports[i]["evaluado"]["idUsuario"]) == int(user_id):
+            report = reports[i]
+        i += 1
+    if int(report["evaluado"]['idUsuario']) == int(user_id):
+        report['estado_informe'] = "resuelto"
+        reportAct = {
+                'id_evaluado': report['evaluado']['idUsuario'],
+                'id_informador': report['informador']['idUsuario'],
+                'descripcion': report['descripcion'],
+                'fecha_realizacion': report['fecha_realizacion'],
+                'asunto': report['asunto'],
+                'estado_informe': "resuelto"}
+
+        response = requests.put(url=url + '/reports/' + str(user_id) + "/report", json=reportAct, headers={'Authorization': current_user.id})
+    return redirect('/reports')
 
 
 @app.route('/firebase-messaging-sw.js')
