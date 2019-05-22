@@ -361,7 +361,7 @@ section {
 
 /* Botón principal  */
 .main_button {
-    width: 247px;
+    width: 300px;
     height: 51px;
     background: var(--primaryColor);
     border: none;

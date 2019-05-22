@@ -1242,6 +1242,27 @@ def firebase_sw():
     return send_from_directory("static/js", 'firebase-messaging-sw.js')
 
 
+@app.route('/ajax/sell/<prod_id>/<usr_id>', methods=['POST'])
+def sell_product(prod_id, usr_id):
+    if not current_user.is_authenticated:
+        return "", 401
+
+    if request.method == 'POST':
+        response = requests.get(url=url + '/products/' + prod_id,
+                                 headers={'Authorization': current_user.id})
+        producto = json.loads(response.text)
+
+        producto['buyer_id'] = usr_id
+
+        response = requests.put(url=url + '/products/' + prod_id + '/sell',
+                                 headers={'Authorization': current_user.id}, json=producto)
+        if app.debug:
+            if response.status_code != 200:
+                print(response.text)
+
+        return "", response.status_code
+
+
 @app.route('/ajax/wishes_products/<prod_id>', methods=['PUT', 'DELETE'])
 def wishes_products(prod_id):
     if not current_user.is_authenticated:

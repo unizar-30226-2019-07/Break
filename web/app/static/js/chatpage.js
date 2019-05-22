@@ -2,18 +2,19 @@
 // Variables globales:
 // ----------------------------------------------------
 var db;
-var admin;
 var messaging;
-var myTokenMessage;
 var myID;
 const API = "https://selit.naval.cat:8443";
 const TIMEOUT = 5000;
 
 var productoActual;
+var idProductoActual;
 var anunID;
 var cliID;
 var otherId;
 var tipoProducto;
+var titleProducto;
+var mediaProducto;
 
 var escucharMensajes;
 
@@ -36,7 +37,6 @@ const chatRoomsList = $('#rooms');
 const chatMessages = $('#chat-msgs');
 const chatReplyMessage = $('#replyMessage');
 const chatScrollMessageDiv = "msg_scroll";
-
 
 // ----------------------------------------------------
 // Inicialize scripts.
@@ -160,6 +160,10 @@ function loadChatRoom(evt) {
     // Id del producto pulsado
     var roomId = evt.currentTarget.id;
     var productId = evt.currentTarget.name;
+    var mensajesSinLeer = document.getElementById(roomId + '-msl');
+    if (mensajesSinLeer !== null) {
+        mensajesSinLeer.remove();
+    }
 
     if (roomId !== undefined) {
         $('.response').show();
@@ -170,7 +174,7 @@ function loadChatRoom(evt) {
         refProducto.get().then(function (doc) {
             if (doc.exists) {
                 let producto = doc.data();
-                productoActual = producto.idProducto;
+                idProductoActual = doc.id;
                 cliID = producto.idCliente;
                 anunID = producto.idAnunciante;
                 otherId = ((myID === cliID) ? anunID : cliID);
@@ -203,6 +207,11 @@ function loadChatRoom(evt) {
  */
 function mostrarChatRoom(response, [roomId, esSubasta]) {
     producto = JSON.parse(response);
+
+    refDocumentoChat = roomId;
+    productoActual = producto;
+    titleProducto = producto.title;
+    mediaProducto = producto.media;
 
     httpGet(API + "/users/" + otherId, mostrarOtroUsuario, [producto]);
 
@@ -248,14 +257,14 @@ function mostrarChatRoom(response, [roomId, esSubasta]) {
 function mostrarOtroUsuario(response, [producto]) {
     usuario = JSON.parse(response);
 
-    console.log(usuario);
-
     // Mostrar el usuario con el que se conversa en la parte superior
     if (usuario.picture.idImagen !== null) {
         imagen = API + '/pictures/' + (usuario.picture.idImagen);
     } else {
         imagen = "gravatar.get(" + usuario.email + ")";
     }
+
+    var sellPro = (productoActual.status === "en venta" && anunID === myID) ? '<a class="dropdown-item" href="#" onclick="venderProducto(); return false;"><i class="fas fa-euro-sign"></i> Vender Producto</a>' : "";
 
     $('#other_user').html(
         `
@@ -273,17 +282,63 @@ function mostrarOtroUsuario(response, [producto]) {
                     <i class="fas fa-ellipsis-v"></i>
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#"><i class="fas fa-euro-sign"></i> Vender Producto</a>
-                    <a class="dropdown-item" href="#"><i class="far fa-flag"></i> Reportar Usuario</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-times"></i> Eliminar Chat</a>
+                    ${sellPro}
+                    <a class="dropdown-item" href="#" onclick="irAProducto(); return false;"><i class="fas fa-arrow-alt-circle-right"></i></i> Ir a producto</a>
+                    <a class="dropdown-item" href="#" onclick="reportarUsuario(); return false;"><i class="far fa-flag"></i> Reportar Usuario</a>
+                    <a class="dropdown-item" href="#" onclick="ocultarChat(); return false;"><i class="fas fa-times"></i> Ocultar Chat</a>
                   </div>
                 </div>
             </div>
         </div>    
     `);
-
 }
 
+/**
+ * Verder un "sale" al usuario que se está chateando:
+ */
+function venderProducto() {
+    console.log("Vender Producto");
+
+    var xhr = new XMLHttpRequest();
+    xhr.ontimeout = function () {
+        console.error("The request notification timed out.");
+    };
+    xhr.onload = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                console.log(xhr.responseText);
+            } else {
+                console.error(xhr.statusText);
+                console.error(xhr.responseText);
+            }
+        }
+    };
+    xhr.open('POST', '/ajax/sell/' + productoActual.id_producto + '/' + otherId, true);
+    xhr.timeout = TIMEOUT;
+    xhr.send(null)
+}
+
+function irAProducto() {
+    var tProd = (tipoProducto === "sale") ? "single" : "auction";
+    var id = (tipoProducto === "sale") ? producto.id_producto : producto.idSubasta;
+
+    window.location.href = "/" + tProd + "/" + id;
+}
+
+function reportarUsuario() {
+    window.location.href = "/report/" + otherId;
+}
+
+function ocultarChat() {
+    console.log(idProductoActual);
+    var refChat = db.collection("chat").doc(idProductoActual);
+
+    console.log("Eliminando");
+    refChat.update({
+        visible: firebase.firestore.FieldValue.arrayRemove(myID)
+    });
+
+}
 
 /**
  * Contestar con un mensaje:
@@ -298,9 +353,7 @@ function replyMessage(evt) {
     if (message !== "") {
         var date = new Date();
 
-        var tipo = (tipoProducto === "sale") ? "p" : "s";
-
-        refChat = db.collection("chat").doc(tipo + productoActual + "_a" + anunID + "_c" + cliID);
+        refChat = db.collection("chat").doc(idProductoActual);
         refChat.update({
             fechaUltimoMensaje: date,
             ultimoMensaje: message
@@ -321,7 +374,7 @@ function replyMessage(evt) {
             idEmisor: myID
         })
             .then(function (docRef) {
-                console.log("Document written with ID: ", docRef.id);
+                //console.log("Document written with ID: ", docRef.id);
             })
             .catch(function (error) {
                 console.error("Error adding document: ", error);
@@ -330,31 +383,55 @@ function replyMessage(evt) {
         // Limpiar Barra:
         $('#replyMessage input').val('');
 
-        // This registration token comes from the client FCM SDKs.
-        var registrationToken = myTokenMessage;
-
-        var not = {
-            data: {
-                score: '850',
-                time: '2:45'
-            },
-            token: registrationToken
-        };
-
-        // Send a message to the device corresponding to the provided
-        // registration token.
-        admin.messaging().send(not)
-            .then((response) => {
-                // Response is a message ID string.
-                console.log('Successfully sent message:', response);
-            })
-            .catch((error) => {
-                console.log('Error sending message:', error);
-            });
-
+        // Mandar notificacion al otro usuario.
+        refProducto = db.collection("userNotification").doc(otherId.toString());
+        refProducto.get().then(function (doc) {
+            if (doc.data() !== undefined) {
+                var token2Send = doc.data().tokenDesktop;
+                if (token2Send !== undefined) {
+                    sendNotifycation(token2Send);
+                }
+            }
+        });
     }
 }
 
+
+/**
+ * Cargar la lista de chats
+ */
+function sendNotifycation(token) {
+    // Send a message to the device corresponding to the provided
+    // registration token.
+    var xhr = new XMLHttpRequest();
+    xhr.ontimeout = function () {
+        console.error("The request notification timed out.");
+    };
+    xhr.onload = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                console.log(xhr.responseText);
+            } else {
+                console.error(xhr.statusText);
+                console.error(xhr.responseText);
+            }
+        }
+    };
+    xhr.open("POST", 'https://fcm.googleapis.com/fcm/send', true);
+    xhr.timeout = TIMEOUT;
+    xhr.setRequestHeader('Authorization', "key=AAAAmnnxOzo:APA91bFNw5x3riFYigg8jsk-mVtwE92G2GQ3qy4pT2itd5-uIOn29NQh-8ZX1cFb5lwbYWVedZb_ewSvjsVSB3-ofj-Y099B7DZiRHi4MqIOIvRj8He6eDWrAW6iLZrjbV1JHTN1y4jW");
+    xhr.setRequestHeader("Content-Type", "application/json; UTF-8");
+    xhr.send(JSON.stringify(
+        {
+            "to": token,
+            "notification": {
+                "title": titleProducto,
+                "body": message,
+                "icon": API + '/pictures/' + (mediaProducto[0].idImagen)
+            },
+        }
+    ))
+}
 
 /**
  * Cargar la lista de chats
@@ -365,47 +442,75 @@ function loadChatManager() {
 
     refChats
         .onSnapshot(function (snapshot) {
-            snapshot.docChanges().forEach(function (change) {
-                if (change.type === "added") {
-                    var idProducto = change.doc.get("idProducto");
-                    var tipoProd = change.doc.get("tipoProducto");
+                snapshot.docChanges().forEach(function (change) {
+                    if (change.type === "added") {
+                        var idProducto = change.doc.get("idProducto");
+                        var tipoProd = change.doc.get("tipoProducto");
+                        var mensajesSinLeer = 0;
 
-                    try {
+                        var refMensajesSinLeer = db.collection("chat").doc(change.doc.id).collection("mensaje").where("estado", "==", "enviado");
+                        refMensajesSinLeer.get().then(snap => {
+                            mensajesSinLeer = snap.size; // Mensajes sin leer
 
-                        if (tipoProd === "sale") {
-                            httpGet(API + "/products/" + idProducto, mostrarChatBubble, [change.doc, false]);
-                        } else {
-                            httpGet(API + "/auctions/" + idProducto, mostrarChatBubble, [change.doc, true]);
-                        }
-                    } catch
-                        (err) {
-                        console.log("Fallo al cargar elemento");
-                        console.log(err);
+                            refMensajesSinLeer.where("idEmisor", "==", myID).get().then(snap => {
+                                mensajesSinLeer = mensajesSinLeer - snap.size; // Mensajes sin leer
+
+                                chatRoomsList.prepend(
+                                    `<a href="#" onclick="return false;" id="${change.doc.id}" name="${idProducto}">
+                            
+                                 </a>`
+                                );
+
+                                try {
+
+                                    if (tipoProd === "sale") {
+                                        httpGet(API + "/products/" + idProducto, mostrarChatBubble, [change.doc, false, mensajesSinLeer]);
+                                    } else {
+                                        httpGet(API + "/auctions/" + idProducto, mostrarChatBubble, [change.doc, true, mensajesSinLeer]);
+                                    }
+                                } catch
+                                    (err) {
+                                    console.log("Fallo al cargar elemento");
+                                    console.log(err);
+                                }
+                            });
+                        });
                     }
-                }
-                if (change.type === "modified") {
-                    document.getElementById(change.doc.id).remove();
-                    var idProducto = change.doc.get("idProducto");
-                    var tipoProd = change.doc.get("tipoProducto");
+                    if (change.type === "modified") {
+                        var idProducto = change.doc.get("idProducto");
+                        var tipoProd = change.doc.get("tipoProducto");
 
-                    try {
-                        if (tipoProd === "sale") {
-                            httpGet(API + "/products/" + idProducto, mostrarChatBubble, [change.doc, false]);
-                        } else {
-                            httpGet(API + "/auctions/" + idProducto, mostrarChatBubble, [change.doc, true]);
+                        if (idProductoActual !== change.doc.id) {
+                            var newMessages = document.getElementById(change.doc.id + '-msl');
+                            if (newMessages !== null) {
+                                var num = parseInt(newMessages.textContent);
+                                newMessages.textContent = (num + 1);
+                            } else {
+                                $('#' + change.doc.id + '-mb').append(
+                                    `<div class="numberCircle" id="${change.doc.id}-msl">1</div>`);
+                            }
                         }
-                    } catch
-                        (err) {
-                        console.log("Fallo al cargar elemento");
-                        console.log(err);
+
+                        try {
+                            if (tipoProd === "sale") {
+                                httpGet(API + "/products/" + idProducto, actualizarChatBubble, [change.doc, false]);
+                            } else {
+                                httpGet(API + "/auctions/" + idProducto, actualizarChatBubble, [change.doc, true]);
+                            }
+                        } catch
+                            (err) {
+                            console.log("Fallo al cargar elemento");
+                            console.log(err);
+                        }
                     }
-                }
-                if (change.type === "removed") {
-                    // Si se elimina el chat:
-                    document.getElementById(change.doc.id).remove();
-                }
-            });
-        });
+                    if (change.type === "removed") {
+                        // Si se elimina el chat:
+                        document.getElementById(change.doc.id).remove();
+                    }
+                });
+            }
+        )
+    ;
 }
 
 /**
@@ -414,7 +519,44 @@ function loadChatManager() {
  * @param doc
  * @param esSubasta
  */
-function mostrarChatBubble(response, [doc, esSubasta]) {
+function mostrarChatBubble(response, [doc, esSubasta, mensajesSinLeer]) {
+    producto = JSON.parse(response);
+    try {
+        imagen = API + '/pictures/' + (producto.media[0].idImagen);
+    } catch (err) {
+        imagen = "static/images/items.svg";
+    }
+    var nombreVendedor = ((myID === producto.owner.idUsuario) ? "Mi producto" : producto.owner.first_name + producto.owner.last_name);
+
+    var ultimoMensaje = doc.get("ultimoMensaje");
+
+    var mensNoLeidos = (mensajesSinLeer === 0) ? "" : '<div class="numberCircle" id="' + doc.id + '-msl">' + mensajesSinLeer + '</div>';
+    // console.log(mensNoLeidos);
+
+    $('#' + doc.id).append(
+        `
+            <div class="producto-bubble row" id="${doc.id}-mb">
+                ${mensNoLeidos}
+     
+                <div class="col-3 product-image"
+                    style="background-image: url(${imagen})"></div>
+                <div class="col-8 row">
+                    <strong class="title-bubble">${producto.title}</strong>
+                    <strong class="subtitle-bubble">${nombreVendedor}</strong>
+                    <strong class="message-title-bubble" id="${doc.id}-um">${ultimoMensaje}</strong>        
+                </div>     
+            </div>
+        `
+    );
+}
+
+/**
+ * Mostrar un chat.
+ * @param response
+ * @param doc
+ * @param esSubasta
+ */
+function actualizarChatBubble(response, [doc, esSubasta]) {
     producto = JSON.parse(response);
     try {
         imagen = API + '/pictures/' + (producto.media[0].idImagen);
@@ -422,27 +564,13 @@ function mostrarChatBubble(response, [doc, esSubasta]) {
         imagen = "static/images/items.svg";
     }
 
-    var idProducto = ((esSubasta) ? producto.idSubasta : producto.id_producto);
-
-    var nombreVendedor = ((myID === producto.owner.idUsuario) ? "Mi producto" : producto.owner.first_name + producto.owner.last_name);
-
     var ultimoMensaje = doc.get("ultimoMensaje");
 
-    chatRoomsList.prepend(
-        `<a href="#" onclick="return false;" id="${doc.id}" name="${idProducto}">
-            <div class="producto-bubble row">
-     
-                <div class="col-3 product-image"
-                    style="background-image: url(${imagen})"></div>
-                <div class="col-8 row">
-                    <strong class="title-bubble">${producto.title}</strong>
-                    <strong class="subtitle-bubble">${nombreVendedor}</strong>
-                    <strong class="message-title-bubble">${ultimoMensaje}</strong>        
-                </div>     
-            </div>
-        </a>`
-    );
+    // Mover bubble arriba del t.odo.
+    $('#' + doc.id).prependTo(chatRoomsList);
 
+    // Actualizar el último mensaje.
+    $('#' + doc.id + "-um").html(ultimoMensaje);
 }
 
 /**
@@ -466,6 +594,68 @@ function searchChats() {
         }
     }
 }
+
+$("#record-filters :radio").change(function () {
+        if ($(this).is(":checked")) {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("inputSearchChat");
+            filter = "Mi producto";
+            table = document.getElementById("rooms");
+            tr = table.getElementsByTagName("a");
+
+            var val = this.id;
+            switch (val) {
+                case "interesado":
+                    for (i = 0; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("div")[0];
+                        td = td.getElementsByTagName("div")[1];
+                        td = td.getElementsByTagName("strong")[1];
+                        if (td) {
+                            txtValue = td.innerText;
+                            if (txtValue.indexOf(filter) <= -1) {
+                                tr[i].style.display = "";
+                            } else {
+                                tr[i].style.display = "none";
+                            }
+                        }
+                    }
+                    break;
+
+                case "misProductos":
+                    for (i = 0; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("div")[0];
+                        td = td.getElementsByTagName("div")[1];
+                        td = td.getElementsByTagName("strong")[1];
+                        if (td) {
+                            txtValue = td.innerText;
+                            if (txtValue.indexOf(filter) > -1) {
+                                tr[i].style.display = "";
+                            } else {
+                                tr[i].style.display = "none";
+                            }
+                        }
+                    }
+                    break;
+
+                case "todosProductos":
+                    for (i = 0; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("div")[0];
+                        td = td.getElementsByTagName("div")[1];
+                        td = td.getElementsByTagName("strong")[1];
+                        if (td) {
+                            txtValue = td.innerText;
+                            if (txtValue.indexOf("") > -1) {
+                                tr[i].style.display = "";
+                            } else {
+                                tr[i].style.display = "none";
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+);
 
 /**
  * Hace una petición a la URL, cuando recibe la respuesta llama a callback con la respuesta. Se puede
@@ -519,11 +709,19 @@ $(function () {
 // - subscribe/unsubscribe the token from topics
 function sendTokenToServer(currentToken) {
     if (!isTokenSentToServer()) {
-        console.log('Sending token to server...');
+        //console.log('Sending token to server...');
         refNot = db.collection("userNotification").doc(myID.toString());
-        refNot.update({
-            tokenDesktop: currentToken
-        });
+
+        if (refNot.get().exists) {
+            refNot.update({
+                tokenDesktop: currentToken
+            });
+        } else {
+            refNot.set({
+                tokenDesktop: currentToken
+            });
+        }
+
         setTokenSentToServer(true);
     } else {
         console.log('Token already sent to server so won\'t send it again ' +
@@ -554,23 +752,42 @@ function initializeFirebase() {
     db = firebase.firestore(app);
 
     messaging = firebase.messaging();
+
     messaging.requestPermission()
         .then(function () {
             // El usuario ha aceptado que le mandemos notificaciones.
             return messaging.getToken();
         })
         .then(function (token) {
+            setTokenSentToServer(false);
             sendTokenToServer(token);
-            myTokenMessage = token;
         })
         .catch(function (err) {
             // El usuario NO ha aceptado que le mandemos notificaciones.
             console.log("Acepta los permisos para poder obtener notificaciones de los mensajes.");
             console.log(err);
-        })
+        });
 
     messaging.onMessage(function (payload) {
+        console.log("HEEEEEY");
         console.log('onMessage: ', payload);
-    })
+    });
+
+
+    // Callback fired if Instance ID token is updated.
+    messaging.onTokenRefresh(function () {
+        messaging.getToken().then(function (refreshedToken) {
+            console.log('Token refreshed.');
+            // Indicate that the new Instance ID token has not yet been sent to the
+            // app server.
+            setTokenSentToServer(false);
+            // Send Instance ID token to app server.
+            sendTokenToServer(refreshedToken);
+            // ...
+        }).catch(function (err) {
+            console.log('Unable to retrieve refreshed token ', err);
+            showToken('Unable to retrieve refreshed token ', err);
+        });
+    });
 
 }

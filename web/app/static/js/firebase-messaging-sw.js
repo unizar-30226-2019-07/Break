@@ -10,3 +10,14 @@ var config = {
     storageBucket: "selit-7d67c.appspot.com",
     messagingSenderId: "663470816058"
 };
+firebase.initializeApp(config);
+
+const messaging = firebase.messaging();
+messaging.setBackgroundMessageHandler(function (payload) {
+    const title = payload.data.title;
+    const options = {
+        body: payload.data.body,
+        icon: payload.data.icon
+    };
+    return self.registration.showNotification(title, options);
+});
