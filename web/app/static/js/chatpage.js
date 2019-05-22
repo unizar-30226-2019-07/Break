@@ -357,11 +357,10 @@ function replyMessage(evt) {
                 }
             }
         };
-        xhr.open("POST", 'https://fcm.googleapis.com/selit-7d67c/send', true);
+        xhr.open("POST", 'https://fcm.googleapis.com/v1/projects/selit-7d67c/messages:send', true);
         xhr.timeout = TIMEOUT;
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader('Authorization', "key=BK-AegxjyvjeS0GclUETazIzl-_vCyeieTiZUxTc8Jw9YmsmpA9aK382uHcXDKszxbgo5lbKQqGNl07TqtTAGKk");
-        xhr.setRequestHeader('Access-Control-Allow-Origin', "http://localhost:5000");
+        xhr.setRequestHeader('Authorization', "Bearer " + authToken);
+        xhr.setRequestHeader("Content-Type", "application/json; UTF-8");
         xhr.send(JSON.stringify({
             "message": {
                 "token": myTokenMessage,
@@ -377,7 +376,7 @@ function replyMessage(evt) {
 }
 
 
-/**
+/*
  * Cargar la lista de chats
  */
 function loadChatManager() {
@@ -390,6 +389,13 @@ function loadChatManager() {
                 if (change.type === "added") {
                     var idProducto = change.doc.get("idProducto");
                     var tipoProd = change.doc.get("tipoProducto");
+
+
+                    chatRoomsList.prepend(
+                        `<a href="#" onclick="return false;" id="${change.doc.id}" name="${idProducto}">
+                            
+                        </a>`
+                    );
 
                     try {
 
@@ -405,15 +411,14 @@ function loadChatManager() {
                     }
                 }
                 if (change.type === "modified") {
-                    document.getElementById(change.doc.id).remove();
                     var idProducto = change.doc.get("idProducto");
                     var tipoProd = change.doc.get("tipoProducto");
 
                     try {
                         if (tipoProd === "sale") {
-                            httpGet(API + "/products/" + idProducto, mostrarChatBubble, [change.doc, false]);
+                            httpGet(API + "/products/" + idProducto, actualizarChatBubble, [change.doc, false]);
                         } else {
-                            httpGet(API + "/auctions/" + idProducto, mostrarChatBubble, [change.doc, true]);
+                            httpGet(API + "/auctions/" + idProducto, actualizarChatBubble, [change.doc, true]);
                         }
                     } catch
                         (err) {
@@ -449,8 +454,8 @@ function mostrarChatBubble(response, [doc, esSubasta]) {
 
     var ultimoMensaje = doc.get("ultimoMensaje");
 
-    chatRoomsList.prepend(
-        `<a href="#" onclick="return false;" id="${doc.id}" name="${idProducto}">
+    $('#'+doc.id).append(
+        `
             <div class="producto-bubble row">
      
                 <div class="col-3 product-image"
@@ -458,12 +463,36 @@ function mostrarChatBubble(response, [doc, esSubasta]) {
                 <div class="col-8 row">
                     <strong class="title-bubble">${producto.title}</strong>
                     <strong class="subtitle-bubble">${nombreVendedor}</strong>
-                    <strong class="message-title-bubble">${ultimoMensaje}</strong>        
+                    <strong class="message-title-bubble" id="${doc.id}-um">${ultimoMensaje}</strong>        
                 </div>     
             </div>
-        </a>`
+        `
     );
+}
 
+/**
+ * Mostrar un chat.
+ * @param response
+ * @param doc
+ * @param esSubasta
+ */
+function actualizarChatBubble(response, [doc, esSubasta]) {
+    producto = JSON.parse(response);
+    try {
+        imagen = API + '/pictures/' + (producto.media[0].idImagen);
+    } catch (err) {
+        imagen = "static/images/items.svg";
+    }
+
+    var idProducto = ((esSubasta) ? producto.idSubasta : producto.id_producto);
+
+    var nombreVendedor = ((myID === producto.owner.idUsuario) ? "Mi producto" : producto.owner.first_name + producto.owner.last_name);
+
+    var ultimoMensaje = doc.get("ultimoMensaje");
+
+    $('#' + doc.id).prependTo(chatRoomsList);
+
+    $('#' + doc.id + "-um").html(ultimoMensaje);
 }
 
 /**
@@ -575,6 +604,7 @@ function initializeFirebase() {
     db = firebase.firestore(app);
 
     messaging = firebase.messaging();
+
     messaging.requestPermission()
         .then(function () {
             // El usuario ha aceptado que le mandemos notificaciones.
@@ -582,16 +612,34 @@ function initializeFirebase() {
         })
         .then(function (token) {
             sendTokenToServer(token);
+            console.log(token);
             myTokenMessage = token;
         })
         .catch(function (err) {
             // El usuario NO ha aceptado que le mandemos notificaciones.
             console.log("Acepta los permisos para poder obtener notificaciones de los mensajes.");
             console.log(err);
-        })
+        });
 
     messaging.onMessage(function (payload) {
         console.log('onMessage: ', payload);
-    })
+    });
+
+
+    // Callback fired if Instance ID token is updated.
+    messaging.onTokenRefresh(function () {
+        messaging.getToken().then(function (refreshedToken) {
+            console.log('Token refreshed.');
+            // Indicate that the new Instance ID token has not yet been sent to the
+            // app server.
+            setTokenSentToServer(false);
+            // Send Instance ID token to app server.
+            sendTokenToServer(refreshedToken);
+            // ...
+        }).catch(function (err) {
+            console.log('Unable to retrieve refreshed token ', err);
+            showToken('Unable to retrieve refreshed token ', err);
+        });
+    });
 
 }
