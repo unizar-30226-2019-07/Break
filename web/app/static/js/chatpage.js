@@ -2,7 +2,6 @@
 // Variables globales:
 // ----------------------------------------------------
 var db;
-var admin;
 var messaging;
 var myTokenMessage;
 var myID;
@@ -10,6 +9,7 @@ const API = "https://selit.naval.cat:8443";
 const TIMEOUT = 5000;
 
 var productoActual;
+var idProductoActual;
 var anunID;
 var cliID;
 var otherId;
@@ -160,6 +160,10 @@ function loadChatRoom(evt) {
     // Id del producto pulsado
     var roomId = evt.currentTarget.id;
     var productId = evt.currentTarget.name;
+    var mensajesSinLeer = document.getElementById(roomId + '-msl');
+    if (mensajesSinLeer !== null) {
+        mensajesSinLeer.remove();
+    }
 
     if (roomId !== undefined) {
         $('.response').show();
@@ -170,7 +174,8 @@ function loadChatRoom(evt) {
         refProducto.get().then(function (doc) {
             if (doc.exists) {
                 let producto = doc.data();
-                productoActual = producto.idProducto;
+                productoActual = producto.idProducto
+                idProductoActual = doc.id;
                 cliID = producto.idCliente;
                 anunID = producto.idAnunciante;
                 otherId = ((myID === cliID) ? anunID : cliID);
@@ -385,53 +390,77 @@ function loadChatManager() {
 
     refChats
         .onSnapshot(function (snapshot) {
-            snapshot.docChanges().forEach(function (change) {
-                if (change.type === "added") {
-                    var idProducto = change.doc.get("idProducto");
-                    var tipoProd = change.doc.get("tipoProducto");
+                snapshot.docChanges().forEach(function (change) {
+                    if (change.type === "added") {
+                        var idProducto = change.doc.get("idProducto");
+                        var tipoProd = change.doc.get("tipoProducto");
+                        var mensajesSinLeer = 0;
 
+                        var refMensajesSinLeer = db.collection("chat").doc(change.doc.id).collection("mensaje").where("estado", "==", "enviado");
+                        refMensajesSinLeer.get().then(snap => {
+                            mensajesSinLeer = snap.size; // Mensajes sin leer
 
-                    chatRoomsList.prepend(
-                        `<a href="#" onclick="return false;" id="${change.doc.id}" name="${idProducto}">
+                            refMensajesSinLeer.where("idEmisor", "==", myID).get().then(snap => {
+                                console.log("Se ejecuta?");
+                                mensajesSinLeer = mensajesSinLeer - snap.size; // Mensajes sin leer
+                                console.log(mensajesSinLeer);
+
+                                chatRoomsList.prepend(
+                                    `<a href="#" onclick="return false;" id="${change.doc.id}" name="${idProducto}">
                             
-                        </a>`
-                    );
+                                 </a>`
+                                );
 
-                    try {
+                                try {
 
-                        if (tipoProd === "sale") {
-                            httpGet(API + "/products/" + idProducto, mostrarChatBubble, [change.doc, false]);
-                        } else {
-                            httpGet(API + "/auctions/" + idProducto, mostrarChatBubble, [change.doc, true]);
-                        }
-                    } catch
-                        (err) {
-                        console.log("Fallo al cargar elemento");
-                        console.log(err);
+                                    if (tipoProd === "sale") {
+                                        httpGet(API + "/products/" + idProducto, mostrarChatBubble, [change.doc, false, mensajesSinLeer]);
+                                    } else {
+                                        httpGet(API + "/auctions/" + idProducto, mostrarChatBubble, [change.doc, true, mensajesSinLeer]);
+                                    }
+                                } catch
+                                    (err) {
+                                    console.log("Fallo al cargar elemento");
+                                    console.log(err);
+                                }
+                            });
+                        });
                     }
-                }
-                if (change.type === "modified") {
-                    var idProducto = change.doc.get("idProducto");
-                    var tipoProd = change.doc.get("tipoProducto");
+                    if (change.type === "modified") {
+                        var idProducto = change.doc.get("idProducto");
+                        var tipoProd = change.doc.get("tipoProducto");
 
-                    try {
-                        if (tipoProd === "sale") {
-                            httpGet(API + "/products/" + idProducto, actualizarChatBubble, [change.doc, false]);
-                        } else {
-                            httpGet(API + "/auctions/" + idProducto, actualizarChatBubble, [change.doc, true]);
+                        if (idProductoActual !== change.doc.id) {
+                            var newMessages = document.getElementById(change.doc.id + '-msl');
+                            if (newMessages !== null) {
+                                var num = parseInt(newMessages.textContent);
+                                newMessages.textContent = (num + 1);
+                            } else {
+                                $('#' + change.doc.id + '-mb').append(
+                                    `<div class="numberCircle" id="${change.doc.id}-msl">1</div>`);
+                            }
                         }
-                    } catch
-                        (err) {
-                        console.log("Fallo al cargar elemento");
-                        console.log(err);
+                        
+                        try {
+                            if (tipoProd === "sale") {
+                                httpGet(API + "/products/" + idProducto, actualizarChatBubble, [change.doc, false]);
+                            } else {
+                                httpGet(API + "/auctions/" + idProducto, actualizarChatBubble, [change.doc, true]);
+                            }
+                        } catch
+                            (err) {
+                            console.log("Fallo al cargar elemento");
+                            console.log(err);
+                        }
                     }
-                }
-                if (change.type === "removed") {
-                    // Si se elimina el chat:
-                    document.getElementById(change.doc.id).remove();
-                }
-            });
-        });
+                    if (change.type === "removed") {
+                        // Si se elimina el chat:
+                        document.getElementById(change.doc.id).remove();
+                    }
+                });
+            }
+        )
+    ;
 }
 
 /**
@@ -440,23 +469,24 @@ function loadChatManager() {
  * @param doc
  * @param esSubasta
  */
-function mostrarChatBubble(response, [doc, esSubasta]) {
+function mostrarChatBubble(response, [doc, esSubasta, mensajesSinLeer]) {
     producto = JSON.parse(response);
     try {
         imagen = API + '/pictures/' + (producto.media[0].idImagen);
     } catch (err) {
         imagen = "static/images/items.svg";
     }
-
-    var idProducto = ((esSubasta) ? producto.idSubasta : producto.id_producto);
-
     var nombreVendedor = ((myID === producto.owner.idUsuario) ? "Mi producto" : producto.owner.first_name + producto.owner.last_name);
 
     var ultimoMensaje = doc.get("ultimoMensaje");
 
-    $('#'+doc.id).append(
+    var mensNoLeidos = (mensajesSinLeer === 0) ? "" : '<div class="numberCircle" id="' + doc.id + '-msl">' + mensajesSinLeer + '</div>';
+    // console.log(mensNoLeidos);
+
+    $('#' + doc.id).append(
         `
-            <div class="producto-bubble row">
+            <div class="producto-bubble row" id="${doc.id}-mb">
+                ${mensNoLeidos}
      
                 <div class="col-3 product-image"
                     style="background-image: url(${imagen})"></div>
@@ -484,14 +514,12 @@ function actualizarChatBubble(response, [doc, esSubasta]) {
         imagen = "static/images/items.svg";
     }
 
-    var idProducto = ((esSubasta) ? producto.idSubasta : producto.id_producto);
-
-    var nombreVendedor = ((myID === producto.owner.idUsuario) ? "Mi producto" : producto.owner.first_name + producto.owner.last_name);
-
     var ultimoMensaje = doc.get("ultimoMensaje");
 
+    // Mover bubble arriba del t.odo.
     $('#' + doc.id).prependTo(chatRoomsList);
 
+    // Actualizar el último mensaje.
     $('#' + doc.id + "-um").html(ultimoMensaje);
 }
 
