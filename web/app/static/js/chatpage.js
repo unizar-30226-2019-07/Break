@@ -39,7 +39,6 @@ const chatMessages = $('#chat-msgs');
 const chatReplyMessage = $('#replyMessage');
 const chatScrollMessageDiv = "msg_scroll";
 
-
 // ----------------------------------------------------
 // Inicialize scripts.
 // ----------------------------------------------------
@@ -176,7 +175,6 @@ function loadChatRoom(evt) {
         refProducto.get().then(function (doc) {
             if (doc.exists) {
                 let producto = doc.data();
-                productoActual = producto.idProducto
                 idProductoActual = doc.id;
                 cliID = producto.idCliente;
                 anunID = producto.idAnunciante;
@@ -211,6 +209,7 @@ function loadChatRoom(evt) {
 function mostrarChatRoom(response, [roomId, esSubasta]) {
     producto = JSON.parse(response);
 
+    productoActual = producto;
     titleProducto = producto.title;
     mediaProducto = producto.media;
 
@@ -265,6 +264,8 @@ function mostrarOtroUsuario(response, [producto]) {
         imagen = "gravatar.get(" + usuario.email + ")";
     }
 
+    var sellPro = (productoActual.status === "en venta") ? '<a class="dropdown-item" href="#" onclick="venderProducto(); return false;"><i class="fas fa-euro-sign"></i> Vender Producto</a>' : "";
+
     $('#other_user').html(
         `
         <div class="row user-bubble">
@@ -281,17 +282,40 @@ function mostrarOtroUsuario(response, [producto]) {
                     <i class="fas fa-ellipsis-v"></i>
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#"><i class="fas fa-euro-sign"></i> Vender Producto</a>
-                    <a class="dropdown-item" href="#"><i class="far fa-flag"></i> Reportar Usuario</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-times"></i> Eliminar Chat</a>
+                    ${sellPro}
+                    <a class="dropdown-item" href="#" onclick=" return false;"><i class="far fa-flag"></i> Reportar Usuario</a>
+                    <a class="dropdown-item" href="#" onclick=" return false;"><i class="fas fa-times"></i> Eliminar Chat</a>
                   </div>
                 </div>
             </div>
         </div>    
     `);
-
 }
 
+/**
+ * Verder un "sale" al usuario que se está chateando:
+ */
+function venderProducto() {
+    console.log("Vender Producto");
+
+    var xhr = new XMLHttpRequest();
+    xhr.ontimeout = function () {
+        console.error("The request notification timed out.");
+    };
+    xhr.onload = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                console.log(xhr.responseText);
+            } else {
+                console.error(xhr.statusText);
+                console.error(xhr.responseText);
+            }
+        }
+    };
+    xhr.open('POST', '/ajax/sell/' + productoActual.id_producto + '/' + otherId, true);
+    xhr.timeout = TIMEOUT;
+    xhr.send(null)
+}
 
 /**
  * Contestar con un mensaje:
@@ -308,7 +332,7 @@ function replyMessage(evt) {
 
         var tipo = (tipoProducto === "sale") ? "p" : "s";
 
-        refChat = db.collection("chat").doc(tipo + productoActual + "_a" + anunID + "_c" + cliID);
+        refChat = db.collection("chat").doc(tipo + idProductoActual + "_a" + anunID + "_c" + cliID);
         refChat.update({
             fechaUltimoMensaje: date,
             ultimoMensaje: message
