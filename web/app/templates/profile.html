@@ -110,6 +110,17 @@
                             <input type="submit"
                              class="mb-5 main_button" value="Editar Perfil">
                         </a>
+			{% if user.tipo == "administrador" %}
+			<a href="{{ url_for('reports') }}">
+				<input type="submit"
+				       class="mb-5 main_button" value="Informes de Usuarios">
+			</a>
+			{% endif %}
+			{% else %}
+			<a href="{{ '/report/' + ((user.idUsuario)|string)}}">
+				<input type="submit"
+				       class="mb-5 main_button" value="Reportar Usuario">
+			</a>
                         {% endif %}
                     </ul>
                 </div>
