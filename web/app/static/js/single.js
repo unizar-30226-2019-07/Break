@@ -282,6 +282,10 @@ function abrirChatGan() {
             var respuesta = refChat.update({
                 visible: firebase.firestore.FieldValue.arrayUnion(anunID)
             });
+
+            if (respuesta !== undefined) {
+                redirigirChat();
+            }
         }
     } else {
         var respuesta = refChat.set({
@@ -293,11 +297,12 @@ function abrirChatGan() {
             ultimoMensaje: "",
             visible: [anunID]
         });
+        if (respuesta !== undefined) {
+            redirigirChat();
+        }
     }
 
-    if (respuesta !== undefined) {
-        redirigirChat();
-    }
+
 }
 
 function redirigirChat() {
