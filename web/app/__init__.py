@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 
 from config import Config
 from app.forms import LoginForm, RegisterForm, EditProfile, EditEmail, EditPassword, EditLocation, SubirAnuncioForm, \
-    ProductSearch, EditPicture, Review, bidPlacementForm, reportForm
+    ProductSearch, EditPicture, Review, bidPlacementForm, reportForm, RestorePasswordForm
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
@@ -205,6 +205,23 @@ def register():
 
     return render_template('register.html', form=RegisterForm(), userauth=current_user)
 
+@app.route('/restorepassword', methods=['GET', 'POST'])
+def restore_password():
+    form = RestorePasswordForm(request.form)
+    if request.method == 'POST':
+        if form.validate():
+            email = form.email.data
+
+            payload = {'email': email}
+            response = requests.get(url=url + '/users/forgot', params=payload)
+            print(response)
+
+            # Print in the console the response from the API
+            return redirect(url_for('login'))
+
+        return render_template('restorepassword.html', form=form, userauth=current_user)
+
+    return render_template('restorepassword.html', form=RestorePasswordForm(), userauth=current_user)
 
 @app.route('/logout')
 def logout():

@@ -36,6 +36,11 @@ class RegisterForm(Form):
         validators.EqualTo('password', message='Las contraseñas no coinciden')
     ])
 
+# Structure of the Login form
+class RestorePasswordForm(Form):
+    email = StringField('Email', [
+        validators.DataRequired(message='Es necesario introducir un email')])
+    submit = SubmitField("Correo de Recuperación")
 
 class EditProfile(FlaskForm):
     name = StringField('Nombre', [

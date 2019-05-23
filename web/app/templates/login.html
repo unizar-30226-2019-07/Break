@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Iniciar Sesión</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="myHOME - real estate template project">
+    <meta name="description" content="Iniciar Sesión">
 
     <!-- General links -->
     {% include 'include/headLinks.html' %}
@@ -67,13 +68,13 @@
                     {% endfor %}
                     </p>
                     <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-                    <p>{{ form.submit(class="search_button") }}</p>
+                    <p>{{ form.submit(class="main_button") }}</p>
                 </form>
 
                 <!-- Remember Password -->
                 <p>
                 <div class="formFooter">
-                    <a class="underlineHover" href="#">Forgot Password?</a>
+                    <a class="underlineHover" href="/restorepassword">¿Olvidaste la contraseña?</a>
                 </div>
                 </p>
             </div>
@@ -118,13 +119,13 @@
 
                 <p><input type="checkbox" name="remember_me" value={{request.form.remember_me}}> {{
                     form.remember_me.label }}</p>
-                <p><input type="submit" name="submit" value="Iniciar Sesión"></p>
+                <p>{{ form.submit(class="main_button") }}</p>
             </div>
         </form>
         <!-- Remind Password -->
         <p>
         <div>
-            <a class="underlineHover" href="#">¿Olvidaste la contraseña?</a>
+            <a class="underlineHover" href="/restorepassword">¿Olvidaste la contraseña?</a>
         </div>
         </p>
 
