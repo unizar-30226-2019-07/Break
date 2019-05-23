@@ -598,24 +598,25 @@ function searchChats() {
 $("#record-filters :radio").change(function () {
         if ($(this).is(":checked")) {
             var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("inputSearchChat");
-            filter = "Mi producto";
+            filter = 'Mi producto';
             table = document.getElementById("rooms");
             tr = table.getElementsByTagName("a");
 
             var val = this.id;
             switch (val) {
                 case "interesado":
+
                     for (i = 0; i < tr.length; i++) {
-                        td = tr[i].getElementsByTagName("div")[0];
-                        td = td.getElementsByTagName("div")[1];
-                        td = td.getElementsByTagName("strong")[1];
+                        td = tr[i].getElementsByTagName("div")[2];
                         if (td) {
-                            txtValue = td.innerText;
-                            if (txtValue.indexOf(filter) <= -1) {
-                                tr[i].style.display = "";
-                            } else {
-                                tr[i].style.display = "none";
+                            td = td.getElementsByTagName("strong")[1];
+                            if (td) {
+                                txtValue = td.innerText;
+                                if (txtValue.indexOf(filter) < 0) {
+                                    tr[i].style.display = "";
+                                } else {
+                                    tr[i].style.display = "none";
+                                }
                             }
                         }
                     }
@@ -623,15 +624,17 @@ $("#record-filters :radio").change(function () {
 
                 case "misProductos":
                     for (i = 0; i < tr.length; i++) {
-                        td = tr[i].getElementsByTagName("div")[0];
-                        td = td.getElementsByTagName("div")[1];
-                        td = td.getElementsByTagName("strong")[1];
+                        td = tr[i].getElementsByTagName("div")[2];
                         if (td) {
-                            txtValue = td.innerText;
-                            if (txtValue.indexOf(filter) > -1) {
-                                tr[i].style.display = "";
-                            } else {
-                                tr[i].style.display = "none";
+                            td = td.getElementsByTagName("strong")[1];
+                            if (td) {
+                                txtValue = td.innerText;
+                                console.log(txtValue);
+                                if (txtValue.indexOf(filter) === 0) {
+                                    tr[i].style.display = "";
+                                } else {
+                                    tr[i].style.display = "none";
+                                }
                             }
                         }
                     }
@@ -639,15 +642,19 @@ $("#record-filters :radio").change(function () {
 
                 case "todosProductos":
                     for (i = 0; i < tr.length; i++) {
-                        td = tr[i].getElementsByTagName("div")[0];
-                        td = td.getElementsByTagName("div")[1];
-                        td = td.getElementsByTagName("strong")[1];
+                        console.log(tr[i]);
+                        td = tr[i].getElementsByTagName("div")[2];
+                        console.log(td);
                         if (td) {
-                            txtValue = td.innerText;
-                            if (txtValue.indexOf("") > -1) {
-                                tr[i].style.display = "";
-                            } else {
-                                tr[i].style.display = "none";
+                            td = td.getElementsByTagName("strong")[1];
+                            console.log(td);
+                            if (td) {
+                                txtValue = td.innerText;
+                                if (txtValue.indexOf("") > -1) {
+                                    tr[i].style.display = "";
+                                } else {
+                                    tr[i].style.display = "none";
+                                }
                             }
                         }
                     }
