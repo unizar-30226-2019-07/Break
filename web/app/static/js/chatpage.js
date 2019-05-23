@@ -389,7 +389,7 @@ function replyMessage(evt) {
             if (doc.data() !== undefined) {
                 var token2Send = doc.data().tokenDesktop;
                 if (token2Send !== undefined) {
-                    sendNotifycation(token2Send);
+                    sendNotifycation(token2Send, message);
                 }
             }
         });
@@ -400,7 +400,7 @@ function replyMessage(evt) {
 /**
  * Cargar la lista de chats
  */
-function sendNotifycation(token) {
+function sendNotifycation(token, message) {
     // Send a message to the device corresponding to the provided
     // registration token.
     var xhr = new XMLHttpRequest();
