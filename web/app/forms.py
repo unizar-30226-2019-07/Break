@@ -99,7 +99,7 @@ class SubirAnuncioForm(FlaskForm):
             ('Videojuegos', 'Videojuegos'),
             ('Libros y música', 'Libros y música'),
             ('Hogar y jardín', 'Hogar y jardín'),
-            ('Foto y audio ', 'Foto y audio ')
+            ('Foto y audio', 'Foto y audio')
         ], validators = [ 
             validators.DataRequired(message='Es necesario seleccionar una categoría') ])
     description = TextAreaField('Descripción', [
@@ -122,7 +122,7 @@ class ProductSearch(Form):
             ('Videojuegos', 'Videojuegos'),
             ('Libros y música', 'Libros y música'),
             ('Hogar y jardín', 'Hogar y jardín'),
-            ('Foto y audio ', 'Foto y audio ')
+            ('Foto y audio', 'Foto y audio')
         ])
     estados = [('en venta', 'En Venta'), ('vendido', 'Vendido')]
     resultadosporpag = ['15', '30', '45', '60', '75', '90']
