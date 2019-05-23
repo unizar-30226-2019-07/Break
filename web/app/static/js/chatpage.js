@@ -526,7 +526,7 @@ function mostrarChatBubble(response, [doc, esSubasta, mensajesSinLeer]) {
     } catch (err) {
         imagen = "static/images/items.svg";
     }
-    var nombreVendedor = ((myID === producto.owner.idUsuario) ? "Mi producto" : producto.owner.first_name + producto.owner.last_name);
+    var nombreVendedor = ((myID === producto.owner.idUsuario) ? "Mi producto" : producto.owner.first_name + " " + producto.owner.last_name);
 
     var ultimoMensaje = doc.get("ultimoMensaje");
 
