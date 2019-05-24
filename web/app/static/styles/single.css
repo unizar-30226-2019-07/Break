@@ -63,6 +63,7 @@ img {
     -ms-transition: all 200ms ease;
     -o-transition: all 200ms ease;
     transition: all 200ms ease;
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
 .image_slider_nav_r:hover {
@@ -91,6 +92,7 @@ img {
     -ms-transition: all 200ms ease;
     -o-transition: all 200ms ease;
     transition: all 200ms ease;
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
 .image_slider_nav_l:hover {
@@ -109,6 +111,7 @@ img {
         width: 37px;
         height: 37px;
     }
+
     .image_slider_nav_r i,
     .image_slider_nav_l i {
         line-height: 37px;
@@ -125,8 +128,7 @@ img {
     overflow: hidden;
 }
 
-s
-.maxh {
+s .maxh {
     max-height: 100vh;
 }
 
@@ -143,16 +145,17 @@ video {
 }
 
 .owl-carousel .owl-stage-outer {
-    background-color: var(--clouds);
+    background-color: rgba(255, 255, 255, 0.8);
     width: calc(100% - 4px);
     margin-left: 2px;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.3);
 }
 
 .owl-stage {
-    -ms-flex-align: center!important;
-    align-items: center!important;
-    display: -ms-flexbox!important;
-    display: flex!important;
+    -ms-flex-align: center !important;
+    align-items: center !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
 }
 
 .owl-item {
@@ -259,7 +262,7 @@ video {
 
 .listing_container {
     padding-bottom: 92px;
-    background: #ffffff;
+    margin-top: -165px;
 }
 
 .listing_tabs {
@@ -352,18 +355,15 @@ video {
 }
 
 .about {
-    padding-top: 92px;
+    padding-top: 20px;
 }
 
 .tag_price {
     display: inline-block;
-    height: 37px;
-    padding-left: 27px;
-    padding-right: 26px;
+    padding: 10px 30px;
     background: var(--secondaryColor);
-    line-height: 37px;
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 800;
     color: #ffffff;
 }
 
@@ -406,25 +406,35 @@ video {
     padding: 15px 20px;
     border-radius: 10px;
     border: solid 3px var(--clouds);
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.prop_agent:hover{
+    background-color: rgba(235, 217, 221, 0.15);
 }
 
 .prop_agent_image {
-    width: 49px;
-    height: 49px;
+    height: 75px;
+    max-width: 75px;
+    display: inline-block;
+    margin-right: 10px;
     border-radius: 50%;
     overflow: hidden;
+
+    background-position: center;
+    background-size: cover;
+}
+
+.prop_agent_date {
+    margin-left: 15px;
+    color: #6c7079;
+    display: inline-block;
 }
 
 .prop_agent_name {
-    margin-left: 15px;
-    color: #6c7079;
-    font-weight: 600;
-}
-
-.prop_agent_name a {
-    font-size: 14px;
-    font-weight: 600;
     color: var(--primaryColor);
+    display: inline-block;
 }
 
 .prop_info {
@@ -461,11 +471,19 @@ video {
 }
 
 .about_text {
-    padding-top: 2em;
+    margin: 15px 0;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.3);
+    padding: 15px;
 }
 
 .about_text * {
-    font-size: 1.15em;
+    font-size: 20px;
+}
+
+.about_cat{
+    font-size: 20px;
+    padding: 15px;
 }
 
 .listing_features {
@@ -573,19 +591,14 @@ video {
 
 .badge_on_sale,
 .badge_sold {
-    height: 40px;
-    line-height: 40px;
     border-radius: 20px;
-    margin: 6px;
-    padding: 0 2em;
-
-    font-size: 17px;
-    font-weight: 600;
+    padding: 13px 40px;
+    font-size: 24px;
     color: white;
 }
 
 .badge_on_sale {
-    background-color: var(--primaryColor); 
+    background-color: var(--primaryColor);
 }
 
 .badge_sold {
@@ -593,11 +606,11 @@ video {
 }
 
 .main_button.bg-gray {
-    background-color: var(--gray);
+    background-color: gray;
 }
 
 .main_button.bg-gray:hover {
-    background-color: var(--gray-dark);
+    background-color: darkgray;
 }
 
 .bid_form {
@@ -627,20 +640,17 @@ video {
 .bid_button {
     width: 100% !important;
     margin-bottom: 11px;
-    height: 51px;
+    margin-top: 0;
     background: var(--secondaryColor);
-    color: #ffffff;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    text-transform: uppercase;
     -webkit-transition: all 200ms ease;
     -moz-transition: all 200ms ease;
     -ms-transition: all 200ms ease;
     -o-transition: all 200ms ease;
     transition: all 200ms ease;
+}
+
+.bid_button:hover {
+    background: #6e221b;
 }
 
 .bid_inputs {

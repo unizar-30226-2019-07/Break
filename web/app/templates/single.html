@@ -1,149 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>Single Listing</title>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="description" content="myHOME - real estate template project">
+<head>
+    <title>Single Listing</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="myHOME - real estate template project">
 
-		<!-- General links -->
-		{% include 'include/headLinks.html' %}
+    <!-- General links -->
+    {% include 'include/headLinks.html' %}
 
-		<link rel="stylesheet" type="text/css"
-				       href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.carousel.css') }}">
-		<link rel="stylesheet" type="text/css"
-				       href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.theme.default.css') }}">
-		<link rel="stylesheet" type="text/css"
-				       href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/animate.css') }}">
-		<link href="{{ url_for('static', filename = 'plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css') }}">
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.carousel.css') }}">
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.theme.default.css') }}">
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/animate.css') }}">
+    <link href="{{ url_for('static', filename = 'plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css') }}">
 
-		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/single.css') }}">
-		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/wishlist.css') }}">
-		<script type="text/javascript" src="{{ url_for('static', filename = 'js/jquery-3.3.1.min.js') }}"></script>
-		<script type="text/javascript" src="{{ url_for('static', filename = 'js/wishlist.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/single.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/wishlist.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/jquery-3.3.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/wishlist.js') }}"></script>
 
-		{{ map.js }}
-	</head>
+    {{ map.js }}
+</head>
 
-	<!-- Header -->
-	{% include 'include/header.html' %}
+<!-- Header -->
+{% include 'include/header.html' %}
 
-	<!-- Title -->
-	<center>
-		<div class="title_container">
-			<div class="title">
-				{% if auction == True %}
-				Ver Subasta
-				{% else %}
-				Ver producto
-				{% endif %}
-			</div>
-		</div>
-	</center>
+<!-- Title -->
+<center>
+    <div class="title_container">
+        <div class="title">
+            {% if auction == True %}
+            Ver Subasta
+            {% else %}
+            Ver producto
+            {% endif %}
+        </div>
+    </div>
+</center>
 
-	<!-- Home -->
-	<body>
-		<!-- Listing -->
-		<div class="listing_container">
+<!-- Home -->
+<body>
+<!-- Listing -->
+<div class="listing_container">
 
-			<div class="container">
-				<div class="row">
-					<div class="col">
+    <div class="container">
+        <div class="row">
+            <div class="col">
 
 
-						<!-- image_slider -->
-						<div class="row image_slider_container mt-5">
-							<div class="owl-carousel owl-theme image_slider">
-								{% if prod.media != None %}
-								{% if prod.media|length > 0 %}
-								{% for picture in prod.media %}
-								<!-- Slide -->
-								<div class="slide ">
-									<div class="image_slider_container ">
-										<img class="text-center" src="{{ api + '/pictures/' + (picture.idImagen|string) }}">
-									</div>
-								</div>
-								{% endfor %}
-								{% else %}
-								<div class="slide ">
-									<div class="image_slider_container ">
-										<img class="text-center" src="{{ url_for('static', filename='images/items.svg') }}">
-									</div>
-								</div>
-								{% endif %}
-								{% else %}
-								<div class="slide ">
-									<div class="image_slider_container ">
-										<img class="text-center" src="{{ url_for('static', filename='images/items.svg') }}">
-									</div>
-								</div>
-								{% endif %}
-							</div>
-							<!-- Home Slider Navigation -->
-							{% if prod.media|length > 1 %}
-							<div class="image_slider_nav_l"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
-							<div class="image_slider_nav_r"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
-							{% endif %}
-						</div>
+                <!-- image_slider -->
+                <div class="row image_slider_container mt-5">
+                    <div class="owl-carousel owl-theme image_slider">
+                        {% if prod.media != None %}
+                        {% if prod.media|length > 0 %}
+                        {% for picture in prod.media %}
+                        <!-- Slide -->
+                        <div class="slide ">
+                            <div class="image_slider_container ">
+                                <img class="text-center" src="{{ api + '/pictures/' + (picture.idImagen|string) }}">
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="slide ">
+                            <div class="image_slider_container ">
+                                <img class="text-center" src="{{ url_for('static', filename='images/items.svg') }}">
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% else %}
+                        <div class="slide ">
+                            <div class="image_slider_container ">
+                                <img class="text-center" src="{{ url_for('static', filename='images/items.svg') }}">
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <!-- Home Slider Navigation -->
+                    {% if prod.media|length > 1 %}
+                    <div class="image_slider_nav_l"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
+                    <div class="image_slider_nav_r"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+                    {% endif %}
+                </div>
 
-						{% if prod.status == "en venta" %}
-						<div class="text-center">
-						{% if prod.owner.idUsuario == userauth.user_id %}
-						{% if auction == True %}
-						<button class="main_button mx-2" onclick="redirigirEditarProducto(true)">
-							Editar subasta
-						</button>
-						{% else %}
-						<button class="main_button mx-2" onclick="redirigirEditarProducto(false)">
-							Editar producto
-						</button>
-						{% endif %}
-						{% if auction == True %}
-						<button class="main_button bg-gray mx-2" onclick="redirigirBorrarProducto(true)">
-							Borrar subasta
-						</button>
-						{% else %}
-						<button class="main_button bg-gray mx-2" onclick="redirigirBorrarProducto(false)">
-							Borrar producto
-						</button>
-						{% endif %}
+                {% if prod.status == "en venta" %}
+                <div class="text-center">
+                    {% if prod.owner.idUsuario == userauth.user_id %}
+                    {% if auction == True %}
+                    <button class="main_button mx-2" onclick="redirigirEditarProducto(true)">
+                        Editar subasta
+                    </button>
+                    {% else %}
+                    <button class="main_button mx-2" onclick="redirigirEditarProducto(false)">
+                        Editar producto
+                    </button>
+                    {% endif %}
+                    {% if auction == True %}
+                    <button class="main_button bg-gray mx-2" onclick="redirigirBorrarProducto(true)">
+                        Borrar subasta
+                    </button>
+                    {% else %}
+                    <button class="main_button bg-gray mx-2" onclick="redirigirBorrarProducto(false)">
+                        Borrar producto
+                    </button>
+                    {% endif %}
 
-						{% else %}
-						<button class="main_button mx-2" onclick="abrirChat()">
-							Contactar con el vendedor
-						</button>
-						{% endif %}
-						</div>
-						{% endif %}
+                    {% else %}
+                    <button class="main_button mx-2" onclick="abrirChat()">
+                        Contactar con el vendedor
+                    </button>
+                    {% endif %}
+                </div>
+                {% endif %}
 
-						<!-- About -->
-						<div class="about">
-							<div class="row">
-								<div class="col-lg-12">
-									<div class="property_info d-flex">
-										<div class="flex-grow-1 mt-3">
-										<div class="tag_price listing_price text-center mr-3 mb-3">
-											{% if auction == True %}
-											{% if prod.lastBid != None %}
-											{{ '%0.2f'| format(prod.lastBid.amount|float) }}
-											{% else %}
-											{{ '%0.2f'| format(prod.startPrice|float) }}
-											{% endif %}
-											{% else %}
-											{{ '%0.2f'| format(prod.price|float) }}
-											{% endif %}
-											{{ prod.currency }}
+                <!-- About -->
+                <div class="about">
+                    <div class="row">
+                        <div class="col-lg-12">
 
-										</div>
-										{% if prod.status == "vendido" %}
-										<div class="badge badge_sold m-0 mr-3">
+                            <div class="listing_name"><h1>{{prod.title}}</h1></div>
+                            <div class="property_info d-flex">
+                                <div class="flex-grow-1 mt-3">
+                                    <div class="tag_price listing_price text-center mr-3 mb-3">
+                                        {% if auction == True %}
+                                        {% if prod.lastBid != None %}
+                                        {{ '%0.2f'| format(prod.lastBid.amount|float) }}
+                                        {% else %}
+                                        {{ '%0.2f'| format(prod.startPrice|float) }}
+                                        {% endif %}
+                                        {% else %}
+                                        {{ '%0.2f'| format(prod.price|float) }}
+                                        {% endif %}
+                                        {{ prod.currency }}
+
+                                    </div>
+                                    {% if prod.status == "vendido" %}
+                                    <div class="badge badge_sold m-0 mr-3">
 											<span class="text-center">
 												Vendido
 											</span>
-										</div>
-										{% else %}
-											{% if auction %}
-							                	<div class="badge badge_on_sale m-0 mr-3">
+                                    </div>
+                                    {% else %}
+                                    {% if auction %}
+                                    <div class="badge badge_on_sale m-0 mr-3">
 							                    		<span class="d-flex">
 							                    		{% set left = 1 + (strptime(prod.endDate, '%Y-%m-%d') - now()).days %}
 							                    		{% if left < 0 %}
@@ -156,158 +158,183 @@
 								               				{{  left }} días
 								               			{% endif %}
 							                		</span>
-							                	</div>
-							               	{% else %}
-												<div class="badge badge_on_sale m-0 mr-3">
+                                    </div>
+                                    {% else %}
+                                    <div class="badge badge_on_sale m-0 mr-3">
 													<span class="text-center">
 														En venta
 													</span>
-												</div>
-							                {% endif %}
-										{% endif %}
-										</div>
-										<div class="align-self-center">
-										<div class="wishlist {{ 'in_wishlist' if prod.in_wishlist else '' }} d-flex align-items-center justify-content-center" 
-						                    	data-id="{{ prod.idSubasta if auction else prod.id_producto }}" 
-						                    	data-type="{{ 'wishes_auctions' if auction else 'wishes_products' }}">
+                                    </div>
+                                    {% endif %}
+                                    {% endif %}
+                                </div>
+                                <div class="align-self-center">
+                                    <div class="wishlist {{ 'in_wishlist' if prod.in_wishlist else '' }} d-flex align-items-center justify-content-center"
+                                         data-id="{{ prod.idSubasta if auction else prod.id_producto }}"
+                                         data-type="{{ 'wishes_auctions' if auction else 'wishes_products' }}">
 
-											<i class="fas fa-heart"></i>
-											<i class="far fa-heart"></i>
-										</div>
-										</div>
-										</div>
-										<div class="listing_name"><h1>{{prod.title}}</h1></div>
-										<div class="listing_location d-flex flex-row align-items-start justify-content-start">
-											<img src="{{ url_for('static', filename = 'images/icon_1.png') }}" alt="">
-											<span>
+                                        <i class="fas fa-heart"></i>
+                                        <i class="far fa-heart"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="listing_location d-flex flex-row align-items-start justify-content-start">
+                                <img src="{{ url_for('static', filename = 'images/icon_1.png') }}" alt="">
+                                <span>
 												{% if prod.distance != None %}
 												A {{ prod.distance|round(1) }} km de tí
 												{% endif %}
 											</span>
 
-										</div>
-										<div class="about_text">
-											<p class="text-dark">
-											{{ prod.description }}
-											</p>
-										</div>
-										<div class="mt-3">
-											<p class="m-0">
-												Categoría: {{ prod.category }}
-											</p>
-										</div>
-										{% if auction == True %}
-										{% if finSub == 0 %}
-										<h3 class="mt-5">Realizar una puja</h3>
-										<form action="#" class="bid_form" id="bid_form" method="post">
-											<div class="start justify-content-lg-between justify-content-start">
-												<div class="row col bid_inputs align-items-start justify-content-lg-between justify-content-start">
-													<div class="col-lg-12">
-														<div class="bid_title">Cantidad ({{ prod.currency }})</div>
-														{{ form.amount(class = "bid_input input-d") }}
-														{% if errorNum %}
-														<div class="alert alert-danger">
-															<li>Se debe introducir un número mayor a la cantidad propuesta</li>
-														</div>
-														{% endif %}
-														{% if errorNoLogin %}
-														<div class="alert alert-danger">
-															<li>Se debe estar logeado para realizar una puja</li>
-														</div>
-														{% endif %}
-													</div>
-													<div class="col-12 text-center align-self-end">
-														{{ form.submit(class="bid_button", value="Confirmar") }}
-													</div>							
-												</div>
-											</div>
-										</form>
-										{% else %} 
-										<h3 class="mt-5">Subasta Terminada</h3>
-										{% if prod.owner.idUsuario == userauth.user_id %}
-										{% if winnerId >= 0 %}
-										<button class="main_button mx-2" onclick="abrirChatGan()">
-											Contactar con el ganador
-										</button>
-										{% endif %}
-										{% endif %}
-										{% endif %}
-										{% endif %}
-										<h3 class="mt-5">Acerca del vendedor</h3>
-										<div class="prop_agent d-flex flex-row align-items-center justify-content-start">
-											<div class="prop_agent_image">
-												<!-- Begin Image -->
-												{% import 'include/_gravatar.html' as gravatar %}
-												{% if prod.owner.picture.idImagen is number %}
-												{% set profile_picture = api + '/pictures/' +
-												(prod.owner.picture.idImagen|string) %}
-												{% else %}
-												{% set profile_picture = gravatar.get(prod.owner.email) %}
-												{% endif %}
-												<img src="{{profile_picture}}">
-											</div>
+                            </div>
+                            <div class="about_text">
+                                <p class="text-dark">
+                                    {{ prod.description }}
+                                </p>
+                            </div>
+                            <p class="about_cat mt-2">
+                                    Categoría: {{ prod.category }}
+                            </p>
+                            {% if auction == True %}
+                            {% if finSub == 0 %}
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <center><h3 class="mt-5">Realizar una puja</h3></center>
+                                    <form action="#" class="bid_form" id="bid_form" method="post">
+                                        <div class="start justify-content-lg-between justify-content-start">
+                                            <div class="row col bid_inputs align-items-start justify-content-lg-between justify-content-start">
+                                                <div class="col-lg-12">
+                                                    <div class="bid_title">Cantidad ({{ prod.currency }})</div>
+                                                    {{ form.amount(class = "bid_input input-d") }}
+                                                    {% if errorNum %}
+                                                    <div class="alert alert-danger">
+                                                        <li>Se debe introducir un número mayor a la cantidad propuesta
+                                                        </li>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% if errorNoLogin %}
+                                                    <div class="alert alert-danger">
+                                                        <li>Se debe estar logeado para realizar una puja</li>
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-12 text-center align-self-end">
+                                                    {{ form.submit(class="main_button bid_button", value="Confirmar") }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    {% else %}
+                                    <h3 class="mt-5">Subasta Terminada</h3>
+                                    {% if prod.owner.idUsuario == userauth.user_id %}
+                                    {% if winnerId >= 0 %}
+                                    <button class="main_button mx-2" onclick="abrirChatGan()">
+                                        Contactar con el ganador
+                                    </button>
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endif %}
+                                </div>
+                                <div class="col-lg-6">
+                                    <center><h3 class="mt-5">Acerca del vendedor</h3></center>
+                                    <a href="{{ url_for('user', user_id=prod.owner.idUsuario) }}">
+                                        <div class="prop_agent d-flex flex-row align-items-center justify-content-start row">
+                                            {% import 'include/_gravatar.html' as gravatar %}
+                                                {% if prod.owner.picture.idImagen is number %}
+                                                {% set profile_picture = api + '/pictures/' +
+                                                (prod.owner.picture.idImagen|string) %}
+                                                {% else %}
+                                                {% set profile_picture = gravatar.get(prod.owner.email) %}
+                                                {% endif %}
+                                            <div class="col-3 prop_agent_image" style="background-image: url({{profile_picture}})">
+                                                <!-- Begin Image -->
+                                            </div>
+                                            <div class="col-8 row">
+                                                <strong class="prop_agent_name">{{prod.owner.first_name}} {{prod.owner.last_name}}</strong>
+                                                <strong class="prop_agent_date">Publicado: {{ prod.published if auction else prod.publicate_date }}</strong>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="google_map_container">
+                            {{ map.html }}
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-											<div class="prop_agent_name">
-												<a href="{{ url_for('user', user_id=prod.owner.idUsuario) }}">
-													{{prod.owner.first_name}} {{prod.owner.last_name}}
-												</a>
-												<br/>
-												Publicado: {{ prod.published if auction else prod.publicate_date }}
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-12">
-									<div class="google_map_container">
-										{{ map.html }}
-									</div>
-								</div>
-							</div>
-						</div>
+        </div>
+    </div>
+</div>
 
-					</div>
-				</div>
-			</div>
+</div>
 
-		</div>
+<!-- Footer  -->
+{% include 'include/footer.html' %}
 
-		<!-- Footer  -->
-		{% include 'include/footer.html' %}
+<!-- General Scripts  -->
+{% include 'include/scripts.html' %}
 
-		<!-- General Scripts  -->
-		{% include 'include/scripts.html' %}
+<!-- Owl Carousel  -->
+<script src="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.carousel.js') }}"></script>
 
-		<!-- Owl Carousel  -->
-		<script src="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.carousel.js') }}"></script>
+<script src="{{ url_for('static', filename = 'plugins/colorbox/jquery.colorbox-min.js') }}"></script>
 
-		<script src="{{ url_for('static', filename = 'plugins/colorbox/jquery.colorbox-min.js') }}"></script>
+<!-- Firebase App is always required and must be first -->
+<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
 
-		<!-- Firebase App is always required and must be first -->
-		<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
+<!-- Add additional services that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-firestore.js"></script>
 
-		<!-- Add additional services that you want to use -->
-		<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-firestore.js"></script>
+<script type="text/javascript">
+    var cliID = {
+    {
+        userauth.user_id
+    }
+    }
+    ;
+    var anunID = {
+    {
+        prod.owner.idUsuario
+    }
+    }
+    ;
+</script>
+<script type="text/javascript">
+    var ganId = {
+    {
+        winnerId
+    }
+    }
+</script>
+{% if auction == 1 %}
+<script type="text/javascript">
+    var productID = {
+    {
+        prod.idSubasta
+    }
+    }
+    ;
+    var auction = true;
+</script>
+{% else %}
+<script type="text/javascript">
+    var productID = {
+    {
+        prod.id_producto
+    }
+    }
+    ;
+    var auction = false;
+</script>
+{% endif %}
 
-		<script type="text/javascript">
-			var cliID = {{userauth.user_id}};
-			var anunID = {{prod.owner.idUsuario}};
-		</script>
-        <script type="text/javascript">
-			var ganId = {{winnerId}}
-		</script>
-		{% if auction == 1 %}
-		<script type="text/javascript">
-			var productID = {{prod.idSubasta}};
-			var auction = true;
-		</script>
-		{% else %}
-		<script type="text/javascript">
-			var productID = {{prod.id_producto}};
-			var auction = false;
-		</script>
-		{% endif %}
+<script src="{{ url_for('static', filename = 'js/single.js') }}"></script>
 
-		<script src="{{ url_for('static', filename = 'js/single.js') }}"></script>
-
-	</body>
+</body>
 </html>
