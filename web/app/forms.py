@@ -134,7 +134,7 @@ class ProductSearch(Form):
         ])
     estados = [('en venta', 'En Venta'), ('vendido', 'Vendido')]
     resultadosporpag = ['15', '30', '45', '60', '75', '90']
-    ordenacionlist = [('published ASC', 'Fecha (Más viejos primero)'), ('published DESC', 'Fecha (Más nuevos primero)'), ('distance DESC', 'Distancia Descendente'), ('distance ASC', 'Distancia Ascendente'), ('price ASC', 'Precio Ascendente'), ('price DESC', 'Precio Descendente')]
+    ordenacionlist = [('published ASC', 'Fecha (Más viejos primero)'), ('published DESC', 'Fecha (Más nuevos primero)'), ('distance DESC', 'Distancia Descendente'), ('distance ASC', 'Distancia Ascendente'), ('price ASC', 'Precio Ascendente'), ('price DESC', 'Precio Descendente'), ('views DESC', 'Popularidad descendente')]
     status = SelectField('Estado',
             choices = [
                 ('en venta','En Venta'),
@@ -161,7 +161,8 @@ class ProductSearch(Form):
                 ('distance DESC', 'Distancia Descendente'),
                 ('distance ASC', 'Distancia Ascendente'),
                 ('price ASC', 'Precio Ascendente'),
-                ('price DESC', 'Precio Descendente')
+                ('price DESC', 'Precio Descendente'),
+                ('views DESC', 'Popularidad descendente')
             ])
     distancia = StringField('Distancia')
     submit = SubmitField('Buscar')
