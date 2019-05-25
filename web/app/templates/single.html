@@ -292,44 +292,20 @@
 <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-firestore.js"></script>
 
 <script type="text/javascript">
-    var cliID = {
-    {
-        userauth.user_id
-    }
-    }
-    ;
-    var anunID = {
-    {
-        prod.owner.idUsuario
-    }
-    }
-    ;
+    var cliID = {{userauth.user_id}};
+    var anunID = {{prod.owner.idUsuario}};
 </script>
 <script type="text/javascript">
-    var ganId = {
-    {
-        winnerId
-    }
-    }
+    var ganId = {{winnerId}}
 </script>
 {% if auction == 1 %}
 <script type="text/javascript">
-    var productID = {
-    {
-        prod.idSubasta
-    }
-    }
-    ;
+    var productID = {{prod.idSubasta}};
     var auction = true;
 </script>
 {% else %}
 <script type="text/javascript">
-    var productID = {
-    {
-        prod.id_producto
-    }
-    }
-    ;
+    var productID = {{prod.id_producto}};
     var auction = false;
 </script>
 {% endif %}
