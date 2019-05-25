@@ -43,18 +43,18 @@ class AnonymousUser(unittest.TestCase):
 		self.assertEqual(response.status_code, 200)
 
 	def test_product_page(self):
-		response = self.client.get('/single/574')
+		response = self.client.get('/single/787')
 		self.assertEqual(response.status_code, 200)
-		self.assertIn('Gato de Cheshire', str(response.data))
+		self.assertIn('Mercedes-Benz', str(response.data))
 
 	def test_auctions_page(self):
 		response = self.client.get('/auctions')
 		self.assertEqual(response.status_code, 200)
 
 	def test_auction_page(self):
-		response = self.client.get('/auction/576')
+		response = self.client.get('/auction/935')
 		self.assertEqual(response.status_code, 200)
-		self.assertIn('Restaurante italiano', str(response.data))
+		self.assertIn('Aston Martin', str(response.data))
 
 	def test_user_page(self):
 		response = self.client.get('/user/573')
