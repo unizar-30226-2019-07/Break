@@ -57,7 +57,7 @@ class AnonymousUser(unittest.TestCase):
 		self.assertIn('Aston Martin', str(response.data))
 
 	def test_user_page(self):
-		response = self.client.get('/user/573')
+		response = self.client.get('/user/754')
 		self.assertEqual(response.status_code, 302)
 		self.assertEqual(urlparse(response.location).path, url_for('login'))
 
@@ -84,25 +84,20 @@ class Ordinary(unittest.TestCase):
 		cls.logout()
 
 	def test_user_page(self):
-		response = self.client.get('/user/573')
+		response = self.client.get('/user/754')
 		self.assertEqual(response.status_code, 200)
-		self.assertIn('Testing Purposes', str(response.data))
-
-	def test_user_page(self):
-		response = self.client.get('/user/573')
-		self.assertEqual(response.status_code, 200)
-		self.assertIn('Testing Purposes', str(response.data))
+		self.assertIn('Pablo', str(response.data))
 
 	def test_product_page(self):
-		response = self.client.get('/single/574')
+		response = self.client.get('/single/1036')
 		self.assertEqual(response.status_code, 200)
-		self.assertIn('Gato de Cheshire', str(response.data))
+		self.assertIn('RPI Zero W', str(response.data))
 		self.assertIn('Editar producto', str(response.data))
 
 	def test_auction_page(self):
-		response = self.client.get('/auction/576')
+		response = self.client.get('/auction/1038')
 		self.assertEqual(response.status_code, 200)
-		self.assertIn('Restaurante italiano', str(response.data))
+		self.assertIn('Hatebreeder', str(response.data))
 		self.assertIn('Editar subasta', str(response.data))
 
 if __name__ == "__main__":
