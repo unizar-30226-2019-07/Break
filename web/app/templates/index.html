@@ -44,6 +44,11 @@
 							</div>
 						</div>
 					</div>
+					{% if sizeProd == 0 %}
+					<div class="noprod">
+						<h2>No hay productos cerca de tí</h2>
+					</div>
+					{% else %}
 					<div class="featured_row">
 						<div class="listings">
 							<div class="container">
@@ -55,6 +60,7 @@
 							</div>
 						</div>
 					</div>
+					{% endif %}
 
 					<div class="row">
 						<div class="col">
@@ -64,6 +70,11 @@
 							</div>
 						</div>
 					</div>
+					{% if sizeAuct == 0 %}
+					<div class="noprod">
+						<h2>No hay subastas cerca de tí</h2>
+					</div>
+					{% else %}
 					<div class="featured_row">
 						<div class="listings">
 							<div class="container">
@@ -75,6 +86,7 @@
 							</div>
 						</div>
 					</div>
+					{% endif %}
 
 				</div>
 			</div>

@@ -62,6 +62,9 @@ class EditLocation(FlaskForm):
     submit = SubmitField('Establecer ubicación')
 
 class EditPassword(FlaskForm):
+    old = PasswordField('Contraseña Anterior', [
+        validators.DataRequired(message='Es necesario introducir una contraseña')
+    ])
     password = PasswordField('Eliga una contraseña', [
         validators.DataRequired(message='Es necesario introducir una contraseña'),
         validators.Length(min=8, message='La contraseña debe tener al menos 8 caracteres')

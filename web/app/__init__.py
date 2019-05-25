@@ -111,7 +111,7 @@ def index():
             abort(auctions.status_code)
     auctions = json.loads(auctions.text)
 
-    return render_template('index.html', userauth=current_user, auctions=auctions, prods=prods)
+    return render_template('index.html', userauth=current_user, auctions=auctions, prods=prods, sizeProd=int(len(prods)), sizeAuct=int(len(auctions)))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -1135,8 +1135,11 @@ def editprofile():
 
             elif form_password.submit.data and form_password.validate_on_submit():
                 user['password'] = form_password.password.data
-                response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user,
-                                        headers={'Authorization': current_user.id})
+                response = requests.post(url=url + '/users/' + str(current_user.user_id) + '/change_password?old=' + str(form_password.old.data) +
+                        '&new=' + str(form_password.password.data), headers={'Authorization': current_user.id})
+                #response = requests.put(url=url + '/users/' + str(current_user.user_id), json=user,
+                #                        headers={'Authorization': current_user.id})
+                print(response.text)
                 return redirect(url_for('profile'))
 
             elif form_email.submit.data and form_email.validate_on_submit():
