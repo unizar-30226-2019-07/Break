@@ -88,6 +88,9 @@ class EditPicture(FlaskForm):
     submit = SubmitField('Establecer imagen')
     delete = SubmitField('Eliminar imagen')
 
+class DeleteAccount(FlaskForm):
+    delete = SubmitField("Eliminar cuenta")
+
 # Structure of the Subir Anuncio form
 class SubirAnuncioForm(FlaskForm):
     # pictures = HiddenField("Imágenes")
