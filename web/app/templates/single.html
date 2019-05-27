@@ -29,9 +29,16 @@
 {% include 'include/header.html' %}
 
 <!-- Title -->
-<center>
-    <div class="title_container">
-        <div class="title">
+
+    <div class="title_container row">
+        <div class="col-lg-3">
+            {% if auction == True %}
+            <a href="/auctions" class="return_buttom"><i class="fas fa-arrow-circle-left"></i> Volver a Subastas</a>
+            {% else %}
+            <a href="/listings" class="return_buttom"><i class="fas fa-arrow-circle-left"></i> Volver a Productos</a>
+            {% endif %}
+        </div>
+        <div class="title col-lg-6">
             {% if auction == True %}
             Ver Subasta
             {% else %}
@@ -39,7 +46,6 @@
             {% endif %}
         </div>
     </div>
-</center>
 
 <!-- Home -->
 <body>

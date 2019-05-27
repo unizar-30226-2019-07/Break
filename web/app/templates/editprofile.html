@@ -21,11 +21,14 @@
 	{% include 'include/header.html' %}
 
 	<!-- Title -->
-	<center>
-		<div class="title_container">
-			<div class="title">Editar Perfil</div>
-		</div>
-	</center>
+	<div class="title_container row">
+        <div class="col-lg-3">
+            <a href="/user/{{user.idUsuario}}" class="return_buttom"><i class="fas fa-arrow-circle-left"></i> Volver al perfil</a>
+        </div>
+        <div class="title col-lg-6">
+            <div class="title">Editar Perfil</div>
+        </div>
+    </div>
 	<div class="container">
 
 
