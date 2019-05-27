@@ -308,7 +308,7 @@
     padding: 10px 30px;
     display: inline-block;
     background: rgba(255, 255, 255, 0.81);
-    border: none;
+    border: solid 3px var(--clouds);
     outline: none;
     font-size: 1.50em;
     font-weight: 800;

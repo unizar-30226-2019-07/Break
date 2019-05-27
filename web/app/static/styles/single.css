@@ -447,7 +447,6 @@ video {
     padding: 10px 30px;
     display: inline-block;
     background: var(--primaryColor);
-    border: none;
     outline: none;
     font-size: 1.50em;
     font-weight: 800;
