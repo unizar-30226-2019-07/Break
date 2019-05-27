@@ -93,7 +93,10 @@ def index():
     products += args
     auctions += args
 
-    products = requests.get(products)
+    if current_user.is_authenticated:
+        products = requests.get(products + "&token=yes", headers={'Authorization': current_user.id})
+    else:
+        products = requests.get(products)
     if app.debug:
         if products.status_code != 200:
             print(products.text)
@@ -102,7 +105,10 @@ def index():
             abort(products.status_code)
     prods = json.loads(products.text)
 
-    auctions = requests.get(auctions)
+    if current_user.is_authenticated:
+        auctions = requests.get(auctions + "&token=yes", headers={'Authorization': current_user.id})
+    else:
+        auctions = requests.get(auctions)
     if app.debug:
         if auctions.status_code != 200:
             print(auctions.text)
