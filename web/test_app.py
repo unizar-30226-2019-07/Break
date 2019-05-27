@@ -96,7 +96,7 @@ class Ordinary(unittest.TestCase):
         response = self.client.get('/single/1036')
         self.assertEqual(response.status_code, 200)
         self.assertIn('RPI Zero W', str(response.data))
-        self.assertIn('Editar producto', str(response.data))
+        self.assertIn('Vendido', str(response.data))
 
     def test_auction_page(self):
         response = self.client.get('/auction/1038')
