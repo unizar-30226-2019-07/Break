@@ -245,12 +245,14 @@ function abrirChat() {
 
     if (refChat.get().exists) {
         if (!refChat.get("visible").includes(otherId)) {
-            var respuesta = refChat.update({
+            refChat.update({
                 visible: firebase.firestore.FieldValue.arrayUnion(cliID)
+            }).then(function () {
+                redirigirChat();
             });
         }
     } else {
-        var respuesta = refChat.set({
+        refChat.set({
             fechaUltimoMensaje: new Date(),
             idAnunciante: anunID,
             idCliente: cliID,
@@ -258,12 +260,9 @@ function abrirChat() {
             tipoProducto: tipoProducto,
             ultimoMensaje: "",
             visible: [cliID]
+        }).then(function () {
+            redirigirChat();
         });
-    }
-
-
-    if (respuesta) {
-        redirigirChat();
     }
 }
 
@@ -279,16 +278,14 @@ function abrirChatGan() {
 
     if (refChat.get().exists) {
         if (!refChat.get("visible").includes(otherId)) {
-            var respuesta = refChat.update({
+            refChat.update({
                 visible: firebase.firestore.FieldValue.arrayUnion(anunID)
-            });
-
-            if (respuesta !== undefined) {
+            }).then(function () {
                 redirigirChat();
-            }
+            });
         }
     } else {
-        var respuesta = refChat.set({
+        refChat.set({
             fechaUltimoMensaje: new Date(),
             idAnunciante: anunID,
             idCliente: ganId,
@@ -296,10 +293,9 @@ function abrirChatGan() {
             tipoProducto: tipoProducto,
             ultimoMensaje: "",
             visible: [anunID]
-        });
-        if (respuesta !== undefined) {
+        }).then(function () {
             redirigirChat();
-        }
+        });
     }
 
 
