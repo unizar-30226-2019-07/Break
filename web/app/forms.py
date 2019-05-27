@@ -116,7 +116,7 @@ class SubirAnuncioForm(FlaskForm):
     lng = HiddenField('Longitud')
     enddate = DateField('End', format = '%Y-%m-%d', description = 'Time that the event will occur',
         validators= [validators.Optional()] )
-    submit = SubmitField('Publicar Anuncio')
+    submit = SubmitField('Publicar')
 
 
 class ProductSearch(Form):

@@ -298,3 +298,7 @@
         font-size: 68px;
     }
 }
+
+.menuphone a {
+    font-size: 17px !important;
+}

@@ -55,7 +55,7 @@
 	<div class="menu_close"><i class="fa fa-times" aria-hidden="true"></i></div>
 	<div class="menu_log_reg">
 		<div class="log_reg d-flex flex-row align-items-center justify-content-end">
-			<ul class="d-flex flex-row align-items-start justify-content-start">
+			<ul class="menuphone d-flex flex-row align-items-start justify-content-start">
 			{% if userauth.is_authenticated %}
 				<li><a href="{{ url_for('profile') }}">Mi Perfil</a></li>
 				<li><a href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
