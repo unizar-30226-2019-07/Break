@@ -443,6 +443,52 @@ video {
     display: inline-block;
 }
 
+.valorar_button {
+    padding: 10px 30px;
+    display: inline-block;
+    background: var(--primaryColor);
+    border: none;
+    outline: none;
+    font-size: 1.50em;
+    font-weight: 800;
+    color: white;
+    cursor: pointer;
+    margin-top: 18px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 10px 30px 0 rgba(231, 76, 60, 0.3);
+    box-shadow: 0 10px 30px 0 rgba(231, 76, 60, 0.3);
+    border: solid 3px var(--clouds);
+
+    -webkit-transition: all 400ms ease;
+    -moz-transition: all 400ms ease;
+    -ms-transition: all 400ms ease;
+    -o-transition: all 400ms ease;
+    transition: all 400ms ease;
+}
+
+.valorar_button:focus,
+.valorar_button:hover {
+    color: white;
+    background-color: var(--secondaryColor);
+    -webkit-box-shadow: 0 10px 45px 0 rgba(231, 76, 60, 0.6);
+    box-shadow: 0 10px 45px 0 rgba(231, 76, 60, 0.6);
+}
+
+.valorar_button {
+    cursor: pointer; /* "hand" cursor */
+}
+
+/* Acceso con teclado */
+.valorar_button:focus {
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
+}
+
+/* Possible Touch Issues */
+.valorar_button * {
+    pointer-events: none;
+}
+
 .prop_info {
     padding-top: 24px;
     padding-bottom: 12px;
