@@ -265,6 +265,12 @@ video {
     margin-top: -165px;
 }
 
+@media screen and (max-width: 991px) {
+    .listing_container {
+         margin-top: -10px;
+    }
+}
+
 .listing_tabs {
     background: #e9f0f6;
     padding-left: 23px;
