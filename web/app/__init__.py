@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 
 from config import Config
 from app.forms import LoginForm, RegisterForm, EditProfile, EditEmail, EditPassword, EditLocation, SubirAnuncioForm, \
-    ProductSearch, EditPicture, Review, bidPlacementForm, reportForm, RestorePasswordForm
+    ProductSearch, EditPicture, Review, bidPlacementForm, reportForm, RestorePasswordForm, DeleteAccount
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
@@ -1128,6 +1128,7 @@ def editprofile():
     form_email = EditEmail(prefix="email")
     form_profile = EditProfile(prefix="profile")
     form_picture = EditPicture(prefix="picture")
+    form_delete_account = DeleteAccount(prefix="delete")
 
     # If there is an error retrieving the user (no permissions) the user will be redirected to the login page
     if response.status_code != 200:
@@ -1138,6 +1139,7 @@ def editprofile():
             form_password = EditPassword(request.form, prefix="password")
             form_email = EditEmail(request.form, prefix="email")
             form_location = EditLocation(request.form, prefix="location")
+            form_delete_account = DeleteAccount(request.form, prefix="delete")
 
             if form_profile.submit.data and form_profile.validate_on_submit():
                 user['first_name'] = form_profile.name.data
@@ -1185,11 +1187,23 @@ def editprofile():
                                         headers={'Authorization': current_user.id})
                 return redirect(url_for('profile'))
 
+            elif form_delete_account.delete.data:
+                response = requests.delete(url=url + '/users/' + str(current_user.user_id), json=user,
+                             headers={'Authorization': current_user.id})
+                print(response)
+                user = User.query.filter_by(id=current_user.id).first()
+                if user is not None:
+                    logout_user()
+                    # db.session.delete(user)
+                return redirect(url_for('login'))
+
+
         form_profile.gender.default = user['gender']
         form_profile.process()
 
         return render_template('editprofile.html', form_profile=form_profile, form_email=form_email, \
                                form_password=form_password, form_location=form_location, form_picture=form_picture, \
+                               form_delete_account=form_delete_account, \
                                userauth=current_user, user=user, GOOGLEMAPS_KEY=app.config['GOOGLEMAPS_KEY'])
 
 

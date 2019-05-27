@@ -2,242 +2,253 @@
 
 
 <head>
-	<meta charset="utf-8">
-	<title>Editar perfil</title>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="description" content="myHOME - real estate template project">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>Editar perfil</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="myHOME - real estate template project">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/profile.css') }}">
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/editprofile.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/profile.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/editprofile.css') }}">
 
-	<!-- General links -->
-	{% include 'include/headLinks.html' %}
+    <!-- General links -->
+    {% include 'include/headLinks.html' %}
 
 </head>
 
 <body>
-	<!-- Header -->
-	{% include 'include/header.html' %}
+<!-- Header -->
+{% include 'include/header.html' %}
 
-	<!-- Title -->
-	<div class="title_container row">
-        <div class="return_buttom_div col-lg-3">
-            <a href="/user/{{user.idUsuario}}" class="return_buttom"><i class="fas fa-arrow-circle-left"></i> Volver al perfil</a>
+<!-- Title -->
+<div class="title_container row">
+    <div class="return_buttom_div col-lg-3">
+        <a href="/user/{{user.idUsuario}}" class="return_buttom"><i class="fas fa-arrow-circle-left"></i> Volver al
+            perfil</a>
+    </div>
+    <div class="title col-lg-6">
+        <div class="title">Editar Perfil</div>
+    </div>
+</div>
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-lg-4 text-center">
+            <div class="portrait-container">
+                <div id="profile-image" class="my-5">
+                    {% import 'include/_gravatar.html' as gravatar %}
+                    {% if user.picture.idImagen is number %}
+                    {% set profile_picture = api + '/pictures/' + (user.picture.idImagen|string) %}
+                    {% else %}
+                    {% set profile_picture = gravatar.get(user.email) %}
+                    {% endif %}
+                    <div id="profile-picture" class="portrait m-0 m-4"
+                         style="background-image: url( {{ profile_picture }} )"
+                         title="{{ user.first_name }} {{ user.last_name }}"></div>
+                    <!-- End Image -->
+                </div>
+            </div>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {{ form_picture.csrf_token }}
+                <div class="justify-content-center">
+                    {{ form_picture.picture(class="inputfile",
+                    accept="image/bmp,image/jpeg,image/gif,image/png,image/svg+xml,image/tiff") }}
+                    <label for="{{ form_picture.picture.name }}" class="p-3" hidden=""><i
+                            class="fas fa-arrow-alt-circle-up pr-1"></i><span class="pl-1">Cambiar imagen</span></label>
+                    {% for error in form_picture.picture.errors %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                    {{ form_picture.submit(class="mb-5 main_button", hidden="true") }}
+                    {% if user.picture.idImagen is number %}
+                    {{ form_picture.delete(class="mb-5 main_button") }}
+                    {% endif %}
+                    <script type="text/javascript">
+                        var reader = new FileReader();
+                        reader.addEventListener("load", function () {
+                            document.getElementById('profile-picture').style.backgroundImage = "url(" + this.result + ")"
+                            document.getElementById('{{ form_picture.submit.name }}').removeAttribute("hidden")
+                        });
+
+                        document.getElementById('{{ form_picture.picture.name }}').addEventListener('change', function () {
+                            if (this.files) {
+                                [].forEach.call(this.files, function (file) {
+                                    reader.readAsDataURL(file)
+                                });
+                            }
+                        });
+
+                        document.getElementById('profile-picture').addEventListener("click", function () {
+                            document.getElementById('{{ form_picture.picture.name }}').click();
+                        });
+                    </script>
+                </div>
+            </form>
         </div>
-        <div class="title col-lg-6">
-            <div class="title">Editar Perfil</div>
+
+        <div class="col-lg-8">
+            <h2 class="name">{{user.first_name}} {{user.last_name}}<br></h2>
+            <hr>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="mt-3">
+                        <div id="map" class="google_map_container text-center">
+                        </div>
+                        <form action="" method="POST">
+                            {{ form_location.csrf_token }}
+                            {{ form_location.lat(class="contact_input mb-2", id="lat") }}
+                            {% for error in form_location.lat.errors %}
+                            <div class="alert alert-danger">
+                                {{ error }}
+                            </div>
+                            {% endfor %}
+                            {{ form_location.lng(class="contact_input mb-2", id="lng") }}
+                            {{ form_location.submit(class="mb-5 main_button") }}
+                        </form>
+                        <script type="text/javascript">
+
+                            if (navigator.geolocation) {
+                                navigator.geolocation.getCurrentPosition(function (location) {
+                                    var lat = location.coords.latitude;
+                                    var lng = location.coords.longitude;
+
+                                    var base_url = "https://maps.googleapis.com/maps/api/staticmap"
+                                    var markers = "?markers=" + lat + "," + lng
+                                    var zoom = "&zoom=15"
+                                    var size = "&size=400x300"
+                                    var key = "&key={{ GOOGLEMAPS_KEY }}";
+
+                                    document.getElementById("map").innerHTML =
+                                        "<img src='" + base_url + markers + zoom + size + key + "'>";
+                                    document.getElementById("lat").value = lat;
+                                    document.getElementById("lng").value = lng;
+                                });
+                            }
+                        </script>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <!-- Begin Personal Information -->
+                    <div class="mt-3">
+                        <ul>
+                            <form action="" method="POST">
+                                {{ form_profile.csrf_token }}
+                                <div class="mb-3">
+                                    <strong>{{ form_profile.name.label }}:</strong>
+                                    {{ form_profile.name(class="contact_input mb-2", value=user.first_name) }}
+                                    {% for error in form_profile.name.errors %}
+                                    <div class="alert alert-danger">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="mb-3">
+                                    <strong>{{ form_profile.lastname.label }}:</strong>
+                                    {{ form_profile.lastname(class="contact_input mb-2", value=user.last_name) }}
+                                    {% for error in form_profile.lastname.errors %}
+                                    <div class="alert alert-danger">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="mb-3">
+                                    <strong>{{ form_profile.gender.label }}:</strong>
+                                    {{ form_profile.gender() }}
+                                    {% for error in form_profile.gender.errors %}
+                                    <div class="alert alert-danger">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+
+                                {{ form_profile.submit(class="mb-5 main_button") }}
+                            </form>
+                        </ul>
+                    </div>
+                    <!-- End Personal Information -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="mt-3">
+                        <form action="" method="POST">
+                            {{ form_password.csrf_token }}
+                            <div class="mb-3">
+                                <strong>{{ form_password.old.label }}</strong><br>
+                                {{ form_password.old(class="contact_input mb-2") }}
+                                {% for error in form_password.old.errors %}
+                                <div class="alert alert-danger">
+                                    {{ error }}
+                                </div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="mb-3">
+                                <strong>{{ form_password.password.label }}</strong><br>
+                                {{ form_password.password(class="contact_input mb-2") }}
+                                {% for error in form_password.password.errors %}
+                                <div class="alert alert-danger">
+                                    {{ error }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="mb-3">
+                                <strong>{{ form_password.confirm.label }}</strong><br>
+                                {{ form_password.confirm(class="contact_input mb-2") }}
+                                {% for error in form_password.confirm.errors %}
+                                <div class="alert alert-danger">
+                                    {{ error }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {{ form_password.submit(class="mb-5 main_button") }}
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mt-3">
+                        <form action="" method="POST">
+                            {{ form_email.csrf_token }}
+                            <div class="mb-3">
+                                <strong>{{ form_email.email.label }}:</strong>
+                                {{ form_email.email(class="contact_input mb-2", value=user.email) }}
+                                {% for error in form_email.email.errors %}
+                                <div class="alert alert-danger">
+                                    {{ error }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="mb-3">
+                                <strong>{{ form_email.confirm.label }}:</strong>
+                                {{ form_email.confirm(class="contact_input mb-2", value=user.email) }}
+                                {% for error in form_email.confirm.errors %}
+                                <div class="alert alert-danger">
+                                    {{ error }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {{ form_email.submit(class="mb-5 main_button") }}
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-	<div class="container">
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+            <form action="" method="POST">
+                {{ form_delete_account.delete(class="mb-5 delete_user_button") }}
+            </form>
+        </div>
+    </div>
+</div>
+        <!-- Footer  -->
+        {% include 'include/footer.html' %}
 
 
-		<div class="row">
-			<div class="col-lg-4 text-center">
-				<div class="portrait-container">
-					<div id="profile-image" class="my-5">
-						{% import 'include/_gravatar.html' as gravatar %}
-						{% if user.picture.idImagen is number %}
-						{% set profile_picture = api + '/pictures/' + (user.picture.idImagen|string) %}
-						{% else %}
-						{% set profile_picture = gravatar.get(user.email) %}
-						{% endif %}
-						<div id="profile-picture" class="portrait m-0 m-4"
-									  style="background-image: url( {{ profile_picture }} )" 
-									  title="{{ user.first_name }} {{ user.last_name }}"></div>
-						<!-- End Image -->
-					</div>
-				</div>
-				<form action="" method="POST" enctype="multipart/form-data">
-					{{ form_picture.csrf_token }}
-					<div class="justify-content-center">
-						{{ form_picture.picture(class="inputfile", accept="image/bmp,image/jpeg,image/gif,image/png,image/svg+xml,image/tiff") }}
-						<label for="{{ form_picture.picture.name }}" class="p-3" hidden=""><i class="fas fa-arrow-alt-circle-up pr-1"></i><span class="pl-1">Cambiar imagen</span></label>
-						{% for error in form_picture.picture.errors %}
-						<div class="alert alert-danger">
-							{{ error }}
-						</div>
-						{% endfor %}
-						{{ form_picture.submit(class="mb-5 main_button", hidden="true") }}
-						{% if user.picture.idImagen is number %}
-						{{ form_picture.delete(class="mb-5 main_button") }}
-						{% endif %}
-						<script type="text/javascript">
-							var reader = new FileReader();
-reader.addEventListener("load", function() {
-	document.getElementById('profile-picture').style.backgroundImage = "url(" + this.result + ")"
-	document.getElementById('{{ form_picture.submit.name }}').removeAttribute("hidden")
-});
-
-document.getElementById('{{ form_picture.picture.name }}').addEventListener('change', function() {
-	if (this.files) {
-		[].forEach.call(this.files, function(file){
-			reader.readAsDataURL(file)
-		});
-	}
-});
-
-document.getElementById('profile-picture').addEventListener("click", function() {
-	document.getElementById('{{ form_picture.picture.name }}').click();
-});
-						</script>
-					</div>
-				</form>
-			</div>
-
-			<div class="col-lg-8">
-				<h2 class="name">{{user.first_name}} {{user.last_name}}<br></h2>
-				<hr>
-				<div class="row">
-					<div class="col-lg-6">
-						<div class="mt-3">
-							<div id="map" class="google_map_container text-center">
-							</div>
-							<form action="" method="POST">
-								{{ form_location.csrf_token }}
-								{{ form_location.lat(class="contact_input mb-2", id="lat") }}
-								{% for error in form_location.lat.errors %}
-								<div class="alert alert-danger">
-									{{ error }}
-								</div>
-								{% endfor %}
-								{{ form_location.lng(class="contact_input mb-2", id="lng") }}
-								{{ form_location.submit(class="mb-5 main_button") }}
-							</form>
-							<script type="text/javascript">
-
-								if (navigator.geolocation) {
-									navigator.geolocation.getCurrentPosition(function(location){
-										var lat = location.coords.latitude;
-										var lng = location.coords.longitude;
-
-										var base_url = "https://maps.googleapis.com/maps/api/staticmap"
-										var markers = "?markers=" + lat + "," + lng
-										var zoom = "&zoom=15"
-										var size = "&size=400x300"
-										var key = "&key={{ GOOGLEMAPS_KEY }}";
-
-										document.getElementById("map").innerHTML = 
-											"<img src='" + base_url + markers + zoom + size + key + "'>";
-										document.getElementById("lat").value = lat;
-										document.getElementById("lng").value = lng;
-									});
-								}
-							</script>
-						</div>
-					</div>
-					<div class="col-lg-6">
-						<!-- Begin Personal Information -->
-						<div class="mt-3">
-							<ul>
-								<form action="" method="POST">
-									{{ form_profile.csrf_token }}
-									<div class="mb-3">
-										<strong>{{ form_profile.name.label }}:</strong>
-										{{ form_profile.name(class="contact_input mb-2", value=user.first_name) }}
-										{% for error in form_profile.name.errors %}
-										<div class="alert alert-danger">
-											{{ error }}
-										</div>
-										{% endfor %}
-									</div>
-									<div class="mb-3">
-										<strong>{{ form_profile.lastname.label }}:</strong>
-										{{ form_profile.lastname(class="contact_input mb-2", value=user.last_name) }}
-										{% for error in form_profile.lastname.errors %}
-										<div class="alert alert-danger">
-											{{ error }}
-										</div>
-										{% endfor %}
-									</div>
-									<div class="mb-3">
-										<strong>{{ form_profile.gender.label }}:</strong>
-										{{ form_profile.gender() }}
-										{% for error in form_profile.gender.errors %}
-										<div class="alert alert-danger">
-											{{ error }}
-										</div>
-										{% endfor %}
-									</div>
-
-									{{ form_profile.submit(class="mb-5 main_button") }}
-								</form>
-							</ul>
-						</div>
-						<!-- End Personal Information -->
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-6">
-						<div class="mt-3">
-							<form action="" method="POST">
-								{{ form_password.csrf_token }}
-								<div class="mb-3">
-									<strong>{{ form_password.old.label }}</strong><br>
-									{{ form_password.old(class="contact_input mb-2") }}
-									{% for error in form_password.old.errors %}
-									<div class="alert alert-danger">
-										{{ error }}
-									</div>
-									{% endfor %}
-								</div>
-
-								<div class="mb-3">
-									<strong>{{ form_password.password.label }}</strong><br>
-									{{ form_password.password(class="contact_input mb-2") }}
-									{% for error in form_password.password.errors %}
-									<div class="alert alert-danger">
-										{{ error }}
-									</div>
-									{% endfor %}
-								</div>
-								<div class="mb-3">
-									<strong>{{ form_password.confirm.label }}</strong><br>
-									{{ form_password.confirm(class="contact_input mb-2") }}
-									{% for error in form_password.confirm.errors %}
-									<div class="alert alert-danger">
-										{{ error }}
-									</div>
-									{% endfor %}
-								</div>
-								{{ form_password.submit(class="mb-5 main_button") }}
-							</form>
-						</div>
-					</div>
-					<div class="col-lg-6">
-						<div class="mt-3">
-							<form action="" method="POST">
-								{{ form_email.csrf_token }}
-								<div class="mb-3">
-									<strong>{{ form_email.email.label }}:</strong>
-									{{ form_email.email(class="contact_input mb-2", value=user.email) }}
-									{% for error in form_email.email.errors %}
-									<div class="alert alert-danger">
-										{{ error }}
-									</div>
-									{% endfor %}
-								</div>
-								<div class="mb-3">
-									<strong>{{ form_email.confirm.label }}:</strong>
-									{{ form_email.confirm(class="contact_input mb-2", value=user.email) }}
-									{% for error in form_email.confirm.errors %}
-									<div class="alert alert-danger">
-										{{ error }}
-									</div>
-									{% endfor %}
-								</div>
-								{{ form_email.submit(class="mb-5 main_button") }}
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Footer  -->
-	{% include 'include/footer.html' %}
-
-
-	<!-- General Scripts  -->
-	{% include 'include/scripts.html' %}
+        <!-- General Scripts  -->
+        {% include 'include/scripts.html' %}
 </body>

@@ -117,3 +117,44 @@ input[type=password] {
 .portrait:hover:before {
     opacity: 0.5;
 }
+
+
+/* Botón principal  */
+.delete_user_button {
+    width: 300px;
+    height: 51px;
+    background: #2b2e35;
+    border: none;
+    outline: none;
+    font-size: 1.50em;
+    font-weight: 800;
+    color: white;
+    cursor: pointer;
+    margin-top: 23px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 10px 30px 0 rgba(231, 76, 60, 0.3);
+    box-shadow: 0 10px 30px 0 rgba(231, 76, 60, 0.3);
+}
+
+.delete_user_button:focus,
+.delete_user_button:hover {
+    color: white;
+    background-color: var(--secondaryColor);
+    -webkit-box-shadow: 0 10px 45px 0 rgba(231, 76, 60, 0.6);
+    box-shadow: 0 10px 45px 0 rgba(231, 76, 60, 0.6);
+}
+
+.delete_user_button {
+    cursor: pointer; /* "hand" cursor */
+}
+
+/* Acceso con teclado */
+.delete_user_button:focus {
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
+}
+
+/* Possible Touch Issues */
+.delete_user_button * {
+    pointer-events: none;
+}
