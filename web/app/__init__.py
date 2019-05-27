@@ -73,6 +73,10 @@ def index():
     if current_user.is_authenticated:
         usuario = requests.get(url=url + '/users/' + str(current_user.user_id),
                                headers={'Authorization': current_user.id})
+
+        if usuario.status_code == 401:
+            return redirect('/logout')
+
         if app.debug:
             if usuario.status_code != 200:
                 print(usuario.text)
@@ -794,6 +798,7 @@ def get_gallery(prod_id):
     else:
         if response.status_code != 200 and not app.debug:
             abort(response.status_code)
+    print(response.text)
     prod = json.loads(response.text)
 
     mymap = Map(
@@ -841,7 +846,7 @@ def review(prod_id, isAuction):
         if form_review.submit.data and form_review.validate_on_submit():
 
             review = {}
-            review['id_comprador'] = usuario['idUsuario']
+            review['id_comprador'] = prod['buyer']['idUsuario']
             review['id_anunciante'] = prod['owner']['idUsuario']
             review['valor'] = form_review.stars.data
             review['comentario'] = form_review.comment.data
@@ -850,7 +855,11 @@ def review(prod_id, isAuction):
             else:
                 review['id_producto'] = prod_id
 
-            response = requests.post(url=url + '/users/' + str(review['id_anunciante']) + '/reviews', json=review,
+            if int(prod['buyer']['idUsuario']) == int(current_user.user_id):
+                response = requests.post(url=url + '/users/' + str(review['id_anunciante']) + '/reviews', json=review,
+                                    headers={'Authorization': current_user.id})
+            else:
+                response = requests.post(url=url + '/users/' + str(review['id_comprador']) + '/reviews', json=review,
                                     headers={'Authorization': current_user.id})
             if app.debug:
                 if response.status_code != 200:
@@ -1059,6 +1068,7 @@ def user(user_id):
             abort(response.status_code)
 
     reviews = requests.get(url + '/users/' + user_id + '/reviews', headers=headers)
+    print(reviews.text)
     if app.debug:
         if reviews.status_code != 200:
             print(reviews.text)
@@ -1238,6 +1248,12 @@ def reports():
     response = requests.get(url=url + '/reports', headers={'Authorization': current_user.id})
     print(response.text)
     return render_template('reports.html', userauth=current_user, reports=json.loads(response.text))
+
+@app.route('/reports/block/<user_id>')
+def reportBlock(user_id):
+    response = requests.put(url=url + '/reports/' + str(user_id) + '/report_block', headers={'Authorization': current_user.id})
+    print(response.text)
+    return redirect('/reports')
 
 @app.route('/solveReport/<user_id>')
 def solveReport(user_id):

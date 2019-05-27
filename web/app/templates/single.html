@@ -261,9 +261,17 @@
                                                 <strong class="prop_agent_date">Publicado: {{ prod.published if auction else prod.publicate_date }}</strong>
                                             </div>
                                         </div>
+					{% if prod.status == "vendido" %}
+					{% if prod.owner.idUsuario == userauth.user_id or prod.buyer.idUsuario == userauth.user_id %}
                                         <center>
-                                            <a href="PONER AQUI REDIRECCION" class="valorar_button"><i class="fas fa-star"></i> Valorar Producto</a>
+						{% if auction == True %}
+						<a href="/auction/{{prod.id_producto}}/review" class="valorar_button"><i class="fas fa-star"></i>Valorar Venta</a>
+						{% else %}
+						<a href="/single/{{prod.id_producto}}/review" class="valorar_button"><i class="fas fa-star"></i>Valorar Venta</a>
+						{% endif %}
                                         </center>
+					{% endif %}
+					{% endif %}
                                 </div>
                             </div>
                         </div>
