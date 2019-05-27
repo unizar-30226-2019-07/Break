@@ -261,7 +261,7 @@ function mostrarOtroUsuario(response, [producto]) {
     if (usuario.picture.idImagen !== null) {
         imagen = API + '/pictures/' + (usuario.picture.idImagen);
     } else {
-        imagen = "gravatar.get(" + usuario.email + ")";
+        imagen = "https://i.stack.imgur.com/l60Hf.png";
     }
 
     var sellPro = (productoActual.status === "en venta" && anunID === myID) ? '<a class="dropdown-item" href="#" onclick="venderProducto(); return false;"><i class="fas fa-euro-sign"></i> Vender Producto</a>' : "";
