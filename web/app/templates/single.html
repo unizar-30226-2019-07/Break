@@ -262,7 +262,7 @@
                                             </div>
                                         </div>
 					{% if prod.status == "vendido" %}
-					{% if prod.owner.idUsuario == userauth.user_id or prod.buyer.idUsuario == userauth.user_id %}
+					{% if prod.owner.idUsuario == userauth.user_id or (not auction and prod.buyer.idUsuario == userauth.user_id) or (auction and prod.lastBid.bidder.idUsuario == userauth.user_id) %}
                                         <center>
 						{% if auction == True %}
 						<a href="/auction/{{prod.idSubasta}}/review" class="valorar_button"><i class="fas fa-star"></i>Valorar Venta</a>
