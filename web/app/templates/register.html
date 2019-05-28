@@ -122,7 +122,7 @@
                 {% endfor %}
 
                 <strong>{{ form.email.label }}</strong><br>
-                <input type="email" name="email" value={{request.form.email}}>
+                <input type="text" name="email" value={{request.form.email}}>
                 {% for error in form.email.errors %}
                 <div class="alert alert-danger">
                     <li>{{ error }}</li>
