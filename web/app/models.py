@@ -8,10 +8,9 @@ from app import db
 # logged in.
 class User(UserMixin, db.Model):
     # This is the row id of the sessions table inside Flask, not the one used in the API
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(128), primary_key=True)
     username = db.Column(db.String(64))
     user_id = db.Column(db.Integer)
-    token = db.Column(db.String(128), index=True, unique=True)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)

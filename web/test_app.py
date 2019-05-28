@@ -1,17 +1,113 @@
 import unittest
+from flask import url_for
+from urllib.parse import urlparse
 from app import app
 
 
-class HomeViewTest(unittest.TestCase):
+class AnonymousUser(unittest.TestCase):
 
     def setUp(self):
-    	self.app = app.test_client()
-    	self.app.testing = True
+        self.client = app.test_client()
+        self.app_context = app.test_request_context()
+        self.app_context.push()
+        self.client.testing = True
+
+    def login(self, email, password):
+        return self.client.post('/login', data=dict(email=email, password=password))
+
+    def logout(self):
+        return self.client.get('/logout')
+
+    def test_login_logout(self):
+
+        response = self.login(app.config['USERNAME'], app.config['PASSWORD'])
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(urlparse(response.location).path, url_for('index'))
+
+        response = self.logout()
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(urlparse(response.location).path, url_for('index'))
+
+        response = self.login(app.config['USERNAME'] + 'x', app.config['PASSWORD'])
+        self.assertIn('Credenciales incorrectas', str(response.data))
+
+        response = self.login(app.config['USERNAME'], app.config['PASSWORD'] + 'x')
+        self.assertIn('Credenciales incorrectas', str(response.data))
 
     def test_home_page(self):
-        home = self.app.get('/')
-        self.assertIn('Inicio', str(home.data))
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
 
+    def test_products_page(self):
+        response = self.client.get('/listings')
+        self.assertEqual(response.status_code, 200)
+
+    def test_product_page(self):
+        response = self.client.get('/single/787')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Mercedes-Benz', str(response.data))
+
+    def test_auctions_page(self):
+        response = self.client.get('/auctions')
+        self.assertEqual(response.status_code, 200)
+
+    def test_auction_page(self):
+        response = self.client.get('/auction/935')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Aston Martin', str(response.data))
+
+    def test_user_page(self):
+        response = self.client.get('/user/754')
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(urlparse(response.location).path, url_for('login'))
+
+    def test_reports_page(self):
+        response = self.client.get('/reports')
+        self.assertEqual(response.status_code, 500)
+
+class Ordinary(unittest.TestCase):
+
+    @classmethod
+    def login(cls, email, password):
+        return cls.client.post('/login', data=dict(email=email, password=password))
+
+    @classmethod
+    def logout(cls):
+        return cls.client.get('/logout')
+
+    @classmethod
+    def setUpClass(cls):
+        cls.client = app.test_client()
+        cls.app_context = app.test_request_context()
+        cls.app_context.push()
+        cls.client.testing = True
+        cls.login(app.config['USERNAME'], app.config['PASSWORD'])
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.logout()
+
+    def test_user_page(self):
+        response = self.client.get('/user/754')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Pablo', str(response.data))
+
+    def test_product_page(self):
+        response = self.client.get('/single/1036')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('RPI Zero W', str(response.data))
+        self.assertIn('Vendido', str(response.data))
+
+    def test_auction_page(self):
+        response = self.client.get('/auction/1038')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Hatebreeder', str(response.data))
+        self.assertIn('Contactar con el ganador', str(response.data))
+
+    def test_reports_page(self):
+        response = self.client.get('/reports')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Informes', str(response.data))
 
 if __name__ == "__main__":
     unittest.main()

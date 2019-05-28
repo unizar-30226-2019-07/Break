@@ -1,0 +1,442 @@
+@charset "utf-8";
+/* CSS Document */
+
+/******************************
+
+[Table of Contents]
+
+5. Home
+6. Contact
+7. Google Map
+
+/******************************
+
+/*********************************
+4. Formulario
+*********************************/
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.inputfile + label {
+    font-size: 1.50em;
+    font-weight: 700;
+    color: white;
+    background-color: var(--secondaryColor);
+    display: inline-block;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 10px 30px 0 rgba(231, 76, 60, 0.3);
+    box-shadow: 0 10px 30px 0 rgba(231, 76, 60, 0.3);
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    color: white;
+    background-color: var(--primaryColor);
+    -webkit-box-shadow: 0 10px 45px 0 rgba(231, 76, 60, 0.6);
+    box-shadow: 0 10px 45px 0 rgba(231, 76, 60, 0.6);
+}
+
+.inputfile:disabled + label {
+    background: gray;
+    -webkit-box-shadow: 0 10px 45px 0 #9E9E9E;
+    box-shadow: 0 10px 45px 0 #9E9E9E;
+    cursor: not-allowed;
+}
+
+.inputfile + label {
+    cursor: pointer; /* "hand" cursor */
+}
+
+/* Acceso con teclado */
+.inputfile:focus + label {
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
+}
+
+/* Possible Touch Issues */
+.inputfile + label * {
+    pointer-events: none;
+}
+
+.isAuctionLabel {
+    display: block;
+    float: left;
+    line-height: 36px;
+    margin-left: 15px;
+    font-size: 18px;
+}
+
+/* Select Category */
+select {
+    display: inline-block;
+    margin: 0;
+    position: relative;
+    vertical-align: middle;
+    width: 100%;
+
+    width: 100%;
+    height: 50px;
+    border: none;
+    outline: none;
+    padding-left: 21px;
+    background: #f3f7fb;
+    margin-bottom: 30px;
+    font-size: 16px;
+    color: #2b2e35;
+    font-weight: 500;
+}
+
+
+#preview > div {
+    border: solid 10px var(--primaryColor);
+    padding: 0;
+    margin: 15px;
+}
+
+#preview > div > div:nth-child(1) {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+}
+
+#preview > div > div:nth-child(2) {
+    padding: 0 10px;
+    font-size: 1.5em;
+}
+
+#preview > div > div:nth-child(2) i {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    cursor: pointer;
+}
+
+#preview > div > div > div {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    background-position: center center;
+    background-size: cover;
+}
+
+@media screen and (max-width: 400px) {
+    .wrapper {
+        margin-top: 0;
+    }
+
+    header {
+        flex-direction: column;
+    }
+
+    header span {
+        text-align: left;
+        margin-top: 10px;
+    }
+
+    .ways li,
+    section input,
+    section textarea,
+    .select-option .head,
+    .select-option .option div {
+        font-size: 8px;
+    }
+
+    .images .img,
+    .images .pic {
+        flex-basis: 100%;
+        margin-right: 0;
+    }
+}
+
+
+footer {
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #fff;
+    font-size: 12px;
+}
+
+/*********************************
+6. Contact
+*********************************/
+
+.contact {
+    background: #ffffff;
+    padding-top: 92px;
+    padding-bottom: 85px;
+}
+
+.contact_row {
+    margin-top: 30px;
+}
+
+.contact_text {
+    margin-top: 17px;
+}
+
+.contact_info ul li:not(:last-of-type) {
+    margin-bottom: 18px;
+}
+
+.contact_info ul li > div:first-of-type {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--secondaryColor);
+}
+
+.contact_info ul li > div:first-of-type > div {
+    width: 23px;
+    height: 23px;
+}
+
+.contact_info ul li > div:first-of-type > div img,
+.contact_info ul li > div:first-of-type > div svg {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.contact_info ul li span {
+    margin-left: 26px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2b2e35;
+}
+
+.contact_form_row {
+    margin-top: 30px;
+}
+
+.contact_form {
+    display: block;
+}
+
+.contact_input {
+    width: 100%;
+    height: 50px;
+    border: none;
+    outline: none;
+    padding-left: 21px;
+    background: #f3f7fb;
+    margin-bottom: 30px;
+    font-size: 16px;
+    color: #2b2e35;
+    font-weight: 500;
+}
+
+.contact_input::-webkit-input-placeholder {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #6c7079 !important;
+}
+
+.contact_input:-moz-placeholder {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #6c7079 !important;
+}
+
+.contact_input::-moz-placeholder {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #6c7079 !important;
+}
+
+.contact_input:-ms-input-placeholder {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #6c7079 !important;
+}
+
+.contact_textarea {
+    height: 300px;
+    padding-top: 16px;
+}
+
+
+/*********************************
+7. Google Map
+*********************************/
+
+.map {
+    width: 100%;
+}
+
+.google_map {
+    width: 100%;
+    height: 300px;
+}
+
+.map_container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#map {
+    width: 100%;
+    height: calc(100% + 30px);
+}
+
+
+/* TEXT INPUT ANIMATIONS */
+
+input[type=text]:focus {
+    background-color: #fafafa;
+    border-bottom: 2px solid var(--secondaryColor);
+}
+
+input[type=password]:focus {
+    background-color: #fafafa;
+    border-bottom: 2px solid var(--secondaryColor);
+}
+
+.input-d {
+    max-width: 80%;
+}
+
+input[type=text] {
+    width: 100%;
+    height: 50px;
+    border: none;
+    outline: none;
+    padding-left: 21px;
+    background: #f3f7fb;
+    margin-bottom: 30px;
+    font-size: 16px;
+    color: #2b2e35;
+    font-weight: 500;
+    font-size: 16px;
+    border: 2px solid #f5f5f5;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+input[type=password] {
+    width: 100%;
+    height: 50px;
+    border: none;
+    outline: none;
+    padding-left: 21px;
+    background: #f3f7fb;
+    margin-bottom: 30px;
+    font-size: 16px;
+    color: #2b2e35;
+    font-weight: 500;
+    font-size: 16px;
+    border: 2px solid #f5f5f5;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+/* 
+ * CSS for the Slider
+ */
+
+ /* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc; 
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: var(--secondaryColor);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--secondaryColor);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.prop_agent {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding: 20px 20px 15px;
+    border-radius: 10px;
+    border: solid 3px var(--clouds);
+    overflow: auto;
+}
+
+.auctionButton {
+    right: 15px;
+
+    float: right;
+}
+
+.calendar-input {
+    display: block;
+    height: 51px;
+    padding-left: 27px;
+    background: #f3f7fb;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: 500;
+    color: #2b2e35;
+    width: calc(100%);
+    margin-bottom: 21px;
+    margin-top: 11px;
+}

@@ -1,180 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>Subir Anuncio</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="myHOME - real estate template project">
+	<head>
+		<title>Editar Anuncio</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="myHOME - real estate template project">
 
-    <!-- General links -->
-    {% include 'include/headLinks.html' %}
+		<!-- General links -->
+		{% include 'include/headLinks.html' %}
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/venderObjeto.css') }}">
-</head>
-<body>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/subirAnuncio.css') }}">
+	</head>
+	<body>
 
-<div class="super_container">
-    <div class="super_overlay"></div>
+		<div class="super_container">
+			<div class="super_overlay"></div>
 
-    <!-- Header -->
-    {% include 'include/header.html' %}
+			<!-- Header -->
+			{% include 'include/header.html' %}
 
-
-    <!-- Formulario -->
-    <center class="container">
-        <div class="row">
-            <div class="col">
-                <div class="section_title_container text-center m-5">
-                    <div class="section_title"><h1>Subir Anuncio</h1></div>
-                    <div class="section_subtitle">Parte 1</div>
-                </div>
-                <hr>
-            </div>
-        </div>
-
-
-        <form id="upload-form" action="" method="POST" enctype="multipart/form-data" novalidate>
-            <div class="d-flex justify-content-center">
-                <input type="file" name="images" id="file-input" class="inputfile" value={{request.form.images}}
-                       data-multiple-caption="{count} imagenes seleccionadas" multiple/>
-                <label for="file-input" class="p-3"><i
-                        class="fas fa-arrow-alt-circle-up pr-1"></i><span>Elige una(s) imagen(es)</span></label>
-            </div>
-
-            <div id="preview" class=" images">
-
-            </div>
-
-            <hr>
-
-            <div class="row contact_form_row">
-                <div class="col">
-                    <div class="contact_form_container">
-
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <strong>{{ form.productName.label }}</strong><br>
-                                <input type="text" class="contact_input" name="productName"
-                                       value={{request.form.productName}}>
-                                {% for error in form.productName.errors %}
-                                <center>
-                                    <div class="alert alert-danger">
-                                        {{ error }}
-                                    </div>
-                                </center>
-                                {% endfor %}
-                            </div>
-                            <div class="col-lg-4">
-                                <strong>{{ form.productPrice.label }}</strong><br>
-                                <input type="text" class="contact_input" name="productPrice"
-                                       value={{request.form.productPrice}}>
-                                {% for error in form.productPrice.errors %}
-                                <center>
-                                    <div class="alert alert-danger">
-                                        {{ error }}
-                                    </div>
-                                </center>
-                                {% endfor %}
-                            </div>
-                            <div class="col-lg-4">
-                                <strong>{{ form.productCategory.label }}</strong><br>
-                                <select onchange="" name="productCategory">
-                                    <option selected value=""> Selecciona una categoría ...</option>
-                                    <option value="vehiculo">Vehículos</option>
-                                    <option value="casa">Casas</option>
-                                    <option value="informatica">Informática</option>
-                                    <option value="Automoción">Automoción</option>
-                                </select>
-                                {% for error in form.productCategory.errors %}
-                                <center>
-                                    <div class="alert alert-danger">
-                                        {{ error }}
-                                    </div>
-                                </center>
-                                {% endfor %}
-
-                            </div>
-                        </div>
-                        <div class="row">
-				<div class="col-lg-12">
-					<strong>{{ form.productDescription.label }}</strong><br>
-					<textarea type="text" class="contact_textarea contact_input" name="productDescription"
-										 value={{request.form.productDescription}}></textarea>
-
-					{% for error in form.productDescription.errors %}
-					<center>
-						<div class="alert alert-danger">
-							{{ error }}
-						</div>
-					</center>
-					{% endfor %}
-
+			<!-- Title -->
+			<center>
+				<div class="title_container">
+					<div class="title">Editar Anuncio</div>
 				</div>
+			</center>
 
-			</div>
 
-			<div class="row">
-				<div class="col-lg-4">
-					<select name="ad" onchange="">
-						<option selected> Localizaciones Guardadas ...</option>
-						<option value="1">Zaragoza</option>
-						<option value="2">Mi casa</option>
-						<option value="3">Alli pal fondo</option>
-					</select>
-					<input type="text" class="contact_input" name="productLat"
-										 value={{request.form.productLat}}>
-					{% for error in form.productLat.errors %}
-					<center>
-						<div class="alert alert-danger">
-							{{ error }}
+			<!-- Formulario -->
+			<center class="container">
+
+				<form id="upload-form" action="" method="POST" enctype="multipart/form-data" novalidate>
+					{{ form_sale.csrf_token }}
+					<div class="d-flex justify-content-center">
+						<input type="file" id="file-input" class="inputfile" 
+										   accept="image/bmp,image/jpeg,image/gif,image/png,image/svg+xml,image/tiff"
+										   data-multiple-caption="{count} imagenes seleccionadas" multiple />
+						<label for="file-input" class="p-3"><i
+									class="fas fa-arrow-alt-circle-up pr-1"></i><span class="pl-2">Añadir imágenes</span></label>
+					</div>
+
+					<div id="preview" class="row justify-content-center">
+						{% for picture in product.media %}
+						<div class="col-4 col-md-3 col-lg-2 sortable">
+							{% if picture.idImagen > 0 %}
+							<div>
+								<div style="background-image: url({{ api + '/pictures/' + (picture.idImagen|string) }})"></div>
+							</div>
+							{% else %}
+							<div>
+								<div style="background-image: url(data:{{ picture.mime }};base64,{{ picture.base64 }})"></div>
+							</div>
+							{% endif %}
+							<div class="row">
+								<!-- <i class="fas fa-arrow-left col-4"></i> -->
+								<i class="fas fa-trash col-12"></i>
+								<!-- <i class="fas fa-arrow-right col-4"></i> -->
+							</div>
+							<input type="hidden" name="base64[]" value="{{ picture.base64|default('None') }}"/>
+							<input type="hidden" name="mime[]" value="{{ picture.mime|default('None') }}"/>
+							<input type="hidden" name="idImagen[]" value="{{ picture.idImagen|default('0') }}"/>
 						</div>
-					</center>
-					{% endfor %}
+						{% endfor %}
+					</div>
 
-					<input type="text" class="contact_input" name="productLong"
-										 value={{request.form.productLong}}>
-					{% for error in form.productLong.errors %}
-					<center>
-						<div class="alert alert-danger">
-							{{ error }}
+					<hr>
+
+
+					<div class="row contact_form_row">
+						<div class="col">
+							<div class="contact_form_container">
+								
+								{% if isNew == 1 %}
+								<div class="col-lg-12">
+									<div class="prop_agent">
+											<div class="isAuctionLabel">
+												Subir como subasta
+											</div>
+											<div class="auctionButton">
+												<label class="switch">
+													{% if isAuction == 1 %}
+													<input id="isAuction" name="isAuction" type="checkbox" onclick="cambiarSubasta()" value="y" checked="checked">
+													{% else %}
+													<input id="isAuction" name="isAuction" type="checkbox" onclick="cambiarSubasta()" value="y">
+													{% endif %}
+													<span class="slider round" checked></span>
+												</label>
+											</div>
+									</div>
+								</div>
+								{% endif %}
+
+								<div class="row">
+									<div class="col-lg-7">
+										<strong>{{ form_sale.name.label }}</strong><br>
+										{{ form_sale.name(class="contact_input", minlength="1", maxlength="50", value=product.title) }}
+										{% for error in form_sale.name.errors %}
+										<center>
+											<div class="alert alert-danger">
+												{{ error }}
+											</div>
+										</center>
+										{% endfor %}
+									</div>
+									<div class="col-lg-2">
+										<strong id="prodPrice" >
+											{% if isAuction == 0 %}
+											<label>
+												Precio (€)
+											</label>
+											{% else %}
+											<label>
+												Precio Base (€)
+											</label>
+											{% endif %}
+										</strong><br>
+										{% if isAuction == 1 %}
+										{{ form_sale.price(class="contact_input", placeholder="0.00", maxlength="10", value=product.startPrice) }}
+										{% else %}
+										{{ form_sale.price(class="contact_input", placeholder="0.00", maxlength="10", value=product.price) }}
+										{% endif %}
+										{% for error in form_sale.price.errors %}
+										<center>
+											<div class="alert alert-danger">
+												{{ error }}
+											</div>
+										</center>
+										{% endfor %}
+									</div>
+									<div class="col-lg-3">
+										<strong>{{ form_sale.category.label }}</strong><br>
+										{{ form_sale.category() }}
+										{% for error in form_sale.category.errors %}
+										<center>
+											<div class="alert alert-danger">
+												{{ error }}
+											</div>
+										</center>
+										{% endfor %}
+
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-12">
+										<strong>{{ form_sale.description.label }}</strong><br>
+										{{ form_sale.description(class="contact_textarea contact_input") }}
+										{% for error in form_sale.description.errors %}
+										<center>
+											<div class="alert alert-danger">
+												{{ error }}
+											</div>
+										</center>
+										{% endfor %}
+
+									</div>
+									
+									{% if isAuction == 1 %}
+									<div class="col-lg-12" id="auction" style="display:block;">
+										<div class="search_title">Fecha de finalización de la subasta</div>
+										{{ form_sale.enddate(class = "calendar-input", value=product.endDate) }}
+										{% if noDateError %}
+										<div class="alert alert-danger">
+											<li>Se debe introducir una fecha</li>
+										</div>
+										{% endif %}
+									</div>
+									{% else %}
+									<div class="col-lg-12" id="auction" style="display:none;">
+										<div class="search_title">Fecha de finalización de la subasta</div>
+										{{ form_sale.enddate(class = "calendar-input") }}
+										{% if noDateError %}
+										<div class="alert alert-danger">
+											<li>Se debe intrododucir una fecha</li>
+										</div>
+										{% endif %}
+									</div>
+									{% endif %}
+
+									<div class="col-lg-12">
+										{{ form_sale.lat() }}
+										{% for error in form_sale.lat.errors %}
+										<center>
+											<div class="alert alert-danger">
+												{{ error }}
+											</div>
+										</center>
+										{% endfor %}
+
+										{{ form_sale.lng() }}
+										{% for error in form_sale.lng.errors %}
+										<center>
+											<div class="alert alert-danger">
+												{{ error }}
+											</div>
+										</center>
+										{% endfor %}
+									</div>
+
+								</div>
+
+								<div class="row">
+									<div class="col-lg-12">
+										<strong>Localización</strong>
+										<div class="contact_map_container mb-5">
+											<div id="map" class="google_map_container text-center pt-2" 
+												      style="min-height: 300px; max-height: 50vh; overflow: auto">
+											</div>
+											<script type="text/javascript">
+
+												if (navigator.geolocation) {
+													navigator.geolocation.getCurrentPosition(function(location){
+														var lat = location.coords.latitude;
+														var lng = location.coords.longitude;
+														var map = document.getElementById("map")
+
+														var base_url = "https://maps.googleapis.com/maps/api/staticmap"
+														var markers = "?markers=" + lat + "," + lng
+														var zoom = "&zoom=15"
+														var scale = "&scale=2"
+														var size = "&size=" + map.offsetWidth + "x200"
+														var key = "&key={{ GOOGLEMAPS_KEY }}";
+
+														map.innerHTML = 
+															"<img src='" + base_url + markers + zoom + size + scale + key + "'>";
+														document.getElementById("{{ form_sale.lat.name }}").value = lat;
+														document.getElementById("{{ form_sale.lng.name }}").value = lng;
+													});
+												}
+											</script>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
-					</center>
-					{% endfor %}
-				</div>
+					</div>
 
-				<div class="col-lg-8">
-                                <div class="contact_map_container mb-5">
-                                    <div class="map">
-                                        <div id="google_map" class="google_map">
-                                            <div class="map_container">
-                                                <div id="map"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <input type="submit" class="contact_button mb-5" value="Subir Anuncio" id="upload-button">
-        </form>
+					{{ form_sale.submit(class="mb-5 main_button") }}
+				</form>
 
 
-    </center>
+			</center>
 
-    <!-- Footer  -->
-    {% include 'include/footer.html' %}
-</div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+			<!-- Footer  -->
+			{% include 'include/footer.html' %}
+		</div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-<!-- General Scripts  -->
-{% include 'include/scripts.html' %}
+		<!-- General Scripts  -->
+		{% include 'include/scripts.html' %}
 
-<!-- Google Maps  -->
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
-
-<script src="{{ url_for('static', filename = 'js/venderObjeto.js') }}"></script>
-</body>
+		<script src="{{ url_for('static', filename = 'js/subirAnuncio.js') }}"></script>
+	</body>
 </html>

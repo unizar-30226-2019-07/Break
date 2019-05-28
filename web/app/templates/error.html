@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- General links -->
+    {% include 'include/headLinks.html' %}
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/login.css') }}">
+</head>
+<body>
+<!------ Include the above in your HEAD tag ---------->
+<!-- Header -->
+{% include 'include/header.html' %}
+
+<!-- Title -->
+<center>
+    <div class="title_container">
+        <div class="title">{{ error }}</div>
+        <br/>
+        <div class="title">{{ msg }}</div>
+    </div>
+</center>
+
+<!-- Formulario -->
+<center class="container">
+
+</center>
+
+<!-- General Scripts  -->
+{% include 'include/scripts.html' %}
+</body>
+</html>

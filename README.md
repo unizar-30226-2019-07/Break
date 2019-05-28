@@ -3,7 +3,8 @@
 [![Build Status](https://travis-ci.org/unizar-30226-2019-07/Break.svg?branch=master)](https://travis-ci.org/unizar-30226-2019-07/Break)
 [![codecov](https://codecov.io/gh/unizar-30226-2019-07/Break/branch/master/graph/badge.svg)](https://codecov.io/gh/unizar-30226-2019-07/Break)
 
-https://selit-web.herokuapp.com/listings
+Release version: https://selit-web.herokuapp.com/
+Beta version: https://selit-web-develop.herokuapp.com/
 
 ## Acerca de
 Trabajo de la Universidad de Zaragoza.

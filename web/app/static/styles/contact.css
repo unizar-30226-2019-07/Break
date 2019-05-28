@@ -15,160 +15,157 @@
 5. Home
 *********************************/
 
-.home
-{
-	height: 261px;
+.home {
+    height: 261px;
 }
-.home_content
-{
-	padding-top: 173px;
+
+.home_content {
+    padding-top: 173px;
 }
-.home_title
-{
-	font-size: 30px;
-	font-weight: 500;
-	color: #ffffff;
+
+.home_title {
+    font-size: 30px;
+    font-weight: 500;
+    color: #ffffff;
 }
 
 /*********************************
 6. Contact
 *********************************/
 
-.contact
-{
-	background: #ffffff;
-	padding-top: 92px;
-	padding-bottom: 85px;
+.contact {
+    background: #ffffff;
+    padding-top: 92px;
+    padding-bottom: 85px;
 }
-.contact_row
-{
-	margin-top: 71px;
+
+.contact_row {
+    margin-top: 71px;
 }
-.contact_text
-{
-	margin-top: 17px;
+
+.contact_text {
+    margin-top: 17px;
 }
-.contact_info ul li:not(:last-of-type)
-{
-	margin-bottom: 18px;
+
+.contact_info ul li:not(:last-of-type) {
+    margin-bottom: 18px;
 }
-.contact_info ul li > div:first-of-type
-{
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	background: #adc867;
+
+.contact_info ul li > div:first-of-type {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #adc867;
 }
-.contact_info ul li > div:first-of-type > div
-{
-	width: 23px;
-	height: 23px;
+
+.contact_info ul li > div:first-of-type > div {
+    width: 23px;
+    height: 23px;
 }
+
 .contact_info ul li > div:first-of-type > div img,
-.contact_info ul li > div:first-of-type > div svg
-{
-	max-height: 100%;
-	max-width: 100%;
+.contact_info ul li > div:first-of-type > div svg {
+    max-height: 100%;
+    max-width: 100%;
 }
-.contact_info ul li span
-{
-	margin-left: 26px;
-	font-size: 16px;
-	font-weight: 600;
-	color: #2b2e35;
+
+.contact_info ul li span {
+    margin-left: 26px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2b2e35;
 }
-.contact_form_row
-{
-	margin-top: 94px;
+
+.contact_form_row {
+    margin-top: 94px;
 }
-.contact_form
-{
-	display: block;
+
+.contact_form {
+    display: block;
 }
-.contact_input
-{
-	width: 100%;
-	height: 50px;
-	border: none;
-	outline: none;
-	padding-left: 21px;
-	background: #f3f7fb;
-	margin-bottom: 30px;
-	font-size: 16px;
-	color: #2b2e35;
-	font-weight: 500;
+
+.contact_input {
+    width: 100%;
+    height: 50px;
+    border: none;
+    outline: none;
+    padding-left: 21px;
+    background: #f3f7fb;
+    margin-bottom: 30px;
+    font-size: 16px;
+    color: #2b2e35;
+    font-weight: 500;
 }
-.contact_input::-webkit-input-placeholder
-{
-	font-size: 14px !important;
-	font-weight: 500 !important;
-	color: #6c7079 !important;
+
+.contact_input::-webkit-input-placeholder {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #6c7079 !important;
 }
-.contact_input:-moz-placeholder
-{
-	font-size: 14px !important;
-	font-weight: 500 !important;
-	color: #6c7079 !important;
+
+.contact_input:-moz-placeholder {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #6c7079 !important;
 }
-.contact_input::-moz-placeholder
-{
-	font-size: 14px !important;
-	font-weight: 500 !important;
-	color: #6c7079 !important;
-} 
-.contact_input:-ms-input-placeholder
-{ 
-	font-size: 14px !important;
-	font-weight: 500 !important;
-	color: #6c7079 !important;
+
+.contact_input::-moz-placeholder {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #6c7079 !important;
 }
-.contact_input::input-placeholder
-{
-	font-size: 14px !important;
-	font-weight: 500 !important;
-	color: #6c7079 !important;
+
+.contact_input:-ms-input-placeholder {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #6c7079 !important;
 }
-.contact_textarea
-{
-	height: 236px;
-	padding-top: 16px;
+
+.contact_input::input-placeholder {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #6c7079 !important;
 }
-.contact_button
-{
-	width: 247px;
-	height: 51px;
-	background: #adc867;
-	border: none;
-	outline: none;
-	font-size: 14px;
-	font-weight: 500;
-	color: #ffffff;
-	text-transform: uppercase;
-	cursor: pointer;
-	margin-top: 23px;
+
+.contact_textarea {
+    height: 236px;
+    padding-top: 16px;
+}
+
+.contact_button {
+    width: 247px;
+    height: 51px;
+    background: #adc867;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 23px;
 }
 
 /*********************************
 7. Google Map
 *********************************/
 
-.map
-{
-	width: 100%;
+.map {
+    width: 100%;
 }
-.google_map
-{
-	width: 100%;
-	height: 685px;
+
+.google_map {
+    width: 100%;
+    height: 685px;
 }
-.map_container
-{
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
+
+.map_container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
-#map
-{
-	width: 100%;
-	height: calc(100% + 30px);
+
+#map {
+    width: 100%;
+    height: calc(100% + 30px);
 }

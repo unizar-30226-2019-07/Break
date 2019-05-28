@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Reports</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="myHOME - real estate template project">
+
+		<!-- General links -->
+		{% include 'include/headLinks.html' %}
+
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/reports.css') }}">
+	</head>
+
+	<!-- Header -->
+	{% include 'include/header.html' %}
+
+	<!-- Title -->
+	<center>
+		<div class="title_container">
+			<div class="title">
+				Informes de Usuarios
+			</div>
+		</div>
+	</center>
+
+	<script>
+		function solucionar(usuario) {
+			window.location.href = "/solveReport/" + usuario;
+		}
+	</script>
+
+	<script>
+		function bloquear(usuario) {
+			window.location.href = "/reports/block/" + usuario;
+		}
+	</script>
+
+	<!-- Home -->
+	<body>
+		<!-- Listing -->
+		<div class="listing_container">
+
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						{% for rep in reports %}
+						{% if rep.estado_informe != "resuelto" %}
+						<div class="prop_agent d-flex flex-row align-items-center justify-content-start">
+							<div class="col">
+								<div class="wrapper">
+									<h3 class="titlereport">Categoría del Reporte</h3>
+									{{ rep.asunto }}
+									<h3 class="titlereport">Descripción</h3>
+									{{ rep.descripcion }}
+									<h3 class="titlereport">Email del Usuario Reportado</h3>
+									{{ rep.evaluado.email }}
+									<h3 class="titlereport">Email del Usuario que ha Informado</h3>
+									{{ rep.informador.email }}
+								</div>
+								<div style="text-align:center">  
+									<button class="main_button" onclick="solucionar({{rep.evaluado.idUsuario}})">
+										Marcar como solucionado	
+									</button>
+									<button class="main_button" onclick="bloquear({{rep.evaluado.idUsuario}})">
+										Bloquear usuario
+									</button>
+								</div>
+							</div>
+						</div>
+						{% endif %}
+						{% endfor %}
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- Footer  -->
+		{% include 'include/footer.html' %}
+
+		<!-- General Scripts  -->
+		{% include 'include/scripts.html' %}
+	</body>
+</html>

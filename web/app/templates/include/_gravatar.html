@@ -1,0 +1,3 @@
+{% macro get(email, size="300", default="mp") -%}
+	{{ "https://www.gravatar.com/avatar/" + hashlib.md5(email.lower().encode('utf-8')).hexdigest() + "?" + urllib.parse.urlencode({'d':default, 's':size}) }}
+{%- endmacro %}

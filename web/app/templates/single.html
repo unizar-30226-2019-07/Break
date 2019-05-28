@@ -1,190 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>Single Listing</title>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="description" content="myHOME - real estate template project">
+<head>
+    <title>Single Listing</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="myHOME - real estate template project">
 
-		<!-- General links -->
-		{% include 'include/headLinks.html' %}
+    <!-- General links -->
+    {% include 'include/headLinks.html' %}
 
-		<link rel="stylesheet" type="text/css"
-				       href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.carousel.css') }}">
-		<link rel="stylesheet" type="text/css"
-				       href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.theme.default.css') }}">
-		<link rel="stylesheet" type="text/css"
-				       href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/animate.css') }}">
-		<link href="{{ url_for('static', filename = 'plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css') }}">
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.carousel.css') }}">
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.theme.default.css') }}">
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/animate.css') }}">
+    <link href="{{ url_for('static', filename = 'plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css') }}">
 
-		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/single.css') }}">
-	</head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/single.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles/wishlist.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/jquery-3.3.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/wishlist.js') }}"></script>
 
-	<!-- Header -->
-	{% include 'include/header.html' %}
+    {{ map.js }}
+</head>
 
-	<!-- Home -->
-	<body>
-		<div class="home">
-			<div class="parallax_background parallax-window" data-parallax="scroll"
-									 data-image-src="{{ url_for('static', filename = 'images/listings.jpg') }}" data-speed="0.8"></div>
-			<div class="container">
-				<div class="row">
-					<div class="col">
-						<div class="home_content text-center">
-							<div class="home_title">Producto</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+<!-- Header -->
+{% include 'include/header.html' %}
 
+<!-- Title -->
 
-		<!-- Listing -->
+    <div class="title_container row">
+        <div class="return_buttom_div col-lg-3">
+            {% if auction == True %}
+            <a href="/auctions" class="return_buttom"><i class="fas fa-arrow-circle-left"></i> Volver a Subastas</a>
+            {% else %}
+            <a href="/listings" class="return_buttom"><i class="fas fa-arrow-circle-left"></i> Volver a Productos</a>
+            {% endif %}
+        </div>
+        <div class="title col-lg-6">
+            {% if auction == True %}
+            Ver Subasta
+            {% else %}
+            Ver producto
+            {% endif %}
+        </div>
+    </div>
 
-		<div class="listing_container">
+<!-- Home -->
+<body>
+<!-- Listing -->
+<div class="listing_container">
 
-			<div class="container">
-				<div class="row">
-					<div class="col">
-
-
-						<!-- image_slider -->
-						<div class="row image_slider_container mt-5">
-							<div class="owl-carousel owl-theme image_slider">
-								{% for image_name in image_names %}
-								<!-- Slide -->
-								<div class="slide ">
-									<div class="image_slider_container ">
-										<img class="text-center" src="{{ url_for('send_image', filename = image_name) }}">
-									</div>
-								</div>
-								{% endfor %}
-
-								<!-- Videos de prueba -->
-								<!--
-		<div class="slide">
-
-		<div class="item-video"><div class="maxh"> <a class="owl-video" href="https://www.youtube.com/watch?v=gkTb9GP9lVI"></a></div></div>
-
-		</div>
-		<div class="item" data-videosrc="https://scontent-mad1-1.cdninstagram.com/vp/1aa116f7338c9fba02b783055667c957/5C87D0D2/t50.2886-16/50126655_288401928545789_3525096521315909632_n.mp4?_nc_ht=scontent-mad1-1.cdninstagram.com">
-
-		</div>-->
-
-							</div>
-							<!-- Home Slider Navigation -->
-							<div class="image_slider_nav_l"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
-							<div class="image_slider_nav_r"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
-						</div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
 
 
+                <!-- image_slider -->
+                <div class="row image_slider_container mt-5">
+                    <div class="owl-carousel owl-theme image_slider">
+                        {% if prod.media != None %}
+                        {% if prod.media|length > 0 %}
+                        {% for picture in prod.media %}
+                        <!-- Slide -->
+                        <div class="slide ">
+                            <div class="image_slider_container ">
+                                <img class="text-center" src="{{ api + '/pictures/' + (picture.idImagen|string) }}">
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="slide ">
+                            <div class="image_slider_container ">
+                                <img class="text-center" src="{{ url_for('static', filename='images/items.svg') }}">
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% else %}
+                        <div class="slide ">
+                            <div class="image_slider_container ">
+                                <img class="text-center" src="{{ url_for('static', filename='images/items.svg') }}">
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <!-- Home Slider Navigation -->
+                    {% if prod.media|length > 1 %}
+                    <div class="image_slider_nav_l"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
+                    <div class="image_slider_nav_r"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+                    {% endif %}
+                </div>
 
-						<!-- Image -->
+                {% if prod.status == "en venta" %}
+                <div class="text-center">
+                    {% if prod.owner.idUsuario == userauth.user_id %}
+                    {% if auction == True %}
+                    <button class="main_button mx-2" onclick="redirigirEditarProducto(true)">
+                        Editar subasta
+                    </button>
+                    {% else %}
+                    <button class="main_button mx-2" onclick="redirigirEditarProducto(false)">
+                        Editar producto
+                    </button>
+                    {% endif %}
+                    {% if auction == True %}
+                    <button class="main_button bg-gray mx-2" onclick="redirigirBorrarProducto(true)">
+                        Borrar subasta
+                    </button>
+                    {% else %}
+                    <button class="main_button bg-gray mx-2" onclick="redirigirBorrarProducto(false)">
+                        Borrar producto
+                    </button>
+                    {% endif %}
 
+                    {% else %}
+                    <button class="main_button mx-2" onclick="abrirChat()">
+                        Contactar con el vendedor
+                    </button>
+                    {% endif %}
+                </div>
+                {% endif %}
 
-						<div class="listing_image"></div>
+                <!-- About -->
+                <div class="about">
+                    <div class="row">
+                        <div class="col-lg-12">
 
+                            <div class="listing_name"><h1>{{prod.title}}</h1></div>
+                            <div class="property_info d-flex">
+                                <div class="flex-grow-1 mt-3">
+                                    <div class="tag_price listing_price text-center mr-3 mb-3">
+                                        {% if auction == True %}
+                                        {% if prod.lastBid != None %}
+                                        {{ '%0.2f'| format(prod.lastBid.amount|float) }}
+                                        {% else %}
+                                        {{ '%0.2f'| format(prod.startPrice|float) }}
+                                        {% endif %}
+                                        {% else %}
+                                        {{ '%0.2f'| format(prod.price|float) }}
+                                        {% endif %}
+                                        {{ prod.currency }}
 
+                                    </div>
+                                    {% if prod.status == "vendido" %}
+                                    <div class="badge badge_sold m-0 mr-3">
+											<span class="text-center">
+												Vendido
+											</span>
+                                    </div>
+                                    {% else %}
+                                    {% if auction %}
+                                    <div class="badge badge_on_sale m-0 mr-3">
+							                    		<span class="d-flex">
+							                    		{% set left = 1 + (strptime(prod.endDate, '%Y-%m-%d') - now()).days %}
+							                    		{% if left < 0 %}
+							                    			Terminada
+							                    		{% elif left == 0 %}
+							                    			Hoy
+							                    		{% elif left == 1 %}
+							                    			Mañana
+							                    		{% else %}
+								               				{{  left }} días
+								               			{% endif %}
+							                		</span>
+                                    </div>
+                                    {% else %}
+                                    <div class="badge badge_on_sale m-0 mr-3">
+													<span class="text-center">
+														En venta
+													</span>
+                                    </div>
+                                    {% endif %}
+                                    {% endif %}
+                                </div>
+                                <div class="align-self-center">
+                                    <div class="wishlist {{ 'in_wishlist' if prod.in_wishlist else '' }} d-flex align-items-center justify-content-center"
+                                         data-id="{{ prod.idSubasta if auction else prod.id_producto }}"
+                                         data-type="{{ 'wishes_auctions' if auction else 'wishes_products' }}">
 
-						<!-- About -->
-						<div class="about">
-							<div class="row">
-								<div class="col-lg-6">
-									<div class="property_info">
-										<div class="tag_price listing_price">{{prod.price}} €</div>
-										<div class="listing_name"><h1>{{prod.title}}</h1></div>
-										<div class="listing_location d-flex flex-row align-items-start justify-content-start">
-											<img src="{{ url_for('static', filename = 'images/icon_1.png') }}" alt="">
-											<span>
+                                        <i class="fas fa-heart"></i>
+                                        <i class="far fa-heart"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="listing_location d-flex flex-row align-items-start justify-content-start">
+                                <img src="{{ url_for('static', filename = 'images/icon_1.png') }}" alt="">
+                                <span>
+												{% if prod.distance != None %}
 												A {{ prod.distance|round(1) }} km de tí
+												{% endif %}
 											</span>
 
-										</div>
-										<div class="listing_list">
-											<ul>
-												<li>Posted on: September 22, 2018</li>
-											</ul>
-										</div>
-										<div class="prop_agent d-flex flex-row align-items-center justify-content-start">
-											<div class="prop_agent_image"><img
-											     src="{{ url_for('static', filename = 'images/agent_1.jpg') }}" alt="">
-											</div>
-											<div class="prop_agent_name"><a href="#">Maria Smith,</a> Agent</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="about_text">
-										<p>
-										{{ prod.description }}
-										</p>
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="listing_features">
-										<div class="listing_title"><h3>Features</h3></div>
-										<div class="row">
-											<div class="col-lg-6">
-												<ul>
-													<li>2 car garages</li>
-													<li>3 bedrooms</li>
-													<li>heated floors</li>
-													<li>contemporary architecture</li>
-													<li>swimming pool</li>
-													<li>exercise room</li>
-													<li>formal entry</li>
-												</ul>
-											</div>
-											<div class="col-lg-6">
-												<ul>
-													<li>patio</li>
-													<li>close to stores</li>
-													<li>ocean view</li>
-													<li>spa</li>
-													<li>sprinklers</li>
-													<li>garden</li>
-													<li>alley</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="google_map_container">
-										<div class="map">
-											<div id="google_map" class="google_map">
-												<div class="map_container">
-													<div id="map"></div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+                            </div>
+                            <div class="about_text">
+                                <p class="text-dark">
+                                    {{ prod.description }}
+                                </p>
+                            </div>
+                            <p class="about_cat mt-2">
+                                    Categoría: {{ prod.category }}
+                            </p>
+                            {% if auction == True %}
+                            {% if finSub == 0 %}
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <center><h3 class="mt-5">Realizar una puja</h3></center>
+                                    <form action="#" class="bid_form" id="bid_form" method="post">
+                                        <div class="start justify-content-lg-between justify-content-start">
+                                            <div class="row col bid_inputs align-items-start justify-content-lg-between justify-content-start">
+                                                <div class="col-lg-12">
+                                                    <div class="bid_title">Cantidad ({{ prod.currency }})</div>
+                                                    {{ form.amount(class = "bid_input input-d") }}
+                                                    {% if errorNum %}
+                                                    <div class="alert alert-danger">
+                                                        <li>Se debe introducir un número mayor a la cantidad propuesta
+                                                        </li>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% if errorNoLogin %}
+                                                    <div class="alert alert-danger">
+                                                        <li>Se debe estar logeado para realizar una puja</li>
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-12 text-center align-self-end">
+                                                    {{ form.submit(class="main_button bid_button", value="Confirmar") }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    {% else %}
+                                    <h3 class="mt-5">Subasta Terminada</h3>
+                                    {% if prod.owner.idUsuario == userauth.user_id %}
+                                    {% if winnerId >= 0 %}
+                                    <button class="main_button mx-2" onclick="abrirChatGan()">
+                                        Contactar con el ganador
+                                    </button>
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endif %}
+                                </div>
+                                <div class="col-lg-6">
+                                    <center><h3 class="mt-5">Acerca del vendedor</h3></center>
+                                    <a href="{{ url_for('user', user_id=prod.owner.idUsuario) }}">
+                                        <div class="prop_agent d-flex flex-row align-items-center justify-content-start row">
+                                            {% import 'include/_gravatar.html' as gravatar %}
+                                                {% if prod.owner.picture.idImagen is number %}
+                                                {% set profile_picture = api + '/pictures/' +
+                                                (prod.owner.picture.idImagen|string) %}
+                                                {% else %}
+                                                {% set profile_picture = gravatar.get(prod.owner.email) %}
+                                                {% endif %}
+                                            <div class="col-3 prop_agent_image" style="background-image: url({{profile_picture}})">
+                                                <!-- Begin Image -->
+                                            </div>
+                                            <div class="col-8 row">
+                                                <strong class="prop_agent_name">{{prod.owner.first_name}} {{prod.owner.last_name}}</strong>
+                                                <strong class="prop_agent_date">Publicado: {{ prod.published if auction else prod.publicate_date }}</strong>
+                                            </div>
+                                        </div>
+					{% if prod.status == "vendido" %}
+					{% if prod.owner.idUsuario == userauth.user_id or (not auction and prod.buyer.idUsuario == userauth.user_id) or (auction and prod.lastBid.bidder.idUsuario == userauth.user_id) %}
+                                        <center>
+						{% if auction == True %}
+						<a href="/auction/{{prod.idSubasta}}/review" class="valorar_button"><i class="fas fa-star"></i>Valorar Venta</a>
+						{% else %}
+						<a href="/single/{{prod.id_producto}}/review" class="valorar_button"><i class="fas fa-star"></i>Valorar Venta</a>
+						{% endif %}
+                                        </center>
+					{% endif %}
+					{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="google_map_container">
+                            {{ map.html }}
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-					</div>
-				</div>
-			</div>
+        </div>
+    </div>
+</div>
 
-		</div>
+</div>
 
-		<!-- Footer  -->
-		{% include 'include/footer.html' %}
+<!-- Footer  -->
+{% include 'include/footer.html' %}
 
-		<!-- General Scripts  -->
-		{% include 'include/scripts.html' %}
+<!-- General Scripts  -->
+{% include 'include/scripts.html' %}
 
-		<!-- Owl Carousel  -->
-		<script src="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.carousel.js') }}"></script>
+<!-- Owl Carousel  -->
+<script src="{{ url_for('static', filename = 'plugins/OwlCarousel2-2.3.4/owl.carousel.js') }}"></script>
 
-		<!-- Google Maps  -->
-		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+<script src="{{ url_for('static', filename = 'plugins/colorbox/jquery.colorbox-min.js') }}"></script>
 
-		<script src="{{ url_for('static', filename = 'plugins/colorbox/jquery.colorbox-min.js') }}"></script>
+<!-- Firebase App is always required and must be first -->
+<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
 
-		<script src="{{ url_for('static', filename = 'js/single.js') }}"></script>
+<!-- Add additional services that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-firestore.js"></script>
 
-	</body>
+<script type="text/javascript">
+    var cliID = {{userauth.user_id}};
+    var anunID = {{prod.owner.idUsuario}};
+</script>
+<script type="text/javascript">
+    var ganId = {{winnerId}}
+</script>
+{% if auction == 1 %}
+<script type="text/javascript">
+    var productID = {{prod.idSubasta}};
+    var auction = true;
+</script>
+{% else %}
+<script type="text/javascript">
+    var productID = {{prod.id_producto}};
+    var auction = false;
+</script>
+{% endif %}
+
+<script src="{{ url_for('static', filename = 'js/single.js') }}"></script>
+
+</body>
 </html>
