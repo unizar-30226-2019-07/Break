@@ -814,6 +814,7 @@ def get_gallery(prod_id):
     return render_template("single.html", userauth=current_user, prod=prod, map=mymap, auction=False)
 
 def review(prod_id, isAuction):
+    duplicate = 0
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
     else:
@@ -846,7 +847,10 @@ def review(prod_id, isAuction):
         if form_review.submit.data and form_review.validate_on_submit():
 
             review = {}
-            review['id_comprador'] = prod['buyer']['idUsuario']
+            if isAuction:
+                review['id_comprador'] = prod['lastBid']['bidder']['idUsuario']
+            else:
+                review['id_comprador'] = prod['buyer']['idUsuario']
             review['id_anunciante'] = prod['owner']['idUsuario']
             review['valor'] = form_review.stars.data
             review['comentario'] = form_review.comment.data
@@ -855,25 +859,30 @@ def review(prod_id, isAuction):
             else:
                 review['id_producto'] = prod_id
 
-            if int(prod['buyer']['idUsuario']) == int(current_user.user_id):
+            if int(prod['owner']['idUsuario']) != int(current_user.user_id):
                 response = requests.post(url=url + '/users/' + str(review['id_anunciante']) + '/reviews', json=review,
                                     headers={'Authorization': current_user.id})
             else:
                 response = requests.post(url=url + '/users/' + str(review['id_comprador']) + '/reviews', json=review,
                                     headers={'Authorization': current_user.id})
+            if response.status_code == 412:
+                duplicate = 1
+
             if app.debug:
                 if response.status_code != 200:
                     print(response.text)
             else:
-                if response.status_code != 200:
+                if response.status_code != 200 and response.status_code != 412:
                     abort(response.status_code)
-
-            if isAuction:
-                return redirect(url_for('get_auction', prod_id=prod_id))
+            if int(duplicate) != 1:
+                if isAuction:
+                    return redirect(url_for('get_auction', prod_id=prod_id))
+                else:
+                    return redirect(url_for('get_gallery', prod_id=prod_id))
             else:
-                return redirect(url_for('get_gallery', prod_id=prod_id))
+                return render_template('review.html', form_review=form_review, userauth=current_user, duplicate=int(duplicate))
 
-    return render_template('review.html', form_review=form_review, userauth=current_user)
+    return render_template('review.html', form_review=form_review, userauth=current_user, duplicate=int(duplicate))
 
 @app.route('/single/<prod_id>/review', methods=['GET', 'POST'])
 def review_gallery(prod_id):

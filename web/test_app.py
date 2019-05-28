@@ -102,7 +102,7 @@ class Ordinary(unittest.TestCase):
         response = self.client.get('/auction/1038')
         self.assertEqual(response.status_code, 200)
         self.assertIn('Hatebreeder', str(response.data))
-        self.assertIn('Editar subasta', str(response.data))
+        self.assertIn('Contactar con el ganador', str(response.data))
 
     def test_reports_page(self):
         response = self.client.get('/reports')

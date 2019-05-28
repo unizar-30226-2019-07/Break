@@ -265,7 +265,7 @@
 					{% if prod.owner.idUsuario == userauth.user_id or prod.buyer.idUsuario == userauth.user_id %}
                                         <center>
 						{% if auction == True %}
-						<a href="/auction/{{prod.id_producto}}/review" class="valorar_button"><i class="fas fa-star"></i>Valorar Venta</a>
+						<a href="/auction/{{prod.idSubasta}}/review" class="valorar_button"><i class="fas fa-star"></i>Valorar Venta</a>
 						{% else %}
 						<a href="/single/{{prod.id_producto}}/review" class="valorar_button"><i class="fas fa-star"></i>Valorar Venta</a>
 						{% endif %}

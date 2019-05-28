@@ -61,6 +61,13 @@
 											</div>
 										</center>
 										{% endfor %}
+										{% if duplicate == 1 %}
+										<center>
+											<div class="alert alert-danger">
+												No se pueden enviar varias valoraciones sobre la misma venta
+											</div>
+										</center>
+										{% endif %}
 
 									</div>
 								</div>
