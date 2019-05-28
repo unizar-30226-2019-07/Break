@@ -546,3 +546,7 @@ input::placeholder {
 .send_button input {
     display: none;
 }
+
+.dropdown-item:active{
+    background-color: var(--primaryColor);
+}
