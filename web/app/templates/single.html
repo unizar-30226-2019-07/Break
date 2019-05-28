@@ -260,6 +260,7 @@
                                                 <strong class="prop_agent_date">Publicado: {{ prod.published if auction else prod.publicate_date }}</strong>
                                             </div>
                                         </div>
+                                    </a>
 					{% if prod.status == "vendido" %}
 					{% if prod.owner.idUsuario == userauth.user_id or (not auction and prod.buyer.idUsuario == userauth.user_id) or (auction and prod.lastBid.bidder.idUsuario == userauth.user_id) %}
                                         <center>
