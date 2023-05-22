@@ -14,7 +14,7 @@ Flask-Migrate==2.4.0
 Flask-Login==0.4.1
 
 # HTTP requests
-requests==2.21.0
+requests==2.31.0
 
 # Google Maps Platform
 Flask-GoogleMaps==0.2.6
